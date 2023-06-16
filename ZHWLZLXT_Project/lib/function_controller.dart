@@ -139,8 +139,8 @@ class _functionState extends State<function> {
           ),
           Container(
             // height: 300,
-            width: 600,
-            height: 300,
+            width: MediaQuery.of(context).size.width - 360,
+            height: MediaQuery.of(context).size.height,
             child: PageView(
               controller: PageController(
                   initialPage: 0,//让初始页为第一个pageview的实例
