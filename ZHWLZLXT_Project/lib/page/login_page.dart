@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zhwlzlxt_project/function_controller.dart';
+import 'package:zhwlzlxt_project/page/function_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -253,7 +253,7 @@ class LoginPageState extends State<LoginPage> {
                                                 MaterialPageRoute(
                                                     builder:
                                                         (BuildContext context) =>
-                                                            const function()));
+                                                            const FunctionPage()));
                                           },
                                           child: Text(
                                             '确定',
