@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
 
 class function extends StatefulWidget {
   const function({Key? key}) : super(key: key);
@@ -20,9 +21,17 @@ class _functionState extends State<function> {
   //PageView当前显示页面索引
   int currentPage = 0;
 
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> pageView = [
+      const UltrasonicPage(),
+      const UltrasonicPage(),
+      const UltrasonicPage(),
+      const UltrasonicPage(),
+    ];
+
+    final PageController _pageController = PageController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
@@ -34,105 +43,113 @@ class _functionState extends State<function> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: EdgeInsets.only(top: 25,),
-                    child: Image.asset('assets/images/2.0x/function_logo.png',fit: BoxFit.cover,width: 177,height: 59,)
-                ),
+                    margin: EdgeInsets.only(
+                      top: 25,
+                    ),
+                    child: Image.asset(
+                      'assets/images/2.0x/function_logo.png',
+                      fit: BoxFit.cover,
+                      width: 177,
+                      height: 59,
+                    )),
                 Container(
                   margin: EdgeInsets.only(top: 45),
                   width: 300,
                   height: 120,
                   decoration: BoxDecoration(
-                      color: firstSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(60),
-                    )
-                  ),
+                      color:
+                          firstSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(60),
+                      )),
                   child: TextButton(
-                      onPressed: (){
-                        print('超声疗法');
-                        firstSelected = !firstSelected;
-                        setState(() {
-
-                        });
+                      onPressed: () {
+                        _pageController.jumpTo(0);
                       },
                       child: Text(
                         '超声疗法',
-                        style: TextStyle(fontSize: 36,color: firstSelected ? Color(0xFF00A8E7) : Color(0xFFFFFFFF)),
-                      )
-                  ),
+                        style: TextStyle(
+                            fontSize: 36,
+                            color: firstSelected
+                                ? Color(0xFF00A8E7)
+                                : Color(0xFFFFFFFF)),
+                      )),
                 ),
                 Container(
                   width: 300,
                   height: 120,
                   margin: EdgeInsets.all(30),
                   decoration: BoxDecoration(
-                      color: secondSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
+                      color: secondSelected
+                          ? Color(0XFFFFFFFF)
+                          : Color(0xFF19B1E9),
                       borderRadius: BorderRadius.all(
                         Radius.circular(60),
-                      )
-                  ),
+                      )),
                   child: TextButton(
-                      onPressed: (){
-                        print('脉冲磁疗法');
-                        secondSelected = !secondSelected;
-                        setState(() {
-
-                        });
+                      onPressed: () {
+                        _pageController.jumpTo(1);
                       },
                       child: Text(
                         '脉冲磁疗法',
-                        style: TextStyle(fontSize: 36,color: secondSelected ? Color(0xFF00A8E7) : Color(0xFFFFFFFF)),
-                      )
-                  ),
+                        style: TextStyle(
+                            fontSize: 36,
+                            color: secondSelected
+                                ? Color(0xFF00A8E7)
+                                : Color(0xFFFFFFFF)),
+                      )),
                 ),
                 Container(
                   width: 300,
                   height: 120,
-                  margin: EdgeInsets.only(top: 0,left: 30,right: 30,bottom: 30),
+                  margin:
+                      EdgeInsets.only(top: 0, left: 30, right: 30, bottom: 30),
                   decoration: BoxDecoration(
-                      color: thirdSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
+                      color:
+                          thirdSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
                       borderRadius: BorderRadius.all(
                         Radius.circular(60),
-                      )
-                  ),
+                      )),
                   child: TextButton(
-                      onPressed: (){
-                        print('红外偏振光治疗');
-                        thirdSelected = !thirdSelected;
-                        setState(() {
-
-                        });
+                      onPressed: () {
+                        _pageController.jumpTo(2);
                       },
                       child: Text(
                         '红外偏振光治疗',
-                        style: TextStyle(fontSize: 36,color: thirdSelected ? Color(0xFF00A8E7) : Color(0xFFFFFFFF)),
-                      )
-                  ),
+                        style: TextStyle(
+                            fontSize: 36,
+                            color: thirdSelected
+                                ? Color(0xFF00A8E7)
+                                : Color(0xFFFFFFFF)),
+                      )),
                 ),
                 Container(
                   // margin: EdgeInsets.only(bottom: 170),
                   width: 300,
                   height: 120,
-                  margin: EdgeInsets.only(top: 0,left: 30,right: 30,bottom: 30),
+                  margin:
+                      EdgeInsets.only(top: 0, left: 30, right: 30, bottom: 30),
                   decoration: BoxDecoration(
-                      color: fourthSelected ? Color(0XFFFFFFFF) : Color(0xFF19B1E9),
+                      color: fourthSelected
+                          ? Color(0XFFFFFFFF)
+                          : Color(0xFF19B1E9),
                       borderRadius: BorderRadius.all(
                         Radius.circular(60),
-                      )
-                  ),
+                      )),
                   child: TextButton(
-                      onPressed: (){
-                        print('电疗');
+                      onPressed: () {
+                        _pageController.jumpTo(3);
                         fourthSelected = !fourthSelected;
-                        setState(() {
-
-                        });
+                        setState(() {});
                       },
                       child: Text(
                         '电疗',
-                        style: TextStyle(fontSize: 36,color: fourthSelected ? Color(0xFF00A8E7) : Color(0xFFFFFFFF)),
-                      )
-                  ),
+                        style: TextStyle(
+                            fontSize: 36,
+                            color: fourthSelected
+                                ? Color(0xFF00A8E7)
+                                : Color(0xFFFFFFFF)),
+                      )),
                 ),
               ],
             ),
@@ -142,41 +159,13 @@ class _functionState extends State<function> {
             width: MediaQuery.of(context).size.width - 360,
             height: MediaQuery.of(context).size.height,
             child: PageView(
-              controller: PageController(
-                  initialPage: 0,//让初始页为第一个pageview的实例
-                  viewportFraction: 1.0//让页面视图充满整个视图窗口 即充满400px高的视图窗口
-              ),
-              children: <Widget>[
-                Container(
-                  color: Colors.yellow,
-                  child: Center(
-                    child: Text('这是第一个pageView的实例',style: TextStyle(color: Colors.white,fontSize: 20.0),),
-                  ),
-                ),
-                Container(
-                  color: Colors.red,
-                  child: Center(
-                    child: Text('这是第二个pageView的实例',style: TextStyle(color: Colors.white,fontSize: 20.0),),
-                  ),
-                ),
-                Container(
-                  color: Colors.green,
-                  child: Center(
-                    child: Text('这是第三个pageView的实例',style: TextStyle(color: Colors.white,fontSize: 20.0),),
-                  ),
-                ),
-                Container(
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text('这是第四个pageView的实例',style: TextStyle(color: Colors.white,fontSize: 20.0),),
-                  ),
-                ),
-              ],
-              scrollDirection: Axis.vertical,//上下滚动
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              //上下滚动
               onPageChanged: (int index) {
-                print('这是第${index}个页面');
+                debugPrint('这是第${index}个页面');
               },
-              reverse: false,//是否反转页面的顺序
+              children: pageView, //是否反转页面的顺序
             ),
           ),
           // Container(
@@ -202,7 +191,6 @@ class _functionState extends State<function> {
           //       },
           //   ),
           // ),
-
         ],
       ),
     );

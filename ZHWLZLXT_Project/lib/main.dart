@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zhwlzlxt_project/login_controller.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:zhwlzlxt_project/page/guide_page.dart';
+import 'package:zhwlzlxt_project/page/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,17 +11,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return ScreenUtilInit(
+      designSize: const Size(960, 600),
+      scaleByHeight: false,
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (BuildContext context, Widget? child) {
+        return GetMaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const GuidePage(),
+        );
+      },
     );
   }
 }
@@ -33,44 +40,65 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
-    var stack = new Stack(
+    var stack =  Stack(
       children: [
         Positioned.fill(
-            child: Image.asset('assets/images/2.0x/welcome_bg.png',fit: BoxFit.cover,)
-        ),
+            child: Image.asset(
+          'assets/images/2.0x/welcome_bg.png',
+          fit: BoxFit.cover,
+        )),
         // Image.asset('assets/images/2.0x/welcome_bg.png',fit: BoxFit.fitHeight,),
         Container(
-          margin: EdgeInsets.only(left: 80,top: 100),
-            child: Image.asset('assets/images/2.0x/logon.png',width: 300,height: 100,)
-        ),
+            margin: const EdgeInsets.only(left: 80, top: 100),
+            child: Image.asset(
+              'assets/images/2.0x/logon.png',
+              width: 300,
+              height: 100,
+            )),
         Container(
-          margin: EdgeInsets.only(bottom: 100),
-            child: Center(child: Text('欢迎使用',style: TextStyle(color: Colors.white,fontSize: 60,fontWeight: FontWeight.w500),))
-        ),
+            margin: const EdgeInsets.only(bottom: 100),
+            child: const Center(
+                child: Text(
+              '欢迎使用',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 60,
+                  fontWeight: FontWeight.w500),
+            ))),
         Container(
-            margin: EdgeInsets.only(top: 50,),
+            margin: EdgeInsets.only(
+              top: 50,
+            ),
             child: Center(
-                child: Text('综合物理治疗系统',style: TextStyle(color: Colors.white,fontSize: 60,fontWeight: FontWeight.w500),)
-            )
-        ),
+                child: Text(
+              '综合物理治疗系统',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 60,
+                  fontWeight: FontWeight.w500),
+            ))),
         Container(
-            margin: EdgeInsets.only(top: 400,),
-            child: Center(child: Text('正在加载中...',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.w300),))
-        )
+            margin: EdgeInsets.only(
+              top: 400,
+            ),
+            child: Center(
+                child: Text(
+              '正在加载中...',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w300),
+            )))
       ],
     );
 
     return Scaffold(
       body: InkWell(
-        onTap: (){
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => login()
-              ));
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
         },
         child: SafeArea(
           child: stack,
