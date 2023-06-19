@@ -10,12 +10,94 @@ class UltrasonicPage extends StatefulWidget {
 }
 
 class _UltrasonicPageState extends State<UltrasonicPage> {
+
+  PopupMenuButton _popupMenuButton(BuildContext context){
+    return PopupMenuButton(
+      itemBuilder: (BuildContext context){
+        return [
+          const PopupMenuItem(child: Text("断续 1"),value: '连续 0',),
+          const PopupMenuItem(child: Text("断续 2"),value: '连续 1',),
+          const PopupMenuItem(child: Text("断续 3"),value: '连续 2',),
+        ];
+      },
+      child:
+      Row(
+        children: [
+          Expanded(child: Center(child: Text('断续 1',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
+          Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
+        ],
+      ),
+      onSelected: (ovc) async {
+        print(ovc);
+        setState(() {
+          //刷新
+        });
+        //选择模式指令
+        if (ovc == "连续 0") {//圣光被动跟随训练
+
+        }
+        else if (ovc == "连续 1") {//主动呼吸训练
+
+        }
+        else if (ovc == "连续 2") {//助力训练模式
+
+        }
+
+      },
+      onCanceled: (){
+        print('cancel');
+      },
+
+    );
+  }
+  PopupMenuButton _popupMenuButton2(BuildContext context){
+    return PopupMenuButton(
+      itemBuilder: (BuildContext context){
+        return [
+          const PopupMenuItem(child: Text("1"),value: '0',),
+          const PopupMenuItem(child: Text("2"),value: '1',),
+          const PopupMenuItem(child: Text("3"),value: '2',),
+        ];
+      },
+      child:
+      Row(
+        children: [
+          Expanded(child: Center(child: Text('1w',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
+          Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
+        ],
+      ),
+      onSelected: (ovc) async {
+        print(ovc);
+        setState(() {
+          //刷新
+        });
+        //选择模式指令
+        if (ovc == "连续 0") {//圣光被动跟随训练
+
+        }
+        else if (ovc == "连续 1") {//主动呼吸训练
+
+        }
+        else if (ovc == "连续 2") {//助力训练模式
+
+        }
+
+      },
+      onCanceled: (){
+        print('cancel');
+      },
+
+    );
+  }
+
+  bool startSelected = true;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
         child: Column(
           children: [
@@ -80,8 +162,355 @@ class _UltrasonicPageState extends State<UltrasonicPage> {
                 ],
               ),
             ),
-            Text('这是一条测试数据',style: TextStyle(color: Colors.red),),
-            Text('这是一条测试数据',style: TextStyle(color: Colors.red),),
+            Container(
+              padding: EdgeInsets.only(left: 35.w,right: 35.w,top: 17.5.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                      height: 150.h,
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15),
+                              )
+                            ),
+                            width: 340.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 29.h),
+                                    width:70.w,
+                                    child: TextButton(
+                                        onPressed: (){
+                                    },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                            SizedBox(width: 1.w,),
+                                            Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          ],
+                                        )),
+                                  ),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFF0FAFE),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      )
+                                    ),
+                                    width: 230.w,
+                                      height: 55.h,
+                                      child: _popupMenuButton(context),
+                                  ),
+                                ],
+                              )
+                          ),
+                          Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  )
+                              ),
+                            margin: EdgeInsets.only(left: 30.w),
+                              width: 340.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 29.h),
+                                    width:70.w,
+                                    child: TextButton(
+                                        onPressed: (){
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                            SizedBox(width: 1.w,),
+                                            Text('时间',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          ],
+                                        )
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                      Container(
+                                        width: 120.w,
+                                        height: 55.h,
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFFF0FAFE),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
+                                          )
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
+                                            Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
+                                          ],
+                                        ),
+                                      ),
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25.h),
+                      height: 150.h,
+                      child: Row(
+                        children: [
+                          Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  )
+                              ),
+                              width: 340.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 29.h),
+                                    width:70.w,
+                                    child: TextButton(
+                                        onPressed: (){
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_gonglv.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                            SizedBox(width: 1.w,),
+                                            Text('功率',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          ],
+                                        )
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jian_disabled.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                      Container(
+                                        width: 120.w,
+                                        height: 55.h,
+                                        decoration: const BoxDecoration(
+                                            color: Color(0xFFF0FAFE),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            )
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
+                                            Text('w',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
+                                          ],
+                                        ),
+                                      ),
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jia_disabled.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ),
+                          Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  )
+                              ),
+                              margin: EdgeInsets.only(left: 30.w),
+                              width: 340.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 29.h),
+                                    width:70.w,
+                                    child: TextButton(
+                                        onPressed: (){
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_shengqiang.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                            SizedBox(width: 1.w,),
+                                            Text('声强',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          ],
+                                        )
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jian_disabled.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                      Container(
+                                        width: 120.w,
+                                        height: 55.h,
+                                        decoration: const BoxDecoration(
+                                            color: Color(0xFFF0FAFE),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            )
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text('0.3',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
+                                            Text('w/cm2',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
+                                          ],
+                                        ),
+                                      ),
+                                      TextButton(
+                                          onPressed: (){},
+                                          child:
+                                          Image.asset('assets/images/2.0x/btn_jia_disabled.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 25.h),
+                      height: 150.h,
+                      child: Row(
+                        children: [
+                          Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  )
+                              ),
+                              width: 340.w,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 29.h),
+                                    width:70.w,
+                                    child: TextButton(
+                                        onPressed: (){
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_pinlv.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                            SizedBox(width: 1.w,),
+                                            Text('频率',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          ],
+                                        )),
+                                  ),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        color: Color(0xFFF0FAFE),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        )
+                                    ),
+                                    width: 230.w,
+                                    height: 55.h,
+                                    child: _popupMenuButton2(context),
+                                  ),
+                                ],
+                              )
+                          ),
+                          Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  )
+                              ),
+                              margin: EdgeInsets.only(left: 30.w),
+                              width: 340.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    width: 78.w,
+                                    margin: EdgeInsets.only(top: 15.5.h),
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage('assets/images/2.0x/img_xiangqing.png'),
+                                          fit: BoxFit.fill, // 完全填充
+                                        )
+                                    ),
+                                    child: TextButton(
+                                        onPressed: (){
+
+                                        },
+                                        child:
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Image.asset('assets/images/2.0x/icon_xiangqing.png',fit: BoxFit.fill,width: 18.w,height: 18.h,),
+                                            Text('详情',style: TextStyle(color: const Color(0xFF009CB4),fontSize: 18.sp),),
+
+                                          ],
+                                        )),
+                                  ),
+
+                                  Center(
+                                    child: Container(
+                                      width: 120.w,
+                                      height: 55.h,
+                                      child: TextButton(
+                                          onPressed: (){
+                                            startSelected = !startSelected;
+                                            setState(() {
+
+                                            });
+                                          },
+                                          child:
+                                          Image.asset(startSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.fill,),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      )
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

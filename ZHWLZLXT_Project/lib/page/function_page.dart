@@ -64,8 +64,7 @@ class _FunctionPageState extends State<FunctionPage> {
                   width: 150.w,
                   height: 60.h,
                   decoration: BoxDecoration(
-                      color:
-                          firstSelected ? const Color(0XFFFFFFFF) : const Color(0xFF19B1E9),
+                      color: firstSelected ? const Color(0XFFFFFFFF) : const Color(0xFF19B1E9),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(30),
                       )),
@@ -106,16 +105,12 @@ class _FunctionPageState extends State<FunctionPage> {
                         '脉冲磁疗法',
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color: secondSelected
-                                ? const Color(0xFF00A8E7)
-                                : const Color(0xFFFFFFFF)),
+                            color: secondSelected ? const Color(0xFF00A8E7) : const Color(0xFFFFFFFF)),
                       )),
                 ),
                 Container(
                   width: 150.w,
                   height: 60.h,
-                  // margin:
-                  // EdgeInsets.only(top: 0, left: 15.w, right: 15.w, bottom: 62.h),
                   decoration: BoxDecoration(
                       color:
                           thirdSelected ? const Color(0XFFFFFFFF) : const Color(0xFF19B1E9),
