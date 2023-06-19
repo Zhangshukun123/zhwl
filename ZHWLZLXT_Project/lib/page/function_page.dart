@@ -59,8 +59,6 @@ class _FunctionPageState extends State<FunctionPage> {
                       height: 29.5.h,
                     )),
                 Container(
-                  // margin: EdgeInsets.only(top: 45.h,left: 15.w,right: 15.w,bottom: 62.h),
-
                   width: 150.w,
                   height: 60.h,
                   decoration: BoxDecoration(
@@ -70,10 +68,10 @@ class _FunctionPageState extends State<FunctionPage> {
                       )),
                   child: TextButton(
                       onPressed: () {
+                        debugPrint('超声疗法');
                         firstSelected = !firstSelected;
                         setState(() {});
-                        _pageController.jumpTo(0);
-
+                        _pageController.jumpToPage(0);
                       },
                       child: Text(
                         '超声疗法',
@@ -97,7 +95,9 @@ class _FunctionPageState extends State<FunctionPage> {
                       )),
                   child: TextButton(
                       onPressed: () {
-                        _pageController.jumpTo(1);
+                        debugPrint('脉冲磁疗法');
+                        // _pageController.jumpTo(1);
+                        _pageController.jumpToPage(1);
                         secondSelected = !secondSelected;
                         setState(() {});
                       },
@@ -113,13 +113,14 @@ class _FunctionPageState extends State<FunctionPage> {
                   height: 60.h,
                   decoration: BoxDecoration(
                       color:
-                          thirdSelected ? const Color(0XFFFFFFFF) : const Color(0xFF19B1E9),
+                          thirdSelected ?  const Color(0XFFFFFFFF) :  const Color(0xFF19B1E9),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(30),
                       )),
                   child: TextButton(
                       onPressed: () {
-                        _pageController.jumpTo(2);
+                        debugPrint('红外偏振光治疗');
+                        _pageController.jumpToPage(2);
                         thirdSelected = !thirdSelected;
                         setState(() {});
                       },
@@ -146,7 +147,8 @@ class _FunctionPageState extends State<FunctionPage> {
                       )),
                   child: TextButton(
                       onPressed: () {
-                        _pageController.jumpTo(3);
+                        debugPrint('电疗');
+                        _pageController.jumpToPage(3);
                         fourthSelected = !fourthSelected;
                         setState(() {
 
