@@ -10,10 +10,12 @@
 import 'package:hzy_normal_widget/hzy_normal_widget.dart';
 import 'package:zhwlzlxt_project/page/guide_page.dart';
 import 'package:zhwlzlxt_project/page/login_page.dart';
+import 'package:zhwlzlxt_project/user/user_manage_page.dart';
 
 class RouterPageId {
   static String login = '/login';
   static String guide = '/guide';
+  static String userManage = '/userManage';
 }
 
 class RouterS {
@@ -21,6 +23,7 @@ class RouterS {
     return [
       GetPage(name: RouterPageId.guide, page: () => const GuidePage()),
       GetPage(name: RouterPageId.login, page: () => const LoginPage()),
+      GetPage(name: RouterPageId.userManage, page: () => UserManagePage()),
     ];
   }
 }

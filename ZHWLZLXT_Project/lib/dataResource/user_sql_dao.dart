@@ -6,7 +6,7 @@ import '../utils/sql_tool.dart';
 import '../utils/sql_utils.dart';
 import '../utils/utils_tool.dart';
 
-class SqlWork extends BaseVM {
+class UserSqlDao extends BaseVM {
   queryListData({
     required int page,
   }) async {
