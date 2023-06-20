@@ -299,7 +299,7 @@ class _PulsedPageState extends State<PulsedPage> {
                           child: Column(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 74.5.h),
+                                margin: EdgeInsets.only(top: 60.h),
                                 child: TextButton(
                                     onPressed: (){},
                                     child: Row(
@@ -312,7 +312,7 @@ class _PulsedPageState extends State<PulsedPage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 35.h),
+                                margin: EdgeInsets.only(top: 25.h),
                                 child: TextButton(
                                     onPressed: (){
                                       switchSelected = !switchSelected;
