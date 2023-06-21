@@ -114,7 +114,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage> with SingleTick
                         Expanded(
                           child: Center(
                             child: Container(
-                              height: 60.h,
+                              height: 50.h,
                               // color:Colors.black,
                               child: TabBar(
                               indicatorColor: const Color(0xFF00A8E7),//// 底部指示器颜色
