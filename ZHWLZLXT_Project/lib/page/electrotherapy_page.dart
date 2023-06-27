@@ -6,6 +6,8 @@ import 'package:zhwlzlxt_project/page/jingPi_page.dart';
 import 'package:zhwlzlxt_project/page/shenJing_page.dart';
 import 'package:zhwlzlxt_project/page/zhongPin_page.dart';
 
+
+
 class ElectrotherapyPage extends StatefulWidget {
   const ElectrotherapyPage({Key? key}) : super(key: key);
 
@@ -24,6 +26,9 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage> with SingleTick
   ];
   late TabController _tabController;
 
+
+
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +36,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage> with SingleTick
     _tabController.addListener(() {
 
     });
+
   }
 
   @override
