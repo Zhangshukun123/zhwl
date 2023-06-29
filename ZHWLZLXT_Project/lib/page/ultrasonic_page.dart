@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/page/operate_page.dart';
+import 'package:zhwlzlxt_project/page/control_page.dart';
 
 class UltrasonicPage extends StatefulWidget {
   const UltrasonicPage({Key? key}) : super(key: key);
@@ -13,24 +14,30 @@ class UltrasonicPage extends StatefulWidget {
 
 class _UltrasonicPageState extends State<UltrasonicPage> with SingleTickerProviderStateMixin{
 
+  //模式选择
+  String patternStr = "连续 0";
+  //频率选择
+  String frequencyStr = "1";
+
   PopupMenuButton _popupMenuButton(BuildContext context){
     return PopupMenuButton(
       itemBuilder: (BuildContext context){
         return [
-          const PopupMenuItem(child: Text("断续 1"),value: '连续 0',),
-          const PopupMenuItem(child: Text("断续 2"),value: '连续 1',),
-          const PopupMenuItem(child: Text("断续 3"),value: '连续 2',),
+          const PopupMenuItem(child: Text("断续 0"),value: '连续 0',),
+          const PopupMenuItem(child: Text("断续 1"),value: '连续 1',),
+          const PopupMenuItem(child: Text("断续 2"),value: '连续 2',),
         ];
       },
       child:
       Row(
         children: [
-          Expanded(child: Center(child: Text('断续 1',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
+          Expanded(child: Center(child: Text(patternStr,style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
           Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
         ],
       ),
       onSelected: (ovc) async {
         print(ovc);
+        patternStr = ovc;
         setState(() {
           //刷新
         });
@@ -56,20 +63,27 @@ class _UltrasonicPageState extends State<UltrasonicPage> with SingleTickerProvid
     return PopupMenuButton(
       itemBuilder: (BuildContext context){
         return [
-          const PopupMenuItem(child: Text("1"),value: '0',),
-          const PopupMenuItem(child: Text("2"),value: '1',),
-          const PopupMenuItem(child: Text("3"),value: '2',),
+          const PopupMenuItem(child: Text("1"),value: '1',),
+          const PopupMenuItem(child: Text("2"),value: '2',),
+          const PopupMenuItem(child: Text("3"),value: '3',),
         ];
       },
       child:
       Row(
         children: [
-          Expanded(child: Center(child: Text('1w',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
+          Expanded(child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(frequencyStr,style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),),
+              Text('w',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
+            ],
+          )),
           Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
         ],
       ),
       onSelected: (ovc) async {
         print(ovc);
+        frequencyStr = ovc;
         setState(() {
           //刷新
         });
@@ -220,6 +234,10 @@ class _UltrasonicPageState extends State<UltrasonicPage> with SingleTickerProvid
                         child: TextButton(
                           onPressed: (){
                             debugPrint('点击用户管理');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => const ControlPage()));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
