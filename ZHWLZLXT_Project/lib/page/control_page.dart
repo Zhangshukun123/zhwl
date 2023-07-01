@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zhwlzlxt_project/page/add_page.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({Key? key}) : super(key: key);
@@ -11,13 +12,29 @@ class ControlPage extends StatefulWidget {
 
 class _ControlPageState extends State<ControlPage> {
 
+  //搜索框
+  TextEditingController searchController = TextEditingController();
+  //编号
+  TextEditingController numController = TextEditingController();
+  //姓名
   TextEditingController nameController = TextEditingController();
+  //年龄
+  TextEditingController ageController = TextEditingController();
+  //电话
+  TextEditingController telController = TextEditingController();
+  //证件
+  TextEditingController cerController = TextEditingController();
+  //住院号
+  TextEditingController zhuController = TextEditingController();
+  //床号
+  TextEditingController bedController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         title: Text('用户管理',style: TextStyle(fontSize: 18.sp,color: Colors.white),),
@@ -25,10 +42,10 @@ class _ControlPageState extends State<ControlPage> {
           InkWell(
             onTap: (){
               print('点击新增用户');
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (BuildContext context) => addUser())
-              // );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (BuildContext context) => const AddPage())
+              );
             },
             child: Container(
               margin: const EdgeInsets.only(top: 10,bottom: 10,right: 10),
@@ -96,7 +113,7 @@ class _ControlPageState extends State<ControlPage> {
                             SizedBox(
                               width: 180.w,
                               child: TextField(
-                                controller: nameController,
+                                controller: searchController,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '请输入姓名、手机号',
@@ -224,7 +241,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('12345355',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: numController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '12345355',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -244,7 +268,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('张三四',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: nameController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '张三四',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -269,7 +300,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('20',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '20',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -314,7 +352,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('12345355',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '13212345678',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -334,7 +379,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('张三四',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '13212345678',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -359,7 +411,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('12345355',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '13212345678',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -379,7 +438,14 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: const BorderRadius.all(Radius.circular(7)),
                                   ),
-                                  child: Center(child: Text('张三四',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '13212345678',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                    ),
+                                  )
                               ),
                             ],
                           ),

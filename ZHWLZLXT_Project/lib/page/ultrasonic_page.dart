@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/page/operate_page.dart';
 import 'package:zhwlzlxt_project/page/control_page.dart';
+import 'package:zhwlzlxt_project/page/set_page.dart';
 
 class UltrasonicPage extends StatefulWidget {
   const UltrasonicPage({Key? key}) : super(key: key);
@@ -262,6 +263,10 @@ class _UltrasonicPageState extends State<UltrasonicPage> with SingleTickerProvid
                         child: TextButton(
                             onPressed: (){
                               debugPrint('点击设置');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => const SetPage()));
 
                             },
                             child: Row(
