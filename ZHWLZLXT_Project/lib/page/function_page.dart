@@ -69,7 +69,6 @@ class _FunctionPageState extends State<FunctionPage> {
                   child: TextButton(
                       onPressed: () {
                         debugPrint('超声疗法');
-
                         setState(() {
                           firstSelected = !firstSelected;
                         });

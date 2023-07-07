@@ -134,7 +134,7 @@ class _ControlPageState extends State<ControlPage> {
                             width: 0.5,
                             color: const Color(0xFFF5F7F9),
                           ),
-                          borderRadius: const BorderRadius.all(Radius.circular(7)),
+                          borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         ),
                         child: Row(
                           children: [
@@ -165,8 +165,8 @@ class _ControlPageState extends State<ControlPage> {
                                       color: const Color(0xFFF5F7F9),
                                       width: 0.5,
                                     ),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.w),
                                     ),
                                   ),
                                   child: Row(
@@ -218,7 +218,7 @@ class _ControlPageState extends State<ControlPage> {
                         color: Colors.white,
                         width: 0.5
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                    borderRadius: BorderRadius.all(Radius.circular(15.w)),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +240,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: numController,
@@ -267,7 +267,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: nameController,
@@ -299,7 +299,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: ageController,
@@ -326,7 +326,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: Center(child: Text('男',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
                               ),
@@ -351,7 +351,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: ageController,
@@ -378,7 +378,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: ageController,
@@ -410,7 +410,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: ageController,
@@ -437,7 +437,7 @@ class _ControlPageState extends State<ControlPage> {
                                       width: 0.5,
                                       color: const Color(0xFFDBDBDB),
                                     ),
-                                    borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
                                     controller: ageController,
@@ -465,7 +465,7 @@ class _ControlPageState extends State<ControlPage> {
                                     width: 0.5,
                                     color: const Color(0xFF00A8E7),
                                   ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                 ),
                                 child: TextButton(
                                     onPressed: (){
@@ -483,7 +483,7 @@ class _ControlPageState extends State<ControlPage> {
                                     width: 0.5,
                                     color: const Color(0xFF00A8E7),
                                   ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                 ),
                                 child: TextButton(
                                     onPressed: (){
@@ -503,7 +503,7 @@ class _ControlPageState extends State<ControlPage> {
                                     width: 0.5,
                                     color: const Color(0xFF00C290),
                                   ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                 ),
                                 child: TextButton(
                                     onPressed: (){

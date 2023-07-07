@@ -136,7 +136,7 @@ class _RecordPageState extends State<RecordPage> {
                     itemCount: 10,
                     itemBuilder: (context, i){
                       return Container(
-                        height: 114.h,
+                        // height: 114.h,
                         margin: EdgeInsets.only(left: 15.w,right: 15.w,top: 10.h),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFFFFF),
