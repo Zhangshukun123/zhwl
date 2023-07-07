@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +23,8 @@ class LoginPageState extends State<LoginPage> {
     super.initState();
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   }
 
   @override
@@ -66,7 +71,8 @@ class LoginPageState extends State<LoginPage> {
                                 )),
                             Expanded(
                               child: Container(
-                                transform: Matrix4.translationValues(0, -30.h, 0),
+                                transform:
+                                    Matrix4.translationValues(0, -30.h, 0),
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -146,8 +152,8 @@ class LoginPageState extends State<LoginPage> {
                                                           hintText: '请输入用户名',
                                                           border:
                                                               InputBorder.none),
-                                                  style:
-                                                      TextStyle(fontSize: 15.sp),
+                                                  style: TextStyle(
+                                                      fontSize: 15.sp),
                                                 ),
                                               ),
                                             ],
@@ -184,8 +190,8 @@ class LoginPageState extends State<LoginPage> {
                                                     hintText: '请输入密码',
                                                     border: InputBorder.none,
                                                   ),
-                                                  style:
-                                                      TextStyle(fontSize: 15.sp),
+                                                  style: TextStyle(
+                                                      fontSize: 15.sp),
                                                 ),
                                               ),
                                             ],
@@ -247,13 +253,14 @@ class LoginPageState extends State<LoginPage> {
                                             print('点击确定按钮');
                                             print(acController.text);
                                             print(pwdController.text);
+                                            Get.to(const FunctionPage());
 
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder:
-                                                        (BuildContext context) =>
-                                                            const FunctionPage()));
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder:
+                                            //             (BuildContext context) =>
+                                            //                 ));
                                           },
                                           child: Text(
                                             '确定',

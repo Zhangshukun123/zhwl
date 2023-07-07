@@ -1,5 +1,5 @@
 
-import 'package:hzy_normal_widget/hzy_normal_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -213,11 +213,11 @@ class SqlUtils {
   open() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, SqlConfig.dbname);
-    debugprint('数据库存储路径path:' + path);
+    debugPrint('数据库存储路径path:' + path);
     try {
       db = await openDatabase(path);
     } catch (e) {
-      debugprint('DBUtil open() Error $e');
+      debugPrint('DBUtil open() Error $e');
     }
   }
 
