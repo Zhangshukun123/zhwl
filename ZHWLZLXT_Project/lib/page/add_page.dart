@@ -128,12 +128,12 @@ class _AddPageState extends State<AddPage> {
                             width: 250.w,
                             height: 43.h,
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(7),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(7.w),
                               ),
                               border: Border.all(
                                 color: const Color(0xFFBBBBBB),
-                                width: 1.5,
+                                width: 1.5.w,
                               )
                             ),
                             child: Row(
@@ -280,8 +280,8 @@ class _AddPageState extends State<AddPage> {
                     width: 110.w,
                     height: 43.h,
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.w),
                       ),
                       border: Border.all(
                         width: 0.5,
@@ -298,10 +298,10 @@ class _AddPageState extends State<AddPage> {
                   Container(
                     width: 110.w,
                     height: 43.h,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Color(0xFF00A8E7),
                         borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                          Radius.circular(10.w),
                         ),
                     ),
                     child: TextButton(

@@ -69,18 +69,22 @@ class _FunctionPageState extends State<FunctionPage> {
                   child: TextButton(
                       onPressed: () {
                         debugPrint('超声疗法');
-                        firstSelected = !firstSelected;
-                        setState(() {});
+
+                        setState(() {
+                          firstSelected = !firstSelected;
+                        });
                         _pageController.jumpToPage(0);
                       },
                       child: Text(
                         '超声疗法',
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color: firstSelected
+                            color : firstSelected
                                 ? const Color(0xFF00A8E7)
-                                : const Color(0xFFFFFFFF)),
-                      )),
+                                : const Color(0xFFFFFFFF)
+                        ),
+                      )
+                  ),
                 ),
                 Container(
                   width: 150.w,
@@ -105,15 +109,21 @@ class _FunctionPageState extends State<FunctionPage> {
                         '脉冲磁疗法',
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color: secondSelected ? const Color(0xFF00A8E7) : const Color(0xFFFFFFFF)),
-                      )),
+                            color:
+                            secondSelected
+                            ? const Color(0xFF00A8E7)
+                            : const Color(0xFFFFFFFF)),
+                      )
+                  ),
                 ),
                 Container(
                   width: 150.w,
                   height: 60.h,
                   decoration: BoxDecoration(
                       color:
-                          thirdSelected ?  const Color(0XFFFFFFFF) :  const Color(0xFF19B1E9),
+                          thirdSelected
+                          ?  const Color(0XFFFFFFFF)
+                          :  const Color(0xFF19B1E9),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(30),
                       )),
@@ -128,10 +138,11 @@ class _FunctionPageState extends State<FunctionPage> {
                         '红外偏振光治疗',
                         style: TextStyle(
                             fontSize: 18.sp,
-                            color: thirdSelected
-                                ? const Color(0xFF00A8E7)
-                                : const Color(0xFFFFFFFF)),
-                      )),
+                            color : thirdSelected
+                                  ? const Color(0xFF00A8E7)
+                                  : const Color(0xFFFFFFFF)),
+                      )
+                  ),
                 ),
                 Container(
                   width: 150.w,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/add_page.dart';
+import 'package:zhwlzlxt_project/page/record_page.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _ControlPageState extends State<ControlPage> {
         actions: <Widget>[
           InkWell(
             onTap: (){
-              print('点击新增用户');
+              debugPrint('点击新增用户');
               Navigator.push(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) => const AddPage())
@@ -54,19 +55,19 @@ class _ControlPageState extends State<ControlPage> {
                 color: const Color(0xFF19B1E9),
                 border: Border.all(
                   color: const Color(0xFF19B1E9),
-                  width: 0.5,
+                  width: 0.5.w,
                 ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.w),
                 ),
               ),
               child: Row(
                 children: [
-                  const SizedBox(width: 5,),
-                  Image.asset('assets/images/2.0x/icon_xinzeng.png',width: 24,height: 24,),
-                  const SizedBox(width: 5,),
-                  const Text('新增用户',style: TextStyle(color: Colors.white,fontSize: 24),),
-                  const SizedBox(width: 15,),
+                  SizedBox(width: 5.w,),
+                  Image.asset('assets/images/2.0x/icon_xinzeng.png',width: 24.w,height: 24.h,),
+                  SizedBox(width: 5.w,),
+                  Text('新增用户',style: TextStyle(color: Colors.white,fontSize: 24.sp),),
+                  SizedBox(width: 15.w,),
                 ],
               ),
             ),
@@ -87,8 +88,8 @@ class _ControlPageState extends State<ControlPage> {
                         color: Colors.white,
                         width: 0.5
                     ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15.w),
                     ),
                   ),
                   margin: EdgeInsets.only(right: 10.w),
@@ -97,13 +98,13 @@ class _ControlPageState extends State<ControlPage> {
                       Container(
                         margin:  EdgeInsets.only(left: 6.w,right: 6.w,top: 10.h,bottom: 10.h),
                         padding:  EdgeInsets.only(left: 60.w,right: 10.w),
-                        height: 55,
+                        height: 55.h,
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 0.5,
                             color: const Color(0xFFD6D6D6),
                           ),
-                          borderRadius: const BorderRadius.all(Radius.circular(7)),
+                          borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -486,7 +487,10 @@ class _ControlPageState extends State<ControlPage> {
                                 ),
                                 child: TextButton(
                                     onPressed: (){
-
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (BuildContext context) => const RecordPage())
+                                      );
                                     },
                                     child: Text('治疗记录',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),))
                             ),
