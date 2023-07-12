@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-08-16 10:02:30
  */
 
-import 'package:hzy_normal_widget/hzy_normal_widget.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/guide_page.dart';
 import 'package:zhwlzlxt_project/page/login_page.dart';
 import 'package:zhwlzlxt_project/user/user_manage_page.dart';
@@ -23,7 +23,7 @@ class RouterS {
     return [
       GetPage(name: RouterPageId.guide, page: () => const GuidePage()),
       GetPage(name: RouterPageId.login, page: () => const LoginPage()),
-      GetPage(name: RouterPageId.userManage, page: () => UserManagePage()),
+      GetPage(name: RouterPageId.userManage, page: () => const UserManagePage()),
     ];
   }
 }

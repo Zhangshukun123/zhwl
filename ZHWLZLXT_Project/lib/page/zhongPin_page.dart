@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../widget/popup_menu_btn.dart';
+
 class ZhongPinPage extends StatefulWidget {
   const ZhongPinPage({Key? key}) : super(key: key);
 
@@ -10,53 +12,18 @@ class ZhongPinPage extends StatefulWidget {
 }
 
 class _ZhongPinPageState extends State<ZhongPinPage> {
+
+
+  bool yiStartSelected = true;
+  bool erStartSelected = true;
   @override
   Widget build(BuildContext context) {
-    PopupMenuButton _popupMenuButton(BuildContext context){
-      return PopupMenuButton(
-        itemBuilder: (BuildContext context){
-          return [
-            const PopupMenuItem(child: Text("1"),value: '连续 0',),
-            const PopupMenuItem(child: Text("2"),value: '连续 1',),
-            const PopupMenuItem(child: Text("3"),value: '连续 2',),
-          ];
-        },
-        child:
-        Row(
-          children: [
-            Expanded(child: Center(child: Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
-            Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
-          ],
-        ),
-        onSelected: (ovc) async {
-          print(ovc);
-          setState(() {
-            //刷新
-          });
-          //选择模式指令
-          if (ovc == "连续 0") {//圣光被动跟随训练
 
-          }
-          else if (ovc == "连续 1") {//主动呼吸训练
 
-          }
-          else if (ovc == "连续 2") {//助力训练模式
-
-          }
-
-        },
-        onCanceled: (){
-          print('cancel');
-        },
-
-      );
-    }
-    bool yiStartSelected = true;
-    bool erStartSelected = true;
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
         child: Row(
           children: [
@@ -76,10 +43,17 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
 
                     children: [
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -100,25 +74,25 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                                     )
                                 ),
                               ),
-                              Container(
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                width: 230.w,
-                                height: 55.h,
-                                child: _popupMenuButton(context),
+                              PopupMenuBtn(
+                                index: 7,
                               ),
+
                             ],
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -174,10 +148,17 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -277,10 +258,17 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
 
                     children: [
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -301,25 +289,25 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                                     )
                                 ),
                               ),
-                              Container(
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                width: 230.w,
-                                height: 55.h,
-                                child: _popupMenuButton(context),
+                              PopupMenuBtn(
+                                index: 8,
                               ),
+
                             ],
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -375,10 +363,17 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 340.w,
@@ -432,7 +427,6 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                             ],
                           )
                       ),
-
                       Container(
                         child: Container(
                           decoration: const BoxDecoration(

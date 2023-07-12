@@ -19,8 +19,7 @@ class NormalCreateTables {
     ${UserTableField.phone} ${SqlConfig.sqltext},
     ${UserTableField.idCard} ${SqlConfig.sqltext},
     ${UserTableField.ad} ${SqlConfig.sqltext},
-    ${UserTableField.bedNumber} ${SqlConfig.sqltext},
-    )
+    ${UserTableField.bedNumber} ${SqlConfig.sqltext})
     ''';
 
   /// 获取所有的表

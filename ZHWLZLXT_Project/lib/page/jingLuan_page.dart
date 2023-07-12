@@ -10,10 +10,10 @@ class JingLuanPage extends StatefulWidget {
 }
 
 class _JingLuanPageState extends State<JingLuanPage> {
+
+  bool jingStartSelected = true;
   @override
   Widget build(BuildContext context) {
-
-    bool jingStartSelected = true;
 
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
@@ -30,10 +30,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                   Container(
                     width: 340.w,
                     height: 100.h,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 15.w,
+                              offset: const Offset(0, 2),
+                              spreadRadius: 0)
+                        ],
                       borderRadius: BorderRadius.all(
-                        Radius.circular(15),
+                        Radius.circular(15.w),
                       )
                     ),
 
@@ -88,10 +95,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                   Container(
                     width: 340.w,
                     height: 100.h,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 15.w,
+                              offset: const Offset(0, 2),
+                              spreadRadius: 0)
+                        ],
                         borderRadius: BorderRadius.all(
-                          Radius.circular(15),
+                          Radius.circular(15.w),
                         )
                     ),
                       child: Row(
@@ -145,10 +159,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                   Container(
                       width: 340.w,
                       height: 100.h,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 15.w,
+                                offset: const Offset(0, 2),
+                                spreadRadius: 0)
+                          ],
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(15.w),
                           )
                       ),
                       child: Row(
@@ -202,10 +223,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                   Container(
                       width: 340.w,
                       height: 100.h,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                           color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                blurRadius: 15.w,
+                                offset: const Offset(0, 2),
+                                spreadRadius: 0)
+                          ],
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(15.w),
                           )
                       ),
                       child: Row(
@@ -266,10 +294,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     Container(
                         width: 340.w,
                         height: 100.h,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 15.w,
+                                  offset: const Offset(0, 2),
+                                  spreadRadius: 0)
+                            ],
                             borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                              Radius.circular(15.w),
                             )
                         ),
                         child: Row(
@@ -323,10 +358,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     Container(
                         width: 340.w,
                         height: 100.h,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 15.w,
+                                  offset: const Offset(0, 2),
+                                  spreadRadius: 0)
+                            ],
                             borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                              Radius.circular(15.w),
                             )
                         ),
                         child: Row(
@@ -379,10 +421,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     Container(
                         width: 340.w,
                         height: 100.h,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 15.w,
+                                  offset: const Offset(0, 2),
+                                  spreadRadius: 0)
+                            ],
                             borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                              Radius.circular(15.w),
                             )
                         ),
                         child: Row(
@@ -436,10 +485,17 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     Container(
                         width: 340.w,
                         height: 100.h,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 15.w,
+                                  offset: const Offset(0, 2),
+                                  spreadRadius: 0)
+                            ],
                             borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                              Radius.circular(15.w),
                             )
                         ),
                         child: Container(

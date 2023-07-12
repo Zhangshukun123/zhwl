@@ -1,12 +1,10 @@
-import 'package:hzy_normal_widget/hzy_normal_widget.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
-
 import '../cofig/sql_config.dart';
 import '../utils/sql_tool.dart';
 import '../utils/sql_utils.dart';
 import '../utils/utils_tool.dart';
 
-class UserSqlDao extends BaseVM {
+class UserSqlDao {
   queryListData({
     required int page,
   }) async {
@@ -38,7 +36,7 @@ class UserSqlDao extends BaseVM {
         msg: str,
         ontap: () {
           if (type == 1) {
-            currentGoback(Get.context!, info: {"rl": "1"});
+            // currentGoback(Get.context!, info: {"rl": "1"});
           }
         });
   }
@@ -57,7 +55,7 @@ class UserSqlDao extends BaseVM {
         msg: str,
         ontap: () {
           if (yorn) {
-            currentGoback(Get.context!, info: {"rl": "1"});
+            // currentGoback(Get.context!, info: {"rl": "1"});
           }
         });
   }

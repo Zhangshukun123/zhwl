@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return GestureDetector(
           child: GetMaterialApp(
-            initialRoute: RouterPageId.guide,
+            initialRoute: RouterPageId.login,
             getPages: RouterS.getAllRouteS(),
             defaultTransition: Transition.noTransition,
             debugShowCheckedModeBanner: false,

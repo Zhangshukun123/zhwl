@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 
+import '../widget/popup_menu_btn.dart';
 import 'operate_page.dart';
 
 class InfraredPage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
     AttentionPage(),
   ];
   late TabController _tabController;
+  bool thirdStartSelected = true;
+  bool switchSelected = true;
 
   void showCustomDialog() {
     showDialog(
@@ -112,47 +115,7 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    PopupMenuButton _popupMenuButton(BuildContext context){
-      return PopupMenuButton(
-        itemBuilder: (BuildContext context){
-          return [
-            const PopupMenuItem(child: Text("断续 1"),value: '连续 0',),
-            const PopupMenuItem(child: Text("断续 2"),value: '连续 1',),
-            const PopupMenuItem(child: Text("断续 3"),value: '连续 2',),
-          ];
-        },
-        child:
-        Row(
-          children: [
-            Expanded(child: Center(child: Text('断续 1',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))),
-            Image.asset('assets/images/2.0x/icon_xiala.png',width: 18,),
-          ],
-        ),
-        onSelected: (ovc) async {
-          print(ovc);
-          setState(() {
-            //刷新
-          });
-          //选择模式指令
-          if (ovc == "连续 0") {//圣光被动跟随训练
 
-          }
-          else if (ovc == "连续 1") {//主动呼吸训练
-
-          }
-          else if (ovc == "连续 2") {//助力训练模式
-
-          }
-
-        },
-        onCanceled: (){
-          print('cancel');
-        },
-
-      );
-    }
-    bool thirdStartSelected = true;
-    bool switchSelected = true;
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -229,10 +192,17 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           width: 416.w,
@@ -291,10 +261,17 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           margin: EdgeInsets.only(top: 25.h),
@@ -355,10 +332,17 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           margin: EdgeInsets.only(top: 25.h),
@@ -382,16 +366,8 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                                       ],
                                     )),
                               ),
-                              Container(
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                width: 230.w,
-                                height: 55.h,
-                                child: _popupMenuButton(context),
+                              PopupMenuBtn(
+                                index: 2,
                               ),
                             ],
                           )
@@ -406,10 +382,17 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                       Container(
                           width: 260.w,
                           height: 235.h,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           child: Column(
@@ -446,10 +429,17 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                       Container(
                           width: 260.w,
                           height: 235.h,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           margin: EdgeInsets.only(top: 30.h),

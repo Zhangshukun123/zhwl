@@ -195,10 +195,17 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.15),
+                                  blurRadius: 15.w,
+                                  offset: const Offset(0, 2),
+                                  spreadRadius: 0)
+                            ],
                           borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                            Radius.circular(15.w),
                           )
                         ),
                           width: 416.w,
@@ -256,10 +263,17 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                         margin: EdgeInsets.only(top: 25.h),
@@ -320,10 +334,17 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                           )
                       ),
                       Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           margin: EdgeInsets.only(top: 25.h),
@@ -393,10 +414,17 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                       Container(
                         width: 260.w,
                           height: 235.h,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                           child: Column(
@@ -432,10 +460,17 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                       Container(
                           width: 260.w,
                           height: 235.h,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(15),
+                                Radius.circular(15.w),
                               )
                           ),
                         margin: EdgeInsets.only(top: 30.h),
