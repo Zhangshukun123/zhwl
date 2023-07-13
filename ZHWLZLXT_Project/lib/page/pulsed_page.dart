@@ -408,6 +408,7 @@ class _PulsedPageState extends State<PulsedPage> with SingleTickerProviderStateM
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.only(top: 17.5.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
