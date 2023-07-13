@@ -507,7 +507,7 @@ class _JingLuanPageState extends State<JingLuanPage> {
                               });
                             },
                             child:
-                            Image.asset(jingStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_guanbi_nor.png',fit: BoxFit.fill,width: 120.w,height: 55.h,),
+                            Image.asset(jingStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.fill,width: 120.w,height: 55.h,),
                           ),
                         )
                     ),
