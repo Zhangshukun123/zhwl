@@ -6,8 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ContainerBg extends StatelessWidget {
   Widget? child;
   final EdgeInsetsGeometry? margin;
+  double? width;
+  double? height;
 
-  ContainerBg({Key? key, this.child,this.margin}) : super(key: key);
+  ContainerBg({Key? key, this.child, this.margin, this.width, this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,8 @@ class ContainerBg extends StatelessWidget {
                 spreadRadius: 0)
           ],
           borderRadius: BorderRadius.all(Radius.circular(15.w))),
-      width: 340.w,
+      width: width ?? 340.w,
+      height: height,
       margin: margin,
       child: child,
     );
