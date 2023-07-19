@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
+import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../widget/popup_menu_btn.dart';
+import '../widget/set_value.dart';
 import 'operate_page.dart';
 
 class InfraredPage extends StatefulWidget {
@@ -191,144 +193,30 @@ class _InfraredPageState extends State<InfraredPage> with SingleTickerProviderSt
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 416.w,
-                          height: 150.h,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 29.h),
-                                width:70.w,
-                                child: TextButton(
-                                    onPressed: (){
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                                        SizedBox(width: 1.w,),
-                                        Text('时间',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: (){},
-                                      child:
-                                      Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                                  ),
-                                  Container(
-                                    width: 120.w,
-                                    height: 55.h,
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFFF0FAFE),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                        Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                      onPressed: (){},
-                                      child:
-                                      Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
+                      ContainerBg(
+                      width: 416.w,
+                      height: 150.h,
+                      child:
+                      SetValue(
+                        enabled: true,
+                        title: '时间',
+                        assets: 'assets/images/2.0x/icon_shijian.png',
+                        initialValue: 12,
+                        unit: 'min',
+                        valueListener: (value) {},
                       ),
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
+                      ),
+                      ContainerBg(
                           margin: EdgeInsets.only(top: 25.h),
-
                           width: 416.w,
                           height: 150.h,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 29.h),
-                                width:70.w,
-                                child: TextButton(
-                                    onPressed: (){
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/2.0x/icon_qiangdu.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                                        SizedBox(width: 1.w,),
-                                        Text('强度',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: (){},
-                                      child:
-                                      Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                                  ),
-                                  Container(
-                                    width: 120.w,
-                                    height: 55.h,
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFFF0FAFE),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                      onPressed: (){},
-                                      child:
-                                      Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                                  ),
-                                ],
-                              ),
-                            ],
+                          child:
+                          SetValue(
+                            enabled: true,
+                            title: '强度',
+                            assets: 'assets/images/2.0x/icon_qiangdu.png',
+                            initialValue: 12,
+                            valueListener: (value) {},
                           )
                       ),
                       Container(
