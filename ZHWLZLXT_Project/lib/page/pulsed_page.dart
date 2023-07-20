@@ -51,211 +51,50 @@ class _PulsedPageState extends State<PulsedPage>
             Row(
               children: [
                 Container(
-                  padding:
-                      EdgeInsets.only(left: 35.w, right: 35.w, top: 17.5.h),
+                  padding: EdgeInsets.only(left: 35.w,right: 35.w,top: 17.5.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ContainerBg(
                           width: 416.w,
                           height: 150.h,
-                          child: SetValue(
+                          child:
+                          SetValue(
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue: 12,
                             valueListener: (value) {},
-                          )),
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )),
-                          margin: EdgeInsets.only(top: 25.h),
+                          )
+                      ),
+                      ContainerBg(
                           width: 416.w,
                           height: 150.h,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 29.h),
-                                width: 70.w,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_pinlv.png',
-                                          fit: BoxFit.cover,
-                                          width: 19.w,
-                                          height: 18.h,
-                                        ),
-                                        SizedBox(
-                                          width: 1.w,
-                                        ),
-                                        Text(
-                                          '频率',
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              color: const Color(0xFF999999)),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Image.asset(
-                                        'assets/images/2.0x/btn_jian_nor.png',
-                                        fit: BoxFit.cover,
-                                        width: 38.w,
-                                        height: 34.h,
-                                      )),
-                                  Container(
-                                    width: 120.w,
-                                    height: 55.h,
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFFF0FAFE),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '12',
-                                          style: TextStyle(
-                                              color: const Color(0xFF333333),
-                                              fontSize: 22.sp),
-                                        ),
-                                        Text(
-                                          '次/min',
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 12.sp),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Image.asset(
-                                        'assets/images/2.0x/btn_jia_nor.png',
-                                        fit: BoxFit.cover,
-                                        width: 38.w,
-                                        height: 34.h,
-                                      )),
-                                ],
-                              ),
-                            ],
-                          )),
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )),
                           margin: EdgeInsets.only(top: 25.h),
+                          child:
+                          SetValue(
+                            enabled: true,
+                            title: '频率',
+                            assets: 'assets/images/2.0x/icon_pinlv.png',
+                            initialValue: 12,
+                            unit: '次/min',
+                            valueListener: (value) {},
+                          )
+                      ),
+                      ContainerBg(
                           width: 416.w,
                           height: 150.h,
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 29.h),
-                                width: 70.w,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_shijian.png',
-                                          fit: BoxFit.cover,
-                                          width: 19.w,
-                                          height: 18.h,
-                                        ),
-                                        SizedBox(
-                                          width: 1.w,
-                                        ),
-                                        Text(
-                                          '时间',
-                                          style: TextStyle(
-                                              fontSize: 18.sp,
-                                              color: const Color(0xFF999999)),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Image.asset(
-                                        'assets/images/2.0x/btn_jian_nor.png',
-                                        fit: BoxFit.cover,
-                                        width: 38.w,
-                                        height: 34.h,
-                                      )),
-                                  Container(
-                                    width: 120.w,
-                                    height: 55.h,
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xFFF0FAFE),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        )),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '12',
-                                          style: TextStyle(
-                                              color: const Color(0xFF333333),
-                                              fontSize: 22.sp),
-                                        ),
-                                        Text(
-                                          'min',
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 12.sp),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Image.asset(
-                                        'assets/images/2.0x/btn_jia_nor.png',
-                                        fit: BoxFit.cover,
-                                        width: 38.w,
-                                        height: 34.h,
-                                      )),
-                                ],
-                              ),
-                            ],
-                          )),
+                          margin: EdgeInsets.only(top: 25.h),
+                          child:
+                          SetValue(
+                            enabled: true,
+                            title: '时间',
+                            assets: 'assets/images/2.0x/icon_shijian.png',
+                            initialValue: 12,
+                            unit: 'min',
+                            valueListener: (value) {},
+                          )
+                      ),
                     ],
                   ),
                 ),
@@ -265,7 +104,7 @@ class _PulsedPageState extends State<PulsedPage>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                          width: 260.w,
+                        width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -278,46 +117,38 @@ class _PulsedPageState extends State<PulsedPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )),
+                              )
+                          ),
                           child: Column(
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 60.h),
                                 child: TextButton(
-                                    onPressed: () {},
+                                    onPressed: (){},
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_zhendong.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Text(
-                                          '振动',
-                                          style: TextStyle(
-                                              color: Color(0xFF999999),
-                                              fontSize: 18.sp),
-                                        ),
+                                        Image.asset('assets/images/2.0x/icon_zhendong.png',fit: BoxFit.cover,),
+                                        Text('振动',style: TextStyle(color: Color(0xFF999999),fontSize: 18.sp),),
                                       ],
-                                    )),
+                                    )
+                                ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 25.h),
                                 child: TextButton(
-                                    onPressed: () {
+                                    onPressed: (){
                                       switchSelected = !switchSelected;
-                                      setState(() {});
+                                      setState(() {
+
+                                      });
                                     },
-                                    child: Image.asset(
-                                      switchSelected
-                                          ? 'assets/images/2.0x/img_kai.png'
-                                          : 'assets/images/2.0x/img_guan.png',
-                                      fit: BoxFit.cover,
-                                    )),
+                                    child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.cover,)
+                                ),
                               ),
                             ],
-                          )),
+                          )
+                      ),
                       Container(
                           width: 260.w,
                           height: 235.h,
@@ -332,8 +163,9 @@ class _PulsedPageState extends State<PulsedPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )),
-                          margin: EdgeInsets.only(top: 30.h),
+                              )
+                          ),
+                        margin: EdgeInsets.only(top: 30.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -342,29 +174,21 @@ class _PulsedPageState extends State<PulsedPage>
                                 margin: EdgeInsets.only(top: 15.5.h),
                                 decoration: const BoxDecoration(
                                     image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/2.0x/img_xiangqing.png'),
-                                  fit: BoxFit.fill, // 完全填充
-                                )),
+                                      image: AssetImage('assets/images/2.0x/img_xiangqing.png'),
+                                      fit: BoxFit.fill, // 完全填充
+                                    )
+                                ),
                                 child: TextButton(
                                     onPressed: () {
                                       dialog?.showCustomDialog(context);
                                     },
-                                    child: Row(
+                                    child:
+                                    Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_xiangqing.png',
-                                          fit: BoxFit.fill,
-                                          width: 18.w,
-                                          height: 18.h,
-                                        ),
-                                        Text(
-                                          '详情',
-                                          style: TextStyle(
-                                              color: const Color(0xFF009CB4),
-                                              fontSize: 18.sp),
-                                        ),
+                                        Image.asset('assets/images/2.0x/icon_xiangqing.png',fit: BoxFit.fill,width: 18.w,height: 18.h,),
+                                        Text('详情',style: TextStyle(color: const Color(0xFF009CB4),fontSize: 18.sp),),
+
                                       ],
                                     )),
                               ),
@@ -374,21 +198,20 @@ class _PulsedPageState extends State<PulsedPage>
                                   width: 120.w,
                                   height: 55.h,
                                   child: TextButton(
-                                    onPressed: () {
+                                    onPressed: (){
                                       startSelected = !startSelected;
-                                      setState(() {});
+                                      setState(() {
+
+                                      });
                                     },
-                                    child: Image.asset(
-                                      startSelected
-                                          ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                          : 'assets/images/2.0x/btn_tingzhi_nor.png',
-                                      fit: BoxFit.fill,
-                                    ),
+                                    child:
+                                    Image.asset(startSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.fill,),
                                   ),
                                 ),
                               ),
                             ],
-                          )),
+                          )
+                      ),
                     ],
                   ),
                 ),
