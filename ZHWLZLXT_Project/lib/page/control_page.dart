@@ -29,6 +29,8 @@ class _ControlPageState extends State<ControlPage> {
   TextEditingController zhuController = TextEditingController();
   //床号
   TextEditingController bedController = TextEditingController();
+  //是否点击编辑按钮
+  bool isEdit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -248,6 +250,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '12345355',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -275,6 +278,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '张三四',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -307,6 +311,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '20',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -315,8 +320,8 @@ class _ControlPageState extends State<ControlPage> {
                           Row(
                             children: [
                               SizedBox(
-                                  width: 40.w,
-                                  child: Text('姓别',style: TextStyle(color: const Color(0xFF999999),fontSize: 16.sp),)
+                                  width: 60.w,
+                                  child: Text('性别',style: TextStyle(color: const Color(0xFF999999),fontSize: 16.sp),)
                               ),
                               Container(
                                   width: 220.w,
@@ -328,7 +333,15 @@ class _ControlPageState extends State<ControlPage> {
                                     ),
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
-                                  child: Center(child: Text('男',style: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),))
+                                  child: TextField(
+                                    controller: ageController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: '男',
+                                      hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
+                                    ),
+                                  )
                               ),
                             ],
                           ),
@@ -359,6 +372,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -386,6 +400,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -418,6 +433,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -445,6 +461,7 @@ class _ControlPageState extends State<ControlPage> {
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
+                                      enabled: isEdit ? false : true,
                                     ),
                                   )
                               ),
@@ -469,30 +486,43 @@ class _ControlPageState extends State<ControlPage> {
                                 ),
                                 child: TextButton(
                                     onPressed: (){
+                                      isEdit = !isEdit;
+                                      setState(() {
+
+                                      });
 
                                     },
-                                    child: Text('编辑信息',style: TextStyle(color: const Color(0xFF00A8E7),fontSize: 18.sp),),
+                                    child: Text(isEdit ? '编辑信息' : '取消',style: TextStyle(color: const Color(0xFF00A8E7),fontSize: 18.sp),),
                                 )
                             ),
-                            Container(
-                                height: 43.h,
-                                width: 110.w,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF00A8E7),
-                                  border: Border.all(
-                                    width: 0.5,
+                            Visibility(
+                              visible: isEdit ? true : false,
+                              /// 隐藏时是否保持占位
+                              maintainState: false,
+                              /// 隐藏时是否保存动态状态
+                              maintainAnimation: false,
+                              /// 隐藏时是否保存子组件所占空间的大小，不会消耗过多的性能
+                              maintainSize: false,
+                              child: Container(
+                                  height: 43.h,
+                                  width: 110.w,
+                                  decoration: BoxDecoration(
                                     color: const Color(0xFF00A8E7),
+                                    border: Border.all(
+                                      width: 0.5,
+                                      color: const Color(0xFF00A8E7),
+                                    ),
+                                    borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
-                                ),
-                                child: TextButton(
-                                    onPressed: (){
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (BuildContext context) => const RecordPage())
-                                      );
-                                    },
-                                    child: Text('治疗记录',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),))
+                                  child: TextButton(
+                                      onPressed: (){
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (BuildContext context) => const RecordPage())
+                                        );
+                                      },
+                                      child: Text('治疗记录',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),))
+                              ),
                             ),
                             Container(
                                 height: 43.h,
@@ -509,7 +539,7 @@ class _ControlPageState extends State<ControlPage> {
                                     onPressed: (){
 
                                     },
-                                    child: Text('开始治疗',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),))
+                                    child: Text(isEdit ?'开始治疗' : '保存',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),))
                             ),
                           ],
                         ),
