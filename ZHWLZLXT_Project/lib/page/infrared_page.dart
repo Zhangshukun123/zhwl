@@ -112,9 +112,9 @@ class _InfraredPageState extends State<InfraredPage>
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                                        SizedBox(width: 1.w,),
-                                        Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
+                                        SizedBox(width: 5.w,),
+                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )),
                               ),
