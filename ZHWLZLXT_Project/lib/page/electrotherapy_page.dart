@@ -7,7 +7,10 @@ import 'package:zhwlzlxt_project/page/shenJing_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/page/zhongPin_page.dart';
 
+import '../widget/custom_tabIndicator.dart';
 import '../widget/details_dialog.dart';
+
+import 'package:zhwlzlxt_project/widget/tabstwo.dart' as Cum;
 
 class ElectrotherapyPage extends StatefulWidget {
   const ElectrotherapyPage({Key? key}) : super(key: key);
@@ -55,80 +58,77 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
           children: [
             const UserHeadView(),
             Expanded(
-              child: Container(
-                // color: Colors.red,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Container(
-                              height: 50.h,
-                              // color:Colors.black,
-                              child: TabBar(
-                                indicatorColor: const Color(0xFF00A8E7),
-                                //// 底部指示器颜色
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                //指示器宽度
-                                isScrollable: true,
-                                // 标签 Tab 是否可滑动
-                                labelColor: const Color(0xFF00A8E7),
-                                //标签 Tab 内容颜色
-                                labelStyle: TextStyle(fontSize: 20.sp),
-                                //// 标签 Tab 内容样式
-                                indicatorWeight: 4.0,
-                                //指示器宽度
-                                unselectedLabelStyle:
-                                    TextStyle(fontSize: 17.sp),
-                                //未选中标签样式
-                                unselectedLabelColor: const Color(0xFF666666),
-                                //未选中标签 Tab 颜色
-                                tabs: tabs.map((e) => Tab(text: e)).toList(),
-                                controller: _tabController,
-                              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: SizedBox(
+                            height: 50.h,
+                            // color:Colors.black,
+                            child: Cum.TabBar(
+                              indicatorColor: const Color(0xFF00A8E7),
+                              //指示器宽度
+                              isScrollable: true,
+                              // 标签 Tab 是否可滑动
+                              labelColor: const Color(0xFF00A8E7),
+                              //标签 Tab 内容颜色
+                              labelStyle: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w600),
+                              //// 标签 Tab 内容样式
+                              indicatorSize: Cum.TabBarIndicatorSize.label,
+                              indicator: const CustomTabIndicator(
+                                  width: 60,
+                                  borderSide: BorderSide(
+                                      width: 5.0, color: Color(0xFF00A8E7))),
+                              unselectedLabelStyle: TextStyle(fontSize: 17.sp),
+                              //未选中标签样式
+                              unselectedLabelColor: const Color(0xFF666666),
+                              //未选中标签 Tab 颜色
+                              tabs: tabs.map((e) => Tab(text: e)).toList(),
+                              controller: _tabController,
                             ),
                           ),
                         ),
-                        Container(
-                          width: 78.w,
-                          // margin: EdgeInsets.only(top: 15.5.h),
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/2.0x/img_xiangqing.png'),
-                            fit: BoxFit.fill, // 完全填充
-                          )),
-                          child: TextButton(
-                              onPressed: () {
-                                dialog?.showCustomDialog(context);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/2.0x/icon_xiangqing.png',
-                                    fit: BoxFit.fill,
-                                    width: 18.w,
-                                    height: 18.h,
-                                  ),
-                                  Text(
-                                    '详情',
-                                    style: TextStyle(
-                                        color: const Color(0xFF009CB4),
-                                        fontSize: 18.sp),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                        child: TabBarView(
-                            controller: _tabController, children: pageViewList))
-                  ],
-                ),
+                      ),
+                      Container(
+                        width: 78.w,
+                        // margin: EdgeInsets.only(top: 15.5.h),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/2.0x/img_xiangqing.png'),
+                          fit: BoxFit.fill, // 完全填充
+                        )),
+                        child: TextButton(
+                            onPressed: () {
+                              dialog?.showCustomDialog(context);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Image.asset(
+                                  'assets/images/2.0x/icon_xiangqing.png',
+                                  fit: BoxFit.fill,
+                                  width: 18.w,
+                                  height: 18.h,
+                                ),
+                                Text(
+                                  '详情',
+                                  style: TextStyle(
+                                      color: const Color(0xFF009CB4),
+                                      fontSize: 18.sp),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                      child: TabBarView(
+                          controller: _tabController, children: pageViewList))
+                ],
               ),
             ),
           ],
