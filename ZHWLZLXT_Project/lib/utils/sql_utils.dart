@@ -41,6 +41,7 @@ class SqlUtils {
   }
 
   /// sql助手查找列表  @tableName:表名  @selects 查询的字段数组 @wheres 条件，如：'uid=? and fuid=?' @whereArgs 参数数组
+
   /// SqlUtils sqlUtils = SqlUtils();
   /// await sqlUtils.open();
   /// List list = await sqlUtils.queryListByHelper(
@@ -62,6 +63,9 @@ class SqlUtils {
     );
     return maps;
   }
+
+
+
 
   /// sql 分页查询
   /// SqlUtils sqlUtils = SqlUtils();

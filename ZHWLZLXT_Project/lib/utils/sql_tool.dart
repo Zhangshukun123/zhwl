@@ -58,6 +58,20 @@ delectpublish({
   return state != -1 ? true : false;
 }
 
+/// 调用样例：await dbUtil.queryListByHelper('relation', ['id','uid','fuid'], 'uid=? and fuid=?', [6,1]);
+queryUser({
+  required SqlUtils sqlUtils,
+  required String userName,
+}) async {
+  await sqlUtils.open();
+  return await sqlUtils.queryListByHelper(
+    tableName: SqlConfig.tableUse,
+    selects: [UserTableField.userName,UserTableField.userId,UserTableField.age],
+    whereStr: '${UserTableField.userName} = ?',
+    whereArgs: [userName],
+  );
+}
+
 /// 插入数据
 inserData({
   required SqlUtils sqlUtils,

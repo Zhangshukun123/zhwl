@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import '../cofig/sql_config.dart';
 import '../utils/sql_tool.dart';
@@ -5,9 +6,9 @@ import '../utils/sql_utils.dart';
 import '../utils/utils_tool.dart';
 
 class UserSqlDao {
-
   // 单例方法
   static UserSqlDao? _dioInstance;
+
   static UserSqlDao instance() {
     _dioInstance ??= UserSqlDao();
     return _dioInstance!;
@@ -24,9 +25,14 @@ class UserSqlDao {
     return list;
   }
 
-
-
-
+  queryAUser({
+    required String userName,
+  }) async {
+    SqlUtils sqlUtils = SqlUtils();
+    var map = await queryUser(sqlUtils: sqlUtils, userName: userName);
+    sqlUtils.close();
+    return map;
+  }
 
   /// 更新书记
   updateData({required User user}) async {
@@ -57,12 +63,37 @@ class UserSqlDao {
   addData({required User user}) async {
     SqlUtils sqlUtils = SqlUtils();
     await sqlUtils.open();
-    bool yorn = await inserData(sqlUtils: sqlUtils, user: user);
-    await sqlUtils.close();
-    String str = "添加成功";
-    if (!yorn) {
-      str = "添加失败";
+
+    Map<String, Object?> par = user.toMap();
+    await sqlUtils.open();
+
+    var sq = await sqlUtils.queryListByHelper(
+      tableName: SqlConfig.tableUse,
+      selects: [
+        UserTableField.userName,
+        UserTableField.userId,
+        UserTableField.age
+      ],
+      whereStr: '${UserTableField.userName} = ? and ${UserTableField.age} = ? ',
+      whereArgs: [user.userName, user.age],
+    );
+
+
+    bool yorn = false;
+    String str = "添加失败";
+    if (sq.isEmpty) {
+      yorn = await inserData(sqlUtils: sqlUtils, user: user);
+      await sqlUtils.close();
+      if (!yorn) {
+        str = "添加失败";
+      }else{
+        str = "添加成功";
+      }
+    } else {
+      str = "用户已经存在";
     }
+
+
     showToastMsg(
         msg: str,
         ontap: () {

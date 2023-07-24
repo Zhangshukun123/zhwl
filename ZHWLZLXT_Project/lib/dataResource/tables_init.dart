@@ -11,6 +11,7 @@ class NormalCreateTables {
   static final String createUseTable = '''
     ${SqlConfig.creattable} ${SqlConfig.tableUse} (
     ${UserTableField.userId} ${SqlConfig.primarykeyauto},
+    ${UserTableField.userName} ${SqlConfig.sqltext},
     ${UserTableField.account} ${SqlConfig.sqltext},
     ${UserTableField.pssWord} ${SqlConfig.sqltext},
     ${UserTableField.age} INT,
@@ -64,9 +65,7 @@ class TablesInit {
     }
     List tableMaps = await db!
         .rawQuery('SELECT name FROM sqlite_master WHERE type = "table"');
-    debugPrint('所有表:' + tableMaps.toString());
     db!.close();
-    debugPrint("db已关闭");
   }
 
   // 检查数据库中是否有所有有表,返回需要创建的表
@@ -78,7 +77,6 @@ class TablesInit {
     List<String> createTables = [];
     List tableMaps = await db!
         .rawQuery('SELECT name FROM sqlite_master WHERE type = "table"');
-    debugPrint('tableMaps:' + tableMaps.toString());
     for (var item in tableMaps) {
       existingTables.add(item['name']);
     }
