@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widget/popup_menu_btn.dart';
+import '../widget/set_value_horizontal.dart';
 
 class ShenJingPage extends StatefulWidget {
   const ShenJingPage({Key? key}) : super(key: key);
@@ -79,201 +80,41 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           )
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('时间',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                    Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: true,
+                          title: '时间',
+                          assets: 'assets/images/2.0x/icon_shijian.png',
+                          initialValue: 12,
+                          unit: 'min',
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_qiangdu.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('强度',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: false,
+                          isInt: true,
+                          title: '强度',
+                          assets: 'assets/images/2.0x/icon_qiangdu.png',
+                          initialValue: 1,
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_pinlv.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('频率',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                    Text('Hz',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: true,
+                          isInt: true,
+                          title: '频率',
+                          unit: 'Hz',
+                          assets: 'assets/images/2.0x/icon_pinlv.png',
+                          initialValue: 1,
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
                         child: Container(
@@ -359,201 +200,41 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           )
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('时间',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                    Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: true,
+                          title: '时间',
+                          assets: 'assets/images/2.0x/icon_shijian.png',
+                          initialValue: 12,
+                          unit: 'min',
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_qiangdu.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('强度',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: false,
+                          isInt: true,
+                          title: '强度',
+                          assets: 'assets/images/2.0x/icon_qiangdu.png',
+                          initialValue: 1,
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          width: 340.w,
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
                           height: 90.h,
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                width: 75.w,
-                                child: TextButton(
-                                    onPressed: (){
-
-                                    },
-                                    child: Row(
-                                        children: [
-                                          Image.asset('assets/images/2.0x/icon_pinlv.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                                          SizedBox(width: 2.5.w,),
-                                          Text('频率',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                                        ]
-                                    )
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 55.h,
-                                margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0FAFE),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                                    Text('Hz',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                                  ],
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: (){},
-                                  child:
-                                  Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                              ),
-                            ],
-                          )
+                          enabled: true,
+                          isInt: true,
+                          title: '频率',
+                          unit: 'Hz',
+                          assets: 'assets/images/2.0x/icon_pinlv.png',
+                          initialValue: 1,
+                          valueListener: (value) {},
+                        ),
                       ),
                       Container(
                         child: Container(

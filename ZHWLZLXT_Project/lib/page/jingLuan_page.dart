@@ -74,7 +74,7 @@ class _JingLuanPageState extends State<JingLuanPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SetValueHorizontal(
-                      enabled: true,
+                      enabled: false,
                       isInt: false,
                       title: '脉冲周期',
                       assets: 'assets/images/2.0x/icon_maichong.png',

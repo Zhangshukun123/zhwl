@@ -15,6 +15,7 @@ class SetValueHorizontal extends StatefulWidget {
   String? unit;
   double? appreciation = 1;
   ValueListener? valueListener;
+  double? height;
 
   SetValueHorizontal(
       {Key? key,
@@ -24,6 +25,7 @@ class SetValueHorizontal extends StatefulWidget {
       this.initialValue,
       this.appreciation,
       this.isInt,
+        this.height,
       this.valueListener,
       this.unit})
       : super(key: key);
@@ -47,7 +49,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
   Widget build(BuildContext context) {
     return ContainerBg(
         width: 340.w,
-        height: 100.h,
+        height: widget.height ?? 100.h,
         child: Row(
           children: [
             SizedBox(
