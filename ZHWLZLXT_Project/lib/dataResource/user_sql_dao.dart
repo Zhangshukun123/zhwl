@@ -5,6 +5,14 @@ import '../utils/sql_utils.dart';
 import '../utils/utils_tool.dart';
 
 class UserSqlDao {
+
+  // 单例方法
+  static UserSqlDao? _dioInstance;
+  static UserSqlDao instance() {
+    _dioInstance ??= UserSqlDao();
+    return _dioInstance!;
+  }
+
   queryListData({
     required int page,
   }) async {
@@ -15,6 +23,10 @@ class UserSqlDao {
     sqlUtils.close();
     return list;
   }
+
+
+
+
 
   /// 更新书记
   updateData({required User user}) async {
