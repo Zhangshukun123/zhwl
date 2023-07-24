@@ -64,9 +64,9 @@ class _ShenJingPageState extends State<ShenJingPage> {
                                     },
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
@@ -345,9 +345,9 @@ class _ShenJingPageState extends State<ShenJingPage> {
                                     },
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
