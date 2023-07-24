@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
+import 'package:zhwlzlxt_project/entity/user_entity.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -306,6 +308,22 @@ class _AddPageState extends State<AddPage> {
                     ),
                     child: TextButton(
                       onPressed: (){
+                        User user = User();
+                        user.userId = int.parse(numController.text);//编号
+                        user.userName = '张三李四';
+                        user.account = 'admin';
+                        user.pssWord = '123456';
+                        user.userName = nameController.text;//性别
+                        user.age = int.parse(ageController.text);//年龄
+                        user.sex = sex;//性别
+                        user.phone = telController.text;//电话
+                        user.idCard = cerController.text;//证件
+                        user.ad = zhuController.text;//住院号
+                        user.bedNumber = bedController.text;//床号
+                        UserSqlDao.instance().addData(user: user);
+                        var somrthing = UserSqlDao.instance().queryListData(page: 10).toString();
+                        print('AAAAAAA$somrthing');
+
 
                       },
                       child: Text('保存',style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),),
