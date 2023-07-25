@@ -100,6 +100,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
   _getPopupMenu(BuildContext context) {
     switch (widget.index) {
       case 0:
+        widget.unit = '模式';
         widget.patternStr = '连续 0';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[

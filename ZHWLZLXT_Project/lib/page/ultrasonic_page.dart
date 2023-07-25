@@ -96,7 +96,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                           ContainerBg(
                               margin: EdgeInsets.only(left: 30.w),
                               child: SetValue(
-                                enabled: false,
+                                enabled: true,
                                 title: '时间',
                                 assets: 'assets/images/2.0x/icon_shijian.png',
                                 initialValue: 12,
@@ -226,8 +226,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   ),
                                   Center(
                                     child: Container(
-                                      width: 120.w,
-                                      height: 55.h,
+                                      width: 180.w,
+                                      height: 70.h,
                                       child: TextButton(
                                         onPressed: () {
                                           startSelected = !startSelected;

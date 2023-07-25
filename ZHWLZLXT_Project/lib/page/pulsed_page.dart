@@ -136,6 +136,8 @@ class _PulsedPageState extends State<PulsedPage>
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 25.h),
+                                width: 120.w,
+                                height: 70.h,
                                 child: TextButton(
                                     onPressed: (){
                                       switchSelected = !switchSelected;
@@ -143,7 +145,7 @@ class _PulsedPageState extends State<PulsedPage>
 
                                       });
                                     },
-                                    child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.cover,)
+                                    child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.fill,width: 120.w,height: 70.h,)
                                 ),
                               ),
                             ],
@@ -195,8 +197,8 @@ class _PulsedPageState extends State<PulsedPage>
                               Center(
                                 child: Container(
                                   margin: EdgeInsets.only(top: 34.5.h),
-                                  width: 120.w,
-                                  height: 55.h,
+                                  width: 180.w,
+                                  height: 70.h,
                                   child: TextButton(
                                     onPressed: (){
                                       startSelected = !startSelected;

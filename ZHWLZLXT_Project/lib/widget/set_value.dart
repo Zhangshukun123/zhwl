@@ -84,6 +84,7 @@ class _SetValueState extends State<SetValue> {
                       value = 0;
                       return;
                     }
+
                     widget.valueListener!(value);
                     setState(() {});
                   }
@@ -129,6 +130,9 @@ class _SetValueState extends State<SetValue> {
                 onPressed: () {
                   if (widget.enabled) {
                     value = value + appreciation;
+                    if(value > 99){
+                      return;
+                    }
                     widget.valueListener!(value);
                     setState(() {});
                   }

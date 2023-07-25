@@ -132,6 +132,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 onPressed: () {
                   if (widget.enabled ?? true) {
                     value = value + appreciation;
+                    if(value > 99){
+                      return;
+                    }
                     widget.valueListener!(value);
                     setState(() {});
                   }

@@ -33,6 +33,12 @@ class _ControlPageState extends State<ControlPage> {
   bool isEdit = true;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
@@ -122,6 +128,19 @@ class _ControlPageState extends State<ControlPage> {
                                   hintText: '请输入姓名、手机号',
                                   hintStyle: TextStyle(color: const Color(0xFF999999),fontSize: 13.sp),
                                 ),
+                                onChanged: (text){//用于输入框输入文本发生变化时的回调方法，参数即为输入框中的值
+                                  debugPrint("onChange: $text");
+                                },
+                                onSubmitted: (text){//用于点击键盘的动作按钮时的回调，参数为当前输入框中的值
+                                  debugPrint("onSubmitted: $text");
+                                },
+                                onTap: (){//用于点击输入框时的回调，没有参数
+                                  debugPrint("onTap");
+                                },
+                                onEditingComplete: (){//用于点击键盘的动作按钮时的回调，没有参数
+                                  var tmp = searchController.text;
+                                  debugPrint('onEditingComplete$tmp');
+                                },
                               ),
                             ),
                           ],
