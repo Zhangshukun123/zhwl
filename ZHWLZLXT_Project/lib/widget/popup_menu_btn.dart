@@ -114,7 +114,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         widget.offset = Offset(0, -120.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('1'),
-          _getPopupMenuItem('2'),
           _getPopupMenuItem('3'),
         ];
       case 2:

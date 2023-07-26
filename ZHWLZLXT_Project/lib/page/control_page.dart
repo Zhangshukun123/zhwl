@@ -21,6 +21,8 @@ class _ControlPageState extends State<ControlPage> {
   TextEditingController nameController = TextEditingController();
   //年龄
   TextEditingController ageController = TextEditingController();
+  //性别
+  TextEditingController sexController = TextEditingController();
   //电话
   TextEditingController telController = TextEditingController();
   //证件
@@ -353,7 +355,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: sexController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '男',
@@ -386,7 +388,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: telController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',
@@ -414,7 +416,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: cerController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',
@@ -447,7 +449,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: bedController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',
