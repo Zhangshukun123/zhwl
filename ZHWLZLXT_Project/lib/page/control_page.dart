@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/add_page.dart';
 import 'package:zhwlzlxt_project/page/record_page.dart';
+import 'package:zhwlzlxt_project/widget/delete_dialog.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({Key? key}) : super(key: key);
@@ -33,11 +34,18 @@ class _ControlPageState extends State<ControlPage> {
   TextEditingController bedController = TextEditingController();
   //是否点击编辑按钮
   bool isEdit = true;
+  //删除dialog
+  DeleteDialog? dialog;
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+  @override
+  void initState(){
+    super.initState();
+    dialog = DeleteDialog();
   }
 
   @override
@@ -216,10 +224,11 @@ class _ControlPageState extends State<ControlPage> {
                                       SizedBox(width: 10.w,),
                                       InkWell(
                                           onTap: (){
-                                            print('$i');
+                                            print('AAAA$i');
+                                            dialog?.showDeleteDialog(context);
                                           },
-                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.cover,width: 14.w,height: 14.h,))
-                                      ,
+                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.cover,width: 14.w,height: 14.h,)
+                                      ),
                                     ],
                                   ),
                                 );
