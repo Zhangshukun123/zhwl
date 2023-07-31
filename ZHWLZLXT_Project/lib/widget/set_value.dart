@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class _SetValueState extends State<SetValue> {
   double value = 0;
   double appreciation = 0;
 
+  var timer;
+
   @override
   void initState() {
     super.initState();
@@ -77,34 +80,52 @@ class _SetValueState extends State<SetValue> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RawKeyboardListener(
-              focusNode: FocusNode(),
-              onKey: (event) {
-                if (event.runtimeType == RawKeyDownEvent) {
-                  //todo   长按
+            GestureDetector(
+              onTap: () {
+                if (widget.enabled) {
+                  if(value==0)return;
+                  value = (value - appreciation);
+                  if (value < 0) {
+                    value = 0;
+                    widget.valueListener!(value);
+                    return;
+                  }
+                  setState(() {});
                 }
               },
-              child: TextButton(
-                  onPressed: () {
-                    if (widget.enabled) {
-                      value = (value - appreciation);
-                      if (value < 0) {
-                        value = 0;
-                        return;
-                      }
-
+              onTapDown: (e) {
+                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                  setState(() {
+                    // todo  长按点击事件
+                    if(value==0)return;
+                    value = (value - appreciation);
+                    if (value < 0) {
+                      value = 0;
                       widget.valueListener!(value);
-                      setState(() {});
+                      return;
                     }
-                  },
-                  child: Image.asset(
-                    widget.enabled
-                        ? 'assets/images/btn_jian_nor.png'
-                        : 'assets/images/2.0x/btn_jian_disabled.png',
-                    fit: BoxFit.fitWidth,
-                    width: 34.w,
-                    height: 34.h,
-                  )),
+                    print("object$value");
+                  });
+                });
+              },
+              onTapUp: (e) {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              onTapCancel: () {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              child: Image.asset(
+                widget.enabled
+                    ? 'assets/images/btn_jian_nor.png'
+                    : 'assets/images/2.0x/btn_jian_disabled.png',
+                fit: BoxFit.fitWidth,
+                width: 34.w,
+                height: 34.h,
+              ),
             ),
             Container(
               width: 120.w,
