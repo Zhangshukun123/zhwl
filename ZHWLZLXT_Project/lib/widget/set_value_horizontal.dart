@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,7 @@ typedef ValueListener = void Function(double value);
 
 // ignore: must_be_immutable
 class SetValueHorizontal extends StatefulWidget {
+
   String? title;
   String? assets;
   bool? enabled = true;
@@ -37,6 +40,8 @@ class SetValueHorizontal extends StatefulWidget {
 class _SetValueHorizontalState extends State<SetValueHorizontal> {
   double value = 0;
   double appreciation = 0;
+
+  var timer;
 
   @override
   void initState() {
@@ -79,28 +84,56 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     ),
                   ])),
             ),
-            TextButton(
-                onPressed: () {
-                  if (widget.enabled ?? true) {
+            GestureDetector(
+              onTap: () {
+                if (widget.enabled ?? true) {
+                  if(value==0)return;
+                  value = (value - appreciation);
+                  if (value < 0) {
+                    value = 0;
+                    widget.valueListener!(value);
+                    return;
+                  }
+                  setState(() {});
+                }
+              },
+              onTapDown: (e) {
+                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                  setState(() {
+                    // todo  长按点击事件
+                    if(value==0)return;
                     value = (value - appreciation);
                     if (value < 0) {
                       value = 0;
+                      widget.valueListener!(value);
                       return;
                     }
-                    widget.valueListener!(value);
-                    setState(() {});
-                  }
-                },
-                child: Image.asset(
-                  widget.enabled ?? true
-                      ? 'assets/images/2.0x/btn_jian_nor.png'
-                      : 'assets/images/2.0x/btn_jian_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.w,
-                )),
+                    print("object$value");
+                  });
+                });
+              },
+              onTapUp: (e) {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              onTapCancel: () {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              child: Image.asset(
+                widget.enabled ?? true
+                    ? 'assets/images/btn_jian_nor.png'
+                    : 'assets/images/2.0x/btn_jian_disabled.png',
+                fit: BoxFit.fitWidth,
+                width: 34.w,
+                height: 34.h,
+              ),
+            ),
+            SizedBox(width: 5.w,),
             Container(
-              width: 110.w,
+              width: 120.w,
               height: 55.h,
               decoration: const BoxDecoration(
                   color: Color(0xFFF0FAFE),
@@ -115,7 +148,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                         ? value.toInt().toString()
                         : value.toStringAsFixed(1),
                     style: TextStyle(
-                        color: const Color(0xFF333333), fontSize: 22.sp),
+                        color: const Color(0xFF333333), fontSize: 20.sp),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
@@ -128,25 +161,125 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 ],
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  if (widget.enabled ?? true) {
-                    value = value + appreciation;
-                    if(value > 99){
-                      return;
-                    }
+            SizedBox(width: 5.w,),
+            GestureDetector(
+              onTap: () {
+                if (widget.enabled ?? true) {
+                  value = value + appreciation;
+                  if (value > 99) {
+                    value = 99;
                     widget.valueListener!(value);
-                    setState(() {});
+                    return;
                   }
-                },
-                child: Image.asset(
-                  widget.enabled ?? true
-                      ? 'assets/images/2.0x/btn_jia_nor.png'
-                      : 'assets/images/2.0x/btn_jia_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.w,
-                )),
+                  widget.valueListener!(value);
+                  setState(() {});
+                }
+              },
+              onTapDown: (e) {
+                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                  setState(() {
+                    // todo  长按点击事件
+                    if (widget.enabled ?? true) {
+                      value = value + appreciation;
+                      if (value > 99) {
+                        value = 99;
+                        widget.valueListener!(value);
+                        return;
+                      }
+                      widget.valueListener!(value);
+                      setState(() {});
+                    }
+                    print("object$value");
+                  });
+                });
+              },
+              onTapUp: (e) {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              onTapCancel: () {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              child: Image.asset(
+                widget.enabled ?? true
+                    ? 'assets/images/btn_jia_nor.png'
+                    : 'assets/images/2.0x/btn_jia_disabled.png',
+                fit: BoxFit.fitWidth,
+                width: 34.w,
+                height: 34.h,
+              ),
+            ),
+            // TextButton(
+            //     onPressed: () {
+            //       if (widget.enabled ?? true) {
+            //         value = (value - appreciation);
+            //         if (value < 0) {
+            //           value = 0;
+            //           return;
+            //         }
+            //         widget.valueListener!(value);
+            //         setState(() {});
+            //       }
+            //     },
+            //     child: Image.asset(
+            //       widget.enabled ?? true
+            //           ? 'assets/images/2.0x/btn_jian_nor.png'
+            //           : 'assets/images/2.0x/btn_jian_disabled.png',
+            //       fit: BoxFit.fitWidth,
+            //       width: 34.w,
+            //       height: 34.w,
+            //     )),
+            // Container(
+            //   width: 110.w,
+            //   height: 55.h,
+            //   decoration: const BoxDecoration(
+            //       color: Color(0xFFF0FAFE),
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(10),
+            //       )),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         widget.isInt ?? true
+            //             ? value.toInt().toString()
+            //             : value.toStringAsFixed(1),
+            //         style: TextStyle(
+            //             color: const Color(0xFF333333), fontSize: 22.sp),
+            //       ),
+            //       Padding(
+            //         padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
+            //         child: Text(
+            //           widget.unit ?? "",
+            //           style: TextStyle(
+            //               color: const Color(0xFF999999), fontSize: 12.sp),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // TextButton(
+            //     onPressed: () {
+            //       if (widget.enabled ?? true) {
+            //         value = value + appreciation;
+            //         if(value > 99){
+            //           return;
+            //         }
+            //         widget.valueListener!(value);
+            //         setState(() {});
+            //       }
+            //     },
+            //     child: Image.asset(
+            //       widget.enabled ?? true
+            //           ? 'assets/images/2.0x/btn_jia_nor.png'
+            //           : 'assets/images/2.0x/btn_jia_disabled.png',
+            //       fit: BoxFit.fitWidth,
+            //       width: 34.w,
+            //       height: 34.w,
+            //     )),
           ],
         ));
   }
