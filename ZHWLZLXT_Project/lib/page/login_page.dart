@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
+
+import '../base/globalization.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -110,7 +113,7 @@ class LoginPageState extends State<LoginPage> {
                               Container(
                                   margin: EdgeInsets.only(top: 79.h),
                                   child: Text(
-                                    '登录',
+                                    Globalization.login.tr,
                                     style: TextStyle(
                                         fontSize: 20.sp,
                                         color: const Color(0xFF242021)),
