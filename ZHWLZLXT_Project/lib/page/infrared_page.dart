@@ -151,13 +151,14 @@ class _InfraredPageState extends State<InfraredPage>
                           child: Column(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 60.h),
+                                margin: EdgeInsets.only(top: 30.h),
+                                height: 100.h,
                                 child: TextButton(
                                     onPressed: (){},
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_jiting.png',fit: BoxFit.cover,),
+                                        Image.asset('assets/images/2.0x/icon_jiting.png',fit: BoxFit.fitHeight,height: 100.h,),
                                       ],
                                     )
                                 ),
@@ -225,8 +226,8 @@ class _InfraredPageState extends State<InfraredPage>
                               Center(
                                 child: Container(
                                   margin: EdgeInsets.only(top: 34.5.h),
-                                  width: 120.w,
-                                  height: 55.h,
+                                  width: 180.w,
+                                  height: 70.h,
                                   child: TextButton(
                                     onPressed: (){
                                       thirdStartSelected = !thirdStartSelected;

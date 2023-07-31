@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/add_page.dart';
 import 'package:zhwlzlxt_project/page/record_page.dart';
+import 'package:zhwlzlxt_project/widget/delete_dialog.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({Key? key}) : super(key: key);
@@ -21,6 +22,8 @@ class _ControlPageState extends State<ControlPage> {
   TextEditingController nameController = TextEditingController();
   //年龄
   TextEditingController ageController = TextEditingController();
+  //性别
+  TextEditingController sexController = TextEditingController();
   //电话
   TextEditingController telController = TextEditingController();
   //证件
@@ -31,6 +34,19 @@ class _ControlPageState extends State<ControlPage> {
   TextEditingController bedController = TextEditingController();
   //是否点击编辑按钮
   bool isEdit = true;
+  //删除dialog
+  DeleteDialog? dialog;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+  @override
+  void initState(){
+    super.initState();
+    dialog = DeleteDialog();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +138,19 @@ class _ControlPageState extends State<ControlPage> {
                                   hintText: '请输入姓名、手机号',
                                   hintStyle: TextStyle(color: const Color(0xFF999999),fontSize: 13.sp),
                                 ),
+                                onChanged: (text){//用于输入框输入文本发生变化时的回调方法，参数即为输入框中的值
+                                  debugPrint("onChange: $text");
+                                },
+                                onSubmitted: (text){//用于点击键盘的动作按钮时的回调，参数为当前输入框中的值
+                                  debugPrint("onSubmitted: $text");
+                                },
+                                onTap: (){//用于点击输入框时的回调，没有参数
+                                  debugPrint("onTap");
+                                },
+                                onEditingComplete: (){//用于点击键盘的动作按钮时的回调，没有参数
+                                  var tmp = searchController.text;
+                                  debugPrint('onEditingComplete$tmp');
+                                },
                               ),
                             ),
                           ],
@@ -195,10 +224,11 @@ class _ControlPageState extends State<ControlPage> {
                                       SizedBox(width: 10.w,),
                                       InkWell(
                                           onTap: (){
-                                            print('$i');
+                                            print('AAAA$i');
+                                            dialog?.showDeleteDialog(context);
                                           },
-                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.cover,width: 14.w,height: 14.h,))
-                                      ,
+                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.cover,width: 14.w,height: 14.h,)
+                                      ),
                                     ],
                                   ),
                                 );
@@ -334,7 +364,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: sexController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '男',
@@ -367,7 +397,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: telController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',
@@ -395,7 +425,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: cerController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',
@@ -428,7 +458,7 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: bedController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: '13212345678',

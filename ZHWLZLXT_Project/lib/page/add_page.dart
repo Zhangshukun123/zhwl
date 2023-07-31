@@ -76,7 +76,7 @@ class _AddPageState extends State<AddPage> {
                           controller: numController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '12345356',
+                            hintText: '请输入编号',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
@@ -135,7 +135,7 @@ class _AddPageState extends State<AddPage> {
                           controller: ageController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '12345356',
+                            hintText: '请输入年龄',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
@@ -238,7 +238,7 @@ class _AddPageState extends State<AddPage> {
                           controller: telController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '12345356',
+                            hintText: '请输入电话',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
@@ -266,7 +266,7 @@ class _AddPageState extends State<AddPage> {
                           controller: cerController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '请输入姓名',
+                            hintText: '请输入身份证号',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
@@ -297,7 +297,7 @@ class _AddPageState extends State<AddPage> {
                           controller: zhuController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '12345356',
+                            hintText: '请输入住院号',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
@@ -325,7 +325,7 @@ class _AddPageState extends State<AddPage> {
                           controller: bedController,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '请输入姓名',
+                            hintText: '请输入床号',
                             hintStyle: TextStyle(
                                 color: const Color(0xFF333333),
                                 fontSize: 16.sp),
