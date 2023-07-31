@@ -90,10 +90,10 @@ class _SetValueState extends State<SetValue> {
                 },
                 child: Image.asset(
                   widget.enabled
-                      ? 'assets/images/2.0x/btn_jian_nor.png'
+                      ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
-                  width: 38.w,
+                  width: 34.w,
                   height: 34.h,
                 )),
             Container(
@@ -135,10 +135,10 @@ class _SetValueState extends State<SetValue> {
                 },
                 child: Image.asset(
                   widget.enabled
-                      ? 'assets/images/2.0x/btn_jia_nor.png'
+                      ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,
-                  width: 38.w,
+                  width: 34.w,
                   height: 34.h,
                 )),
           ],

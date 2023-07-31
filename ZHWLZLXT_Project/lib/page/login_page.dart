@@ -38,7 +38,7 @@ class LoginPageState extends State<LoginPage> {
         height: 600.h,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/2.0x/welcome_bg.png'),
+          image: AssetImage('assets/images/img_denglu.png'),
           fit: BoxFit.fill, // 完全填充
         )),
         child: Column(

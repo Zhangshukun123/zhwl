@@ -20,4 +20,6 @@ class SqlConfig {
 
   /// 列表数据表名字
   static String tableUse = 'Use';
+
+  static String tableRecord = 'Record';
 }

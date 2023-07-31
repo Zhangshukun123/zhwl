@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/utils/sql_utils.dart';
 
 import '../cofig/sql_config.dart';
+import '../entity/record_entity.dart';
 
 /// 获取列表数据
 Future<List<User>> loadsqllist({
@@ -66,7 +67,11 @@ queryUser({
   await sqlUtils.open();
   return await sqlUtils.queryListByHelper(
     tableName: SqlConfig.tableUse,
-    selects: [UserTableField.userName,UserTableField.userId,UserTableField.age],
+    selects: [
+      UserTableField.userName,
+      UserTableField.userId,
+      UserTableField.age
+    ],
     whereStr: '${UserTableField.userName} = ?',
     whereArgs: [userName],
   );
@@ -81,4 +86,37 @@ inserData({
   int state = await sqlUtils.insertByHelper(
       tableName: SqlConfig.tableUse, paramters: user.toMap());
   return state != -1 ? true : false;
+}
+
+insertRecordData({
+  required SqlUtils sqlUtils,
+  required Record record,
+}) async {
+  await sqlUtils.open();
+  int state = await sqlUtils.insertByHelper(
+      tableName: SqlConfig.tableRecord, paramters: record.toMap());
+  return state != -1 ? true : false;
+}
+
+
+
+queryAllRecord({
+  required SqlUtils sqlUtils,
+}) async {
+  await sqlUtils.open();
+  return await sqlUtils.queryListByHelper(
+    tableName: SqlConfig.tableRecord,
+    selects: [
+      RecordField.recordId,
+      RecordField.recordType,
+      RecordField.pattern,
+      RecordField.power,
+      RecordField.soundIntensity,
+      RecordField.frequency,
+      RecordField.dataTime,
+      RecordField.utilityTime,
+    ],
+    whereStr: '',
+    whereArgs: [],
+  );
 }

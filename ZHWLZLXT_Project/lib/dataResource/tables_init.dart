@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 
 import '../cofig/sql_config.dart';
+import '../entity/record_entity.dart';
 
 class NormalCreateTables {
   static final String createUseTable = '''
@@ -23,10 +24,24 @@ class NormalCreateTables {
     ${UserTableField.bedNumber} ${SqlConfig.sqltext})
     ''';
 
+  static final String createRecord = '''
+    ${SqlConfig.creattable} ${SqlConfig.tableRecord} (
+    ${RecordField.recordId} ${SqlConfig.primarykeyauto},
+    ${RecordField.recordType} ${SqlConfig.sqltext},
+    ${RecordField.pattern} ${SqlConfig.sqltext},
+    ${RecordField.power} ${SqlConfig.sqltext},
+    ${RecordField.soundIntensity} ${SqlConfig.sqltext},
+    ${RecordField.frequency} ${SqlConfig.sqltext},
+    ${RecordField.dataTime} ${SqlConfig.sqltext},
+    ${RecordField.utilityTime} ${SqlConfig.sqltext})
+    ''';
+
+
   /// 获取所有的表
   Map<String, String> getAllTables() {
     Map<String, String> map = <String, String>{};
     map['use'] = createUseTable;
+    map['record'] = createRecord;
     return map;
   }
 }

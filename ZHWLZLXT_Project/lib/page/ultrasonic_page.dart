@@ -225,9 +225,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         )),
                                   ),
                                   Center(
-                                    child: Container(
-                                      width: 120.w,
-                                      height: 55.h,
+                                    child: SizedBox(
+                                      width: 150.w,
+                                      height: 75.h,
                                       child: TextButton(
                                         onPressed: () {
                                           startSelected = !startSelected;
@@ -235,9 +235,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         },
                                         child: Image.asset(
                                           startSelected
-                                              ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                              ? 'assets/images/btn_kaishi_nor.png'
                                               : 'assets/images/2.0x/btn_tingzhi_nor.png',
-                                          fit: BoxFit.fill,
+                                          width: 100.w,
+                                          fit: BoxFit.fitWidth,
                                         ),
                                       ),
                                     ),

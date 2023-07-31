@@ -55,8 +55,6 @@ class CustomTabIndicator extends Decoration {
 
   ///决定控制器宽度的方法
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
-    assert(rect != null);
-    assert(textDirection != null);
     final Rect indicator = insets.resolve(textDirection).deflateRect(rect);
 
     // 希望的宽度
@@ -64,8 +62,6 @@ class CustomTabIndicator extends Decoration {
     // 取中间坐标
     double cw = (indicator.left + indicator.right) / 2;
 
-    print(
-        '$cw,indicator left${indicator.left}, right ${indicator.right}, indicator top ${indicator.top},indicator bottom${indicator.bottom}, border width${borderSide.width}');
     //这里是核心代码 //下划线靠左
     // return Rect.fromLTWH(indicator.left,
     //     indicator.bottom - borderSide.width, wantWidth, borderSide.width);
