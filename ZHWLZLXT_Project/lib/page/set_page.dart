@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 
 import '../base/globalization.dart';
+import '../utils/sp_utils.dart';
 
 class SetPage extends StatefulWidget {
   const SetPage({Key? key}) : super(key: key);
@@ -21,11 +23,19 @@ class _SetPageState extends State<SetPage> {
   int textValue = 50;
   String sliderText = "还没操作";
 
+  GetStorage state = GetStorage();
+
   void updateSlider(value, text) {
     sliderValue = value;
     textValue = sliderValue.round();
     sliderText = text;
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    languageBtnSelected = SpUtils.getBool(Globalization.languageSelected)!;
   }
 
   @override
@@ -54,8 +64,14 @@ class _SetPageState extends State<SetPage> {
                     child: TextButton(
                         onPressed: () {
                           languageBtnSelected = !languageBtnSelected;
-                          var locale = const Locale('en', 'US');
-                          Get.updateLocale(locale);
+                          SpUtils.setBool(Globalization.languageSelected, languageBtnSelected);
+                          if(languageBtnSelected){
+                            var locale = const Locale('zh', 'CN');
+                            Get.updateLocale(locale);
+                          }else{
+                            var locale = const Locale('en', 'US');
+                            Get.updateLocale(locale);
+                          }
                           setState(() {});
                         },
                         child: Row(

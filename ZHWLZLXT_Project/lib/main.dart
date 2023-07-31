@@ -3,15 +3,25 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:zhwlzlxt_project/page/login_page.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
+import 'base/globalization.dart';
 import 'cofig/routes.dart';
 import 'dataResource/tables_init.dart';
 
-void main() {
+var languageSelected = true;
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initThirdParty();
+  await SpUtils.getInstance();
+
+  languageSelected =
+      SpUtils.getBool(Globalization.languageSelected, defaultValue: true)!;
+
   runApp(const MyApp());
 }
 
@@ -22,6 +32,7 @@ initThirdParty() async {
   );
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -37,8 +48,12 @@ class MyApp extends StatelessWidget {
           child: GetMaterialApp(
             initialRoute: RouterPageId.login,
             translations: LanguageValue(),
-            locale: const Locale('zh', 'CN'),
-            fallbackLocale: const Locale('en', 'US'),
+            locale: languageSelected
+                ? const Locale('zh', 'CN')
+                : const Locale('en', 'US'),
+            fallbackLocale: languageSelected
+                ? const Locale('en', 'US')
+                : const Locale('zh', 'CN'),
             getPages: RouterS.getAllRouteS(),
             defaultTransition: Transition.noTransition,
             debugShowCheckedModeBanner: false,
