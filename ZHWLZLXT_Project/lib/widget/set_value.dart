@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef ValueListener = void Function(double value);
@@ -76,27 +77,35 @@ class _SetValueState extends State<SetValue> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-                onPressed: () {
-                  if (widget.enabled) {
-                    value = (value - appreciation);
-                    if (value < 0) {
-                      value = 0;
-                      return;
-                    }
+            RawKeyboardListener(
+              focusNode: FocusNode(),
+              onKey: (event) {
+                if (event.runtimeType == RawKeyDownEvent) {
+                  //todo   长按
+                }
+              },
+              child: TextButton(
+                  onPressed: () {
+                    if (widget.enabled) {
+                      value = (value - appreciation);
+                      if (value < 0) {
+                        value = 0;
+                        return;
+                      }
 
-                    widget.valueListener!(value);
-                    setState(() {});
-                  }
-                },
-                child: Image.asset(
-                  widget.enabled
-                      ? 'assets/images/btn_jian_nor.png'
-                      : 'assets/images/2.0x/btn_jian_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
-                )),
+                      widget.valueListener!(value);
+                      setState(() {});
+                    }
+                  },
+                  child: Image.asset(
+                    widget.enabled
+                        ? 'assets/images/btn_jian_nor.png'
+                        : 'assets/images/2.0x/btn_jian_disabled.png',
+                    fit: BoxFit.fitWidth,
+                    width: 34.w,
+                    height: 34.h,
+                  )),
+            ),
             Container(
               width: 120.w,
               height: 55.h,
@@ -130,7 +139,7 @@ class _SetValueState extends State<SetValue> {
                 onPressed: () {
                   if (widget.enabled) {
                     value = value + appreciation;
-                    if(value > 99){
+                    if (value > 99) {
                       return;
                     }
                     widget.valueListener!(value);
