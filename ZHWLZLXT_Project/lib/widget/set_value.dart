@@ -127,6 +127,7 @@ class _SetValueState extends State<SetValue> {
                 height: 34.h,
               ),
             ),
+            SizedBox(width: 5.w,),
             Container(
               width: 120.w,
               height: 55.h,
@@ -156,25 +157,57 @@ class _SetValueState extends State<SetValue> {
                 ],
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  if (widget.enabled) {
-                    value = value + appreciation;
-                    if (value > 99) {
-                      return;
-                    }
+            SizedBox(width: 5.w,),
+            GestureDetector(
+              onTap: () {
+                if (widget.enabled) {
+                  value = value + appreciation;
+                  if (value > 99) {
+                    value = 99;
                     widget.valueListener!(value);
-                    setState(() {});
+                    return;
                   }
-                },
-                child: Image.asset(
-                  widget.enabled
-                      ? 'assets/images/btn_jia_nor.png'
-                      : 'assets/images/2.0x/btn_jia_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
-                )),
+                  widget.valueListener!(value);
+                  setState(() {});
+                }
+              },
+              onTapDown: (e) {
+                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                  setState(() {
+                    // todo  长按点击事件
+                    if (widget.enabled) {
+                      value = value + appreciation;
+                      if (value > 99) {
+                        value = 99;
+                        widget.valueListener!(value);
+                        return;
+                      }
+                      widget.valueListener!(value);
+                      setState(() {});
+                    }
+                    print("object$value");
+                  });
+                });
+              },
+              onTapUp: (e) {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              onTapCancel: () {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              child: Image.asset(
+                widget.enabled
+                    ? 'assets/images/btn_jia_nor.png'
+                    : 'assets/images/2.0x/btn_jia_disabled.png',
+                fit: BoxFit.fitWidth,
+                width: 34.w,
+                height: 34.h,
+              ),
+            ),
           ],
         ),
       ],
