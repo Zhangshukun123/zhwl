@@ -18,7 +18,6 @@ class PulsedPage extends StatefulWidget {
 
 class _PulsedPageState extends State<PulsedPage>
     with SingleTickerProviderStateMixin {
-
   //定义四个页面
   late TabController _tabController;
 
@@ -51,50 +50,45 @@ class _PulsedPageState extends State<PulsedPage>
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 35.w,right: 35.w,top: 17.5.h),
+                  padding:
+                      EdgeInsets.only(left: 35.w, right: 35.w, top: 17.5.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ContainerBg(
                           width: 416.w,
                           height: 150.h,
-                          child:
-                          SetValue(
+                          child: SetValue(
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue: 12,
                             valueListener: (value) {},
-                          )
-                      ),
+                          )),
                       ContainerBg(
                           width: 416.w,
                           height: 150.h,
                           margin: EdgeInsets.only(top: 25.h),
-                          child:
-                          SetValue(
+                          child: SetValue(
                             enabled: true,
                             title: '频率',
                             assets: 'assets/images/2.0x/icon_pinlv.png',
                             initialValue: 12,
                             unit: '次/min',
                             valueListener: (value) {},
-                          )
-                      ),
+                          )),
                       ContainerBg(
                           width: 416.w,
                           height: 150.h,
                           margin: EdgeInsets.only(top: 25.h),
-                          child:
-                          SetValue(
+                          child: SetValue(
                             enabled: true,
                             title: '时间',
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue: 12,
                             unit: 'min',
                             valueListener: (value) {},
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -103,54 +97,6 @@ class _PulsedPageState extends State<PulsedPage>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        width: 260.w,
-                          height: 235.h,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    blurRadius: 15.w,
-                                    offset: const Offset(0, 2),
-                                    spreadRadius: 0)
-                              ],
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.w),
-                              )
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 60.h),
-                                child: TextButton(
-                                    onPressed: (){},
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/2.0x/icon_zhendong.png',fit: BoxFit.cover,),
-                                        Text('振动',style: TextStyle(color: Color(0xFF999999),fontSize: 18.sp),),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 25.h),
-                                width: 120.w,
-                                height: 70.h,
-                                child: TextButton(
-                                    onPressed: (){
-                                      switchSelected = !switchSelected;
-                                      setState(() {
-
-                                      });
-                                    },
-                                    child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.fill,width: 120.w,height: 70.h,)
-                                ),
-                              ),
-                            ],
-                          )
-                      ),
                       Container(
                           width: 260.w,
                           height: 235.h,
@@ -165,9 +111,72 @@ class _PulsedPageState extends State<PulsedPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
-                        margin: EdgeInsets.only(top: 30.h),
+                              )),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 60.h),
+                                child: TextButton(
+                                    onPressed: () {},
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_zhendong.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                        Text(
+                                          '振动',
+                                          style: TextStyle(
+                                              color: Color(0xFF999999),
+                                              fontSize: 18.sp),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              Container(
+                                  margin: EdgeInsets.only(top: 25.h),
+                                  width: 120.w,
+                                  height: 70.h,
+                                  child: Transform.scale(
+                                    scale: 1.2,
+                                    child: CupertinoSwitch(
+                                        value: switchSelected,
+                                        onChanged: (value) {
+                                          switchSelected = !switchSelected;
+                                          print(value);
+                                          setState(() {});
+                                        }),
+                                  )
+                                  // TextButton(
+                                  //     onPressed: (){
+                                  //       switchSelected = !switchSelected;
+                                  //       setState(() {
+                                  //
+                                  //       });
+                                  //     },
+                                  //     child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.fill,width: 120.w,height: 70.h,)
+                                  // ),
+                                  ),
+                            ],
+                          )),
+                      Container(
+                          width: 260.w,
+                          height: 235.h,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 15.w,
+                                    offset: const Offset(0, 2),
+                                    spreadRadius: 0)
+                              ],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15.w),
+                              )),
+                          margin: EdgeInsets.only(top: 30.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -176,21 +185,29 @@ class _PulsedPageState extends State<PulsedPage>
                                 margin: EdgeInsets.only(top: 15.5.h),
                                 decoration: const BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage('assets/images/2.0x/img_xiangqing.png'),
-                                      fit: BoxFit.fill, // 完全填充
-                                    )
-                                ),
+                                  image: AssetImage(
+                                      'assets/images/2.0x/img_xiangqing.png'),
+                                  fit: BoxFit.fill, // 完全填充
+                                )),
                                 child: TextButton(
                                     onPressed: () {
                                       dialog?.showCustomDialog(context);
                                     },
-                                    child:
-                                    Row(
+                                    child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_xiangqing.png',fit: BoxFit.fill,width: 18.w,height: 18.h,),
-                                        Text('详情',style: TextStyle(color: const Color(0xFF009CB4),fontSize: 18.sp),),
-
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_xiangqing.png',
+                                          fit: BoxFit.fill,
+                                          width: 18.w,
+                                          height: 18.h,
+                                        ),
+                                        Text(
+                                          '详情',
+                                          style: TextStyle(
+                                              color: const Color(0xFF009CB4),
+                                              fontSize: 18.sp),
+                                        ),
                                       ],
                                     )),
                               ),
@@ -200,20 +217,21 @@ class _PulsedPageState extends State<PulsedPage>
                                   width: 180.w,
                                   height: 70.h,
                                   child: TextButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       startSelected = !startSelected;
-                                      setState(() {
-
-                                      });
+                                      setState(() {});
                                     },
-                                    child:
-                                    Image.asset(startSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.fill,),
+                                    child: Image.asset(
+                                      startSelected
+                                          ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                          : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),

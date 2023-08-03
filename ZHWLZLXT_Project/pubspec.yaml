@@ -31,10 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
   get:
-<<<<<<< HEAD
-#  get_storage: ^2.0.2
-=======
->>>>>>> 4d8095e (日历界面修改)
   sqflite: ^2.2.8+4
   flutter_localizations:
     sdk: flutter

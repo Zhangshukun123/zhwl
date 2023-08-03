@@ -48,10 +48,10 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
             return pop;
           },
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                  child: Center(
-                      child: Padding(
+                  child: Padding(
                 padding: EdgeInsets.only(left: 30.0.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -64,16 +64,19 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                           fontSize: 17.sp,
                           fontWeight: FontWeight.w600),
                     ),
-                    !TextUtil.isEmpty(widget.unit)
-                        ? Text(
-                            widget.unit!,
-                            style:
-                                TextStyle(fontSize: 10.sp, color: Colors.black),
-                          )
-                        : const Text(''),
+                    Container(
+                      padding: EdgeInsets.only(top: 3.h),
+                      child: !TextUtil.isEmpty(widget.unit)
+                          ? Text(
+                              widget.unit!,
+                              style: TextStyle(
+                                  fontSize: 10.sp, color: Colors.black),
+                            )
+                          : const Text(''),
+                    ),
                   ],
                 ),
-              ))),
+              )),
               Image.asset(
                 'assets/images/2.0x/icon_xiala.png',
                 width: 16.w,
