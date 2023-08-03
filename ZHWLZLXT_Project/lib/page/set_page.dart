@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 
 import '../base/globalization.dart';
@@ -22,8 +21,6 @@ class _SetPageState extends State<SetPage> {
   double sliderValue = 50;
   int textValue = 50;
   String sliderText = "还没操作";
-
-  GetStorage state = GetStorage();
 
   void updateSlider(value, text) {
     sliderValue = value;
