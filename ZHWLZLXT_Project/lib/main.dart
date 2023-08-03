@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
@@ -47,15 +48,25 @@ class MyApp extends StatelessWidget {
           child: GetMaterialApp(
             initialRoute: RouterPageId.login,
             translations: LanguageValue(),
+
             locale: languageSelected
                 ? const Locale('zh', 'CN')
                 : const Locale('en', 'US'),
             fallbackLocale: languageSelected
-                ? const Locale('en', 'US')
-                : const Locale('zh', 'CN'),
+                ? const Locale('en', '')
+                : const Locale('zh', ''),
             getPages: RouterS.getAllRouteS(),
             defaultTransition: Transition.noTransition,
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('zh', 'CN'),
+              Locale('en', 'US'),
+            ],
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),

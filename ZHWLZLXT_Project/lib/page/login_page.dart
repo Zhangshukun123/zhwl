@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
+import 'package:zhwlzlxt_project/page/table_calender.dart';
 
 import '../base/globalization.dart';
 
@@ -255,6 +256,8 @@ class LoginPageState extends State<LoginPage> {
                                             print('点击确定按钮');
                                             print(acController.text);
                                             print(pwdController.text);
+
+
                                             Get.to(const FunctionPage());
 
                                             // Navigator.push(

@@ -22,6 +22,7 @@ class _SetPageState extends State<SetPage> {
   int textValue = 50;
   String sliderText = "还没操作";
 
+
   void updateSlider(value, text) {
     sliderValue = value;
     textValue = sliderValue.round();

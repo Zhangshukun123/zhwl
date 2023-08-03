@@ -31,13 +31,19 @@ dependencies:
   flutter:
     sdk: flutter
   get:
+<<<<<<< HEAD
 #  get_storage: ^2.0.2
+=======
+>>>>>>> 4d8095e (日历界面修改)
   sqflite: ^2.2.8+4
+  flutter_localizations:
+    sdk: flutter
   flutter_screenutil: ^5.8.4
   common_utils: ^2.1.0
   path: ^1.8.0
   flutter_easyloading: ^3.0.3
   shared_preferences: ^2.2.0
+  calendar_date_picker2: ^0.5.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
