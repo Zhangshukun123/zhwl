@@ -67,7 +67,7 @@ class _ControlPageState extends State<ControlPage> {
               );
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 10,bottom: 10,right: 10),
+              margin: const EdgeInsets.only(top: 7,bottom: 7,right: 10),
               // color: Color(0xFF19B1E9),
               decoration: BoxDecoration(
                 color: const Color(0xFF19B1E9),
@@ -81,10 +81,10 @@ class _ControlPageState extends State<ControlPage> {
               ),
               child: Row(
                 children: [
+                  SizedBox(width: 10.w,),
+                  Image.asset('assets/images/2.0x/icon_xinzeng.png',width: 18.w,height: 18.h,fit: BoxFit.fitWidth,),
                   SizedBox(width: 5.w,),
-                  Image.asset('assets/images/2.0x/icon_xinzeng.png',width: 24.w,height: 24.h,),
-                  SizedBox(width: 5.w,),
-                  Text('新增用户',style: TextStyle(color: Colors.white,fontSize: 24.sp),),
+                  Text('新增用户',style: TextStyle(color: Colors.white,fontSize: 18.sp),),
                   SizedBox(width: 15.w,),
                 ],
               ),
@@ -127,7 +127,7 @@ class _ControlPageState extends State<ControlPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Image.asset('assets/images/2.0x/icon_sousuo.png',fit:BoxFit.cover,width: 22.w,height: 22.h,),
+                            Image.asset('assets/images/2.0x/icon_sousuo.png',fit:BoxFit.fitWidth,width: 18.w,height: 18.h,),
                             SizedBox(width: 6.w,),
                             SizedBox(
                               width: 180.w,
@@ -208,7 +208,7 @@ class _ControlPageState extends State<ControlPage> {
                                               onTap: (){
                                                 print('$i');
                                               },
-                                              child: Image.asset('assets/images/2.0x/icon_xuanzhong.png',fit: BoxFit.cover,width: 18.w,height: 18.h,)
+                                              child: Image.asset('assets/images/2.0x/icon_xuanzhong.png',fit: BoxFit.fitWidth,width: 14.w,height: 14.h,)
                                           )
                                       ),
                                       Container(
@@ -227,7 +227,7 @@ class _ControlPageState extends State<ControlPage> {
                                             print('AAAA$i');
                                             dialog?.showDeleteDialog(context);
                                           },
-                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.cover,width: 14.w,height: 14.h,)
+                                          child: Image.asset('assets/images/2.0x/icon_shanchu.png',fit: BoxFit.fitWidth,width: 10.w,height: 10.h,)
                                       ),
                                     ],
                                   ),
@@ -275,8 +275,10 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     controller: numController,
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '12345355',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -304,7 +306,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ),
                                   child: TextField(
                                     controller: nameController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '张三四',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -337,7 +341,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ),
                                   child: TextField(
                                     controller: ageController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '20',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -365,7 +371,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ),
                                   child: TextField(
                                     controller: sexController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '男',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -398,7 +406,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ),
                                   child: TextField(
                                     controller: telController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -426,7 +436,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ),
                                   child: TextField(
                                     controller: cerController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -458,8 +470,10 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: bedController,
+                                    controller: zhuController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),
@@ -486,8 +500,10 @@ class _ControlPageState extends State<ControlPage> {
                                     borderRadius: BorderRadius.all(Radius.circular(7.w)),
                                   ),
                                   child: TextField(
-                                    controller: ageController,
+                                    controller: bedController,
+                                    style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                                     decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(left: 10.w,top: 5.h),
                                       border: InputBorder.none,
                                       hintText: '13212345678',
                                       hintStyle: TextStyle(color: const Color(0xFF333333),fontSize: 18.sp),

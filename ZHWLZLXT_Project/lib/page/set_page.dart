@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
+import 'package:zhwlzlxt_project/widget/switch_value.dart';
 
 import '../base/globalization.dart';
 import '../utils/sp_utils.dart';
@@ -59,8 +60,12 @@ class _SetPageState extends State<SetPage> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 180.w),
-                    child: TextButton(
-                        onPressed: () {
+                    child:
+                    Row(
+                      children: [
+                        Text('语言',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                        SizedBox(width: 14.w,),
+                        HomeSwitchButton(onString: "中文", offString: "EN", pressed: languageBtnSelected, onTap: (obj){
                           languageBtnSelected = !languageBtnSelected;
                           SpUtils.setBool(Globalization.languageSelected, languageBtnSelected);
                           if(languageBtnSelected){
@@ -70,58 +75,28 @@ class _SetPageState extends State<SetPage> {
                             var locale = const Locale('en', 'US');
                             Get.updateLocale(locale);
                           }
-                          setState(() {});
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              '语言',
-                              style: TextStyle(
-                                  color: const Color(0xFF999999),
-                                  fontSize: 18.sp),
-                            ),
-                            SizedBox(
-                              width: 18.w,
-                            ),
-                            Image.asset(
-                              languageBtnSelected
-                                  ? 'assets/images/2.0x/btn_yuyan_zhongwen.png'
-                                  : 'assets/images/2.0x/btn_yuyan_yingwen.png',
-                              fit: BoxFit.fitWidth,
-                              width: 140.w,
-                              height: 45.h,
-                            ),
-                          ],
-                        )),
+                          setState(() {
+                            print(obj);
+                          });
+                        }),
+                      ],
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 200.w),
-                    child: TextButton(
-                        onPressed: () {
-                          blueBtnSelected = !blueBtnSelected;
-                          setState(() {});
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              '蓝牙',
-                              style: TextStyle(
-                                  color: const Color(0xFF999999),
-                                  fontSize: 18.sp),
-                            ),
-                            SizedBox(
-                              width: 18.w,
-                            ),
-                            Image.asset(
-                              blueBtnSelected
-                                  ? 'assets/images/2.0x/btn_lanya_dakai.png'
-                                  : 'assets/images/2.0x/btn_lanya_guanbi.png',
-                              fit: BoxFit.cover,
-                              width: 140.w,
-                              height: 45.h,
-                            ),
-                          ],
-                        )),
+                    child:
+                    Row(
+                      children: [
+                        Text('蓝牙',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                        SizedBox(width: 14.w,),
+                        HomeSwitchButton(onString: "打开", offString: "关闭", pressed: blueBtnSelected, onTap: (obj){
+                          setState(() {
+                            blueBtnSelected = !blueBtnSelected;
+                            print(obj);
+                          });
+                        }),
+                      ],
+                    ),
                   ),
                 ],
               ),

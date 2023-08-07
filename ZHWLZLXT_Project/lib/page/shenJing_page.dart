@@ -35,7 +35,7 @@ class _ShenJingPageState extends State<ShenJingPage> {
                   //     fit: BoxFit.contain,
                   //   ),
                   // ),
-                margin: EdgeInsets.only(top: 11.h),
+                margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
@@ -156,7 +156,7 @@ class _ShenJingPageState extends State<ShenJingPage> {
                   //     fit: BoxFit.contain,
                   //   ),
                   // ),
-                margin: EdgeInsets.only(top: 11.h),
+                margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 

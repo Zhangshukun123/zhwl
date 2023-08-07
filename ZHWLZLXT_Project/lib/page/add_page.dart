@@ -74,6 +74,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: numController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入编号',
@@ -102,6 +103,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: nameController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入姓名',
@@ -133,6 +135,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: ageController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入年龄',
@@ -236,6 +239,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: telController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入电话',
@@ -264,6 +268,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: cerController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入身份证号',
@@ -295,6 +300,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: zhuController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入住院号',
@@ -323,6 +329,7 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: bedController,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入床号',

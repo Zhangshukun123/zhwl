@@ -644,7 +644,7 @@ class _JingPiPageState extends State<JingPiPage> {
                     //     fit: BoxFit.contain,
                     //   ),
                     // ),
-                    margin: EdgeInsets.only(top: 11.h),
+                    margin: EdgeInsets.only(top: 9.h),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
@@ -777,10 +777,9 @@ class _JingPiPageState extends State<JingPiPage> {
                   //     fit: BoxFit.contain,
                   //   ),
                   // ),
-                  margin: EdgeInsets.only(top: 11.h),
+                  margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                     children: [
                       Container(
                           decoration: BoxDecoration(
@@ -883,7 +882,7 @@ class _JingPiPageState extends State<JingPiPage> {
                                 });
 
                               },
-                              child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
+                              child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 43.h,)
                           ),
                         ),
                       ),

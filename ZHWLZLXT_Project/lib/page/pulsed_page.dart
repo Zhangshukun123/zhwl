@@ -143,6 +143,8 @@ class _PulsedPageState extends State<PulsedPage>
                                     scale: 1.2,
                                     child: CupertinoSwitch(
                                         value: switchSelected,
+                                        activeColor: const Color(0xFF00A8E7),
+                                        trackColor: const Color(0xFFF9F9F9),
                                         onChanged: (value) {
                                           switchSelected = !switchSelected;
                                           print(value);
