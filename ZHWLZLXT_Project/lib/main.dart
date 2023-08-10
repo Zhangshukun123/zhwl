@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'base/globalization.dart';
 import 'cofig/routes.dart';
 import 'dataResource/tables_init.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 var languageSelected = true;
 
@@ -21,8 +22,18 @@ Future<void> main() async {
 
   languageSelected =
       SpUtils.getBool(Globalization.languageSelected, defaultValue: true)!;
+  //原生的启动图页面方法
+  WidgetsFlutterBinding.ensureInitialized();
+
+  initialization(null);
 
   runApp(const MyApp());
+}
+//启动图延时移除方法
+void initialization(BuildContext? context) async {
+  //延迟3秒
+  await Future.delayed(const Duration(seconds: 3));
+  FlutterNativeSplash.remove();
 }
 
 initThirdParty() async {
