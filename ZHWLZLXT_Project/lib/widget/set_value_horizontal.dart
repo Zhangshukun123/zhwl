@@ -9,7 +9,6 @@ typedef ValueListener = void Function(double value);
 
 // ignore: must_be_immutable
 class SetValueHorizontal extends StatefulWidget {
-
   String? title;
   String? assets;
   bool? enabled = true;
@@ -19,6 +18,8 @@ class SetValueHorizontal extends StatefulWidget {
   double? appreciation = 1;
   ValueListener? valueListener;
   double? height;
+  double? minValue;
+  double? maxValue;
 
   SetValueHorizontal(
       {Key? key,
@@ -28,8 +29,10 @@ class SetValueHorizontal extends StatefulWidget {
       this.initialValue,
       this.appreciation,
       this.isInt,
-        this.height,
+      this.height,
       this.valueListener,
+      this.minValue,
+      this.maxValue,
       this.unit})
       : super(key: key);
 
@@ -86,27 +89,27 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.enabled ?? true) {
-                  if(value==0)return;
+                if (widget.enabled == true) {
+                  if (value == 0) return;
                   value = (value - appreciation);
-                  if (value < 0) {
-                    value = 0;
+                  if (value <= (widget.minValue ?? 0)) {
+                    value = (widget.minValue ?? 0);
                     widget.valueListener!(value);
-                    return;
                   }
                   setState(() {});
                 }
               },
               onTapDown: (e) {
-                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
                   setState(() {
-                    // todo  长按点击事件
-                    if(value==0)return;
-                    value = (value - appreciation);
-                    if (value < 0) {
-                      value = 0;
-                      widget.valueListener!(value);
-                      return;
+                    if (widget.enabled == true) {
+                      if (value == 0) return;
+                      value = (value - appreciation);
+                      if (value <= (widget.minValue ?? 0)) {
+                        value = (widget.minValue ?? 0);
+                        widget.valueListener!(value);
+                      }
+                      setState(() {});
                     }
                     print("object$value");
                   });
@@ -131,7 +134,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 height: 34.h,
               ),
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(
+              width: 5.w,
+            ),
             Container(
               width: 120.w,
               height: 55.h,
@@ -161,35 +166,33 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 ],
               ),
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(
+              width: 5.w,
+            ),
             GestureDetector(
               onTap: () {
-                if (widget.enabled ?? true) {
+                if (widget.enabled = true) {
                   value = value + appreciation;
-                  if (value > 99) {
-                    value = 99;
+                  if (value > (widget.maxValue ?? 999999)) {
+                    value = (widget.maxValue ?? 999999);
                     widget.valueListener!(value);
-                    return;
                   }
                   widget.valueListener!(value);
                   setState(() {});
                 }
               },
               onTapDown: (e) {
-                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
                   setState(() {
-                    // todo  长按点击事件
-                    if (widget.enabled ?? true) {
+                    if (widget.enabled = true) {
                       value = value + appreciation;
-                      if (value > 99) {
-                        value = 99;
+                      if (value > (widget.maxValue ?? 999999)) {
+                        value = (widget.maxValue ?? 999999);
                         widget.valueListener!(value);
-                        return;
                       }
                       widget.valueListener!(value);
                       setState(() {});
                     }
-                    print("object$value");
                   });
                 });
               },

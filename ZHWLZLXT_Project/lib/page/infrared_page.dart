@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
+import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 
+import '../Controller/ultrasonic_controller.dart';
 import '../widget/details_dialog.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value.dart';
@@ -19,13 +21,15 @@ class InfraredPage extends StatefulWidget {
 
 class _InfraredPageState extends State<InfraredPage>
     with SingleTickerProviderStateMixin {
-
   bool thirdStartSelected = true;
   bool switchSelected = true;
+
   //定义四个页面
   late TabController _tabController;
 
   DetailsDialog? dialog;
+
+  var isDGW = false;
 
   @override
   void initState() {
@@ -37,7 +41,6 @@ class _InfraredPageState extends State<InfraredPage>
 
     dialog?.setTabController(_tabController);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,31 +61,33 @@ class _InfraredPageState extends State<InfraredPage>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ContainerBg(
-                      width: 416.w,
-                      height: 150.h,
-                      child:
-                      SetValue(
-                        enabled: true,
-                        title: '时间',
-                        assets: 'assets/images/2.0x/icon_shijian.png',
-                        initialValue: 12,
-                        unit: 'min',
-                        valueListener: (value) {},
-                      ),
+                        width: 416.w,
+                        height: 150.h,
+                        child: SetValue(
+                          enabled: true,
+                          title: '时间',
+                          assets: 'assets/images/2.0x/icon_shijian.png',
+                          initialValue: 12,
+                          maxValue: 99,
+                          minValue: 0,
+                          unit: 'min',
+                          valueListener: (value) {},
+                        ),
                       ),
                       ContainerBg(
                           margin: EdgeInsets.only(top: 25.h),
                           width: 416.w,
                           height: 150.h,
-                          child:
-                          SetValue(
-                            enabled: true,
+                          child: SetValue(
+                            enabled: !isDGW,
+                            isEventBus: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: 12,
+                            initialValue: 1,
+                            maxValue: 8,
+                            minValue: 1,
                             valueListener: (value) {},
-                          )
-                      ),
+                          )),
                       Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -95,35 +100,54 @@ class _InfraredPageState extends State<InfraredPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           margin: EdgeInsets.only(top: 25.h),
-
                           width: 416.w,
                           height: 150.h,
                           child: Column(
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 29.h),
-                                width:70.w,
+                                width: 70.w,
                                 child: TextButton(
-                                    onPressed: (){
-                                    },
+                                    onPressed: () {},
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
-                                        SizedBox(width: 5.w,),
-                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_moshi.png',
+                                          fit: BoxFit.fitWidth,
+                                          width: 16.w,
+                                          height: 16.h,
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Text(
+                                          '模式',
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: const Color(0xFF999999)),
+                                        ),
                                       ],
                                     )),
                               ),
                               PopupMenuBtn(
                                 index: 2,
+                                patternStr: '连续模式1',
+                                popupListener: (value) {
+                                  isDGW = (value != "01");
+
+                                  if(isDGW){
+                                    eventBus.fire(Infrared());
+                                  }
+
+                                  setState(() {});
+                                },
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -146,40 +170,42 @@ class _InfraredPageState extends State<InfraredPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           child: Column(
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 30.h),
                                 height: 100.h,
                                 child: TextButton(
-                                    onPressed: (){},
+                                    onPressed: () {},
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_jiting.png',fit: BoxFit.fitHeight,height: 100.h,),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_jiting.png',
+                                          fit: BoxFit.fitHeight,
+                                          height: 100.h,
+                                        ),
                                       ],
-                                    )
-                                ),
+                                    )),
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 10.h),
                                 child: TextButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       switchSelected = !switchSelected;
-                                      setState(() {
-
-                                      });
+                                      setState(() {});
                                     },
-                                    child:
-                                    Text('当前急停状态',style: TextStyle(color: Color(0xFFFD5F1F),fontSize: 18.sp),
-                                    )
-                                ),
+                                    child: Text(
+                                      '当前急停状态',
+                                      style: TextStyle(
+                                          color: Color(0xFFFD5F1F),
+                                          fontSize: 18.sp),
+                                    )),
                               ),
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                           width: 260.w,
                           height: 235.h,
@@ -194,8 +220,7 @@ class _InfraredPageState extends State<InfraredPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           margin: EdgeInsets.only(top: 30.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -213,13 +238,21 @@ class _InfraredPageState extends State<InfraredPage>
                                     onPressed: () {
                                       dialog?.showCustomDialog(context);
                                     },
-                                    child:
-                                    Row(
+                                    child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_xiangqing.png',fit: BoxFit.fill,width: 18.w,height: 18.h,),
-                                        Text('详情',style: TextStyle(color: const Color(0xFF009CB4),fontSize: 18.sp),),
-
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_xiangqing.png',
+                                          fit: BoxFit.fill,
+                                          width: 18.w,
+                                          height: 18.h,
+                                        ),
+                                        Text(
+                                          '详情',
+                                          style: TextStyle(
+                                              color: const Color(0xFF009CB4),
+                                              fontSize: 18.sp),
+                                        ),
                                       ],
                                     )),
                               ),
@@ -229,20 +262,21 @@ class _InfraredPageState extends State<InfraredPage>
                                   width: 180.w,
                                   height: 70.h,
                                   child: TextButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       thirdStartSelected = !thirdStartSelected;
-                                      setState(() {
-
-                                      });
+                                      setState(() {});
                                     },
-                                    child:
-                                    Image.asset(thirdStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.fill,),
+                                    child: Image.asset(
+                                      thirdStartSelected
+                                          ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                          : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 ),

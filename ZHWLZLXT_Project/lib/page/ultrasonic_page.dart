@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zhwlzlxt_project/page/attention_page.dart';
-import 'package:zhwlzlxt_project/page/operate_page.dart';
-import 'package:zhwlzlxt_project/page/control_page.dart';
-import 'package:zhwlzlxt_project/page/set_page.dart';
+import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
@@ -28,6 +25,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   DetailsDialog? dialog;
 
+  var frequency = 1;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +42,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
+
+    final UltrasonicController controller = Get.put(UltrasonicController());
+
     return Scaffold(
       backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
@@ -90,6 +92,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               ),
                               PopupMenuBtn(
                                 index: 0,
+                                patternStr: "连续模式1",
                               ),
                             ],
                           )),
@@ -100,6 +103,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 title: '时间',
                                 assets: 'assets/images/2.0x/icon_shijian.png',
                                 initialValue: 12,
+                                minValue: 1,
+                                maxValue: 30,
                                 unit: 'min',
                                 valueListener: (value) {},
                               )),
@@ -114,9 +119,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               child: SetValue(
                             enabled: true,
                             title: '功率',
+                            isEventBus: true,
                             assets: 'assets/images/2.0x/icon_gonglv.png',
-                            initialValue: 1,
+                            initialValue: 0,
+                            appreciation: 0.6,
                             unit: 'w',
+                            // ignore: unrelated_type_equality_checks
+                            maxValue: controller.ultrasonic.frequency.value == 1
+                                ? 7.2
+                                : 3,
+                            //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
+                            isInt: false,
                             valueListener: (value) {},
                           )),
                           ContainerBg(
@@ -124,15 +137,19 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               child: SetValue(
                                 enabled: true,
                                 isInt: false,
+                                isEventBus: true,
                                 title: '声强',
                                 assets:
                                     'assets/images/2.0x/icon_shengqiang.png',
-                                initialValue: 0.3,
-                                appreciation: 0.2,
+                                initialValue: 0.0,
+                                appreciation: 0.3,
+                                maxValue:
+                                    controller.ultrasonic.frequency.value == 1
+                                        ? 1.8
+                                        : 1.5,
+                                //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                 unit: 'w/cm2',
-                                valueListener: (value) {
-                                  print("object$value");
-                                },
+                                valueListener: (value) {},
                               )),
                         ],
                       )),
@@ -173,6 +190,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               ),
                               PopupMenuBtn(
                                 index: 1,
+                                unit: 'MHz',
+                                patternStr: '1',
+                                popupListener: (value) {
+                                  // debugPrint(value);
+                                  setState(() {});
+                                },
                               )
                               // Container(
                               //   decoration: const BoxDecoration(

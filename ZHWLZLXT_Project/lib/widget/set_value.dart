@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+
+import '../utils/event_bus.dart';
 
 typedef ValueListener = void Function(double value);
 
@@ -11,10 +15,13 @@ typedef ValueListener = void Function(double value);
 class SetValue extends StatefulWidget {
   bool enabled = true;
   bool? isInt = true;
+  bool? isEventBus = false;
   String? assets;
   String? title;
   String? unit;
   double? initialValue;
+  double? minValue;
+  double? maxValue;
   double? appreciation = 1;
 
   ValueListener? valueListener;
@@ -29,6 +36,9 @@ class SetValue extends StatefulWidget {
     this.valueListener,
     this.appreciation,
     this.isInt,
+    this.isEventBus,
+    this.minValue,
+    this.maxValue,
   }) : super(key: key);
 
   @override
@@ -46,6 +56,20 @@ class _SetValueState extends State<SetValue> {
     super.initState();
     value = widget.initialValue ?? 0;
     appreciation = widget.appreciation ?? 1;
+
+    if (widget.isEventBus == true) {
+      eventBus.on<Ultrasonic>().listen((event) {
+        value = 0;
+        setState(() {});
+      });
+
+      eventBus.on<Infrared>().listen((event) { //光疗强度 低功率 。
+        value = 1;
+        setState(() {});
+      });
+
+
+    }
   }
 
   @override
@@ -63,8 +87,7 @@ class _SetValueState extends State<SetValue> {
                   Image.asset(
                     widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
                     fit: BoxFit.fitWidth,
-                    width: 16.w,
-                    height: 16.h,
+                    width: 15.w,
                   ),
                   SizedBox(
                     width: 5.w,
@@ -83,29 +106,26 @@ class _SetValueState extends State<SetValue> {
             GestureDetector(
               onTap: () {
                 if (widget.enabled) {
-                  if(value==0)return;
+                  if (value == 0) return;
                   value = (value - appreciation);
-                  if (value < 0) {
-                    value = 0;
+                  if (value <= (widget.minValue ?? 0)) {
+                    value = (widget.minValue ?? 0);
                     widget.valueListener!(value);
-                    return;
                   }
                   setState(() {});
                 }
               },
               onTapDown: (e) {
-                timer =  Timer.periodic(const Duration(milliseconds: 200), (e) {
-                  setState(() {
-                    // todo  长按点击事件
-                    if(value==0)return;
+                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
+                  if (widget.enabled) {
+                    if (value == 0) return;
                     value = (value - appreciation);
-                    if (value < 0) {
-                      value = 0;
+                    if (value <= (widget.minValue ?? 0)) {
+                      value = (widget.minValue ?? 0);
                       widget.valueListener!(value);
-                      return;
                     }
-                    print("object$value");
-                  });
+                    setState(() {});
+                  }
                 });
               },
               onTapUp: (e) {
@@ -127,7 +147,9 @@ class _SetValueState extends State<SetValue> {
                 height: 34.h,
               ),
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(
+              width: 5.w,
+            ),
             Container(
               width: 120.w,
               height: 55.h,
@@ -157,30 +179,30 @@ class _SetValueState extends State<SetValue> {
                 ],
               ),
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(
+              width: 5.w,
+            ),
             GestureDetector(
               onTap: () {
                 if (widget.enabled) {
                   value = value + appreciation;
-                  if (value > 99) {
-                    value = 99;
+                  if (value > (widget.maxValue ?? 999999)) {
+                    value = (widget.maxValue ?? 999999);
                     widget.valueListener!(value);
-                    return;
                   }
                   widget.valueListener!(value);
                   setState(() {});
                 }
               },
               onTapDown: (e) {
-                timer =  Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
                   setState(() {
                     // todo  长按点击事件
                     if (widget.enabled) {
                       value = value + appreciation;
-                      if (value > 99) {
-                        value = 99;
+                      if (value > (widget.maxValue ?? 999999)) {
+                        value = (widget.maxValue ?? 999999);
                         widget.valueListener!(value);
-                        return;
                       }
                       widget.valueListener!(value);
                       setState(() {});

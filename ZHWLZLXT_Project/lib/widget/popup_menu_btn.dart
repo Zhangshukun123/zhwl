@@ -1,21 +1,30 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+
+import '../utils/event_bus.dart';
+
+typedef PopupListener = void Function(String value);
 
 // ignore: must_be_immutable
 class PopupMenuBtn extends StatefulWidget {
   int? index = 0;
   Offset? offset;
+  PopupListener? popupListener;
   String? patternStr = "1";
   String? unit = "";
 
   PopupMenuBtn({
     Key? key,
     this.index,
+    this.patternStr,
     this.offset,
     this.unit,
+    this.popupListener,
   }) : super(key: key);
 
   @override
@@ -25,10 +34,14 @@ class PopupMenuBtn extends StatefulWidget {
 class _PopupMenuBtnState extends State<PopupMenuBtn> {
   var pop;
 
+  final UltrasonicController controller = Get.find();
+  var value = "0";
+
   @override
   void initState() {
     super.initState();
     pop = _getPopupMenu(context);
+    value = widget.patternStr ?? '0';
     setState(() {});
   }
 
@@ -58,14 +71,13 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.patternStr ?? "",
+                      value,
                       style: TextStyle(
                           color: const Color(0xFF333333),
                           fontSize: 17.sp,
                           fontWeight: FontWeight.w600),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 3.h),
                       child: !TextUtil.isEmpty(widget.unit)
                           ? Text(
                               widget.unit!,
@@ -88,8 +100,33 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           ),
           onSelected: (ovc) {
             setState(() {
-              widget.patternStr = ovc as String?;
+              value = (ovc as String);
             });
+            if (widget.index == 1) {
+              eventBus.fire(Ultrasonic());
+              if (value == "1") {
+                controller.ultrasonic.frequency.value = 1;
+              } else {
+                controller.ultrasonic.frequency.value = 3;
+              }
+              widget.popupListener!(value);
+            }
+
+            if (widget.index == 2) {
+              if(value=="连续模式1"){
+                widget.popupListener!('01');
+              }
+              if(value=="断续模式1"){
+                widget.popupListener!('02');
+              }
+              if(value=="断续模式2"){
+                widget.popupListener!('03');
+              }
+              if(value=="断续模式3"){
+                widget.popupListener!('04');
+              }
+            }
+
             if (ovc == "连续 0") {
             } else if (ovc == "连续 1") {
             } else if (ovc == "连续 2") {}
@@ -103,30 +140,29 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
   _getPopupMenu(BuildContext context) {
     switch (widget.index) {
       case 0:
-        widget.unit = '模式';
-        widget.patternStr = '连续 0';
+        widget.unit = '';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续 0'),
-          _getPopupMenuItem('连续 1'),
-          _getPopupMenuItem('连续 2'),
+          _getPopupMenuItem('连续模式1'),
+          _getPopupMenuItem('断续模式1'),
+          _getPopupMenuItem('断续模式2'),
+          _getPopupMenuItem('断续模式3'),
         ];
       case 1:
         widget.unit = "MHz";
-        widget.patternStr = '1';
         widget.offset = Offset(0, -120.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('1'),
           _getPopupMenuItem('3'),
         ];
       case 2:
-        widget.unit = '模式';
-        widget.patternStr = '连续 0';
+        widget.unit = '';
         widget.offset = Offset(0, -120.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续 0'),
-          _getPopupMenuItem('连续 1'),
-          _getPopupMenuItem('连续 2'),
+          _getPopupMenuItem('连续模式1'),
+          _getPopupMenuItem('断续模式1'),
+          _getPopupMenuItem('断续模式2'),
+          _getPopupMenuItem('断续模式3'),
         ];
       case 3:
         widget.unit = '模式';
