@@ -17,8 +17,10 @@ class UserTableField {
 class User {
   int? userId;
   String? userName;
+  String? userNum;
   String? account;
   String? pssWord;
+  bool? isChoose;
   int? age;
   String? userNub;
   int? sex;
@@ -30,6 +32,7 @@ class User {
   User({
     this.userId,
     this.userName,
+    this.isChoose,
     this.account,
     this.pssWord,
     this.age,

@@ -217,7 +217,6 @@ class SqlUtils {
   open() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, SqlConfig.dbname);
-    debugPrint('数据库存储路径path:' + path);
     try {
       db = await openDatabase(path);
     } catch (e) {

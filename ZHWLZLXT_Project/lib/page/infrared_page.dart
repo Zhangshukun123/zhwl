@@ -258,7 +258,7 @@ class _InfraredPageState extends State<InfraredPage>
                               ),
                               Center(
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 34.5.h),
+                                  margin: EdgeInsets.only(top: 42.5.h),
                                   width: 180.w,
                                   height: 70.h,
                                   child: TextButton(
@@ -270,7 +270,8 @@ class _InfraredPageState extends State<InfraredPage>
                                       thirdStartSelected
                                           ? 'assets/images/2.0x/btn_kaishi_nor.png'
                                           : 'assets/images/2.0x/btn_tingzhi_nor.png',
-                                      fit: BoxFit.fill,
+                                      width: 100.w,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   ),
                                 ),

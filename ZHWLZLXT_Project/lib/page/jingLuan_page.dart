@@ -105,7 +105,7 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     ),
                     SetValueHorizontal(
                       enabled: true,
-                      isInt: false,
+                      isInt: true,
                       title: '强度 (B)',
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
                       initialValue: 1,

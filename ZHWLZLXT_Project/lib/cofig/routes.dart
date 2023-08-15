@@ -10,7 +10,6 @@
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/guide_page.dart';
 import 'package:zhwlzlxt_project/page/login_page.dart';
-import 'package:zhwlzlxt_project/user/user_manage_page.dart';
 
 class RouterPageId {
   static String login = '/login';
@@ -23,7 +22,6 @@ class RouterS {
     return [
       GetPage(name: RouterPageId.guide, page: () => const GuidePage()),
       GetPage(name: RouterPageId.login, page: () => const LoginPage()),
-      GetPage(name: RouterPageId.userManage, page: () => const UserManagePage()),
     ];
   }
 }

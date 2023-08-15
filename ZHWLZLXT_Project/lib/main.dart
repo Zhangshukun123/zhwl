@@ -32,7 +32,7 @@ Future<void> main() async {
 //启动图延时移除方法
 void initialization(BuildContext? context) async {
   //延迟3秒
-  await Future.delayed(const Duration(seconds: 3));
+  await Future.delayed(const Duration(seconds: 2));
   FlutterNativeSplash.remove();
 }
 

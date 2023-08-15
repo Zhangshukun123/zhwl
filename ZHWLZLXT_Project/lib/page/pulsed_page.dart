@@ -143,11 +143,11 @@ class _PulsedPageState extends State<PulsedPage>
                                     )),
                               ),
                               Container(
-                                  margin: EdgeInsets.only(top: 25.h),
+                                  margin: EdgeInsets.only(top: 15.h),
                                   width: 120.w,
                                   height: 70.h,
                                   child: Transform.scale(
-                                    scale: 1.2,
+                                    scale: 2,
                                     child: CupertinoSwitch(
                                         value: switchSelected,
                                         activeColor: const Color(0xFF00A8E7),
@@ -222,9 +222,7 @@ class _PulsedPageState extends State<PulsedPage>
                               ),
                               Center(
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 34.5.h),
-                                  width: 180.w,
-                                  height: 70.h,
+                                  margin: EdgeInsets.only(top: 50.5.h),
                                   child: TextButton(
                                     onPressed: () {
                                       startSelected = !startSelected;
@@ -234,7 +232,8 @@ class _PulsedPageState extends State<PulsedPage>
                                       startSelected
                                           ? 'assets/images/2.0x/btn_kaishi_nor.png'
                                           : 'assets/images/2.0x/btn_tingzhi_nor.png',
-                                      fit: BoxFit.fill,
+                                      width: 100.w,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   ),
                                 ),

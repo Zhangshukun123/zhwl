@@ -1,8 +1,13 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
+
+import '../utils/event_bus.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -36,6 +41,22 @@ class _AddPageState extends State<AddPage> {
   //性别
   int sex = 1;
 
+  late FocusNode focusNode = FocusNode();
+
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.requestFocus();
+
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
@@ -44,9 +65,31 @@ class _AddPageState extends State<AddPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
+        toolbarHeight: 45.h,
+        leading: InkWell(
+          onTap: () async {
+            focusNode.unfocus();
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+          },
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 30,
+              ),
+              Image.asset(
+                'assets/images/ic_nav_back_white.png',
+                width: 15.w,
+                height: 15.h,
+                fit: BoxFit.fitWidth,
+              ),
+            ],
+          ),
+        ),
+        leadingWidth: 40.w,
         title: Text(
           '添加用户',
-          style: TextStyle(fontSize: 18.sp, color: Colors.white),
+          style: TextStyle(fontSize: 15.sp, color: Colors.white),
         ),
       ),
       body: SafeArea(
@@ -74,23 +117,22 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: numController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入编号',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                      // color: Colors.green,
-                      child: Row(
+                  Row(
                     children: [
-                      Container(
+                      SizedBox(
                           width: 52.w,
                           child: Text(
                             '姓名',
@@ -98,23 +140,24 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
                           )),
-                      Container(
+                      SizedBox(
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
                           controller: nameController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入姓名',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
-                  )),
+                  ),
                 ],
               ),
               Row(
@@ -135,23 +178,23 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: ageController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入年龄',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                      // color: Colors.green,
-                      child: Row(
+                  Row(
                     children: [
-                      Container(
+                      SizedBox(
                           width: 52.w,
                           child: Text(
                             '性别',
@@ -163,13 +206,10 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(7.w),
-                            ),
                             border: Border.all(
-                              color: const Color(0xFFBBBBBB),
-                              width: 1.5.w,
-                            )),
+                          color: const Color(0xFFBBBBBB),
+                          width: 1.w,
+                        )),
                         child: Row(
                           children: [
                             Row(
@@ -189,7 +229,7 @@ class _AddPageState extends State<AddPage> {
                                   '男',
                                   style: TextStyle(
                                       color: const Color(0xFF333333),
-                                      fontSize: 16.sp),
+                                      fontSize: 15.sp),
                                 ),
                               ],
                             ),
@@ -210,7 +250,7 @@ class _AddPageState extends State<AddPage> {
                                   '女',
                                   style: TextStyle(
                                       color: const Color(0xFF333333),
-                                      fontSize: 16.sp),
+                                      fontSize: 15.sp),
                                 ),
                               ],
                             ),
@@ -218,7 +258,7 @@ class _AddPageState extends State<AddPage> {
                         ),
                       ),
                     ],
-                  )),
+                  ),
                 ],
               ),
               Row(
@@ -239,23 +279,23 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: telController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          keyboardType: TextInputType.phone,
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入电话',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                      // color: Colors.green,
-                      child: Row(
+                  Row(
                     children: [
-                      Container(
+                      SizedBox(
                           width: 52.w,
                           child: Text(
                             '证件',
@@ -263,23 +303,24 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
                           )),
-                      Container(
+                      SizedBox(
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
                           controller: cerController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入身份证号',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
-                  )),
+                  ),
                 ],
               ),
               Row(
@@ -300,23 +341,22 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: zhuController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入住院号',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Container(
-                      // color: Colors.green,
-                      child: Row(
+                  Row(
                     children: [
-                      Container(
+                      SizedBox(
                           width: 52.w,
                           child: Text(
                             '床号',
@@ -324,23 +364,24 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
                           )),
-                      Container(
+                      SizedBox(
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
                           controller: bedController,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF333333)),
+                          style: TextStyle(
+                              fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: '请输入床号',
                             hintStyle: TextStyle(
-                                color: const Color(0xFF333333),
-                                fontSize: 16.sp),
+                                color: const Color(0xFFaaaaaa),
+                                fontSize: 14.sp),
                           ),
                         ),
                       ),
                     ],
-                  )),
+                  ),
                 ],
               ),
               Row(
@@ -358,7 +399,9 @@ class _AddPageState extends State<AddPage> {
                           color: const Color(0xFF00A8E7),
                         )),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                       child: Text(
                         '取消',
                         style: TextStyle(
@@ -370,31 +413,39 @@ class _AddPageState extends State<AddPage> {
                     width: 110.w,
                     height: 43.h,
                     decoration: BoxDecoration(
-                      color: Color(0xFF00A8E7),
+                      color: const Color(0xFF00A8E7),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10.w),
                       ),
                     ),
                     child: TextButton(
                       onPressed: () {
+                        if (TextUtil.isEmpty(numController.text)) {
+                          showToastMsg(msg: "请输入用户编号");
+                          return;
+                        }
+                        if (TextUtil.isEmpty(nameController.text)) {
+                          showToastMsg(msg: "请输入用户姓名");
+                          return;
+                        }
+                        if (TextUtil.isEmpty(ageController.text)) {
+                          showToastMsg(msg: "请输入用户年龄");
+                          return;
+                        }
                         User user = User();
-                        // user.userId = "95271212"; //编号
-                        user.userName = '张三李四';
-                        user.account = 'admin';
-                        user.pssWord = '123456';
-                        user.sex = 1; //性别
-                        user.age = 12; //年龄
+                        user.userNub = numController.text; //编号
+                        user.userName = nameController.text;
+                        user.sex = sex;
+                        user.age = int.parse(ageController.text); //年龄
                         user.sex = sex; //性别
-                        user.phone = "123242341"; //电话
-                        user.idCard = "121233432534"; //证件
-                        user.ad = "dis989293"; //住院号
-                        user.bedNumber = "ab293849324"; //床号
-                        UserSqlDao.instance().addData(user: user);
-                        var somrthing = UserSqlDao.instance()
-                            .queryAUser(userName: user.userName!);
-
+                        user.phone = telController.text; //电话
+                        user.idCard = cerController.text; //证件
+                        user.ad = zhuController.text; //住院号
+                        user.bedNumber = bedController.text; //床号
+                        UserSqlDao.instance().addData(user: user).then(
+                            (value) => {if (value) eventBus.fire(User())});
                         // ignore: avoid_print
-                        somrthing.then((value) => debugPrint(value.toString()));
+                        Get.back();
 
                         // print('AAAAAAA$');
                       },

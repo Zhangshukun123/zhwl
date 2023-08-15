@@ -13,10 +13,9 @@ class ZhongPinPage extends StatefulWidget {
 }
 
 class _ZhongPinPageState extends State<ZhongPinPage> {
-
-
   bool yiStartSelected = true;
   bool erStartSelected = true;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
@@ -29,17 +28,16 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
             Expanded(
               flex: 1,
               child: Container(
-                // color: Colors.white,
-                // decoration: const BoxDecoration(
-                //   image: DecorationImage(
-                //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                //     fit: BoxFit.contain,
-                //   ),
-                // ),
+                  // color: Colors.white,
+                  // decoration: const BoxDecoration(
+                  //   image: DecorationImage(
+                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
                   margin: EdgeInsets.only(top: 11.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                     children: [
                       Container(
                           decoration: BoxDecoration(
@@ -53,8 +51,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           width: 340.w,
                           height: 120.h,
                           child: Row(
@@ -62,24 +59,31 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               Container(
                                 margin: EdgeInsets.only(left: 20.w),
                                 child: TextButton(
-                                    onPressed: (){
-                                    },
+                                    onPressed: () {},
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_chufang.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                                        SizedBox(width: 4.w,),
-                                        Text('处方',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_chufang.png',
+                                          fit: BoxFit.fitWidth,
+                                          width: 15.w,
+                                        ),
+                                        SizedBox(
+                                          width: 4.w,
+                                        ),
+                                        Text(
+                                          '处方',
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: const Color(0xFF999999)),
+                                        ),
                                       ],
-                                    )
-                                ),
+                                    )),
                               ),
                               PopupMenuBtn(
                                 index: 7,
                               ),
-
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
@@ -87,7 +91,9 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          minValue: 1,
+                          maxValue: 30,
                           unit: 'min',
                           valueListener: (value) {},
                         ),
@@ -99,55 +105,58 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          maxValue: 99,
+                          minValue: 1,
                           valueListener: (value) {},
                         ),
                       ),
-
                       Container(
                         child: Container(
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )
-                          ),
+                            Radius.circular(10),
+                          )),
                           child: TextButton(
-                              onPressed: (){
+                              onPressed: () {
                                 yiStartSelected = !yiStartSelected;
-                                setState(() {
-
-                                });
-
+                                setState(() {});
                               },
-                              child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                          ),
+                              child: Image.asset(
+                                yiStartSelected
+                                    ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                    : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                fit: BoxFit.cover,
+                                width: 120.w,
+                                height: 45.h,
+                              )),
                         ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
             Container(
                 width: 1,
                 height: 487.h,
                 margin: EdgeInsets.only(top: 11.h),
                 color: const Color(0xFFD6D6D6),
-                child: Text('',style: TextStyle(fontSize: 18.sp,color: Colors.black),)
-            ),
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.black),
+                )),
             Expanded(
               flex: 1,
               child: Container(
-                // color: Colors.white,
-                // decoration: const BoxDecoration(
-                //   image: DecorationImage(
-                //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                //     fit: BoxFit.contain,
-                //   ),
-                // ),
+                  // color: Colors.white,
+                  // decoration: const BoxDecoration(
+                  //   image: DecorationImage(
+                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
                   margin: EdgeInsets.only(top: 11.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                     children: [
                       Container(
                           decoration: BoxDecoration(
@@ -161,8 +170,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           width: 340.w,
                           height: 120.h,
                           child: Row(
@@ -170,24 +178,31 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               Container(
                                 margin: EdgeInsets.only(left: 20.w),
                                 child: TextButton(
-                                    onPressed: (){
-                                    },
+                                    onPressed: () {},
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_chufang.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                                        SizedBox(width: 4.w,),
-                                        Text('处方',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_chufang.png',
+                                          fit: BoxFit.fitWidth,
+                                          width: 15.w,
+                                        ),
+                                        SizedBox(
+                                          width: 4.w,
+                                        ),
+                                        Text(
+                                          '处方',
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: const Color(0xFF999999)),
+                                        ),
                                       ],
-                                    )
-                                ),
+                                    )),
                               ),
                               PopupMenuBtn(
-                                index: 8,
+                                index: 7,
                               ),
-
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
@@ -195,7 +210,9 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          maxValue: 30,
+                          minValue: 1,
                           unit: 'min',
                           valueListener: (value) {},
                         ),
@@ -207,7 +224,9 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          maxValue: 99,
+                          minValue: 1,
                           valueListener: (value) {},
                         ),
                       ),
@@ -215,23 +234,25 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                         child: Container(
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )
-                          ),
+                            Radius.circular(10),
+                          )),
                           child: TextButton(
-                              onPressed: (){
+                              onPressed: () {
                                 erStartSelected = !erStartSelected;
-                                setState(() {
-
-                                });
+                                setState(() {});
                               },
-                              child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                          ),
+                              child: Image.asset(
+                                erStartSelected
+                                    ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                    : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                fit: BoxFit.cover,
+                                width: 120.w,
+                                height: 45.h,
+                              )),
                         ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
           ],
         ),

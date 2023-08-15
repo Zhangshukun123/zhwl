@@ -46,6 +46,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     final UltrasonicController controller = Get.put(UltrasonicController());
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
         child: Column(
@@ -191,6 +192,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               PopupMenuBtn(
                                 index: 1,
                                 unit: 'MHz',
+                                offset: Offset(0, -80.h),
                                 patternStr: '1',
                                 popupListener: (value) {
                                   // debugPrint(value);

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
@@ -28,641 +29,13 @@ class _JingPiPageState extends State<JingPiPage> {
             Expanded(
               flex: 1,
               child: Container(
-                // child: Stack(
-                //
-                //   children: [
-                //     Positioned(
-                //       top: 0,
-                //       left: 0,
-                //       child: Container(
-                //         color: Colors.red,
-                //         child: Image.asset('assets/images/2.0x/img_tongdaoyi.png',fit: BoxFit.cover,width: 60.w,height: 60.h,),
-                //       ),
-                //     ),
-                //     Container(
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(15),
-                //             )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               child: TextButton(
-                //                   onPressed: (){
-                //                   },
-                //                   child: Row(
-                //                     children: [
-                //                       Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                //                       SizedBox(width: 4.w,),
-                //                       Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                //                     ],
-                //                   )
-                //               ),
-                //             ),
-                //             Container(
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               width: 230.w,
-                //               height: 55.h,
-                //               child: _popupMenuButton(context),
-                //             ),
-                //           ],
-                //         )
-                //     ),
-                //     Container(
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(15),
-                //             )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         margin: EdgeInsets.only(top: 11.h),
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               width: 75.w,
-                //               child: TextButton(
-                //                   onPressed: (){
-                //
-                //                   },
-                //                   child: Row(
-                //                       children: [
-                //                         Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                         SizedBox(width: 2.5.w,),
-                //                         Text('时间',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                       ]
-                //                   )
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //             Container(
-                //               width: 120.w,
-                //               height: 55.h,
-                //               margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: [
-                //                   Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                   Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                 ],
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //           ],
-                //         )
-                //     ),
-                //     Container(
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(15),
-                //             )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         margin: EdgeInsets.only(top: 11.h),
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               width: 75.w,
-                //               child: TextButton(
-                //                   onPressed: (){
-                //
-                //                   },
-                //                   child: Row(
-                //                       children: [
-                //                         Image.asset('assets/images/2.0x/icon_qiangdu.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                         SizedBox(width: 2.5.w,),
-                //                         Text('强度',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                       ]
-                //                   )
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //             Container(
-                //               width: 120.w,
-                //               height: 55.h,
-                //               margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: [
-                //                   Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                 ],
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //           ],
-                //         )
-                //     ),
-                //     Container(
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(15),
-                //             )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         margin: EdgeInsets.only(top: 11.h),
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               width: 75.w,
-                //               child: TextButton(
-                //                   onPressed: (){
-                //
-                //                   },
-                //                   child: Row(
-                //                       children: [
-                //                         Image.asset('assets/images/2.0x/icon_pinlv.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                         SizedBox(width: 2.5.w,),
-                //                         Text('频率',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                       ]
-                //                   )
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //             Container(
-                //               width: 120.w,
-                //               height: 55.h,
-                //               margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: [
-                //                   Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                   Text('Hz',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                 ],
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //           ],
-                //         )
-                //     ),
-                //     Container(
-                //         decoration: const BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(15),
-                //             )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         margin: EdgeInsets.only(top: 11.h),
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               width: 75.w,
-                //               child: TextButton(
-                //                   onPressed: (){
-                //
-                //                   },
-                //                   child: Row(
-                //                       children: [
-                //                         Image.asset('assets/images/2.0x/icon_maikuan.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                         SizedBox(width: 2.5.w,),
-                //                         Text('脉宽',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                       ]
-                //                   )
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //             Container(
-                //               width: 120.w,
-                //               height: 55.h,
-                //               margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 children: [
-                //                   Text('60',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                   Text('μs',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                 ],
-                //               ),
-                //             ),
-                //             TextButton(
-                //                 onPressed: (){},
-                //                 child:
-                //                 Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //             ),
-                //           ],
-                //         )
-                //     ),
-                //     Container(
-                //       child: Container(
-                //         decoration: const BoxDecoration(
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(10),
-                //             )
-                //         ),
-                //         child: TextButton(
-                //             onPressed: (){
-                //               yiStartSelected = !yiStartSelected;
-                //               setState(() {
-                //
-                //               });
-                //
-                //             },
-                //             child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // height: 487.h,
-                // margin: EdgeInsets.only(top: 11.h),
-                // child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //
-                //     children: [
-                //       Container(
-                //         decoration: const BoxDecoration(
-                //           color: Colors.white,
-                //           borderRadius: BorderRadius.all(
-                //             Radius.circular(15),
-                //           )
-                //         ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //         child: Row(
-                //           children: [
-                //             Container(
-                //               margin: EdgeInsets.only(left: 20.w),
-                //               child: TextButton(
-                //                   onPressed: (){
-                //                   },
-                //                   child: Row(
-                //                     children: [
-                //                       Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
-                //                       SizedBox(width: 4.w,),
-                //                       Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                //                     ],
-                //                   )
-                //               ),
-                //             ),
-                //             Container(
-                //               decoration: const BoxDecoration(
-                //                   color: Color(0xFFF0FAFE),
-                //                   borderRadius: BorderRadius.all(
-                //                     Radius.circular(10),
-                //                   )
-                //               ),
-                //               width: 230.w,
-                //               height: 55.h,
-                //               child: _popupMenuButton(context),
-                //             ),
-                //           ],
-                //         )
-                //       ),
-                //       Container(
-                //           decoration: const BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: BorderRadius.all(
-                //                 Radius.circular(15),
-                //               )
-                //           ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //           margin: EdgeInsets.only(top: 11.h),
-                //           child: Row(
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.only(left: 20.w),
-                //                 width: 75.w,
-                //                 child: TextButton(
-                //                     onPressed: (){
-                //
-                //                     },
-                //                     child: Row(
-                //                         children: [
-                //                           Image.asset('assets/images/2.0x/icon_shijian.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                           SizedBox(width: 2.5.w,),
-                //                           Text('时间',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                         ]
-                //                     )
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //               Container(
-                //                 width: 120.w,
-                //                 height: 55.h,
-                //                 margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //                 decoration: const BoxDecoration(
-                //                     color: Color(0xFFF0FAFE),
-                //                     borderRadius: BorderRadius.all(
-                //                       Radius.circular(10),
-                //                     )
-                //                 ),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                     Text('min',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                   ],
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //             ],
-                //           )
-                //       ),
-                //       Container(
-                //           decoration: const BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: BorderRadius.all(
-                //                 Radius.circular(15),
-                //               )
-                //           ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //           margin: EdgeInsets.only(top: 11.h),
-                //           child: Row(
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.only(left: 20.w),
-                //                 width: 75.w,
-                //                 child: TextButton(
-                //                     onPressed: (){
-                //
-                //                     },
-                //                     child: Row(
-                //                         children: [
-                //                           Image.asset('assets/images/2.0x/icon_qiangdu.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                           SizedBox(width: 2.5.w,),
-                //                           Text('强度',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                         ]
-                //                     )
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //               Container(
-                //                 width: 120.w,
-                //                 height: 55.h,
-                //                 margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //                 decoration: const BoxDecoration(
-                //                     color: Color(0xFFF0FAFE),
-                //                     borderRadius: BorderRadius.all(
-                //                       Radius.circular(10),
-                //                     )
-                //                 ),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     Text('12',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                   ],
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //             ],
-                //           )
-                //       ),
-                //       Container(
-                //           decoration: const BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: BorderRadius.all(
-                //                 Radius.circular(15),
-                //               )
-                //           ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //           margin: EdgeInsets.only(top: 11.h),
-                //           child: Row(
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.only(left: 20.w),
-                //                 width: 75.w,
-                //                 child: TextButton(
-                //                     onPressed: (){
-                //
-                //                     },
-                //                     child: Row(
-                //                         children: [
-                //                           Image.asset('assets/images/2.0x/icon_pinlv.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                           SizedBox(width: 2.5.w,),
-                //                           Text('频率',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                         ]
-                //                     )
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //               Container(
-                //                 width: 120.w,
-                //                 height: 55.h,
-                //                 margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //                 decoration: const BoxDecoration(
-                //                     color: Color(0xFFF0FAFE),
-                //                     borderRadius: BorderRadius.all(
-                //                       Radius.circular(10),
-                //                     )
-                //                 ),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     Text('1',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                     Text('Hz',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                   ],
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //             ],
-                //           )
-                //       ),
-                //       Container(
-                //           decoration: const BoxDecoration(
-                //               color: Colors.white,
-                //               borderRadius: BorderRadius.all(
-                //                 Radius.circular(15),
-                //               )
-                //           ),
-                //         width: 340.w,
-                //         height: 70.h,
-                //           margin: EdgeInsets.only(top: 11.h),
-                //           child: Row(
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.only(left: 20.w),
-                //                 width: 75.w,
-                //                 child: TextButton(
-                //                     onPressed: (){
-                //
-                //                     },
-                //                     child: Row(
-                //                         children: [
-                //                           Image.asset('assets/images/2.0x/icon_maikuan.png',fit: BoxFit.cover,width: 20.w,height: 18.h,),
-                //                           SizedBox(width: 2.5.w,),
-                //                           Text('脉宽',style: TextStyle(color: const Color(0xFF999999),fontSize: 18.sp),),
-                //                         ]
-                //                     )
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jian_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //               Container(
-                //                 width: 120.w,
-                //                 height: 55.h,
-                //                 margin: EdgeInsets.only(left: 5.w,right: 5.w),
-                //                 decoration: const BoxDecoration(
-                //                     color: Color(0xFFF0FAFE),
-                //                     borderRadius: BorderRadius.all(
-                //                       Radius.circular(10),
-                //                     )
-                //                 ),
-                //                 child: Row(
-                //                   mainAxisAlignment: MainAxisAlignment.center,
-                //                   children: [
-                //                     Text('60',style: TextStyle(color: const Color(0xFF333333),fontSize: 22.sp),),
-                //                     Text('μs',style: TextStyle(color: const Color(0xFF999999),fontSize: 12.sp),),
-                //                   ],
-                //                 ),
-                //               ),
-                //               TextButton(
-                //                   onPressed: (){},
-                //                   child:
-                //                   Image.asset('assets/images/2.0x/btn_jia_nor.png',fit: BoxFit.cover,width: 38.w,height: 34.h,)
-                //               ),
-                //             ],
-                //           )
-                //       ),
-                //       Container(
-                //         child: Container(
-                //           decoration: const BoxDecoration(
-                //             borderRadius: BorderRadius.all(
-                //               Radius.circular(10),
-                //             )
-                //           ),
-                //           child: TextButton(
-                //               onPressed: (){
-                //                 yiStartSelected = !yiStartSelected;
-                //                 setState(() {
-                //
-                //                 });
-                //
-                //               },
-                //               child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   )
                 child: Container(
                     height: 487.h,
-                    // color: Colors.white,
-                    // decoration: const BoxDecoration(
-                    //   image: DecorationImage(
-                    //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                    //     fit: BoxFit.contain,
-                    //   ),
-                    // ),
                     margin: EdgeInsets.only(top: 9.h),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                       children: [
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.15),
-                                      blurRadius: 15.w,
-                                      offset: const Offset(0, 2),
-                                      spreadRadius: 0)
-                                ],
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15.w),
-                                )
-                            ),
+                        ContainerBg(
                             width: 340.w,
                             height: 70.h,
                             child: Row(
@@ -674,9 +47,9 @@ class _JingPiPageState extends State<JingPiPage> {
                                       },
                                       child: Row(
                                         children: [
-                                          Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                          Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w),
                                           SizedBox(width: 4.w,),
-                                          Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                          Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                         ],
                                       )
                                   ),
@@ -695,7 +68,9 @@ class _JingPiPageState extends State<JingPiPage> {
                             enabled: true,
                             title: '时间',
                             assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue: 12,
+                            initialValue: 1,
+                            minValue: 1,
+                            maxValue: 30,
                             unit: 'min',
                             valueListener: (value) {},
                           ),
@@ -707,7 +82,9 @@ class _JingPiPageState extends State<JingPiPage> {
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: 12,
+                            initialValue: 1,
+                            maxValue: 99,
+                            minValue: 1,
                             valueListener: (value) {},
                           ),
                         ),
@@ -718,7 +95,9 @@ class _JingPiPageState extends State<JingPiPage> {
                             enabled: true,
                             title: '频率',
                             assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: 1,
+                            initialValue: 2,
+                            minValue: 2,
+                            maxValue: 160,
                             unit: 'Hz',
                             valueListener: (value) {},
                           ),
@@ -731,6 +110,9 @@ class _JingPiPageState extends State<JingPiPage> {
                             title: '脉宽',
                             assets: 'assets/images/2.0x/icon_maikuan.png',
                             initialValue: 60,
+                            minValue: 60,
+                            maxValue: 520,
+                            appreciation: 10,
                             unit: 'μs',
                             valueListener: (value) {},
                           ),
@@ -806,15 +188,15 @@ class _JingPiPageState extends State<JingPiPage> {
                                     },
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.cover,width: 19.w,height: 18.h,),
+                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
                               ),
                               PopupMenuBtn(
-                                index: 4,
+                                index: 3,
                               ),
 
                             ],
@@ -827,7 +209,9 @@ class _JingPiPageState extends State<JingPiPage> {
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          maxValue: 30,
+                          minValue: 1,
                           unit: 'min',
                           valueListener: (value) {},
                         ),
@@ -839,7 +223,9 @@ class _JingPiPageState extends State<JingPiPage> {
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 12,
+                          initialValue: 1,
+                          maxValue: 99,
+                          minValue: 1,
                           valueListener: (value) {},
                         ),
                       ),
@@ -851,6 +237,8 @@ class _JingPiPageState extends State<JingPiPage> {
                           title: '频率',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
                           initialValue: 1,
+                          minValue: 2,
+                          maxValue: 160,
                           unit: 'Hz',
                           valueListener: (value) {},
                         ),
@@ -863,6 +251,9 @@ class _JingPiPageState extends State<JingPiPage> {
                           title: '脉宽',
                           assets: 'assets/images/2.0x/icon_maikuan.png',
                           initialValue: 60,
+                          minValue: 60,
+                          maxValue: 520,
+                          appreciation: 10,
                           unit: 'μs',
                           valueListener: (value) {},
                         ),

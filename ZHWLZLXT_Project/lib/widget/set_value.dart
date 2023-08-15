@@ -60,11 +60,17 @@ class _SetValueState extends State<SetValue> {
     if (widget.isEventBus == true) {
       eventBus.on<Ultrasonic>().listen((event) {
         value = 0;
+        if(!mounted){
+          return;
+        }
         setState(() {});
       });
 
       eventBus.on<Infrared>().listen((event) { //光疗强度 低功率 。
         value = 1;
+        if(!mounted){
+          return;
+        }
         setState(() {});
       });
 

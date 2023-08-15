@@ -100,7 +100,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
                   setState(() {
                     if (widget.enabled == true) {
                       if (value == 0) return;

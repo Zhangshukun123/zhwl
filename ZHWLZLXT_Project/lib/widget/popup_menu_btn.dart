@@ -47,93 +47,98 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: const Color(0xFFF0FAFE),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.w),
-          )),
-      width: 230.w,
-      height: 55.h,
-      child: PopupMenuButton(
-          offset: widget.offset ?? Offset(0, 57.h),
-          itemBuilder: (BuildContext context) {
-            return pop;
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: EdgeInsets.only(left: 30.0.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      value,
-                      style: TextStyle(
-                          color: const Color(0xFF333333),
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w600),
+    return UnconstrainedBox(
+      child: Container(
+        decoration: BoxDecoration(
+            color: const Color(0xFFF0FAFE),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.w),
+            )),
+        width: 230.w,
+        height: 55.h,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 100.0),
+          child: PopupMenuButton(
+              offset: widget.offset ?? Offset(0, 57.h),
+              itemBuilder: (BuildContext context) {
+                return pop;
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.only(left: 30.0.w),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          value,
+                          style: TextStyle(
+                              color: const Color(0xFF333333),
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Container(
+                          child: !TextUtil.isEmpty(widget.unit)
+                              ? Text(
+                                  widget.unit!,
+                                  style: TextStyle(
+                                      fontSize: 10.sp, color: Colors.black),
+                                )
+                              : const Text(''),
+                        ),
+                      ],
                     ),
-                    Container(
-                      child: !TextUtil.isEmpty(widget.unit)
-                          ? Text(
-                              widget.unit!,
-                              style: TextStyle(
-                                  fontSize: 10.sp, color: Colors.black),
-                            )
-                          : const Text(''),
-                    ),
-                  ],
-                ),
-              )),
-              Image.asset(
-                'assets/images/2.0x/icon_xiala.png',
-                width: 16.w,
+                  )),
+                  Image.asset(
+                    'assets/images/2.0x/icon_xiala.png',
+                    width: 16.w,
+                  ),
+                  SizedBox(
+                    width: 15.w,
+                  )
+                ],
               ),
-              SizedBox(
-                width: 15.w,
-              )
-            ],
-          ),
-          onSelected: (ovc) {
-            setState(() {
-              value = (ovc as String);
-            });
-            if (widget.index == 1) {
-              eventBus.fire(Ultrasonic());
-              if (value == "1") {
-                controller.ultrasonic.frequency.value = 1;
-              } else {
-                controller.ultrasonic.frequency.value = 3;
-              }
-              widget.popupListener!(value);
-            }
+              onSelected: (ovc) {
+                setState(() {
+                  value = (ovc as String);
+                });
+                if (widget.index == 1) {
+                  eventBus.fire(Ultrasonic());
+                  if (value == "1") {
+                    controller.ultrasonic.frequency.value = 1;
+                  } else {
+                    controller.ultrasonic.frequency.value = 3;
+                  }
+                  widget.popupListener!(value);
+                }
 
-            if (widget.index == 2) {
-              if(value=="连续模式1"){
-                widget.popupListener!('01');
-              }
-              if(value=="断续模式1"){
-                widget.popupListener!('02');
-              }
-              if(value=="断续模式2"){
-                widget.popupListener!('03');
-              }
-              if(value=="断续模式3"){
-                widget.popupListener!('04');
-              }
-            }
+                if (widget.index == 2) {
+                  if (value == "连续模式1") {
+                    widget.popupListener!('01');
+                  }
+                  if (value == "断续模式1") {
+                    widget.popupListener!('02');
+                  }
+                  if (value == "断续模式2") {
+                    widget.popupListener!('03');
+                  }
+                  if (value == "断续模式3") {
+                    widget.popupListener!('04');
+                  }
+                }
 
-            if (ovc == "连续 0") {
-            } else if (ovc == "连续 1") {
-            } else if (ovc == "连续 2") {}
-          },
-          onCanceled: () {
-            print('cancel');
-          }),
+                if (ovc == "连续 0") {
+                } else if (ovc == "连续 1") {
+                } else if (ovc == "连续 2") {}
+              },
+              onCanceled: () {
+                print('cancel');
+              }),
+        ),
+      ),
     );
   }
 
@@ -150,7 +155,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         ];
       case 1:
         widget.unit = "MHz";
-        widget.offset = Offset(0, -120.h);
+        widget.offset = Offset(0, -60.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('1'),
           _getPopupMenuItem('3'),
@@ -165,13 +170,13 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('断续模式3'),
         ];
       case 3:
-        widget.unit = '模式';
-        widget.patternStr = '连续 0';
+        widget.unit = '';
+        widget.patternStr = '连续输出';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续 0'),
-          _getPopupMenuItem('连续 1'),
-          _getPopupMenuItem('连续 2'),
+          _getPopupMenuItem('连续输出'),
+          _getPopupMenuItem('慢速输出'),
+          _getPopupMenuItem('快速输出'),
         ];
       case 4:
         widget.unit = '模式';
@@ -183,13 +188,11 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('连续 2'),
         ];
       case 5:
-        widget.unit = '模式';
-        widget.patternStr = '连续 0';
+        widget.patternStr = '完全失神经';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续 0'),
-          _getPopupMenuItem('连续 1'),
-          _getPopupMenuItem('连续 2'),
+          _getPopupMenuItem('完全失神经'),
+          _getPopupMenuItem('部分失神经'),
         ];
       case 6:
         widget.unit = '模式';
@@ -203,11 +206,11 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
       case 7:
         widget.patternStr = '1';
         widget.offset = Offset(0, 57.h);
-        return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('1'),
-          _getPopupMenuItem('2'),
-          _getPopupMenuItem('3'),
-        ];
+        var pop = <PopupMenuEntry<String>>[];
+        for (var i = 0; i < 60; i++) {
+          pop.add(_getPopupMenuItem((i + 1).toString()));
+        }
+        return pop;
       case 8:
         widget.patternStr = '1';
         widget.offset = Offset(0, 57.h);
@@ -223,7 +226,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
     return PopupMenuItem(
       value: value,
       child: SizedBox(
-          width: 200.w,
+          width: 230.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import '../cofig/sql_config.dart';
 import '../utils/sql_tool.dart';
@@ -34,6 +35,23 @@ class UserSqlDao {
     return map;
   }
 
+  queryIUser({
+    required String key,
+  }) async {
+    SqlUtils sqlUtils = SqlUtils();
+    var map = await queryLikeUser(sqlUtils: sqlUtils, key: key);
+    sqlUtils.close();
+    return map;
+  }
+
+  queryAllUser() async {
+    SqlUtils sqlUtils = SqlUtils();
+    await sqlUtils.open();
+    return await sqlUtils.queryList(
+      sql: 'select * from ${SqlConfig.tableUse}',
+    );
+  }
+
   /// 更新书记
   updateData({required User user}) async {
     SqlUtils sqlUtils = SqlUtils();
@@ -42,31 +60,23 @@ class UserSqlDao {
     int type = await sqlUtils.updateByHelper(
         tableName: SqlConfig.tableUse,
         setArgs: par,
-        whereStr: '${user.userId} = ?',
+        whereStr: '${UserTableField.userId} = ?',
         whereArgs: [user.userId]);
     await sqlUtils.close();
     String str = "更新成功";
     if (type != 1) {
       str = "更新失败";
     }
-
-    showToastMsg(
-        msg: str,
-        ontap: () {
-          if (type == 1) {
-            // currentGoback(Get.context!, info: {"rl": "1"});
-          }
-        });
+    Fluttertoast.showToast(
+      msg: str,
+    );
+    return type;
   }
 
   /// 新增数据
   addData({required User user}) async {
     SqlUtils sqlUtils = SqlUtils();
     await sqlUtils.open();
-
-    Map<String, Object?> par = user.toMap();
-    await sqlUtils.open();
-
     var sq = await sqlUtils.queryListByHelper(
       tableName: SqlConfig.tableUse,
       selects: [
@@ -78,7 +88,6 @@ class UserSqlDao {
       whereArgs: [user.userName, user.age],
     );
 
-
     bool yorn = false;
     String str = "添加失败";
     if (sq.isEmpty) {
@@ -86,13 +95,12 @@ class UserSqlDao {
       await sqlUtils.close();
       if (!yorn) {
         str = "添加失败";
-      }else{
+      } else {
         str = "添加成功";
       }
     } else {
       str = "用户已经存在";
     }
-
 
     showToastMsg(
         msg: str,
@@ -101,6 +109,7 @@ class UserSqlDao {
             // currentGoback(Get.context!, info: {"rl": "1"});
           }
         });
+    return yorn;
   }
 
   /// 删除数据

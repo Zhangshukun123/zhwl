@@ -31,6 +31,7 @@ class _FunctionPageState extends State<FunctionPage> {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Row(
         children: [

@@ -7,6 +7,7 @@
  * @LastEditTime: 2022-08-16 11:57:19
  */
 
+import 'package:common_utils/common_utils.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/utils/sql_utils.dart';
 
@@ -59,7 +60,6 @@ delectpublish({
   return state != -1 ? true : false;
 }
 
-/// 调用样例：await dbUtil.queryListByHelper('relation', ['id','uid','fuid'], 'uid=? and fuid=?', [6,1]);
 queryUser({
   required SqlUtils sqlUtils,
   required String userName,
@@ -75,6 +75,31 @@ queryUser({
     whereStr: '${UserTableField.userName} = ?',
     whereArgs: [userName],
   );
+}
+
+/// sql原生查找列表
+/// SqlUtils sqlUtils = SqlUtils();
+/// await sqlUtils.open();
+/// await sqlUtils.queryList(
+///    "select * from ${SqlConfig.list} where ${uid} = '$userId'"
+/// );
+
+queryLikeUser({
+  required SqlUtils sqlUtils,
+  required String key,
+}) async {
+  await sqlUtils.open();
+  String sql =
+      "select * from ${SqlConfig.tableUse} where ${UserTableField.userName} like '$key%' or ${UserTableField.phone} like '$key%' ";
+  return await sqlUtils.queryList(sql: sql);
+
+  // return await sqlUtils.queryListByHelper(
+  //   tableName: SqlConfig.tableUse,
+  //   selects: [UserTableField.userName, UserTableField.phone],
+  //   whereStr:
+  //       '${UserTableField.userName} like ? || ${UserTableField.phone} like ?',
+  //   whereArgs: [key],
+  // );
 }
 
 /// 插入数据
@@ -97,8 +122,6 @@ insertRecordData({
       tableName: SqlConfig.tableRecord, paramters: record.toMap());
   return state != -1 ? true : false;
 }
-
-
 
 queryAllRecord({
   required SqlUtils sqlUtils,
