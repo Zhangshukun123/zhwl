@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 
 
-class Ultrasonic{
+class UltrasonicObs{
   var frequency = 1.obs; // 频率
 }
 
@@ -12,7 +12,7 @@ class Infrared{
 
 
 class UltrasonicController extends GetxController {
-  Ultrasonic ultrasonic = Ultrasonic();
+  UltrasonicObs ultrasonic = UltrasonicObs();
 
 
 

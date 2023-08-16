@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
+
 class UserTableField {
   static String userId = "userId";
   static String userName = 'userName';

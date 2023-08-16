@@ -58,7 +58,7 @@ class _SetValueState extends State<SetValue> {
     appreciation = widget.appreciation ?? 1;
 
     if (widget.isEventBus == true) {
-      eventBus.on<Ultrasonic>().listen((event) {
+      eventBus.on<UltrasonicObs>().listen((event) {
         value = 0;
         if(!mounted){
           return;

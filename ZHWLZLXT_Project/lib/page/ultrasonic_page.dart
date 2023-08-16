@@ -1,13 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
+import 'package:zhwlzlxt_project/utils/event_bus.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../entity/ultrasonic_entity.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
+import 'control_page.dart';
 
 class UltrasonicPage extends StatefulWidget {
   const UltrasonicPage({Key? key}) : super(key: key);
@@ -27,15 +36,43 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   var frequency = 1;
 
+  Ultrasonic? ultrasonic;
+
+  StreamController<String> cTime = StreamController<String>();
+
   @override
   void initState() {
     super.initState();
     dialog = DetailsDialog();
+    ultrasonic = Ultrasonic();
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
+
+    // 一定时间内 返回一个数据
+    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
+      ultrasonic?.time = time;
+      save();
+    });
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.ultrasonic) {
+        ultrasonic?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(UltrasonicField.UltrasonicKey, ultrasonic?.toJson());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cTime.close();
   }
 
   @override
@@ -51,7 +88,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       body: SafeArea(
         child: Column(
           children: [
-            const UserHeadView(),
+            UserHeadView(
+              type: TreatmentType.ultrasonic,
+            ),
             Container(
               padding: EdgeInsets.only(left: 35.w, right: 35.w, top: 17.5.h),
               child: Column(
@@ -94,6 +133,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               PopupMenuBtn(
                                 index: 0,
                                 patternStr: "连续模式1",
+                                popupListener: (value) {
+                                  ultrasonic?.pattern = value;
+                                  save();
+                                },
                               ),
                             ],
                           )),
@@ -103,11 +146,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 enabled: true,
                                 title: '时间',
                                 assets: 'assets/images/2.0x/icon_shijian.png',
-                                initialValue: 12,
+                                initialValue: 1,
                                 minValue: 1,
                                 maxValue: 30,
                                 unit: 'min',
-                                valueListener: (value) {},
+                                valueListener: (value) {
+                                  print("------222-----$value");
+                                  cTime.add(value.toString());
+                                },
                               )),
                         ],
                       )),

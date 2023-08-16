@@ -56,7 +56,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       body: SafeArea(
         child: Column(
           children: [
-            const UserHeadView(),
+             UserHeadView(),
             Expanded(
               child: Column(
                 children: [

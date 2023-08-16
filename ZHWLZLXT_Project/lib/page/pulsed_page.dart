@@ -46,7 +46,7 @@ class _PulsedPageState extends State<PulsedPage>
       body: SafeArea(
         child: Column(
           children: [
-            const UserHeadView(),
+             UserHeadView(),
             Row(
               children: [
                 Container(

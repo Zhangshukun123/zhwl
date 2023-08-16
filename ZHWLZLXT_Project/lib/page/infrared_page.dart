@@ -51,7 +51,7 @@ class _InfraredPageState extends State<InfraredPage>
       body: SafeArea(
         child: Column(
           children: [
-            const UserHeadView(),
+             UserHeadView(),
             Row(
               children: [
                 Container(
