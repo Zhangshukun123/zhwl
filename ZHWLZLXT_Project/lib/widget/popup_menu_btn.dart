@@ -106,7 +106,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                   value = (ovc as String);
                 });
                 if (widget.index == 1) {
-                  eventBus.fire(Ultrasonic());
+                  eventBus.fire(UltrasonicObs());
                   if (value == "1") {
                     controller.ultrasonic.frequency.value = 1;
                   } else {
@@ -115,7 +115,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                   widget.popupListener!(value);
                 }
 
-                if (widget.index == 2) {
+                if (widget.index == 0 || widget.index == 2) {
                   if (value == "连续模式1") {
                     widget.popupListener!('01');
                   }

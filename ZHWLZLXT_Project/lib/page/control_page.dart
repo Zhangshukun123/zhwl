@@ -13,9 +13,20 @@ import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/widget/delete_dialog.dart';
 
 import '../dataResource/user_sql_dao.dart';
+import '../utils/treatment_type.dart';
 
+class UserEvent {
+  User? user;
+  TreatmentType? type;
+
+  UserEvent({this.user, this.type});
+}
+
+// ignore: must_be_immutable
 class ControlPage extends StatefulWidget {
-  const ControlPage({Key? key}) : super(key: key);
+  TreatmentType? type;
+
+  ControlPage({Key? key, this.type}) : super(key: key);
 
   @override
   State<ControlPage> createState() => _ControlPageState();
@@ -64,22 +75,31 @@ class _ControlPageState extends State<ControlPage> {
   @override
   void initState() {
     super.initState();
-
     UserSqlDao.instance().queryAllUser().then((value) => {userForJson(value)});
     eventBus.on<User>().listen((event) {
-      UserSqlDao.instance()
-          .queryAllUser()
-          .then((value) => {userForJson(value)});
+      if (!TextUtil.isEmpty(searchController.text)) {
+        UserSqlDao.instance()
+            .queryIUser(key: searchController.text)
+            .then((v) => {userForJson(v)});
+      } else {
+        UserSqlDao.instance()
+            .queryAllUser()
+            .then((value) => {userForJson(value)});
+      }
     });
 
     StreamController<String> controller = StreamController<String>();
     searchController.addListener(() {
       controller.add(searchController.text);
     });
-    controller.stream.debounceTime(const Duration(seconds: 1)).listen((inputList) {
-      if(!TextUtil.isEmpty(inputList)){
-        UserSqlDao.instance().queryIUser(key: inputList).then((v)=>{userForJson(v)});
-      }else{
+    controller.stream
+        .debounceTime(const Duration(seconds: 1))
+        .listen((inputList) {
+      if (!TextUtil.isEmpty(inputList)) {
+        UserSqlDao.instance()
+            .queryIUser(key: inputList)
+            .then((v) => {userForJson(v)});
+      } else {
         UserSqlDao.instance()
             .queryAllUser()
             .then((value) => {userForJson(value)});
@@ -101,6 +121,7 @@ class _ControlPageState extends State<ControlPage> {
   }
 
   void chooseUser(User user) {
+    this.user = user;
     numController.text = user.userNub ?? "";
     nameController.text = user.userName ?? "";
     ageController.text = user.age.toString();
@@ -780,6 +801,13 @@ class _ControlPageState extends State<ControlPage> {
                                                   .updateData(user: user!);
                                               isEdit = true;
                                               setState(() {});
+                                            } else {
+                                              print(
+                                                  "------11--->${user?.userName}");
+                                              eventBus.fire(UserEvent(
+                                                  user: user,
+                                                  type: widget.type));
+                                              Get.back();
                                             }
                                           },
                                           child: Text(
