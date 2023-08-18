@@ -1,8 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
 
+import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/set_value_horizontal.dart';
+import 'control_page.dart';
 
 class JingLuanPage extends StatefulWidget {
   const JingLuanPage({Key? key}) : super(key: key);
@@ -13,6 +21,77 @@ class JingLuanPage extends StatefulWidget {
 
 class _JingLuanPageState extends State<JingLuanPage> {
   bool jingStartSelected = true;
+
+  Spastic? spastic;
+
+  StreamController<String> cTime = StreamController<String>();
+  StreamController<String> cCircle = StreamController<String>();
+  StreamController<String> cWidthA = StreamController<String>();
+  StreamController<String> cWidthB = StreamController<String>();
+  StreamController<String> cDelayTime = StreamController<String>();
+  StreamController<String> cPowerA = StreamController<String>();
+  StreamController<String> cPowerB = StreamController<String>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    spastic = Spastic();
+
+
+    // 一定时间内 返回一个数据
+    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
+      spastic?.time = time;
+      save();
+    });
+    cCircle.stream.debounceTime(const Duration(seconds: 1)).listen((circle) {
+      spastic?.circle = circle;
+      save();
+    });
+    cWidthA.stream.debounceTime(const Duration(seconds: 1)).listen((widthA) {
+      spastic?.widthA = widthA;
+      save();
+    });
+    cWidthB.stream.debounceTime(const Duration(seconds: 1)).listen((widthB) {
+      spastic?.widthB = widthB;
+      save();
+    });
+    cDelayTime.stream.debounceTime(const Duration(seconds: 1)).listen((delayTime) {
+      spastic?.delayTime = delayTime;
+      save();
+    });
+    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
+      spastic?.powerA = powerA;
+      save();
+    });
+    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
+      spastic?.powerB = powerB;
+      save();
+    });
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.spasm) {
+        spastic?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(SpasticField.SpasticKey, spastic?.toJson());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cTime.close();
+    cWidthA.close();
+    cWidthB.close();
+    cDelayTime.close();
+    cCircle.close();
+    cPowerB.close();
+    cPowerA.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +115,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     maxValue: 30,
                     minValue: 1,
                     unit: 'min',
-                    valueListener: (value) {},
+                    valueListener: (value) {
+                      print("------时间-----$value");
+                      cTime.add(value.toString());
+                    },
                   ),
                   SetValueHorizontal(
                     enabled: true,
@@ -48,7 +130,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     minValue: 0.1,
                     maxValue: 0.5,
                     unit: 'ms',
-                    valueListener: (value) {},
+                    valueListener: (value) {
+                      print("------脉宽 A-----$value");
+                      cWidthA.add(value.toString());
+                    },
                   ),
                   SetValueHorizontal(
                     enabled: true,
@@ -60,7 +145,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     minValue: 0.1,
                     maxValue: 0.5,
                     unit: 'ms',
-                    valueListener: (value) {},
+                    valueListener: (value) {
+                      print("------脉宽 B-----$value");
+                      cWidthB.add(value.toString());
+                    },
                   ),
                   SetValueHorizontal(
                     enabled: true,
@@ -72,7 +160,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                     maxValue: 1.5,
                     minValue: 0.1,
                     unit: 's',
-                    valueListener: (value) {},
+                    valueListener: (value) {
+                      print("------延时时间-----$value");
+                      cDelayTime.add(value.toString());
+                    },
                   ),
                 ],
               ),
@@ -91,7 +182,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                       minValue: 1,
                       maxValue: 2,
                       unit: 's',
-                      valueListener: (value) {},
+                      valueListener: (value) {
+                        print("------周期-----$value");
+                        cCircle.add(value.toString());
+                      },
                     ),
                     SetValueHorizontal(
                       enabled: true,
@@ -101,7 +195,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                       initialValue: 1,
                       maxValue: 99,
                       minValue: 0,
-                      valueListener: (value) {},
+                      valueListener: (value) {
+                        print("------强度 A-----$value");
+                        cPowerA.add(value.toString());
+                      },
                     ),
                     SetValueHorizontal(
                       enabled: true,
@@ -111,7 +208,10 @@ class _JingLuanPageState extends State<JingLuanPage> {
                       initialValue: 1,
                       maxValue: 99,
                       minValue: 0,
-                      valueListener: (value) {},
+                      valueListener: (value) {
+                        print("------强度 B-----$value");
+                        cPowerB.add(value.toString());
+                      },
                     ),
                     Container(
                         width: 340.w,

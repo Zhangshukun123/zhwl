@@ -1,13 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
 import 'package:zhwlzlxt_project/page/operate_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/details_dialog.dart';
 import 'attention_page.dart';
+import 'control_page.dart';
 
 class PulsedPage extends StatefulWidget {
   const PulsedPage({Key? key}) : super(key: key);
@@ -23,15 +31,57 @@ class _PulsedPageState extends State<PulsedPage>
 
   DetailsDialog? dialog;
 
+  //初始化字段存储
+  Pulsed? pulsed;
+
+  StreamController<String> cTime = StreamController<String>();
+  StreamController<String> cPower = StreamController<String>();
+  StreamController<String> cFrequency = StreamController<String>();
+
   @override
   void initState() {
     super.initState();
     dialog = DetailsDialog();
+    pulsed = Pulsed();
+
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
+
+    // 一定时间内 返回一个数据
+    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
+      pulsed?.time = time;
+      save();
+    });
+    cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
+      pulsed?.power = power;
+      save();
+    });
+    cFrequency.stream.debounceTime(const Duration(seconds: 1)).listen((frequency) {
+      pulsed?.frequency = frequency;
+      save();
+    });
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.pulsed) {
+        pulsed?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(PulsedField.PulsedKey, pulsed?.toJson());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cTime.close();
+    cPower.close();
+    cFrequency.close();
   }
 
   @override
@@ -65,7 +115,10 @@ class _PulsedPageState extends State<PulsedPage>
                             initialValue: 0,
                             maxValue: 5,
                             minValue: 0,
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------强度-----$value");
+                              cPower.add(value.toString());
+                            },
                           )),
                       ContainerBg(
                           width: 416.w,
@@ -80,7 +133,10 @@ class _PulsedPageState extends State<PulsedPage>
                             maxValue: 80,
                             minValue: 20,
                             unit: '次/min',
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------频率-----$value");
+                              cFrequency.add(value.toString());
+                            },
                           )),
                       ContainerBg(
                           width: 416.w,
@@ -94,7 +150,10 @@ class _PulsedPageState extends State<PulsedPage>
                             maxValue: 99,
                             minValue: 1,
                             unit: 'min',
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------时间-----$value");
+                              cTime.add(value.toString());
+                            },
                           )),
                     ],
                   ),

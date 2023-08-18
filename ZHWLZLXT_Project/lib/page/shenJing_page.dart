@@ -1,9 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
+import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
+import 'control_page.dart';
 
 class ShenJingPage extends StatefulWidget {
   const ShenJingPage({Key? key}) : super(key: key);
@@ -15,6 +23,71 @@ class ShenJingPage extends StatefulWidget {
 class _ShenJingPageState extends State<ShenJingPage> {
   bool yiStartSelected = true;
   bool erStartSelected = true;
+
+  Neuromuscular? neuromuscular;
+
+  StreamController<String> cTimeA = StreamController<String>();
+  StreamController<String> cPowerA = StreamController<String>();
+  StreamController<String> cFrequencyA = StreamController<String>();
+  StreamController<String> cTimeB = StreamController<String>();
+  StreamController<String> cPowerB = StreamController<String>();
+  StreamController<String> cFrequencyB = StreamController<String>();
+  @override
+  void initState() {
+    super.initState();
+
+    neuromuscular = Neuromuscular();
+
+    // 一定时间内 返回一个数据
+    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
+      neuromuscular?.timeA = timeA;
+      save();
+    });
+    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
+      neuromuscular?.powerA = powerA;
+      save();
+    });
+    cFrequencyA.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyA) {
+      neuromuscular?.frequencyA = frequencyA;
+      save();
+    });
+
+    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
+      neuromuscular?.timeB = timeB;
+      save();
+    });
+    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
+      neuromuscular?.powerB = powerB;
+      save();
+    });
+    cFrequencyB.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyB) {
+      neuromuscular?.frequencyB = frequencyB;
+      save();
+    });
+
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.neuromuscular) {
+        neuromuscular?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(NeuromuscularField.NeuromuscularKey, neuromuscular?.toJson());
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    cTimeA.close();
+    cPowerA.close();
+    cFrequencyA.close();
+    cTimeB.close();
+    cPowerB.close();
+    cFrequencyB.close();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -74,6 +147,11 @@ class _ShenJingPageState extends State<ShenJingPage> {
                               ),
                               PopupMenuBtn(
                                 index: 5,
+                                patternStr: "完全失神经",
+                                popupListener: (value) {
+                                  neuromuscular?.patternA = value;
+                                  save();
+                                },
                               ),
 
                             ],
@@ -90,7 +168,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间A-----$value");
+                            cTimeA.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -104,7 +185,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           initialValue: 1,
                           maxValue: 99,
                           minValue: 1,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------强度 A-----$value");
+                            cPowerA.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -120,7 +204,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           minValue: 0.5,
                           maxValue: 5,
                           appreciation: 0.5,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------频率 A-----$value");
+                            cFrequencyA.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -202,6 +289,11 @@ class _ShenJingPageState extends State<ShenJingPage> {
                               ),
                               PopupMenuBtn(
                                 index: 5,
+                                patternStr: "完全失神经",
+                                popupListener: (value) {
+                                  neuromuscular?.patternB = value;
+                                  save();
+                                },
                               ),
                             ],
                           )
@@ -217,7 +309,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间B-----$value");
+                            cTimeB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -231,7 +326,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           initialValue: 1,
                           minValue: 1,
                           maxValue: 99,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------强度 B-----$value");
+                            cPowerB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -247,7 +345,10 @@ class _ShenJingPageState extends State<ShenJingPage> {
                           minValue: 0.5,
                           maxValue: 5,
                           appreciation: 0.5,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------频率B-----$value");
+                            cFrequencyB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(

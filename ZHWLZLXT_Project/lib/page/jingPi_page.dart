@@ -1,10 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/entity/jingPi_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
+import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
+import 'control_page.dart';
 
 class JingPiPage extends StatefulWidget {
   const JingPiPage({Key? key}) : super(key: key);
@@ -16,6 +24,83 @@ class JingPiPage extends StatefulWidget {
 class _JingPiPageState extends State<JingPiPage> {
   bool yiStartSelected = true;
   bool erStartSelected = true;
+
+  Percutaneous? percutaneous;
+
+  StreamController<String> cTimeA = StreamController<String>();
+  StreamController<String> cPowerA = StreamController<String>();
+  StreamController<String> cFrequencyA = StreamController<String>();
+  StreamController<String> cPulseA = StreamController<String>();
+  StreamController<String> cTimeB = StreamController<String>();
+  StreamController<String> cPowerB = StreamController<String>();
+  StreamController<String> cFrequencyB = StreamController<String>();
+  StreamController<String> cPulseB = StreamController<String>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    percutaneous = Percutaneous();
+
+    // 一定时间内 返回一个数据
+    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
+      percutaneous?.timeA = timeA;
+      save();
+    });
+    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
+      percutaneous?.powerA = powerA;
+      save();
+    });
+    cFrequencyA.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyA) {
+      percutaneous?.frequencyA = frequencyA;
+      save();
+    });
+    cPulseA.stream.debounceTime(const Duration(seconds: 1)).listen((pulseA) {
+      percutaneous?.pulseA = pulseA;
+      save();
+    });
+    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
+      percutaneous?.timeB = timeB;
+      save();
+    });
+    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
+      percutaneous?.powerB = powerB;
+      save();
+    });
+    cFrequencyB.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyB) {
+      percutaneous?.frequencyB = frequencyB;
+      save();
+    });
+    cPulseB.stream.debounceTime(const Duration(seconds: 1)).listen((pulseB) {
+      percutaneous?.pulseB = pulseB;
+      save();
+    });
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.percutaneous) {
+        percutaneous?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(PercutaneousField.PercutaneousKey, percutaneous?.toJson());
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    cTimeA.close();
+    cPowerA.close();
+    cFrequencyA.close();
+    cPulseA.close();
+    cTimeB.close();
+    cPowerB.close();
+    cFrequencyB.close();
+    cPulseB.close();
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -56,8 +141,12 @@ class _JingPiPageState extends State<JingPiPage> {
                                 ),
                                 PopupMenuBtn(
                                   index: 3,
+                                  patternStr: "连续输出",
+                                  popupListener: (value) {
+                                    percutaneous?.patternA = value;
+                                    save();
+                                  },
                                 ),
-
                               ],
                             )
                         ),
@@ -72,7 +161,10 @@ class _JingPiPageState extends State<JingPiPage> {
                             minValue: 1,
                             maxValue: 30,
                             unit: 'min',
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------时间A-----$value");
+                              cTimeA.add(value.toString());
+                            },
                           ),
                         ),
                         Container(
@@ -85,7 +177,10 @@ class _JingPiPageState extends State<JingPiPage> {
                             initialValue: 1,
                             maxValue: 99,
                             minValue: 1,
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------强度 A-----$value");
+                               cPowerA.add(value.toString());
+                            },
                           ),
                         ),
                         Container(
@@ -99,7 +194,10 @@ class _JingPiPageState extends State<JingPiPage> {
                             minValue: 2,
                             maxValue: 160,
                             unit: 'Hz',
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------频率 A-----$value");
+                              cFrequencyA.add(value.toString());
+                            },
                           ),
                         ),
                         Container(
@@ -114,7 +212,10 @@ class _JingPiPageState extends State<JingPiPage> {
                             maxValue: 520,
                             appreciation: 10,
                             unit: 'μs',
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------脉宽 A-----$value");
+                              cPulseA.add(value.toString());
+                            },
                           ),
                         ),
                         Container(
@@ -197,6 +298,11 @@ class _JingPiPageState extends State<JingPiPage> {
                               ),
                               PopupMenuBtn(
                                 index: 3,
+                                patternStr: "连续输出",
+                                popupListener: (value) {
+                                  percutaneous?.patternB = value;
+                                  save();
+                                },
                               ),
 
                             ],
@@ -213,7 +319,10 @@ class _JingPiPageState extends State<JingPiPage> {
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间B-----$value");
+                            cTimeB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -226,7 +335,10 @@ class _JingPiPageState extends State<JingPiPage> {
                           initialValue: 1,
                           maxValue: 99,
                           minValue: 1,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------强度 B-----$value");
+                             cPowerB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -240,7 +352,10 @@ class _JingPiPageState extends State<JingPiPage> {
                           minValue: 2,
                           maxValue: 160,
                           unit: 'Hz',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------频率B-----$value");
+                            cFrequencyB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -255,7 +370,10 @@ class _JingPiPageState extends State<JingPiPage> {
                           maxValue: 520,
                           appreciation: 10,
                           unit: 'μs',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------脉宽 B-----$value");
+                            cPulseB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(

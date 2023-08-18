@@ -1,16 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 
 import '../Controller/ultrasonic_controller.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/details_dialog.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value.dart';
+import 'control_page.dart';
 import 'operate_page.dart';
+import '../entity/infrared_entity.dart';
+
 
 class InfraredPage extends StatefulWidget {
   const InfraredPage({Key? key}) : super(key: key);
@@ -29,17 +37,46 @@ class _InfraredPageState extends State<InfraredPage>
 
   DetailsDialog? dialog;
 
+  InfraredEntity? infraredEntity;
+
+  StreamController<String> cTime = StreamController<String>();
+  StreamController<String> cPower = StreamController<String>();
+
   var isDGW = false;
 
   @override
   void initState() {
     super.initState();
     dialog = DetailsDialog();
+    infraredEntity = InfraredEntity();
+
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
+
+
+    // 一定时间内 返回一个数据
+    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
+      infraredEntity?.time = time;
+      save();
+    });
+    cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
+      infraredEntity?.power = power;
+      save();
+    });
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.infrared) {
+        infraredEntity?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(InfraredField.InfraredKey, infraredEntity?.toJson());
   }
 
   @override
@@ -71,7 +108,10 @@ class _InfraredPageState extends State<InfraredPage>
                           maxValue: 99,
                           minValue: 0,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间-----$value");
+                            cTime.add(value.toString());
+                          },
                         ),
                       ),
                       ContainerBg(
@@ -86,7 +126,10 @@ class _InfraredPageState extends State<InfraredPage>
                             initialValue: 1,
                             maxValue: 8,
                             minValue: 1,
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------强度-----$value");
+                              cPower.add(value.toString());
+                            },
                           )),
                       Container(
                           decoration: BoxDecoration(
@@ -142,7 +185,8 @@ class _InfraredPageState extends State<InfraredPage>
                                   if(isDGW){
                                     eventBus.fire(Infrared());
                                   }
-
+                                  infraredEntity?.pattern = value;
+                                  save();
                                   setState(() {});
                                 },
                               ),

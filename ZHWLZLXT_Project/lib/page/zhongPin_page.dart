@@ -1,9 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
+import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
+import '../utils/treatment_type.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
+import 'control_page.dart';
 
 class ZhongPinPage extends StatefulWidget {
   const ZhongPinPage({Key? key}) : super(key: key);
@@ -15,6 +23,60 @@ class ZhongPinPage extends StatefulWidget {
 class _ZhongPinPageState extends State<ZhongPinPage> {
   bool yiStartSelected = true;
   bool erStartSelected = true;
+
+  MidFrequency? midFrequency;
+
+  StreamController<String> cTimeA = StreamController<String>();
+  StreamController<String> cPowerA = StreamController<String>();
+  StreamController<String> cTimeB = StreamController<String>();
+  StreamController<String> cPowerB = StreamController<String>();
+  @override
+  void initState() {
+    super.initState();
+
+    midFrequency = MidFrequency();
+
+    // 一定时间内 返回一个数据
+    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
+      midFrequency?.timeA = timeA;
+      save();
+    });
+    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
+      midFrequency?.powerA = powerA;
+      save();
+    });
+
+
+    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
+      midFrequency?.timeB = timeB;
+      save();
+    });
+    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
+      midFrequency?.powerB = powerB;
+      save();
+    });
+
+
+
+    eventBus.on<UserEvent>().listen((event) {
+      if (event.type == TreatmentType.frequency) {
+        midFrequency?.userId = event.user?.userId;
+        save();
+      }
+    });
+  }
+
+  void save() {
+    SpUtils.set(MidFrequencyField.MidFrequencyKey, midFrequency?.toJson());
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    cTimeA.close();
+    cPowerA.close();
+    cTimeB.close();
+    cPowerB.close();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +143,11 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               ),
                               PopupMenuBtn(
                                 index: 7,
+                                patternStr: "1",
+                                popupListener: (value) {
+                                  midFrequency?.patternA = value;
+                                  save();
+                                },
                               ),
                             ],
                           )),
@@ -95,7 +162,10 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间A-----$value");
+                            cTimeA.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -108,7 +178,10 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           initialValue: 1,
                           maxValue: 99,
                           minValue: 1,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------强度 A-----$value");
+                            cPowerA.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -200,6 +273,11 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                               ),
                               PopupMenuBtn(
                                 index: 7,
+                                patternStr: "1",
+                                popupListener: (value) {
+                                  midFrequency?.patternB = value;
+                                  save();
+                                },
                               ),
                             ],
                           )),
@@ -214,7 +292,10 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------时间B-----$value");
+                            cTimeB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(
@@ -227,7 +308,10 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
                           initialValue: 1,
                           maxValue: 99,
                           minValue: 1,
-                          valueListener: (value) {},
+                          valueListener: (value) {
+                            print("------强度 B-----$value");
+                            cPowerB.add(value.toString());
+                          },
                         ),
                       ),
                       Container(

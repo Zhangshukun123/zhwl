@@ -39,6 +39,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   Ultrasonic? ultrasonic;
 
   StreamController<String> cTime = StreamController<String>();
+  StreamController<String> cPower = StreamController<String>();
+  StreamController<String> cSoundIntensity = StreamController<String>();
 
   @override
   void initState() {
@@ -54,6 +56,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     // 一定时间内 返回一个数据
     cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
       ultrasonic?.time = time;
+      save();
+    });
+    cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
+      ultrasonic?.power = power;
+      save();
+    });
+    cSoundIntensity.stream.debounceTime(const Duration(seconds: 1)).listen((soundIntensity) {
+      ultrasonic?.soundIntensity = soundIntensity;
       save();
     });
 
@@ -73,6 +83,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   void dispose() {
     super.dispose();
     cTime.close();
+    cPower.close();
+    cSoundIntensity.close();
   }
 
   @override
@@ -151,7 +163,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 maxValue: 30,
                                 unit: 'min',
                                 valueListener: (value) {
-                                  print("------222-----$value");
+                                  print("------时间-----$value");
                                   cTime.add(value.toString());
                                 },
                               )),
@@ -177,7 +189,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 : 3,
                             //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                             isInt: false,
-                            valueListener: (value) {},
+                            valueListener: (value) {
+                              print("------功率-----$value");
+                              cPower.add(value.toString());
+                            },
                           )),
                           ContainerBg(
                               margin: EdgeInsets.only(left: 30.w),
@@ -196,7 +211,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         : 1.5,
                                 //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                 unit: 'w/cm2',
-                                valueListener: (value) {},
+                                valueListener: (value) {
+                                  print("------声强-----$value");
+                                  cSoundIntensity.add(value.toString());
+                                },
                               )),
                         ],
                       )),
@@ -242,19 +260,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 patternStr: '1',
                                 popupListener: (value) {
                                   // debugPrint(value);
-                                  setState(() {});
+                                  ultrasonic?.frequency = value;
+                                  save();
+                                  // setState(() {});
                                 },
                               )
-                              // Container(
-                              //   decoration: const BoxDecoration(
-                              //       color: Color(0xFFF0FAFE),
-                              //       borderRadius: BorderRadius.all(
-                              //         Radius.circular(10),
-                              //       )),
-                              //   width: 230.w,
-                              //   height: 55.h,
-                              //   child: _popupMenuButton2(context),
-                              // ),
                             ],
                           )),
                           ContainerBg(
