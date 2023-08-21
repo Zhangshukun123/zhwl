@@ -39,9 +39,14 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: tabs.length, vsync: this);
-    _tabController.addListener(() {});
+    _tabController.addListener(() {
 
-    dialog = DetailsDialog();
+      dialog = DetailsDialog(index: _tabController.index);
+
+
+    });
+
+    // dialog = DetailsDialog(index: _tabController.index);
     _diaController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     dialog?.setTabController(_diaController);

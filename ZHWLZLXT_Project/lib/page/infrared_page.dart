@@ -47,7 +47,7 @@ class _InfraredPageState extends State<InfraredPage>
   @override
   void initState() {
     super.initState();
-    dialog = DetailsDialog();
+    dialog = DetailsDialog(index: 3);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     infraredEntity = InfraredEntity();
 
     _tabController =

@@ -5,16 +5,20 @@ import '../page/attention_page.dart';
 import '../page/operate_page.dart';
 
 class DetailsDialog {
+
+  List<Widget>? pageViewList;
+  int? index;
+  DetailsDialog({
+    this.index,
+  });
+
   List tabs = [
     '操作说明',
     '注意事项',
   ];
   late final TabController tabController;
 
-  List<Widget> pageViewList = [
-    const OperatePage(),
-    const AttentionPage(),
-  ];
+
 
   void setTabController(TabController tabController){
     this.tabController = tabController;
@@ -23,11 +27,17 @@ class DetailsDialog {
     this.tabs = tabs;
   }
 
-  void setPgeViewList(List<Widget> pageViewList){
-    this.pageViewList = pageViewList;
-  }
+  // void setPgeViewList(List<Widget> pageViewList){
+  //   this.pageViewList = pageViewList;
+  // }
 
   void showCustomDialog(BuildContext context) {
+
+    pageViewList = [
+      OperatePage(index: index,),
+      AttentionPage(index: index,),
+    ];
+
     showDialog(
       barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
       context: context,
@@ -107,7 +117,7 @@ class DetailsDialog {
                           height: 270.h,
                           child: TabBarView(
                               controller: tabController,
-                              children: pageViewList),
+                              children: pageViewList!),
                         ),
                       ],
                     )),
