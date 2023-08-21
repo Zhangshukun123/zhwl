@@ -114,21 +114,8 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                   }
                   widget.popupListener!(value);
                 }
+                widget.popupListener!(value);
 
-                if (widget.index == 0 || widget.index == 2) {
-                  if (value == "连续模式1") {
-                    widget.popupListener!('01');
-                  }
-                  if (value == "断续模式1") {
-                    widget.popupListener!('02');
-                  }
-                  if (value == "断续模式2") {
-                    widget.popupListener!('03');
-                  }
-                  if (value == "断续模式3") {
-                    widget.popupListener!('04');
-                  }
-                }
 
                 if (ovc == "连续 0") {
                 } else if (ovc == "连续 1") {

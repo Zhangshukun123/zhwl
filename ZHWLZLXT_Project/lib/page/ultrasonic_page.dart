@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class UltrasonicPage extends StatefulWidget {
 }
 
 class _UltrasonicPageState extends State<UltrasonicPage>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   //定义四个页面
 
   bool startSelected = true;
@@ -44,8 +45,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   @override
   void initState() {
     super.initState();
-    dialog = DetailsDialog(index: 1);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-    ultrasonic = Ultrasonic();
+    dialog = DetailsDialog(
+        index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
+    if (TextUtil.isEmpty(SpUtils.getString(UltrasonicField.UltrasonicKey))) {
+      ultrasonic = Ultrasonic();
+    } else {
+      ultrasonic =
+          Ultrasonic.fromJson(SpUtils.getString(UltrasonicField.UltrasonicKey)!);
+    }
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
@@ -61,7 +68,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       ultrasonic?.power = power;
       save();
     });
-    cSoundIntensity.stream.debounceTime(const Duration(seconds: 1)).listen((soundIntensity) {
+    cSoundIntensity.stream
+        .debounceTime(const Duration(seconds: 1))
+        .listen((soundIntensity) {
       ultrasonic?.soundIntensity = soundIntensity;
       save();
     });
@@ -144,7 +153,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               ),
                               PopupMenuBtn(
                                 index: 0,
-                                patternStr: "连续模式1",
+                                patternStr: ultrasonic?.pattern ?? "连续模式1",
                                 popupListener: (value) {
                                   ultrasonic?.pattern = value;
                                   save();
@@ -158,12 +167,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 enabled: true,
                                 title: '时间',
                                 assets: 'assets/images/2.0x/icon_shijian.png',
-                                initialValue: 1,
+                                initialValue:
+                                    double.tryParse(ultrasonic?.time ?? '1'),
                                 minValue: 1,
                                 maxValue: 30,
                                 unit: 'min',
                                 valueListener: (value) {
-                                  print("------时间-----$value");
                                   cTime.add(value.toString());
                                 },
                               )),
@@ -180,7 +189,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             title: '功率',
                             isEventBus: true,
                             assets: 'assets/images/2.0x/icon_gonglv.png',
-                            initialValue: 0,
+                            initialValue:
+                                double.tryParse(ultrasonic?.power ?? '0'),
                             appreciation: 0.6,
                             unit: 'w',
                             // ignore: unrelated_type_equality_checks
@@ -203,7 +213,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 title: '声强',
                                 assets:
                                     'assets/images/2.0x/icon_shengqiang.png',
-                                initialValue: 0.0,
+                                initialValue: double.tryParse(
+                                    ultrasonic?.soundIntensity ?? '0.0'),
                                 appreciation: 0.3,
                                 maxValue:
                                     controller.ultrasonic.frequency.value == 1
@@ -257,7 +268,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 index: 1,
                                 unit: 'MHz',
                                 offset: Offset(0, -80.h),
-                                patternStr: '1',
+                                patternStr: ultrasonic?.frequency ?? '1',
                                 popupListener: (value) {
                                   // debugPrint(value);
                                   ultrasonic?.frequency = value;
