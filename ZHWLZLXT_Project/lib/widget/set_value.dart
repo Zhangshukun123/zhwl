@@ -116,8 +116,8 @@ class _SetValueState extends State<SetValue> {
                   value = (value - appreciation);
                   if (value <= (widget.minValue ?? 0)) {
                     value = (widget.minValue ?? 0);
-                    widget.valueListener!(value);
                   }
+                  widget.valueListener!(value);
                   setState(() {});
                 }
               },
@@ -128,8 +128,8 @@ class _SetValueState extends State<SetValue> {
                     value = (value - appreciation);
                     if (value <= (widget.minValue ?? 0)) {
                       value = (widget.minValue ?? 0);
-                      widget.valueListener!(value);
                     }
+                    widget.valueListener!(value);
                     setState(() {});
                   }
                 });
@@ -194,7 +194,6 @@ class _SetValueState extends State<SetValue> {
                   value = value + appreciation;
                   if (value > (widget.maxValue ?? 999999)) {
                     value = (widget.maxValue ?? 999999);
-                    widget.valueListener!(value);
                   }
                   widget.valueListener!(value);
                   setState(() {});
@@ -208,12 +207,10 @@ class _SetValueState extends State<SetValue> {
                       value = value + appreciation;
                       if (value > (widget.maxValue ?? 999999)) {
                         value = (widget.maxValue ?? 999999);
-                        widget.valueListener!(value);
                       }
                       widget.valueListener!(value);
                       setState(() {});
                     }
-                    print("object$value");
                   });
                 });
               },

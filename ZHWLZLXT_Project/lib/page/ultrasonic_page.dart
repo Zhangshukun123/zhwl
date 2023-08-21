@@ -62,6 +62,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     // 一定时间内 返回一个数据
     cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
       ultrasonic?.time = time;
+      print('----------$time');
       save();
     });
     cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
@@ -112,234 +113,236 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             UserHeadView(
               type: TreatmentType.ultrasonic,
             ),
-            Container(
-              padding: EdgeInsets.only(left: 35.w, right: 35.w, top: 17.5.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                      height: 150.h,
-                      child: Row(
-                        children: [
-                          ContainerBg(
-                              child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 23.h),
-                                width: 72.w,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_moshi.png',
-                                          fit: BoxFit.fitWidth,
-                                          width: 16.w,
-                                          height: 16.h,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Text(
-                                          '模式',
-                                          style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: const Color(0xFF999999)),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              PopupMenuBtn(
-                                index: 0,
-                                patternStr: ultrasonic?.pattern ?? "连续模式1",
-                                popupListener: (value) {
-                                  ultrasonic?.pattern = value;
-                                  save();
-                                },
-                              ),
-                            ],
-                          )),
-                          ContainerBg(
-                              margin: EdgeInsets.only(left: 30.w),
-                              child: SetValue(
-                                enabled: true,
-                                title: '时间',
-                                assets: 'assets/images/2.0x/icon_shijian.png',
-                                initialValue:
-                                    double.tryParse(ultrasonic?.time ?? '1'),
-                                minValue: 1,
-                                maxValue: 30,
-                                unit: 'min',
-                                valueListener: (value) {
-                                  cTime.add(value.toString());
-                                },
-                              )),
-                        ],
-                      )),
-                  Container(
-                      margin: EdgeInsets.only(top: 25.h),
-                      height: 150.h,
-                      child: Row(
-                        children: [
-                          ContainerBg(
-                              child: SetValue(
-                            enabled: true,
-                            title: '功率',
-                            isEventBus: true,
-                            assets: 'assets/images/2.0x/icon_gonglv.png',
-                            initialValue:
-                                double.tryParse(ultrasonic?.power ?? '0'),
-                            appreciation: 0.6,
-                            unit: 'w',
-                            // ignore: unrelated_type_equality_checks
-                            maxValue: controller.ultrasonic.frequency.value == 1
-                                ? 7.2
-                                : 3,
-                            //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
-                            isInt: false,
-                            valueListener: (value) {
-                              print("------功率-----$value");
-                              cPower.add(value.toString());
-                            },
-                          )),
-                          ContainerBg(
-                              margin: EdgeInsets.only(left: 30.w),
-                              child: SetValue(
-                                enabled: true,
-                                isInt: false,
-                                isEventBus: true,
-                                title: '声强',
-                                assets:
-                                    'assets/images/2.0x/icon_shengqiang.png',
-                                initialValue: double.tryParse(
-                                    ultrasonic?.soundIntensity ?? '0.0'),
-                                appreciation: 0.3,
-                                maxValue:
-                                    controller.ultrasonic.frequency.value == 1
-                                        ? 1.8
-                                        : 1.5,
-                                //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
-                                unit: 'w/cm2',
-                                valueListener: (value) {
-                                  print("------声强-----$value");
-                                  cSoundIntensity.add(value.toString());
-                                },
-                              )),
-                        ],
-                      )),
-                  Container(
-                      margin: EdgeInsets.only(top: 25.h),
-                      height: 150.h,
-                      child: Row(
-                        children: [
-                          ContainerBg(
-                              child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 29.h),
-                                width: 70.w,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_pinlv.png',
-                                          fit: BoxFit.fitWidth,
-                                          width: 16.w,
-                                          height: 16.h,
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Text(
-                                          '频率',
-                                          style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: const Color(0xFF999999)),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              PopupMenuBtn(
-                                index: 1,
-                                unit: 'MHz',
-                                offset: Offset(0, -80.h),
-                                patternStr: ultrasonic?.frequency ?? '1',
-                                popupListener: (value) {
-                                  // debugPrint(value);
-                                  ultrasonic?.frequency = value;
-                                  save();
-                                  // setState(() {});
-                                },
-                              )
-                            ],
-                          )),
-                          ContainerBg(
-                              margin: EdgeInsets.only(left: 30.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    width: 78.w,
-                                    margin: EdgeInsets.only(top: 15.5.h),
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/2.0x/img_xiangqing.png'),
-                                      fit: BoxFit.fill, // 完全填充
-                                    )),
-                                    child: TextButton(
-                                        onPressed: () {
-                                          dialog?.showCustomDialog(context);
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/2.0x/icon_xiangqing.png',
-                                              fit: BoxFit.fill,
-                                              width: 18.w,
-                                              height: 18.h,
-                                            ),
-                                            Text(
-                                              '详情',
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xFF009CB4),
-                                                  fontSize: 18.sp),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                  Center(
-                                    child: SizedBox(
-                                      width: 150.w,
-                                      height: 75.h,
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 35.w, right: 35.w, top: 11.h),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                        height: 150.h,
+                        child: Row(
+                          children: [
+                            ContainerBg(
+                                child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 15.h),
+                                  width: 72.w,
+                                  child: TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/2.0x/icon_moshi.png',
+                                            fit: BoxFit.fitWidth,
+                                            width: 16.w,
+                                            height: 16.h,
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          Text(
+                                            '模式',
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: const Color(0xFF999999)),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                PopupMenuBtn(
+                                  index: 0,
+                                  patternStr: ultrasonic?.pattern ?? "连续模式1",
+                                  popupListener: (value) {
+                                    ultrasonic?.pattern = value;
+                                    save();
+                                  },
+                                ),
+                              ],
+                            )),
+                            ContainerBg(
+                                margin: EdgeInsets.only(left: 30.w),
+                                child: SetValue(
+                                  enabled: true,
+                                  title: '时间',
+                                  assets: 'assets/images/2.0x/icon_shijian.png',
+                                  initialValue:
+                                      double.tryParse(ultrasonic?.time ?? '1'),
+                                  minValue: 1,
+                                  maxValue: 30,
+                                  unit: 'min',
+                                  valueListener: (value) {
+                                    cTime.add(value.toString());
+                                  },
+                                )),
+                          ],
+                        )),
+                    Container(
+                        margin: EdgeInsets.only(top: 15.h),
+                        height: 150.h,
+                        child: Row(
+                          children: [
+                            ContainerBg(
+                                child: SetValue(
+                              enabled: true,
+                              title: '功率',
+                              isEventBus: true,
+                              assets: 'assets/images/2.0x/icon_gonglv.png',
+                              initialValue:
+                                  double.tryParse(ultrasonic?.power ?? '0'),
+                              appreciation: 0.6,
+                              unit: 'w',
+                              // ignore: unrelated_type_equality_checks
+                              maxValue: controller.ultrasonic.frequency.value == 1
+                                  ? 7.2
+                                  : 3,
+                              //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
+                              isInt: false,
+                              valueListener: (value) {
+                                print("------功率-----$value");
+                                cPower.add(value.toString());
+                              },
+                            )),
+                            ContainerBg(
+                                margin: EdgeInsets.only(left: 30.w),
+                                child: SetValue(
+                                  enabled: true,
+                                  isInt: false,
+                                  isEventBus: true,
+                                  title: '声强',
+                                  assets:
+                                      'assets/images/2.0x/icon_shengqiang.png',
+                                  initialValue: double.tryParse(
+                                      ultrasonic?.soundIntensity ?? '0.0'),
+                                  appreciation: 0.3,
+                                  maxValue:
+                                      controller.ultrasonic.frequency.value == 1
+                                          ? 1.8
+                                          : 1.5,
+                                  //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
+                                  unit: 'w/cm2',
+                                  valueListener: (value) {
+                                    print("------声强-----$value");
+                                    cSoundIntensity.add(value.toString());
+                                  },
+                                )),
+                          ],
+                        )),
+                    Container(
+                        margin: EdgeInsets.only(top: 15.h),
+                        height: 150.h,
+                        child: Row(
+                          children: [
+                            ContainerBg(
+                                child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 29.h),
+                                  width: 70.w,
+                                  child: TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/2.0x/icon_pinlv.png',
+                                            fit: BoxFit.fitWidth,
+                                            width: 16.w,
+                                            height: 16.h,
+                                          ),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          Text(
+                                            '频率',
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: const Color(0xFF999999)),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                PopupMenuBtn(
+                                  index: 1,
+                                  unit: 'MHz',
+                                  offset: Offset(0, -80.h),
+                                  patternStr: ultrasonic?.frequency ?? '1',
+                                  popupListener: (value) {
+                                    // debugPrint(value);
+                                    ultrasonic?.frequency = value;
+                                    save();
+                                    // setState(() {});
+                                  },
+                                )
+                              ],
+                            )),
+                            ContainerBg(
+                                margin: EdgeInsets.only(left: 30.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: 78.w,
+                                      margin: EdgeInsets.only(top: 15.5.h),
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/2.0x/img_xiangqing.png'),
+                                        fit: BoxFit.fill, // 完全填充
+                                      )),
                                       child: TextButton(
-                                        onPressed: () {
-                                          startSelected = !startSelected;
-                                          setState(() {});
-                                        },
-                                        child: Image.asset(
-                                          startSelected
-                                              ? 'assets/images/btn_kaishi_nor.png'
-                                              : 'assets/images/2.0x/btn_tingzhi_nor.png',
-                                          width: 100.w,
-                                          fit: BoxFit.fitWidth,
+                                          onPressed: () {
+                                            dialog?.showCustomDialog(context);
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Image.asset(
+                                                'assets/images/2.0x/icon_xiangqing.png',
+                                                fit: BoxFit.fill,
+                                                width: 18.w,
+                                                height: 18.h,
+                                              ),
+                                              Text(
+                                                '详情',
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF009CB4),
+                                                    fontSize: 18.sp),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                    Center(
+                                      child: SizedBox(
+                                        width: 150.w,
+                                        height: 75.h,
+                                        child: TextButton(
+                                          onPressed: () {
+                                            startSelected = !startSelected;
+                                            setState(() {});
+                                          },
+                                          child: Image.asset(
+                                            startSelected
+                                                ? 'assets/images/btn_kaishi_nor.png'
+                                                : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                            width: 100.w,
+                                            fit: BoxFit.fitWidth,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      )),
-                ],
+                                  ],
+                                )),
+                          ],
+                        )),
+                  ],
+                ),
               ),
             ),
           ],
