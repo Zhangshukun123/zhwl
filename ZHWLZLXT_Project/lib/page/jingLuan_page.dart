@@ -19,7 +19,7 @@ class JingLuanPage extends StatefulWidget {
   State<JingLuanPage> createState() => _JingLuanPageState();
 }
 
-class _JingLuanPageState extends State<JingLuanPage> {
+class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClientMixin{
   bool jingStartSelected = true;
 
   Spastic? spastic;
@@ -253,4 +253,7 @@ class _JingLuanPageState extends State<JingLuanPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

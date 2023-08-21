@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:zhwlzlxt_project/entity/jingPi_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
+import '../entity/jingPi_entity.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -21,7 +21,8 @@ class JingPiPage extends StatefulWidget {
   State<JingPiPage> createState() => _JingPiPageState();
 }
 
-class _JingPiPageState extends State<JingPiPage> {
+class _JingPiPageState extends State<JingPiPage>
+    with AutomaticKeepAliveClientMixin {
   bool yiStartSelected = true;
   bool erStartSelected = true;
 
@@ -404,4 +405,7 @@ class _JingPiPageState extends State<JingPiPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

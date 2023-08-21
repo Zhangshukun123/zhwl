@@ -20,7 +20,7 @@ class ShenJingPage extends StatefulWidget {
   State<ShenJingPage> createState() => _ShenJingPageState();
 }
 
-class _ShenJingPageState extends State<ShenJingPage> {
+class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClientMixin {
   bool yiStartSelected = true;
   bool erStartSelected = true;
 
@@ -378,4 +378,7 @@ class _ShenJingPageState extends State<ShenJingPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

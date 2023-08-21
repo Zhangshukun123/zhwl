@@ -802,8 +802,6 @@ class _ControlPageState extends State<ControlPage> {
                                               isEdit = true;
                                               setState(() {});
                                             } else {
-                                              print(
-                                                  "------11--->${user?.userName}");
                                               eventBus.fire(UserEvent(
                                                   user: user,
                                                   type: widget.type));

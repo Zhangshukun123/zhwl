@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
 import 'package:zhwlzlxt_project/page/operate_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
@@ -25,7 +26,7 @@ class PulsedPage extends StatefulWidget {
 }
 
 class _PulsedPageState extends State<PulsedPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   //定义四个页面
   late TabController _tabController;
 
@@ -89,6 +90,7 @@ class _PulsedPageState extends State<PulsedPage>
   bool switchSelected = true;
 
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -96,7 +98,7 @@ class _PulsedPageState extends State<PulsedPage>
       body: SafeArea(
         child: Column(
           children: [
-             UserHeadView(),
+             UserHeadView(type: TreatmentType.pulsed,),
             Row(
               children: [
                 Container(
@@ -309,4 +311,7 @@ class _PulsedPageState extends State<PulsedPage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

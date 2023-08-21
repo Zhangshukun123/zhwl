@@ -6,6 +6,8 @@ import 'package:zhwlzlxt_project/page/jingPi_page.dart';
 import 'package:zhwlzlxt_project/page/shenJing_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/page/zhongPin_page.dart';
+import 'package:zhwlzlxt_project/utils/event_bus.dart';
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
 import '../widget/custom_tabIndicator.dart';
 import '../widget/details_dialog.dart';
@@ -20,7 +22,7 @@ class ElectrotherapyPage extends StatefulWidget {
 }
 
 class _ElectrotherapyPageState extends State<ElectrotherapyPage>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   List tabs = ['痉挛肌治疗', '经皮神经电刺激', '神经肌肉电刺激', '中频/干扰电治疗'];
 
   //定义四个页面
@@ -34,26 +36,55 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
   late TabController _diaController;
 
   DetailsDialog? dialog;
+  TreatmentType type = TreatmentType.spasm;
+
+
+  UserHeadView? view;
+
 
   @override
   void initState() {
     super.initState();
+
+    print("------init--");
+
+    view = UserHeadView(type: type,);
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
-
       dialog = DetailsDialog(index: _tabController.index);
 
-
+      if (_tabController.index == 0) {
+        type = TreatmentType.spasm;
+      }
+      if (_tabController.index == 1) {
+        type = TreatmentType.percutaneous;
+      }
+      if (_tabController.index == 2) {
+        type = TreatmentType.neuromuscular;
+      }
+      if (_tabController.index == 3) {
+        type = TreatmentType.frequency;
+      }
+      _diaController =
+          TabController(length: dialog?.tabs.length ?? 0, vsync: this);
+      dialog?.setTabController(_diaController);
+      eventBus.fire(type);
     });
 
     // dialog = DetailsDialog(index: _tabController.index);
+    dialog = DetailsDialog(index:0);
     _diaController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     dialog?.setTabController(_diaController);
+
+
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -61,7 +92,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       body: SafeArea(
         child: Column(
           children: [
-             UserHeadView(),
+            view!,
             Expanded(
               child: Column(
                 children: [
@@ -80,7 +111,8 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                               // 标签 Tab 是否可滑动
                               labelColor: const Color(0xFF00A8E7),
                               //标签 Tab 内容颜色
-                              labelStyle: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w600),
+                              labelStyle: TextStyle(
+                                  fontSize: 16.sp, fontWeight: FontWeight.w600),
                               //// 标签 Tab 内容样式
                               indicatorSize: Cum.TabBarIndicatorSize.label,
                               indicator: const CustomTabIndicator(
@@ -141,4 +173,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

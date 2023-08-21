@@ -35,6 +35,18 @@ class UserSqlDao {
     return map;
   }
 
+
+  queryUserForUserId({
+    required int userId,
+  }) async {
+    SqlUtils sqlUtils = SqlUtils();
+    var map = await queryUserId(sqlUtils: sqlUtils, userId: userId);
+    sqlUtils.close();
+    return map;
+  }
+
+
+
   queryIUser({
     required String key,
   }) async {

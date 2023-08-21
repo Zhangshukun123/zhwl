@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
-import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
@@ -26,7 +25,7 @@ class UltrasonicPage extends StatefulWidget {
 }
 
 class _UltrasonicPageState extends State<UltrasonicPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   //定义四个页面
 
   bool startSelected = true;
@@ -89,6 +88,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
 
@@ -336,4 +336,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -20,7 +20,7 @@ class ZhongPinPage extends StatefulWidget {
   State<ZhongPinPage> createState() => _ZhongPinPageState();
 }
 
-class _ZhongPinPageState extends State<ZhongPinPage> {
+class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClientMixin {
   bool yiStartSelected = true;
   bool erStartSelected = true;
 
@@ -343,4 +343,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

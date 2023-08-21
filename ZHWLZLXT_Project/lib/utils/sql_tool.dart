@@ -77,6 +77,28 @@ queryUser({
   );
 }
 
+
+
+
+queryUserId({
+  required SqlUtils sqlUtils,
+  required int userId,
+}) async {
+  await sqlUtils.open();
+  return await sqlUtils.queryListByHelper(
+    tableName: SqlConfig.tableUse,
+    selects: [
+      UserTableField.userName,
+      UserTableField.phone,
+      UserTableField.userId,
+      UserTableField.age
+    ],
+    whereStr: '${UserTableField.userId} = ?',
+    whereArgs: [userId],
+  );
+}
+
+
 /// sql原生查找列表
 /// SqlUtils sqlUtils = SqlUtils();
 /// await sqlUtils.open();

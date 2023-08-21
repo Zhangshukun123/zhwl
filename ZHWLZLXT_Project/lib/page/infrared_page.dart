@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 
@@ -28,7 +29,7 @@ class InfraredPage extends StatefulWidget {
 }
 
 class _InfraredPageState extends State<InfraredPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   bool thirdStartSelected = true;
   bool switchSelected = true;
 
@@ -81,6 +82,7 @@ class _InfraredPageState extends State<InfraredPage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -88,7 +90,7 @@ class _InfraredPageState extends State<InfraredPage>
       body: SafeArea(
         child: Column(
           children: [
-             UserHeadView(),
+             UserHeadView(type: TreatmentType.infrared,),
             Row(
               children: [
                 Container(
@@ -332,4 +334,7 @@ class _InfraredPageState extends State<InfraredPage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
