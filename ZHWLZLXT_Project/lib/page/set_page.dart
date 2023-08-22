@@ -82,22 +82,22 @@ class _SetPageState extends State<SetPage> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 200.w),
-                    child:
-                    Row(
-                      children: [
-                        Text('蓝牙',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                        SizedBox(width: 14.w,),
-                        HomeSwitchButton(onString: "打开", offString: "关闭", pressed: blueBtnSelected, onTap: (obj){
-                          setState(() {
-                            blueBtnSelected = !blueBtnSelected;
-                            print(obj);
-                          });
-                        }),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(left: 200.w),
+                  //   child:
+                  //   Row(
+                  //     children: [
+                  //       Text('蓝牙',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                  //       SizedBox(width: 14.w,),
+                  //       HomeSwitchButton(onString: "打开", offString: "关闭", pressed: blueBtnSelected, onTap: (obj){
+                  //         setState(() {
+                  //           blueBtnSelected = !blueBtnSelected;
+                  //           print(obj);
+                  //         });
+                  //       }),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
               Row(

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/infrared_entity.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
@@ -14,6 +13,7 @@ import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 import 'package:zhwlzlxt_project/page/set_page.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
+import '../Controller/treatment_controller.dart';
 import '../entity/shenJing_entity.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../entity/user_entity.dart';
@@ -37,6 +37,11 @@ class _UserHeadViewState extends State<UserHeadView>
   var event;
   DateTime? lastPopTime;
 
+  // final TreatmentController controller = Get.find();
+
+
+
+
   @override
   void initState() {
     super.initState();
@@ -47,22 +52,23 @@ class _UserHeadViewState extends State<UserHeadView>
       }
       if (event.type == widget.type) {
         user = event.user;
+        print('--------------${user?.userId}');
         setState(() {});
       }
     });
-    event = eventBus.on<TreatmentType>().listen((event) {
-      if (!mounted) {
-        return;
-      }
-      if (event != TreatmentType.spasm &&
-          event != TreatmentType.percutaneous &&
-          event != TreatmentType.neuromuscular &&
-          event != TreatmentType.frequency) {
-        return;
-      }
-      widget.type = event;
-      setUserForType(event);
-    });
+    // event = eventBus.on<TreatmentType>().listen((event) {
+    //   if (!mounted) {
+    //     return;
+    //   }
+    //   if (event != TreatmentType.spasm &&
+    //       event != TreatmentType.percutaneous &&
+    //       event != TreatmentType.neuromuscular &&
+    //       event != TreatmentType.frequency) {
+    //     return;
+    //   }
+    //   widget.type = event;
+    //   setUserForType(event);
+    // });
     setUserForType(widget.type!);
   }
 
@@ -164,6 +170,7 @@ class _UserHeadViewState extends State<UserHeadView>
         }
         break;
     }
+    print('--------------${userId}');
     if (userId != -1) {
       var value =
           await UserSqlDao.instance().queryUserForUserId(userId: userId);

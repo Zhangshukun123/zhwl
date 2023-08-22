@@ -156,7 +156,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         ];
       case 3:
         widget.unit = '';
-        widget.patternStr = '连续输出';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('连续输出'),
@@ -165,7 +164,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         ];
       case 4:
         widget.unit = '模式';
-        widget.patternStr = '连续 0';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('连续 0'),
@@ -173,7 +171,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('连续 2'),
         ];
       case 5:
-        widget.patternStr = '完全失神经';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('完全失神经'),
@@ -181,7 +178,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         ];
       case 6:
         widget.unit = '模式';
-        widget.patternStr = '连续 0';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('连续 0'),
@@ -189,7 +185,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('连续 2'),
         ];
       case 7:
-        widget.patternStr = '1';
         widget.offset = Offset(0, 57.h);
         var pop = <PopupMenuEntry<String>>[];
         for (var i = 0; i < 60; i++) {
@@ -197,7 +192,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         }
         return pop;
       case 8:
-        widget.patternStr = '1';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('1'),

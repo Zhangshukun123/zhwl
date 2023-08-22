@@ -43,6 +43,9 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
     } else {
       neuromuscular =
           Neuromuscular.fromJson(SpUtils.getString(NeuromuscularField.NeuromuscularKey)!);
+      print('-----neuromuscular-----${neuromuscular?.patternA}');
+      setState(() {
+      });
     }
 
     // neuromuscular = Neuromuscular();
@@ -99,6 +102,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));

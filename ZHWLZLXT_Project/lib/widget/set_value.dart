@@ -63,6 +63,7 @@ class _SetValueState extends State<SetValue> {
         if(!mounted){
           return;
         }
+        widget.valueListener!(value);
         setState(() {});
       });
 
@@ -71,6 +72,7 @@ class _SetValueState extends State<SetValue> {
         if(!mounted){
           return;
         }
+        widget.valueListener!(value);
         setState(() {});
       });
 

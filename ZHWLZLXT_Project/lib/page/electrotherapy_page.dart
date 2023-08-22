@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/jingLuan_page.dart';
 import 'package:zhwlzlxt_project/page/jingPi_page.dart';
 import 'package:zhwlzlxt_project/page/shenJing_page.dart';
@@ -9,6 +10,7 @@ import 'package:zhwlzlxt_project/page/zhongPin_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
+import '../Controller/treatment_controller.dart';
 import '../widget/custom_tabIndicator.dart';
 import '../widget/details_dialog.dart';
 
@@ -22,7 +24,7 @@ class ElectrotherapyPage extends StatefulWidget {
 }
 
 class _ElectrotherapyPageState extends State<ElectrotherapyPage>
-    with TickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   List tabs = ['痉挛肌治疗', '经皮神经电刺激', '神经肌肉电刺激', '中频/干扰电治疗'];
 
   //定义四个页面
@@ -38,20 +40,23 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
   DetailsDialog? dialog;
   TreatmentType type = TreatmentType.spasm;
 
-
   UserHeadView? view;
+
+  final TreatmentController controller = Get.put(TreatmentController());
+
+
 
 
   @override
   void initState() {
     super.initState();
 
-    print("------init--");
-
-    view = UserHeadView(type: type,);
+    view = UserHeadView(
+      type: type,
+    );
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
-      dialog = DetailsDialog(index: _tabController.index);
+      dialog = DetailsDialog(index: _tabController.index + 4);
 
       if (_tabController.index == 0) {
         type = TreatmentType.spasm;
@@ -65,21 +70,19 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       if (_tabController.index == 3) {
         type = TreatmentType.frequency;
       }
+      controller.treatmentType.value = type;
+      controller.setUserForType(type);
       _diaController =
           TabController(length: dialog?.tabs.length ?? 0, vsync: this);
       dialog?.setTabController(_diaController);
-      eventBus.fire(type);
+      // eventBus.fire(type);
     });
 
     // dialog = DetailsDialog(index: _tabController.index);
-    dialog = DetailsDialog(index:0);
+    dialog = DetailsDialog(index: 4);
     _diaController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     dialog?.setTabController(_diaController);
-
-
-
-
   }
 
   @override

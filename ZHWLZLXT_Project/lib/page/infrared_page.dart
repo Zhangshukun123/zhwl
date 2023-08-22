@@ -21,7 +21,6 @@ import 'control_page.dart';
 import 'operate_page.dart';
 import '../entity/infrared_entity.dart';
 
-
 class InfraredPage extends StatefulWidget {
   const InfraredPage({Key? key}) : super(key: key);
 
@@ -30,7 +29,7 @@ class InfraredPage extends StatefulWidget {
 }
 
 class _InfraredPageState extends State<InfraredPage>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   bool thirdStartSelected = true;
   bool switchSelected = true;
 
@@ -49,14 +48,17 @@ class _InfraredPageState extends State<InfraredPage>
   @override
   void initState() {
     super.initState();
-    dialog = DetailsDialog(index: 3);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
+    dialog = DetailsDialog(
+        index: 3); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
 
     //数据的更改与保存，是否是新建或者从已知json中读取
     if (TextUtil.isEmpty(SpUtils.getString(InfraredField.InfraredKey))) {
       infraredEntity = InfraredEntity();
     } else {
-      infraredEntity =
-          InfraredEntity.fromJson(SpUtils.getString(InfraredField.InfraredKey)!);
+      infraredEntity = InfraredEntity.fromJson(
+          SpUtils.getString(InfraredField.InfraredKey)!);
+      isDGW = (infraredEntity?.pattern != "连续模式1");
+      setState(() {});
     }
 
     // infraredEntity = InfraredEntity();
@@ -66,7 +68,6 @@ class _InfraredPageState extends State<InfraredPage>
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
-
 
     // 一定时间内 返回一个数据
     cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
@@ -100,7 +101,9 @@ class _InfraredPageState extends State<InfraredPage>
       body: SafeArea(
         child: Column(
           children: [
-             UserHeadView(type: TreatmentType.infrared,),
+            UserHeadView(
+              type: TreatmentType.infrared,
+            ),
             Row(
               children: [
                 Container(
@@ -116,8 +119,8 @@ class _InfraredPageState extends State<InfraredPage>
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: double.tryParse(
-                              infraredEntity?.time ?? '12'),
+                          initialValue:
+                              double.tryParse(infraredEntity?.time ?? '12'),
                           maxValue: 99,
                           minValue: 0,
                           unit: 'min',
@@ -136,8 +139,8 @@ class _InfraredPageState extends State<InfraredPage>
                             isEventBus: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: double.tryParse(
-                                infraredEntity?.power ?? '1'),
+                            initialValue:
+                                double.tryParse(infraredEntity?.power ?? '1'),
                             maxValue: 8,
                             minValue: 1,
                             valueListener: (value) {
@@ -196,7 +199,7 @@ class _InfraredPageState extends State<InfraredPage>
                                 popupListener: (value) {
                                   isDGW = (value != "连续模式1");
 
-                                  if(isDGW){
+                                  if (isDGW) {
                                     eventBus.fire(Infrared());
                                   }
                                   infraredEntity?.pattern = value;
