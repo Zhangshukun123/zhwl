@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,15 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
 
-    midFrequency = MidFrequency();
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(MidFrequencyField.MidFrequencyKey))) {
+      midFrequency = MidFrequency();
+    } else {
+      midFrequency =
+          MidFrequency.fromJson(SpUtils.getString(MidFrequencyField.MidFrequencyKey)!);
+    }
+
+    // midFrequency = MidFrequency();
 
     // 一定时间内 返回一个数据
     cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
@@ -143,7 +152,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                               ),
                               PopupMenuBtn(
                                 index: 7,
-                                patternStr: "1",
+                                patternStr: midFrequency?.patternA ?? "1",
                                 popupListener: (value) {
                                   midFrequency?.patternA = value;
                                   save();
@@ -158,7 +167,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
@@ -175,7 +184,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(midFrequency?.powerA ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
@@ -273,7 +282,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                               ),
                               PopupMenuBtn(
                                 index: 7,
-                                patternStr: "1",
+                                patternStr: midFrequency?.patternB ?? "1",
                                 popupListener: (value) {
                                   midFrequency?.patternB = value;
                                   save();
@@ -288,7 +297,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(midFrequency?.timeB ?? '1'),
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
@@ -305,7 +314,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(midFrequency?.powerB ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {

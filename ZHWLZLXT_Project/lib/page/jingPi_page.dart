@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +42,15 @@ class _JingPiPageState extends State<JingPiPage>
   void initState() {
     super.initState();
 
-    percutaneous = Percutaneous();
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(PercutaneousField.PercutaneousKey))) {
+      percutaneous = Percutaneous();
+    } else {
+      percutaneous =
+          Percutaneous.fromJson(SpUtils.getString(PercutaneousField.PercutaneousKey)!);
+    }
+
+    // percutaneous = Percutaneous();
 
     // 一定时间内 返回一个数据
     cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
@@ -142,8 +151,9 @@ class _JingPiPageState extends State<JingPiPage>
                                 ),
                                 PopupMenuBtn(
                                   index: 3,
-                                  patternStr: "连续输出",
+                                  patternStr: percutaneous?.patternA ?? "连续输出",
                                   popupListener: (value) {
+
                                     percutaneous?.patternA = value;
                                     save();
                                   },
@@ -158,7 +168,7 @@ class _JingPiPageState extends State<JingPiPage>
                             enabled: true,
                             title: '时间',
                             assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue: 1,
+                            initialValue: double.tryParse(percutaneous?.timeA ?? '1'),
                             minValue: 1,
                             maxValue: 30,
                             unit: 'min',
@@ -175,7 +185,7 @@ class _JingPiPageState extends State<JingPiPage>
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: 1,
+                            initialValue: double.tryParse(percutaneous?.powerA ?? '1'),
                             maxValue: 99,
                             minValue: 1,
                             valueListener: (value) {
@@ -191,7 +201,7 @@ class _JingPiPageState extends State<JingPiPage>
                             enabled: true,
                             title: '频率',
                             assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: 2,
+                            initialValue: double.tryParse(percutaneous?.frequencyA ?? '2'),
                             minValue: 2,
                             maxValue: 160,
                             unit: 'Hz',
@@ -208,7 +218,7 @@ class _JingPiPageState extends State<JingPiPage>
                             enabled: true,
                             title: '脉宽',
                             assets: 'assets/images/2.0x/icon_maikuan.png',
-                            initialValue: 60,
+                            initialValue: double.tryParse(percutaneous?.pulseA ?? '60'),
                             minValue: 60,
                             maxValue: 520,
                             appreciation: 10,
@@ -299,7 +309,7 @@ class _JingPiPageState extends State<JingPiPage>
                               ),
                               PopupMenuBtn(
                                 index: 3,
-                                patternStr: "连续输出",
+                                patternStr: percutaneous?.patternB ?? "连续输出",
                                 popupListener: (value) {
                                   percutaneous?.patternB = value;
                                   save();
@@ -316,7 +326,7 @@ class _JingPiPageState extends State<JingPiPage>
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(percutaneous?.timeB ?? '1'),
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
@@ -333,7 +343,7 @@ class _JingPiPageState extends State<JingPiPage>
                           enabled: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(percutaneous?.powerB ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
@@ -349,7 +359,7 @@ class _JingPiPageState extends State<JingPiPage>
                           enabled: true,
                           title: '频率',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(percutaneous?.frequencyB ?? '2'),
                           minValue: 2,
                           maxValue: 160,
                           unit: 'Hz',
@@ -366,7 +376,7 @@ class _JingPiPageState extends State<JingPiPage>
                           enabled: true,
                           title: '脉宽',
                           assets: 'assets/images/2.0x/icon_maikuan.png',
-                          initialValue: 60,
+                          initialValue: double.tryParse(percutaneous?.pulseB ?? '60'),
                           minValue: 60,
                           maxValue: 520,
                           appreciation: 10,

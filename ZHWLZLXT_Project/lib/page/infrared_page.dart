@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,7 +50,16 @@ class _InfraredPageState extends State<InfraredPage>
   void initState() {
     super.initState();
     dialog = DetailsDialog(index: 3);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-    infraredEntity = InfraredEntity();
+
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(InfraredField.InfraredKey))) {
+      infraredEntity = InfraredEntity();
+    } else {
+      infraredEntity =
+          InfraredEntity.fromJson(SpUtils.getString(InfraredField.InfraredKey)!);
+    }
+
+    // infraredEntity = InfraredEntity();
 
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
@@ -106,7 +116,8 @@ class _InfraredPageState extends State<InfraredPage>
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 12,
+                          initialValue: double.tryParse(
+                              infraredEntity?.time ?? '12'),
                           maxValue: 99,
                           minValue: 0,
                           unit: 'min',
@@ -125,7 +136,8 @@ class _InfraredPageState extends State<InfraredPage>
                             isEventBus: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: 1,
+                            initialValue: double.tryParse(
+                                infraredEntity?.power ?? '1'),
                             maxValue: 8,
                             minValue: 1,
                             valueListener: (value) {
@@ -180,9 +192,9 @@ class _InfraredPageState extends State<InfraredPage>
                               ),
                               PopupMenuBtn(
                                 index: 2,
-                                patternStr: '连续模式1',
+                                patternStr: infraredEntity?.pattern ?? "连续模式1",
                                 popupListener: (value) {
-                                  isDGW = (value != "01");
+                                  isDGW = (value != "连续模式1");
 
                                   if(isDGW){
                                     eventBus.fire(Infrared());

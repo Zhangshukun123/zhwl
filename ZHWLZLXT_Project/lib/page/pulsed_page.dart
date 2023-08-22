@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +44,16 @@ class _PulsedPageState extends State<PulsedPage>
   void initState() {
     super.initState();
     dialog = DetailsDialog(index: 2);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-    pulsed = Pulsed();
+
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(PulsedField.PulsedKey))) {
+      pulsed = Pulsed();
+    } else {
+      pulsed =
+          Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!);
+    }
+
+    // pulsed = Pulsed();
 
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
@@ -114,7 +124,8 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: 0,
+                            initialValue: double.tryParse(
+                                pulsed?.power ?? '0'),
                             maxValue: 5,
                             minValue: 0,
                             valueListener: (value) {
@@ -130,7 +141,8 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '频率',
                             assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: 20,
+                            initialValue: double.tryParse(
+                                pulsed?.frequency ?? '20'),
                             appreciation: 10,
                             maxValue: 80,
                             minValue: 20,
@@ -148,7 +160,8 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '时间',
                             assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue: 12,
+                            initialValue: double.tryParse(
+                                pulsed?.time ?? '12'),
                             maxValue: 99,
                             minValue: 1,
                             unit: 'min',

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +37,15 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
 
-    neuromuscular = Neuromuscular();
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(NeuromuscularField.NeuromuscularKey))) {
+      neuromuscular = Neuromuscular();
+    } else {
+      neuromuscular =
+          Neuromuscular.fromJson(SpUtils.getString(NeuromuscularField.NeuromuscularKey)!);
+    }
+
+    // neuromuscular = Neuromuscular();
 
     // 一定时间内 返回一个数据
     cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
@@ -147,7 +156,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                               ),
                               PopupMenuBtn(
                                 index: 5,
-                                patternStr: "完全失神经",
+                                patternStr: neuromuscular?.patternA ?? "完全失神经",
                                 popupListener: (value) {
                                   neuromuscular?.patternA = value;
                                   save();
@@ -164,7 +173,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(neuromuscular?.timeA ?? '1'),
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
@@ -182,7 +191,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           isInt: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(neuromuscular?.powerA ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
@@ -200,7 +209,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           title: '频率',
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
-                          initialValue: 0.5,
+                          initialValue: double.tryParse(neuromuscular?.frequencyA ?? '0.5'),
                           minValue: 0.5,
                           maxValue: 5,
                           appreciation: 0.5,
@@ -289,7 +298,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                               ),
                               PopupMenuBtn(
                                 index: 5,
-                                patternStr: "完全失神经",
+                                patternStr: neuromuscular?.patternB ?? "完全失神经",
                                 popupListener: (value) {
                                   neuromuscular?.patternB = value;
                                   save();
@@ -305,7 +314,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           enabled: true,
                           title: '时间',
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(neuromuscular?.timeB ?? '1'),
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
@@ -323,7 +332,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           isInt: true,
                           title: '强度',
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: 1,
+                          initialValue: double.tryParse(neuromuscular?.powerB ?? '1'),
                           minValue: 1,
                           maxValue: 99,
                           valueListener: (value) {
@@ -341,7 +350,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           title: '频率',
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
-                          initialValue: 0.5,
+                          initialValue: double.tryParse(neuromuscular?.frequencyB ?? '0.5'),
                           minValue: 0.5,
                           maxValue: 5,
                           appreciation: 0.5,

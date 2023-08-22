@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,7 +37,16 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
 
-    spastic = Spastic();
+
+    //数据的更改与保存，是否是新建或者从已知json中读取
+    if (TextUtil.isEmpty(SpUtils.getString(SpasticField.SpasticKey))) {
+      spastic = Spastic();
+    } else {
+      spastic =
+          Spastic.fromJson(SpUtils.getString(SpasticField.SpasticKey)!);
+    }
+
+    // spastic = Spastic();
 
 
     // 一定时间内 返回一个数据
@@ -111,7 +121,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     enabled: true,
                     title: '时间',
                     assets: 'assets/images/2.0x/icon_shijian.png',
-                    initialValue: 1,
+                    initialValue: double.tryParse(spastic?.time ?? '1'),
                     maxValue: 30,
                     minValue: 1,
                     unit: 'min',
@@ -125,7 +135,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     isInt: false,
                     title: '脉宽 (A)',
                     assets: 'assets/images/2.0x/icon_maikuan.png',
-                    initialValue: 0.1,
+                    initialValue: double.tryParse(spastic?.widthA ?? '0.1'),
                     appreciation: 0.1,
                     minValue: 0.1,
                     maxValue: 0.5,
@@ -140,7 +150,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     isInt: false,
                     title: '脉宽 (B)',
                     assets: 'assets/images/2.0x/icon_maikuan.png',
-                    initialValue: 0.1,
+                    initialValue: double.tryParse(spastic?.widthB ?? '0.1'),
                     appreciation: 0.1,
                     minValue: 0.1,
                     maxValue: 0.5,
@@ -155,7 +165,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     isInt: false,
                     title: '延时时间',
                     assets: 'assets/images/2.0x/icon_yanshi.png',
-                    initialValue: 0.1,
+                    initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
                     appreciation: 0.1,
                     maxValue: 1.5,
                     minValue: 0.1,
@@ -177,7 +187,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                       isInt: false,
                       title: '脉冲周期',
                       assets: 'assets/images/2.0x/icon_maichong.png',
-                      initialValue: 1,
+                      initialValue: double.tryParse(spastic?.circle ?? '1'),
                       appreciation: 0.1,
                       minValue: 1,
                       maxValue: 2,
@@ -192,7 +202,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                       isInt: true,
                       title: '强度 (A)',
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
-                      initialValue: 1,
+                      initialValue: double.tryParse(spastic?.powerA ?? '1'),
                       maxValue: 99,
                       minValue: 0,
                       valueListener: (value) {
@@ -205,7 +215,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                       isInt: true,
                       title: '强度 (B)',
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
-                      initialValue: 1,
+                      initialValue: double.tryParse(spastic?.powerB ?? '1'),
                       maxValue: 99,
                       minValue: 0,
                       valueListener: (value) {
