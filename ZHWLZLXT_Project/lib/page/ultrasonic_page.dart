@@ -273,9 +273,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   patternStr: ultrasonic?.frequency ?? '1',
                                   popupListener: (value) {
                                     // debugPrint(value);
+                                    setState(() {});
                                     ultrasonic?.frequency = value;
                                     save();
-                                    // setState(() {});
                                   },
                                 )
                               ],

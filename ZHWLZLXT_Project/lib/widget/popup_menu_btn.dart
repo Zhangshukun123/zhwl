@@ -107,19 +107,17 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                 });
                 if (widget.index == 1) {
                   eventBus.fire(UltrasonicObs());
+
+                  print("---value-----${(value == "1")}");
+
                   if (value == "1") {
                     controller.ultrasonic.frequency.value = 1;
                   } else {
                     controller.ultrasonic.frequency.value = 3;
                   }
-                  widget.popupListener!(value);
                 }
                 widget.popupListener!(value);
 
-
-                if (ovc == "连续 0") {
-                } else if (ovc == "连续 1") {
-                } else if (ovc == "连续 2") {}
               },
               onCanceled: () {
                 print('cancel');
