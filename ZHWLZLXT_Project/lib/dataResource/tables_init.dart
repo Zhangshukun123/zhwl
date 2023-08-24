@@ -26,7 +26,7 @@ class NormalCreateTables {
 
   static final String createRecord = '''
     ${SqlConfig.creattable} ${SqlConfig.tableRecord} (
-    ${RecordField.recordId} ${SqlConfig.primarykeyauto},
+    ${RecordField.recordId} ${SqlConfig.primarykeyauto},                            
     ${RecordField.recordType} ${SqlConfig.sqltext},
     ${RecordField.pattern} ${SqlConfig.sqltext},
     ${RecordField.power} ${SqlConfig.sqltext},
@@ -52,7 +52,6 @@ class TablesInit {
   Future init() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, SqlConfig.dbname);
-    debugPrint('数据库存储路径path:' + path);
     NormalCreateTables sqlTables = NormalCreateTables();
     Map<String, String> allTableSqls = sqlTables.getAllTables();
     try {
@@ -61,7 +60,6 @@ class TablesInit {
       debugPrint('CreateTables init Error $e');
     }
     List<String> noCreateTables = await getNoCreateTables(allTableSqls);
-    debugPrint('noCreateTables:' + noCreateTables.toString());
     if (noCreateTables.isNotEmpty) {
       //创建新表
       // 关闭上面打开的db，否则无法执行open

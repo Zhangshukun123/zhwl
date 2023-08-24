@@ -37,10 +37,7 @@ class _UserHeadViewState extends State<UserHeadView>
   var event;
   DateTime? lastPopTime;
 
-  // final TreatmentController controller = Get.find();
-
-
-
+  final TreatmentController controller = Get.find();
 
   @override
   void initState() {
@@ -50,10 +47,9 @@ class _UserHeadViewState extends State<UserHeadView>
       if (!mounted) {
         return;
       }
-      if (event.type == widget.type) {
+      if (event.type == controller.treatmentType.value) {
         user = event.user;
-        print('--------------${user?.userId}');
-        setState(() {});
+        controller.user.value = event.user!;
       }
     });
     // event = eventBus.on<TreatmentType>().listen((event) {
@@ -63,28 +59,13 @@ class _UserHeadViewState extends State<UserHeadView>
     //   if (event != TreatmentType.spasm &&
     //       event != TreatmentType.percutaneous &&
     //       event != TreatmentType.neuromuscular &&
-    //       event != TreatmentType.frequency) {
+    //       event != TreatmentType.frequency) {````````````````````````````
     //     return;
     //   }
     //   widget.type = event;
     //   setUserForType(event);
     // });
-    setUserForType(widget.type!);
-  }
-
-  DateTime? _lastTime;
-
-  preventDoubleTap({int? interval}) {
-    DateTime nowTime = DateTime.now();
-    if (_lastTime == null ||
-        nowTime.difference(_lastTime!) >
-            Duration(milliseconds: interval ?? 600)) {
-      _lastTime = nowTime;
-      return true;
-    } else {
-      _lastTime = nowTime;
-      return false;
-    }
+    // setUserForType(widget.type!);
   }
 
   @override
@@ -93,93 +74,6 @@ class _UserHeadViewState extends State<UserHeadView>
     event.cancel();
   }
 
-  Future<void> setUserForType(type) async {
-    int userId = -1;
-    switch (type) {
-      case TreatmentType.ultrasonic:
-        if (SpUtils.getString(UltrasonicField.UltrasonicKey)?.isNotEmpty ==
-            true) {
-          userId = Ultrasonic.fromJson(
-                      SpUtils.getString(UltrasonicField.UltrasonicKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.pulsed:
-        if (SpUtils.getString(PulsedField.PulsedKey)?.isNotEmpty == true) {
-          userId = Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.infrared:
-        if (SpUtils.getString(InfraredField.InfraredKey)?.isNotEmpty == true) {
-          userId = InfraredEntity.fromJson(
-                      SpUtils.getString(InfraredField.InfraredKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.spasm:
-        if (SpUtils.getString(SpasticField.SpasticKey)?.isNotEmpty == true) {
-          userId = Spastic.fromJson(SpUtils.getString(SpasticField.SpasticKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.percutaneous:
-        if (SpUtils.getString(PercutaneousField.PercutaneousKey)?.isNotEmpty ==
-            true) {
-          userId = Percutaneous.fromJson(
-                      SpUtils.getString(PercutaneousField.PercutaneousKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.neuromuscular:
-        if (SpUtils.getString(NeuromuscularField.NeuromuscularKey)
-                ?.isNotEmpty ==
-            true) {
-          userId = Neuromuscular.fromJson(
-                      SpUtils.getString(NeuromuscularField.NeuromuscularKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-      case TreatmentType.frequency:
-        if (SpUtils.getString(MidFrequencyField.MidFrequencyKey)?.isNotEmpty ==
-            true) {
-          userId = MidFrequency.fromJson(
-                      SpUtils.getString(MidFrequencyField.MidFrequencyKey)!)
-                  .userId ??
-              -1;
-        } else {
-          userId = -1;
-        }
-        break;
-    }
-    print('--------------${userId}');
-    if (userId != -1) {
-      var value =
-          await UserSqlDao.instance().queryUserForUserId(userId: userId);
-      if (value != null && value.length != 0) {
-        user = User.fromMap(value[0]);
-        setState(() {});
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,10 +82,11 @@ class _UserHeadViewState extends State<UserHeadView>
       padding: EdgeInsets.only(top: 25.5.h, left: 39.5.w, right: 40.w),
       child: Row(
         children: [
-          Text(
-            '${user?.userName ?? ""}   ${user?.phone ?? ""}   ',
-            style: TextStyle(color: const Color(0xFF999999), fontSize: 18.sp),
-          ),
+          Obx(() => Text(
+                '${controller.user.value.userName ?? ""}   ${controller.user.value.phone ?? ""}   ',
+                style:
+                    TextStyle(color: const Color(0xFF999999), fontSize: 18.sp),
+              )),
           const Expanded(child: SizedBox()),
           Row(
             children: [
@@ -205,12 +100,12 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    debugPrint('点击用户管理${widget.type}');
+                    debugPrint('点击用户管理${controller.treatmentType.value}');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => ControlPage(
-                                  type: widget.type,
+                                  type: controller.treatmentType.value,
                                 )));
                   },
                   child: Row(

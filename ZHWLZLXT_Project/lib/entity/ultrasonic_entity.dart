@@ -52,5 +52,12 @@ class Ultrasonic {
 
 
 
+  void getData(){
+
+
+  }
+
+
+
 
 }

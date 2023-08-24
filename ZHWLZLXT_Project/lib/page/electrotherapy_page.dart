@@ -42,10 +42,8 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
 
   UserHeadView? view;
 
-  final TreatmentController controller = Get.put(TreatmentController());
 
-
-
+  final TreatmentController controller = Get.find();
 
   @override
   void initState() {
@@ -77,7 +75,8 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       dialog?.setTabController(_diaController);
       // eventBus.fire(type);
     });
-
+    controller.treatmentType.value = type;
+    controller.setUserForType(type);
     // dialog = DetailsDialog(index: _tabController.index);
     dialog = DetailsDialog(index: 4);
     _diaController =

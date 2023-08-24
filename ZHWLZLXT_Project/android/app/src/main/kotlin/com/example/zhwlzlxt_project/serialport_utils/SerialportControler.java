@@ -171,8 +171,9 @@ public class SerialportControler {
     public synchronized void sendSerialPortData(String data) {
         try {
             mOutputStream.write(TransformUtils
-                    .hexStringToBytes(TransformUtils.encode(data)));
-            wait(100);
+//                    .hexStringToBytes(TransformUtils.encode(data)));
+                    .hexStringToBytes(data));
+//            wait(100);
         } catch (Exception e) {
             e.printStackTrace();
         }

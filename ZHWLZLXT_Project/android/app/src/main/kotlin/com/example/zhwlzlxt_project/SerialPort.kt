@@ -1,6 +1,5 @@
 package com.example.zhwlzlxt_project
 
-import android.annotation.SuppressLint
 import android.util.Log
 import java.io.*
 
@@ -46,7 +45,6 @@ class SerialPort(device: File, baudrate: Int, flags: Int) {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                throw SecurityException()
             }
         }
         mFd = open(device.absolutePath, baudrate, flags)

@@ -12,19 +12,21 @@ import '../entity/ultrasonic_entity.dart';
 import '../entity/zhongPin_entity.dart';
 import '../utils/sp_utils.dart';
 
-class TreatmentController extends GetxController{
+class TreatmentController extends GetxController {
   var treatmentType = TreatmentType.spasm.obs;
+  var user = User().obs;
 
 
-  Future<User?> setUserForType(type) async {
+
+  Future<void> setUserForType(type) async {
     int userId = -1;
     switch (type) {
       case TreatmentType.ultrasonic:
         if (SpUtils.getString(UltrasonicField.UltrasonicKey)?.isNotEmpty ==
             true) {
           userId = Ultrasonic.fromJson(
-              SpUtils.getString(UltrasonicField.UltrasonicKey)!)
-              .userId ??
+                      SpUtils.getString(UltrasonicField.UltrasonicKey)!)
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -33,7 +35,7 @@ class TreatmentController extends GetxController{
       case TreatmentType.pulsed:
         if (SpUtils.getString(PulsedField.PulsedKey)?.isNotEmpty == true) {
           userId = Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!)
-              .userId ??
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -42,8 +44,8 @@ class TreatmentController extends GetxController{
       case TreatmentType.infrared:
         if (SpUtils.getString(InfraredField.InfraredKey)?.isNotEmpty == true) {
           userId = InfraredEntity.fromJson(
-              SpUtils.getString(InfraredField.InfraredKey)!)
-              .userId ??
+                      SpUtils.getString(InfraredField.InfraredKey)!)
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -52,7 +54,7 @@ class TreatmentController extends GetxController{
       case TreatmentType.spasm:
         if (SpUtils.getString(SpasticField.SpasticKey)?.isNotEmpty == true) {
           userId = Spastic.fromJson(SpUtils.getString(SpasticField.SpasticKey)!)
-              .userId ??
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -62,8 +64,8 @@ class TreatmentController extends GetxController{
         if (SpUtils.getString(PercutaneousField.PercutaneousKey)?.isNotEmpty ==
             true) {
           userId = Percutaneous.fromJson(
-              SpUtils.getString(PercutaneousField.PercutaneousKey)!)
-              .userId ??
+                      SpUtils.getString(PercutaneousField.PercutaneousKey)!)
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -71,11 +73,11 @@ class TreatmentController extends GetxController{
         break;
       case TreatmentType.neuromuscular:
         if (SpUtils.getString(NeuromuscularField.NeuromuscularKey)
-            ?.isNotEmpty ==
+                ?.isNotEmpty ==
             true) {
           userId = Neuromuscular.fromJson(
-              SpUtils.getString(NeuromuscularField.NeuromuscularKey)!)
-              .userId ??
+                      SpUtils.getString(NeuromuscularField.NeuromuscularKey)!)
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -85,8 +87,8 @@ class TreatmentController extends GetxController{
         if (SpUtils.getString(MidFrequencyField.MidFrequencyKey)?.isNotEmpty ==
             true) {
           userId = MidFrequency.fromJson(
-              SpUtils.getString(MidFrequencyField.MidFrequencyKey)!)
-              .userId ??
+                      SpUtils.getString(MidFrequencyField.MidFrequencyKey)!)
+                  .userId ??
               -1;
         } else {
           userId = -1;
@@ -96,12 +98,10 @@ class TreatmentController extends GetxController{
     print('--------------${userId}');
     if (userId != -1) {
       var value =
-      await UserSqlDao.instance().queryUserForUserId(userId: userId);
+          await UserSqlDao.instance().queryUserForUserId(userId: userId);
       if (value != null && value.length != 0) {
-       return User.fromMap(value[0]);
+        user.value = User.fromMap(value[0]);
       }
     }
-    return null;
   }
-
 }

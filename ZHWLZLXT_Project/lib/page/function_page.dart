@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/electrotherapy_page.dart';
 import 'package:zhwlzlxt_project/page/pulsed_page.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
 
+import '../Controller/treatment_controller.dart';
+import '../utils/event_bus.dart';
+import '../utils/treatment_type.dart';
+import 'control_page.dart';
 import 'infrared_page.dart';
 
 class FunctionPage extends StatefulWidget {
@@ -15,19 +20,33 @@ class FunctionPage extends StatefulWidget {
 }
 
 class _FunctionPageState extends State<FunctionPage> {
-
   int curPosition = 0;
   final PageController _pageController = PageController();
+  final TreatmentController controller = Get.put(TreatmentController());
+  List<Widget> pageView = [
+    const UltrasonicPage(),
+    const PulsedPage(),
+    const InfraredPage(),
+    const ElectrotherapyPage(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    controller.treatmentType.value = TreatmentType.ultrasonic;
+    controller.setUserForType(TreatmentType.ultrasonic);
+
+    // eventBus.on<UserEvent>().listen((event) {
+    //   controller.setUserForType(event.type);
+    // });
+
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pageView = [
-      const UltrasonicPage(),
-      const PulsedPage(),
-      const InfraredPage(),
-      const ElectrotherapyPage(),
-    ];
-
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -50,7 +69,6 @@ class _FunctionPageState extends State<FunctionPage> {
                       width: 88.5.w,
                       height: 29.5.h,
                     )),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,6 +93,22 @@ class _FunctionPageState extends State<FunctionPage> {
               //上下滚动
               onPageChanged: (int index) {
                 curPosition = index;
+                if (index == 0) {
+                  controller.treatmentType.value = TreatmentType.ultrasonic;
+                  controller.setUserForType(TreatmentType.ultrasonic);
+                }
+                if (index == 1) {
+                  controller.treatmentType.value = TreatmentType.pulsed;
+                  controller.setUserForType(TreatmentType.pulsed);
+                }
+                if (index == 2) {
+                  controller.treatmentType.value = TreatmentType.infrared;
+                  controller.setUserForType(TreatmentType.infrared);
+                }
+                if(index == 3){
+                  controller.treatmentType.value = TreatmentType.spasm;
+                  controller.setUserForType(TreatmentType.spasm);
+                }
                 setState(() {});
               },
               children: pageView,

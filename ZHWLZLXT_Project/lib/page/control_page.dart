@@ -12,6 +12,7 @@ import 'package:zhwlzlxt_project/page/record_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/widget/delete_dialog.dart';
 
+import '../Controller/treatment_controller.dart';
 import '../dataResource/user_sql_dao.dart';
 import '../utils/treatment_type.dart';
 
@@ -71,6 +72,8 @@ class _ControlPageState extends State<ControlPage> {
   User? user;
 
   int sex = 1;
+
+  final TreatmentController controller = Get.find();
 
   @override
   void initState() {
@@ -802,9 +805,15 @@ class _ControlPageState extends State<ControlPage> {
                                               isEdit = true;
                                               setState(() {});
                                             } else {
+
+
                                               eventBus.fire(UserEvent(
                                                   user: user,
                                                   type: widget.type));
+
+
+
+
                                               Get.back();
                                             }
                                           },

@@ -13,6 +13,7 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
@@ -41,6 +42,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   StreamController<String> cTime = StreamController<String>();
   StreamController<String> cPower = StreamController<String>();
   StreamController<String> cSoundIntensity = StreamController<String>();
+
+
+  final TreatmentController controller = Get.find();
 
   @override
   void initState() {
@@ -82,6 +86,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         save();
       }
     });
+
+
+
+
   }
 
   void save() {
@@ -325,7 +333,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         child: TextButton(
                                           onPressed: () {
                                             startSelected = !startSelected;
-                                            setState(() {});
+                                            setState(() {
+                                              
+
+
+                                            });
                                           },
                                           child: Image.asset(
                                             startSelected
