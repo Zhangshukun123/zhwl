@@ -30,7 +30,8 @@ class InfraredPage extends StatefulWidget {
 
 class _InfraredPageState extends State<InfraredPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  bool thirdStartSelected = true;
+
+  bool thirdStartSelected = false;
   bool switchSelected = true;
 
   //定义四个页面
@@ -90,6 +91,8 @@ class _InfraredPageState extends State<InfraredPage>
   void save() {
     SpUtils.set(InfraredField.InfraredKey, infraredEntity?.toJson());
   }
+
+  bool startSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -324,11 +327,14 @@ class _InfraredPageState extends State<InfraredPage>
                                   height: 70.h,
                                   child: TextButton(
                                     onPressed: () {
-                                      thirdStartSelected = !thirdStartSelected;
+                                      // thirdStartSelected = !thirdStartSelected;
+                                      startSelected = infraredEntity?.start(
+                                          !startSelected, switchSelected) ??
+                                          false;
                                       setState(() {});
                                     },
                                     child: Image.asset(
-                                      thirdStartSelected
+                                      startSelected
                                           ? 'assets/images/2.0x/btn_kaishi_nor.png'
                                           : 'assets/images/2.0x/btn_tingzhi_nor.png',
                                       width: 100.w,

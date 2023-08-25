@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zhwlzlxt_project/entity/port_data.dart';
+
+import '../Controller/serial_port.dart';
+
 class SpasticField {
   static String SpasticKey = "SpasticKey"; // 存储 -key
   static String userId = "userId";
@@ -58,6 +64,69 @@ class Spastic {
     SpasticField.powerA: powerA,
     SpasticField.powerB: powerB,
   };
+
+
+  bool start(bool isStart) {
+    if (userId == null || userId == -1) {
+      Fluttertoast.showToast(msg: '请选择用户');
+      return false;
+    }
+
+    // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
+    String data = BYTE00_RW.B01;
+
+    data = "$data ${BYTE01_MD.B05}"; // byt01 功能模块    01
+    data = "$data XX";//BYte02 通道 02
+
+    if (isStart) {
+      // byte03 通道启停 03
+      data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
+    }
+
+    //04 脉冲周期 04
+    if (TextUtil.isEmpty(circle)) {
+      circle = '1';
+    }
+    data = "$data $circle";
+
+    if (TextUtil.isEmpty(delayTime)) {
+      delayTime = '0.1';
+    }
+    data = "$data $delayTime"; //byte05 延时时间 05
+
+    if (TextUtil.isEmpty(widthA)) {
+      widthA = '0.1';
+    }
+    data = "$data $widthA"; // byte06 脉宽A 06
+
+    if (TextUtil.isEmpty(widthB)) {
+      widthB = '0.1';
+    }
+    data = "$data $widthB"; // byte07 脉宽B 07
+
+    if (TextUtil.isEmpty(powerA)) {
+      powerA = '0';
+    }
+    data = "$data $powerA"; // byte08 强度A 08
+
+    if (TextUtil.isEmpty(powerB)) {
+      powerB = '0';
+    }
+    data = "$data $powerB"; // byte09 强度B 09
+
+    if (TextUtil.isEmpty(time)) {
+      time = '0';
+    }
+    data = "$data $time"; // byte10 工作时间 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+
 
 }
 

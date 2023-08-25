@@ -66,6 +66,7 @@ class Pulsed {
       frequency = '20';
     }
     data = "$data $frequency";
+
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }

@@ -20,6 +20,12 @@ class BYTE01_MD {
 class BYTE02_CN {
   static const String B01 = "0301"; //超声1Mhz输出通道
   static const String B03 = "0401"; //超声3Mhz输出通道
+  static const String B61 = "0601"; //电疗经皮神经输出通道1
+  static const String B62 = "0602"; //电疗经皮神经输出通道2
+  static const String B71 = "0701"; //电疗神经肌肉输出通道1
+  static const String B72 = "0702"; //电疗神经肌肉输出通道2
+  static const String B81 = "0801"; //电疗中频干扰电输出通道1
+  static const String B82 = "0802"; //电疗中频干扰电输出通道2
 }
 
 class BYTE03_STOP {
@@ -37,12 +43,21 @@ class BYTE04_PT {
   static const String B03 = "03"; //03-断续模式2；
   static const String B04 = "04"; //04-断续模式3；
 
-
+//光疗 超声
   static const String B_T_01 = "连续模式1";
   static const String B_T_02 = "断续模式1";
   static const String B_T_03 = "断续模式2";
   static const String B_T_04 = "断续模式3";
 
+  //经皮神经
+  static const String S_J_01 = "连续输出";
+  static const String S_J_02 = "慢速输出";
+  static const String S_J_03 = "快速输出";
+
+
+  //神经肌肉
+  static const String S_P_01 = "完全失神经";
+  static const String S_P_02 = "部分失神经";
 
   static String Value =
       ""; //频率：20-80次/min,步进10   脉冲周期：1s～2s可调，步进为0.1s  工作模式：01- 连续输出，02-慢速输出，03-快速输出；

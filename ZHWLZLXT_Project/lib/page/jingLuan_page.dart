@@ -22,6 +22,7 @@ class JingLuanPage extends StatefulWidget {
 
 class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClientMixin{
   bool jingStartSelected = true;
+  bool startSelected = false;
 
   Spastic? spastic;
 
@@ -102,6 +103,8 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
     cPowerB.close();
     cPowerA.close();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -241,13 +244,15 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                         child: Container(
                           child: TextButton(
                             onPressed: () {
-                              jingStartSelected = !jingStartSelected;
+                              startSelected = spastic
+                                  ?.start(!startSelected) ??
+                                  false;
                               setState(() {});
                             },
                             child: Image.asset(
-                              jingStartSelected
-                                  ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                  : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                              startSelected
+                                  ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                  : 'assets/images/btn_kaishi_nor.png',
                               fit: BoxFit.fill,
                               width: 120.w,
                               height: 55.h,
