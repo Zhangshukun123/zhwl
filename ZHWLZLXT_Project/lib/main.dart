@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(960, 600),
-      scaleByHeight: false,
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
@@ -59,7 +58,6 @@ class MyApp extends StatelessWidget {
           child: GetMaterialApp(
             initialRoute: RouterPageId.login,
             translations: LanguageValue(),
-
             locale: languageSelected
                 ? const Locale('zh', 'CN')
                 : const Locale('en', 'US'),

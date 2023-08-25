@@ -27,7 +27,7 @@ class PulsedPage extends StatefulWidget {
 }
 
 class _PulsedPageState extends State<PulsedPage>
-    with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   //定义四个页面
   late TabController _tabController;
 
@@ -43,14 +43,14 @@ class _PulsedPageState extends State<PulsedPage>
   @override
   void initState() {
     super.initState();
-    dialog = DetailsDialog(index: 2);//1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
+    dialog = DetailsDialog(
+        index: 2); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
 
     //数据的更改与保存，是否是新建或者从已知json中读取
     if (TextUtil.isEmpty(SpUtils.getString(PulsedField.PulsedKey))) {
       pulsed = Pulsed();
     } else {
-      pulsed =
-          Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!);
+      pulsed = Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!);
     }
 
     // pulsed = Pulsed();
@@ -70,7 +70,9 @@ class _PulsedPageState extends State<PulsedPage>
       pulsed?.power = power;
       save();
     });
-    cFrequency.stream.debounceTime(const Duration(seconds: 1)).listen((frequency) {
+    cFrequency.stream
+        .debounceTime(const Duration(seconds: 1))
+        .listen((frequency) {
       pulsed?.frequency = frequency;
       save();
     });
@@ -108,7 +110,9 @@ class _PulsedPageState extends State<PulsedPage>
       body: SafeArea(
         child: Column(
           children: [
-             UserHeadView(type: TreatmentType.pulsed,),
+            UserHeadView(
+              type: TreatmentType.pulsed,
+            ),
             Row(
               children: [
                 Container(
@@ -124,8 +128,7 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '强度',
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: double.tryParse(
-                                pulsed?.power ?? '0'),
+                            initialValue: double.tryParse(pulsed?.power ?? '0'),
                             maxValue: 5,
                             minValue: 0,
                             valueListener: (value) {
@@ -141,8 +144,8 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '频率',
                             assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: double.tryParse(
-                                pulsed?.frequency ?? '20'),
+                            initialValue:
+                                double.tryParse(pulsed?.frequency ?? '20'),
                             appreciation: 10,
                             maxValue: 80,
                             minValue: 20,
@@ -160,8 +163,7 @@ class _PulsedPageState extends State<PulsedPage>
                             enabled: true,
                             title: '时间',
                             assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue: double.tryParse(
-                                pulsed?.time ?? '12'),
+                            initialValue: double.tryParse(pulsed?.time ?? '12'),
                             maxValue: 99,
                             minValue: 1,
                             unit: 'min',
@@ -299,7 +301,9 @@ class _PulsedPageState extends State<PulsedPage>
                                   margin: EdgeInsets.only(top: 50.5.h),
                                   child: TextButton(
                                     onPressed: () {
-                                      startSelected = !startSelected;
+                                      startSelected = pulsed?.start(
+                                              !startSelected, switchSelected) ??
+                                          false;
                                       setState(() {});
                                     },
                                     child: Image.asset(

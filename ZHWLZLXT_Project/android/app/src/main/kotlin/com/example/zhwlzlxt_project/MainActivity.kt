@@ -29,9 +29,9 @@ class MainActivity : FlutterActivity() {
     private fun initSerial() {
 
 
-        SerialportControler.getInstance().setBaudRate(115200)
-        SerialportControler.getInstance().port = "/dev/ttyMT0"
-        SerialportControler.getInstance().open()
+//        SerialportControler.getInstance().setBaudRate(115200)
+//        SerialportControler.getInstance().port = "/dev/ttyMT0"
+//        SerialportControler.getInstance().open()
 
 
 

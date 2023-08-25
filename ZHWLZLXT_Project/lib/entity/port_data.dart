@@ -18,8 +18,8 @@ class BYTE01_MD {
 }
 
 class BYTE02_CN {
-  static const String B01 = "01"; //超声1Mhz输出通道
-  static const String B02 = "02"; //超声3Mhz输出通道
+  static const String B01 = "0301"; //超声1Mhz输出通道
+  static const String B03 = "0401"; //超声3Mhz输出通道
 }
 
 class BYTE03_STOP {
@@ -32,10 +32,18 @@ class BYTE03_STOP {
 
 class BYTE04_PT {
   //工作模式
-  static const String B01 = "01"; //01-连续模式；
+  static const String B01 = "01"; //01-连续模式1；
   static const String B02 = "02"; //02-断续模式1；
   static const String B03 = "03"; //03-断续模式2；
   static const String B04 = "04"; //04-断续模式3；
+
+
+  static const String B_T_01 = "连续模式1";
+  static const String B_T_02 = "断续模式1";
+  static const String B_T_03 = "断续模式2";
+  static const String B_T_04 = "断续模式3";
+
+
   static String Value =
       ""; //频率：20-80次/min,步进10   脉冲周期：1s～2s可调，步进为0.1s  工作模式：01- 连续输出，02-慢速输出，03-快速输出；
 }

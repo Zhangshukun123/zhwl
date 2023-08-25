@@ -111,6 +111,11 @@ class _ControlPageState extends State<ControlPage> {
   }
 
   void userForJson(value) {
+
+    if(!mounted){
+      return;
+    }
+
     userList.clear();
     for (var map in value) {
       userList.add(User.fromMap(map));

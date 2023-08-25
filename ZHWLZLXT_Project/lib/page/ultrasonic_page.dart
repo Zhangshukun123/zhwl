@@ -30,7 +30,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   //定义四个页面
 
-  bool startSelected = true;
+  bool startSelected = false;
   late TabController _tabController;
 
   DetailsDialog? dialog;
@@ -43,7 +43,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   StreamController<String> cPower = StreamController<String>();
   StreamController<String> cSoundIntensity = StreamController<String>();
 
-
   final TreatmentController controller = Get.find();
 
   @override
@@ -54,8 +53,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     if (TextUtil.isEmpty(SpUtils.getString(UltrasonicField.UltrasonicKey))) {
       ultrasonic = Ultrasonic();
     } else {
-      ultrasonic =
-          Ultrasonic.fromJson(SpUtils.getString(UltrasonicField.UltrasonicKey)!);
+      ultrasonic = Ultrasonic.fromJson(
+          SpUtils.getString(UltrasonicField.UltrasonicKey)!);
     }
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
@@ -86,10 +85,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         save();
       }
     });
-
-
-
-
   }
 
   void save() {
@@ -204,9 +199,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               appreciation: 0.6,
                               unit: 'w',
                               // ignore: unrelated_type_equality_checks
-                              maxValue: controller.ultrasonic.frequency.value == 1
-                                  ? 7.2
-                                  : 3,
+                              maxValue:
+                                  controller.ultrasonic.frequency.value == 1
+                                      ? 7.2
+                                      : 3,
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
@@ -332,17 +328,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         height: 75.h,
                                         child: TextButton(
                                           onPressed: () {
-                                            startSelected = !startSelected;
-                                            setState(() {
-                                              
-
-
-                                            });
+                                            // startSelected = !startSelected;
+                                            startSelected = ultrasonic
+                                                    ?.start(!startSelected) ??
+                                                false;
+                                            setState(() {});
                                           },
                                           child: Image.asset(
                                             startSelected
-                                                ? 'assets/images/btn_kaishi_nor.png'
-                                                : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                                ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                                : 'assets/images/btn_kaishi_nor.png',
                                             width: 100.w,
                                             fit: BoxFit.fitWidth,
                                           ),
