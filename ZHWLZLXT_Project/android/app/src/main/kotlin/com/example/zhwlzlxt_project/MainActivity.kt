@@ -2,6 +2,7 @@ package com.example.zhwlzlxt_project
 
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.NonNull
 import com.example.zhwlzlxt_project.serialport_utils.SerialportControler
 import io.flutter.embedding.android.FlutterActivity
 import java.io.File
@@ -25,6 +26,16 @@ class MainActivity : FlutterActivity() {
         Log.i("initSerial", "SerialPort: ")
         initSerial()
     }
+
+
+
+    @Override
+    override fun configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {.,
+        // 注册插件的实例(如果有多个需要册插件的实例，依次增加即可)
+        flutterEngine.getPlugins().add(SerialMsgPlugin())
+        super.configureFlutterEngine(flutterEngine);
+    }
+
 
     private fun initSerial() {
 

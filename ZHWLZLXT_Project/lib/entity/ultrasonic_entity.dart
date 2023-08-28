@@ -105,12 +105,14 @@ class Ultrasonic {
 
     if (TextUtil.isEmpty(time)) {
       time = '1';
+
     }
     //data = "$data $time";
     data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
     data = "$data ${((double.tryParse(power!))!*10).toInt()}"; // 06
     data = "$data ${((double.tryParse(soundIntensity!))!*100).toInt()}"; // 07
+
     data = "$data XX"; // 08
     data = "$data XX"; // 09
     data = "$data XX"; // 10
