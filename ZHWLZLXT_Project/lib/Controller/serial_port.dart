@@ -1,3 +1,5 @@
+import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
+
 import '../entity/port_data.dart';
 
 class SerialPort {
@@ -10,8 +12,7 @@ class SerialPort {
   void send(String data) {
     String buffer = '${PortData.FH} $data ${PortData.FE}';
     print('-------send------------$buffer;');
-
-
+    SerialMsg().sendData(buffer);
     //android 串口  、
 
   }

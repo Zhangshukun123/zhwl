@@ -56,6 +56,7 @@ class Ultrasonic {
       };
 
   bool start(bool isStart) {
+    print("object");
     if (userId == null || userId == -1) {
       Fluttertoast.showToast(msg: '请选择用户');
       return false;

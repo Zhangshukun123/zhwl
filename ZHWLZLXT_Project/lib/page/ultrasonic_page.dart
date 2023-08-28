@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
@@ -13,6 +14,7 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../widget/container_bg.dart';
@@ -85,6 +87,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         save();
       }
     });
+
+    SerialMsg().startPort();
   }
 
   void save() {

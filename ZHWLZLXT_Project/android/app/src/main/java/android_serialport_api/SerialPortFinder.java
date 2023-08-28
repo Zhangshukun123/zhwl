@@ -14,7 +14,7 @@
  * limitations under the License. 
  */
 
-package com.example.zhwlzlxt_project;
+package android_serialport_api;
 
 import android.util.Log;
 
@@ -27,33 +27,40 @@ import java.util.Vector;
 
 public class SerialPortFinder {
 
-	public class Driver {
-		public Driver(String name, String root) {
-			mDriverName = name;
-			mDeviceRoot = root;
-		}
-		private String mDriverName;
-		private String mDeviceRoot;
-		Vector<File> mDevices = null;
-		public Vector<File> getDevices() {
-			if (mDevices == null) {
-				mDevices = new Vector<File>();
-				File dev = new File("/dev");
-				File[] files = dev.listFiles();
-				int i;
-				for (i=0; i<files.length; i++) {
-					if (files[i].getAbsolutePath().startsWith(mDeviceRoot)) {
-						Log.d(TAG, "Found new device: " + files[i]);
-						mDevices.add(files[i]);
-					}
-				}
-			}
-			return mDevices;
-		}
-		public String getName() {
-			return mDriverName;
-		}
-	}
+    public class Driver {
+        public Driver(String name, String root) {
+            mDriverName = name;
+            mDeviceRoot = root;
+        }
+
+        private String mDriverName;
+        private String mDeviceRoot;
+        Vector<File> mDevices = null;
+
+        public Vector<File> getDevices() {
+            if (mDevices == null) {
+                mDevices = new Vector<File>();
+                File dev = new File("/dev");
+                
+                File[] files = dev.listFiles();
+
+                if (files != null) {
+                    int i;
+                    for (i = 0; i < files.length; i++) {
+                        if (files[i].getAbsolutePath().startsWith(mDeviceRoot)) {
+                            Log.d(TAG, "Found new device: " + files[i]);
+                            mDevices.add(files[i]);
+                        }
+                    }
+                }
+            }
+            return mDevices;
+        }
+
+        public String getName() {
+            return mDriverName;
+        }
+    }
 
 	private static final String TAG = "SerialPort";
 
