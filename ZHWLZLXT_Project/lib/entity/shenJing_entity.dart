@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zhwlzlxt_project/entity/port_data.dart';
+
+import '../Controller/serial_port.dart';
+
 class NeuromuscularField {
   static String NeuromuscularKey = "NeuromuscularKey"; // 存储 -key
   static String userId = "userId";
@@ -64,4 +70,124 @@ class Neuromuscular {
     NeuromuscularField.powerB: powerB,
     NeuromuscularField.frequencyB: frequencyB,
   };
+
+  bool start1(bool isStart) {
+    if (userId == null || userId == -1) {
+      Fluttertoast.showToast(msg: '请选择用户');
+      return false;
+    }
+
+    // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
+    String data = BYTE00_RW.B01;
+    data = "$data ${BYTE01_MD.B07}"; // byt01 功能模块    01
+
+    //如果开始按钮1
+    data = "$data ${BYTE02_CN.B71}";//BYte02 通道 02
+
+
+    if (isStart) {
+      // byte03 通道启停 03
+      data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
+    }
+
+    if (TextUtil.isEmpty(patternA)) {
+      patternA = BYTE04_PT.S_P_01;
+    }
+    if (patternA == BYTE04_PT.S_P_01) {
+      // 04
+      data = "$data ${BYTE04_PT.B01}";
+    }
+    if (patternA == BYTE04_PT.S_P_02) {
+      data = "$data ${BYTE04_PT.B02}";
+    }
+
+    if (TextUtil.isEmpty(timeA)) {
+      timeA = '1';
+    }
+    // data = "$data $timeA"; //byte05 工作时间 05
+    data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+
+    if (TextUtil.isEmpty(powerA)) {
+      powerA = '1';
+    }
+    // data = "$data $powerA"; // byte06 强度 06
+    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+
+    if (TextUtil.isEmpty(frequencyA)) {
+      frequencyA = '0.5';
+    }
+    // data = "$data $frequencyA"; // byte07 频率 07
+    data = "$data ${((double.tryParse(frequencyA!))!*10).toInt()}";
+
+    data = "$data XX";  // byte08  08
+    data = "$data XX"; // 09
+    data = "$data XX"; // 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+  bool start2(bool isStart) {
+    if (userId == null || userId == -1) {
+      Fluttertoast.showToast(msg: '请选择用户');
+      return false;
+    }
+
+    // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
+    String data = BYTE00_RW.B01;
+    data = "$data ${BYTE01_MD.B07}"; // byt01 功能模块    01
+
+    //如果开始按钮1
+    data = "$data ${BYTE02_CN.B72}";//BYte02 通道 02
+
+
+    if (isStart) {
+      // byte03 通道启停 03
+      data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
+    }
+
+    if (TextUtil.isEmpty(patternB)) {
+      patternB = BYTE04_PT.S_P_01;
+    }
+    if (patternB == BYTE04_PT.S_P_01) {
+      // 04
+      data = "$data ${BYTE04_PT.B01}";
+    }
+    if (patternB == BYTE04_PT.S_P_02) {
+      data = "$data ${BYTE04_PT.B02}";
+    }
+
+    if (TextUtil.isEmpty(timeB)) {
+      timeB = '1';
+    }
+    // data = "$data $timeB"; //byte05 工作时间 05
+    data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+
+    if (TextUtil.isEmpty(powerB)) {
+      powerB = '1';
+    }
+    // data = "$data $powerB"; // byte06 强度 06
+    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+
+    if (TextUtil.isEmpty(frequencyB)) {
+      frequencyB = '0.5';
+    }
+    // data = "$data $frequencyB"; // byte07 频率 07
+    data = "$data ${((double.tryParse(frequencyB!))!*10).toInt()}";
+
+    data = "$data XX";  // byte08  08
+    data = "$data XX"; // 09
+    data = "$data XX"; // 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+
 }

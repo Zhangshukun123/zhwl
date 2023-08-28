@@ -65,17 +65,21 @@ class Pulsed {
     if (TextUtil.isEmpty(frequency)) {
       frequency = '20';
     }
-    data = "$data $frequency";
+    // data = "$data $frequency";
+    data = "$data ${(double.tryParse(frequency!))?.toInt()}";
 
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }
-    data = "$data $time"; // 05
+    // data = "$data $time"; // 05
+    data = "$data ${(double.tryParse(time!))?.toInt()}";
 
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
-    data = "$data $power"; // 06
+    // data = "$data $power"; // 06
+    data = "$data ${(double.tryParse(power!))?.toInt()}";
+
     data = "$data ${isOpen ? '01' : '00'}";
     data = "$data XX"; // 08
     data = "$data XX"; // 09

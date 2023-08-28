@@ -232,10 +232,10 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           ),
                           child: TextButton(
                               onPressed: (){
-                                yiStartSelected = !yiStartSelected;
-                                setState(() {
-
-                                });
+                                yiStartSelected =
+                                    neuromuscular?.start1(!yiStartSelected) ??
+                                    false;
+                                setState(() {});
 
                               },
                               child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
@@ -350,7 +350,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
-                          isInt: true,
+                          isInt: false,
                           title: '频率',
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
@@ -373,10 +373,10 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           ),
                           child: TextButton(
                               onPressed: (){
-                                erStartSelected = !erStartSelected;
-                                setState(() {
-
-                                });
+                                erStartSelected = neuromuscular
+                                    ?.start2(!erStartSelected) ??
+                                    false;
+                                setState(() {});
                               },
                               child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
                           ),

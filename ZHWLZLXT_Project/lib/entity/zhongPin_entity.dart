@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zhwlzlxt_project/entity/port_data.dart';
+
+import '../Controller/serial_port.dart';
+
 class MidFrequencyField {
   static String MidFrequencyKey = "MidFrequencyKey"; // 存储 -key
   static String userId = "userId";
@@ -54,4 +60,103 @@ class MidFrequency {
     MidFrequencyField.timeB: timeB,
     MidFrequencyField.powerB: powerB,
   };
+
+  bool start1(bool isStart) {
+    if (userId == null || userId == -1) {
+      Fluttertoast.showToast(msg: '请选择用户');
+      return false;
+    }
+
+    // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
+    String data = BYTE00_RW.B01;
+    data = "$data ${BYTE01_MD.B08}"; // byt01 功能模块    01
+
+    //如果开始按钮1
+    data = "$data ${BYTE02_CN.B81}";//BYte02 通道 02
+
+
+    if (isStart) {
+      // byte03 通道启停 03
+      data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
+    }
+
+    //处方暂未更改
+    if (TextUtil.isEmpty(patternA)) {
+      patternA = '1';
+    }
+    data = "$data $patternA";
+
+    if (TextUtil.isEmpty(timeA)) {
+      timeA = '1';
+    }
+    // data = "$data $timeA"; //byte05 工作时间 05
+    data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+
+    if (TextUtil.isEmpty(powerA)) {
+      powerA = '1';
+    }
+    // data = "$data $powerA"; // byte06 强度 06
+    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+
+    data = "$data XX";  // byte07  07
+    data = "$data XX";  // byte08  08
+    data = "$data XX"; // 09
+    data = "$data XX"; // 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+  bool start2(bool isStart) {
+    if (userId == null || userId == -1) {
+      Fluttertoast.showToast(msg: '请选择用户');
+      return false;
+    }
+
+    // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
+    String data = BYTE00_RW.B01;
+    data = "$data ${BYTE01_MD.B08}"; // byt01 功能模块    01
+
+    //如果开始按钮1
+    data = "$data ${BYTE02_CN.B82}";//BYte02 通道 02
+
+
+    if (isStart) {
+      // byte03 通道启停 03
+      data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
+    }
+
+    //处方暂未更改
+    if (TextUtil.isEmpty(patternB)) {
+      patternB = '1';
+    }
+    data = "$data $patternB";
+
+    if (TextUtil.isEmpty(timeB)) {
+      timeB = '1';
+    }
+    // data = "$data $timeB"; //byte05 工作时间 05
+    data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+
+    if (TextUtil.isEmpty(powerB)) {
+      powerB = '1';
+    }
+    // data = "$data $powerB"; // byte06 强度 06
+    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+
+    data = "$data XX";  // byte07  07
+    data = "$data XX";  // byte08  08
+    data = "$data XX"; // 09
+    data = "$data XX"; // 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
 }

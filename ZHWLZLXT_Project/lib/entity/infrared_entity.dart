@@ -87,12 +87,14 @@ class InfraredEntity {
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }
-    data = "$data $time"; // 05
+    // data = "$data $time"; // 05
+    data = "$data ${(double.tryParse(time!))?.toInt()}";
 
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
-    data = "$data $power"; // 06
+    // data = "$data $power"; // 06
+    data = "$data ${(double.tryParse(power!))?.toInt()}";
 
     data = "$data XX"; //07
 

@@ -89,37 +89,44 @@ class Spastic {
     if (TextUtil.isEmpty(circle)) {
       circle = '1';
     }
-    data = "$data $circle";
+    // data = "$data $circle";
+    data = "$data ${((double.tryParse(circle!))!*10).toInt()}";
 
     if (TextUtil.isEmpty(delayTime)) {
       delayTime = '0.1';
     }
-    data = "$data $delayTime"; //byte05 延时时间 05
+    // data = "$data $delayTime"; //byte05 延时时间 05
+    data = "$data ${((double.tryParse(delayTime!))!*10).toInt()}";
 
     if (TextUtil.isEmpty(widthA)) {
       widthA = '0.1';
     }
-    data = "$data $widthA"; // byte06 脉宽A 06
+    // data = "$data $widthA"; // byte06 脉宽A 06
+    data = "$data ${((double.tryParse(widthA!))!*10).toInt()}";
 
     if (TextUtil.isEmpty(widthB)) {
       widthB = '0.1';
     }
-    data = "$data $widthB"; // byte07 脉宽B 07
+    // data = "$data $widthB"; // byte07 脉宽B 07
+    data = "$data ${((double.tryParse(widthB!))!*10).toInt()}";
 
     if (TextUtil.isEmpty(powerA)) {
       powerA = '0';
     }
-    data = "$data $powerA"; // byte08 强度A 08
+    // data = "$data $powerA"; // byte08 强度A 08
+    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
 
     if (TextUtil.isEmpty(powerB)) {
       powerB = '0';
     }
-    data = "$data $powerB"; // byte09 强度B 09
+    // data = "$data $powerB"; // byte09 强度B 09
+    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
 
     if (TextUtil.isEmpty(time)) {
       time = '0';
     }
-    data = "$data $time"; // byte10 工作时间 10
+    // data = "$data $time"; // byte10 工作时间 10
+    data = "$data ${(double.tryParse(time!))?.toInt()}";
 
     SerialPort().send(data);
     return isStart;

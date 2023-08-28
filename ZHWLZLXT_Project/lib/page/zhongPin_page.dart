@@ -201,7 +201,9 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           )),
                           child: TextButton(
                               onPressed: () {
-                                yiStartSelected = !yiStartSelected;
+                                yiStartSelected =
+                                    midFrequency?.start1(!yiStartSelected) ??
+                                        false;
                                 setState(() {});
                               },
                               child: Image.asset(
@@ -331,7 +333,9 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           )),
                           child: TextButton(
                               onPressed: () {
-                                erStartSelected = !erStartSelected;
+                                erStartSelected = midFrequency
+                                    ?.start2(!erStartSelected) ??
+                                    false;
                                 setState(() {});
                               },
                               child: Image.asset(

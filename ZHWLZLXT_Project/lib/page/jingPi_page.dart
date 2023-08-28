@@ -238,13 +238,14 @@ class _JingPiPageState extends State<JingPiPage>
                             ),
                             child: TextButton(
                                 onPressed: (){
-                                  yiStartSelected = !yiStartSelected;
-                                  setState(() {
-
-                                  });
+                                  yiStartSelected = percutaneous
+                                      ?.start1(!yiStartSelected) ??
+                                      false;
+                                  setState(() {});
 
                                 },
-                                child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
+                                child:
+                                Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
                             ),
                           ),
                         ),
@@ -396,10 +397,10 @@ class _JingPiPageState extends State<JingPiPage>
                           ),
                           child: TextButton(
                               onPressed: (){
-                                erStartSelected = !erStartSelected;
-                                setState(() {
-
-                                });
+                                erStartSelected = percutaneous
+                                    ?.start2(!erStartSelected) ??
+                                    false;
+                                setState(() {});
 
                               },
                               child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 43.h,)
