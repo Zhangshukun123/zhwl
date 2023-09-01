@@ -16,7 +16,6 @@ import 'package:zhwlzlxt_project/widget/connect_port.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
-import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../widget/container_bg.dart';

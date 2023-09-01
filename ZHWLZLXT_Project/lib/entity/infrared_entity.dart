@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
 
 import '../Controller/serial_port.dart';
+import '../Controller/treatment_controller.dart';
 
 class InfraredField {
   static String InfraredKey = "InfraredKey"; // 存储 -key
@@ -47,7 +49,9 @@ class InfraredEntity {
   };
 
   bool start(bool isStart, bool isOpen) {
-    if (userId == null || userId == -1) {
+    final TreatmentController controller = Get.find();
+    print('--------------${controller.user.value.userId}');
+    if (controller.user.value.userId == 0) {
       Fluttertoast.showToast(msg: '请选择用户');
       return false;
     }

@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
 
 import '../Controller/serial_port.dart';
+import '../Controller/treatment_controller.dart';
 
 class PulsedField {
   static String PulsedKey = "PulsedKey"; // 存储 -key
@@ -46,11 +48,13 @@ class Pulsed {
       };
 
   bool start(bool isStart, bool isOpen) {
-    if (userId == null || userId == -1) {
+
+    final TreatmentController controller = Get.find();
+    print('--------------${controller.user.value.userId}');
+    if (controller.user.value.userId == 0) {
       Fluttertoast.showToast(msg: '请选择用户');
       return false;
     }
-
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B02}"; // byt01 功能模块    01

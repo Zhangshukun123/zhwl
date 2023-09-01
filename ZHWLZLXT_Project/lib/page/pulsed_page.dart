@@ -101,6 +101,7 @@ class _PulsedPageState extends State<PulsedPage>
   bool startSelected = true;
   bool switchSelected = true;
 
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     ScreenUtil().orientation;

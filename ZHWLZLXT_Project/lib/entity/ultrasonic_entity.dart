@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/serial_port.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+
+import '../Controller/treatment_controller.dart';
 
 class UltrasonicField {
   static String UltrasonicKey = "UltrasonicKey"; // 存储 -key
@@ -56,8 +59,9 @@ class Ultrasonic {
       };
 
   bool start(bool isStart) {
-    print("object");
-    if (userId == null || userId == -1) {
+    final TreatmentController controller = Get.find();
+    print('--------------${controller.user.value.userId}');
+    if (controller.user.value.userId == 0) {
       Fluttertoast.showToast(msg: '请选择用户');
       return false;
     }
@@ -85,7 +89,6 @@ class Ultrasonic {
       data = "$data ${BYTE03_STOP.B02}";
     }
 
-
     if (TextUtil.isEmpty(pattern)) {
       pattern = BYTE04_PT.B_T_01;
     }
@@ -106,13 +109,12 @@ class Ultrasonic {
 
     if (TextUtil.isEmpty(time)) {
       time = '1';
-
     }
     //data = "$data $time";
     data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
-    data = "$data ${((double.tryParse(power!))!*10).toInt()}"; // 06
-    data = "$data ${((double.tryParse(soundIntensity!))!*100).toInt()}"; // 07
+    data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
+    data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
 
     data = "$data XX"; // 08
     data = "$data XX"; // 09
