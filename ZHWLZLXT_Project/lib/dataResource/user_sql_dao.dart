@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import '../cofig/sql_config.dart';
@@ -80,7 +81,8 @@ class UserSqlDao {
       str = "更新失败";
     }
     Fluttertoast.showToast(
-      msg: str,
+      msg: str
+        ,fontSize: 22,backgroundColor: Colors.blue
     );
     return type;
   }

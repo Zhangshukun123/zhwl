@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -34,11 +35,11 @@ class SerialMsg {
   Future<String> sendData(String data) async {
     // sendData 调用方法的名称，com.example.zhwlzlxt_project 应用包名
     String buffer = '${PortData.FH} $data ${PortData.FE}';
-    Fluttertoast.showToast(msg: '发送数据=$buffer');
+    Fluttertoast.showToast(msg: '发送数据=$buffer',fontSize: 22,backgroundColor: Colors.blue);
     String res = await _channel.invokeMethod("sendData", buffer);
     // print('-----sendData-------$res');
     Future.delayed(const Duration(seconds: 1), () {
-      Fluttertoast.showToast(msg: '返回数据=$res');
+      Fluttertoast.showToast(msg: '返回数据=$res',fontSize: 22,backgroundColor: Colors.blue);
     });
 
     return res;

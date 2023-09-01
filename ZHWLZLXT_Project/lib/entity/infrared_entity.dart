@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
@@ -52,7 +53,7 @@ class InfraredEntity {
     final TreatmentController controller = Get.find();
     print('--------------${controller.user.value.userId}');
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户');
+      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
       return false;
     }
 
