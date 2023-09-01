@@ -7,10 +7,12 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
+import 'package:zhwlzlxt_project/widget/connect_port.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
@@ -46,6 +48,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   StreamController<String> cSoundIntensity = StreamController<String>();
 
   final TreatmentController controller = Get.find();
+  final UltrasonicController ultrasonicController =
+      Get.put(UltrasonicController());
 
   @override
   void initState() {
@@ -67,7 +71,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     // 一定时间内 返回一个数据
     cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
       ultrasonic?.time = time;
-      print('----------$time');
       save();
     });
     cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
@@ -88,7 +91,41 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       }
     });
 
-    SerialMsg().startPort();
+    Future.delayed(Duration.zero, () {
+      showConnectPort('正在连接设备', "正在尝试链接设备", false);
+    });
+    SerialMsg().startPort().then((value) => {
+          if (value == AppConfig.port_start_error)
+            {showConnectPort('链接设备失败', "正在尝试重新连接", false)}
+        });
+
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      SerialMsg().sendHeart().then((value) => {
+            if (value == AppConfig.connect_time)
+              {showConnectPort('设备连接超时', "正在尝试重新连接", false)}
+          });
+    });
+  }
+
+  showConnectPort(title, con, bool isShow) async {
+    ultrasonicController.title.value = title;
+    ultrasonicController.context.value = con;
+
+    if(isShow){
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return ConnectPort(
+              restConnect: (value) {
+                if (value) {}
+                // ultrasonicController.startTimer();
+                SerialMsg().startPort().then(
+                        (value) => {if (value == AppConfig.port_start) Get.back()});
+              },
+            );
+          });
+    }
   }
 
   void save() {
@@ -108,8 +145,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
-
-    final UltrasonicController controller = Get.put(UltrasonicController());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -203,10 +238,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               appreciation: 0.6,
                               unit: 'w',
                               // ignore: unrelated_type_equality_checks
-                              maxValue:
-                                  controller.ultrasonic.frequency.value == 1
-                                      ? 7.2
-                                      : 3,
+                              maxValue: ultrasonicController
+                                          .ultrasonic.frequency.value ==
+                                      1
+                                  ? 7.2
+                                  : 3,
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
@@ -226,10 +262,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   initialValue: double.tryParse(
                                       ultrasonic?.soundIntensity ?? '0.0'),
                                   appreciation: 0.3,
-                                  maxValue:
-                                      controller.ultrasonic.frequency.value == 1
-                                          ? 1.8
-                                          : 1.5,
+                                  maxValue: ultrasonicController
+                                              .ultrasonic.frequency.value ==
+                                          1
+                                      ? 1.8
+                                      : 1.5,
                                   //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'w/cm2',
                                   valueListener: (value) {

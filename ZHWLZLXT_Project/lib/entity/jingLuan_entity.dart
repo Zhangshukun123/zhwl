@@ -10,13 +10,14 @@ class SpasticField {
   static String SpasticKey = "SpasticKey"; // 存储 -key
   static String userId = "userId";
   static String time = "time"; //时间
-  static String circle = "circle";//周期
-  static String widthA = "widthA";//脉宽 A
-  static String widthB = "widthB";// 脉宽 B
+  static String circle = "circle"; //周期
+  static String widthA = "widthA"; //脉宽 A
+  static String widthB = "widthB"; // 脉宽 B
   static String delayTime = "delayTime"; //延时时间
-  static String powerA = "powerA";//强度 A
-  static String powerB = "powerB";// 强度 B
+  static String powerA = "powerA"; //强度 A
+  static String powerB = "powerB"; // 强度 B
 }
+
 class Spastic {
   int? userId;
   String? time;
@@ -26,7 +27,6 @@ class Spastic {
   String? delayTime;
   String? powerA;
   String? powerB;
-
 
   Spastic({
     this.userId,
@@ -44,27 +44,26 @@ class Spastic {
   String toJson() => json.encode(toMap());
 
   factory Spastic.fromMap(Map<String, dynamic> json) => Spastic(
-    userId: json[SpasticField.userId],
-    time: json[SpasticField.time],
-    circle: json[SpasticField.circle],
-    widthA: json[SpasticField.widthA],
-    widthB: json[SpasticField.widthB],
-    delayTime: json[SpasticField.delayTime],
-    powerA: json[SpasticField.powerA],
-    powerB: json[SpasticField.powerB],
-  );
+        userId: json[SpasticField.userId],
+        time: json[SpasticField.time],
+        circle: json[SpasticField.circle],
+        widthA: json[SpasticField.widthA],
+        widthB: json[SpasticField.widthB],
+        delayTime: json[SpasticField.delayTime],
+        powerA: json[SpasticField.powerA],
+        powerB: json[SpasticField.powerB],
+      );
 
   Map<String, dynamic> toMap() => {
-    SpasticField.userId: userId,
-    SpasticField.time: time,
-    SpasticField.circle: circle,
-    SpasticField.widthA: widthA,
-    SpasticField.widthB: widthB,
-    SpasticField.delayTime: delayTime,
-    SpasticField.powerA: powerA,
-    SpasticField.powerB: powerB,
-  };
-
+        SpasticField.userId: userId,
+        SpasticField.time: time,
+        SpasticField.circle: circle,
+        SpasticField.widthA: widthA,
+        SpasticField.widthB: widthB,
+        SpasticField.delayTime: delayTime,
+        SpasticField.powerA: powerA,
+        SpasticField.powerB: powerB,
+      };
 
   bool start(bool isStart) {
     if (userId == null || userId == -1) {
@@ -76,7 +75,7 @@ class Spastic {
     String data = BYTE00_RW.B01;
 
     data = "$data ${BYTE01_MD.B05}"; // byt01 功能模块    01
-    data = "$data XX";//BYte02 通道 02
+    data = "$data XX"; //BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03
@@ -90,25 +89,28 @@ class Spastic {
       circle = '1';
     }
     // data = "$data $circle";
-    data = "$data ${((double.tryParse(circle!))!*10).toInt()}";
+    data = "$data ${((double.tryParse(circle!))! * 10).toInt()}";
 
     if (TextUtil.isEmpty(delayTime)) {
       delayTime = '0.1';
     }
     // data = "$data $delayTime"; //byte05 延时时间 05
-    data = "$data ${((double.tryParse(delayTime!))!*10).toInt()}";
+
+
+    data =
+        "$data ${((double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2))))! * 10).toInt()}";
 
     if (TextUtil.isEmpty(widthA)) {
       widthA = '0.1';
     }
     // data = "$data $widthA"; // byte06 脉宽A 06
-    data = "$data ${((double.tryParse(widthA!))!*10).toInt()}";
+    data = "$data ${((double.tryParse(widthA!))! * 10).toInt()}";
 
     if (TextUtil.isEmpty(widthB)) {
       widthB = '0.1';
     }
     // data = "$data $widthB"; // byte07 脉宽B 07
-    data = "$data ${((double.tryParse(widthB!))!*10).toInt()}";
+    data = "$data ${((double.tryParse(widthB!))! * 10).toInt()}";
 
     if (TextUtil.isEmpty(powerA)) {
       powerA = '0';
@@ -131,15 +133,4 @@ class Spastic {
     SerialPort().send(data);
     return isStart;
   }
-
-
-
-
 }
-
-
-
-
-
-
-

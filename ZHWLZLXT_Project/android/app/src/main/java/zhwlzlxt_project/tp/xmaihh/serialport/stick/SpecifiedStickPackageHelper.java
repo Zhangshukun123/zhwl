@@ -1,10 +1,14 @@
 package zhwlzlxt_project.tp.xmaihh.serialport.stick;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import zhwlzlxt_project.tp.xmaihh.serialport.SerialHelper;
 
 /**
  * 特定字符的粘包处理,首尾各一个Byte[],不可以同时为空，如果其中一个为空，那么以不为空的作为分割标记
@@ -52,14 +56,15 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
     }
 
     @Override
-    public byte[] execute(InputStream is) {
+    public byte[] execute(InputStream is) throws IOException {
+
         bytes.clear();
         int len = -1;
         byte temp;
         int startIndex = -1;
         byte[] result = null;
         boolean isFindStart = false, isFindEnd = false;
-        try {
+        Log.i("SerialHelper", "run: len11111" );
             while ((len = is.read()) != -1) {
                 temp = (byte) len;
                 bytes.add(temp);
@@ -94,10 +99,6 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
             if (len == -1) {
                 return null;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
         return result;
     }
 }

@@ -10,10 +10,7 @@ class SerialPort {
   static final SerialPort _instance = SerialPort._internal();
 
   void send(String data) {
-    String buffer = '${PortData.FH} $data ${PortData.FE}';
-    print('-------send------------$buffer;');
-    SerialMsg().sendData(buffer);
+    SerialMsg().sendData(data);
     //android 串口  、
-
   }
 }

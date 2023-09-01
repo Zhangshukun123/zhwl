@@ -1,5 +1,6 @@
 package zhwlzlxt_project.tp.xmaihh.serialport.stick;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -7,5 +8,5 @@ import java.io.InputStream;
  * note:这个方法会反复调用，直到解析到一条完整的数据。该方法是同步的，尽量不要做耗时操作，否则会阻塞读取数据
  */
 public interface AbsStickPackageHelper {
-    byte[] execute(InputStream is);
+    byte[] execute(InputStream is) throws IOException;
 }

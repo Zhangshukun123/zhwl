@@ -2,18 +2,19 @@ package zhwlzlxt_project.tp.xmaihh.serialport;
 
 import android.util.Log;
 
-import android_serialport_api.SerialPort;
-import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean;
-import zhwlzlxt_project.tp.xmaihh.serialport.stick.AbsStickPackageHelper;
-import zhwlzlxt_project.tp.xmaihh.serialport.stick.BaseStickPackageHelper;
-import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
+import android_serialport_api.SerialPort;
+import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean;
+import zhwlzlxt_project.tp.xmaihh.serialport.stick.AbsStickPackageHelper;
+import zhwlzlxt_project.tp.xmaihh.serialport.stick.BaseStickPackageHelper;
+import zhwlzlxt_project.tp.xmaihh.serialport.stick.SpecifiedStickPackageHelper;
+import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil;
 
 public abstract class SerialHelper {
     private SerialPort mSerialPort;
@@ -28,9 +29,10 @@ public abstract class SerialHelper {
     private int parity = 0;
     private int flowCon = 0;
     private int flags = 0;
+    public int count = 0;
     private boolean _isOpen = false;
     private byte[] _bLoopData = {48};
-    private int iDelay = 300;
+    private int iDelay = 500;
 
 
     public SerialHelper(String sPort, int iBaudRate) {
@@ -40,7 +42,7 @@ public abstract class SerialHelper {
 
     public void open()
             throws SecurityException, IOException, InvalidParameterException {
-        this.mSerialPort = new SerialPort(new File(this.sPort), this.iBaudRate, this.stopBits, this.dataBits, this.parity, this.flowCon, this.flags);
+        this.mSerialPort = new SerialPort(new File(this.sPort), this.iBaudRate, flags);
         this.mOutputStream = this.mSerialPort.getOutputStream();
         this.mInputStream = this.mSerialPort.getInputStream();
         this.mReadThread = new ReadThread();
@@ -97,15 +99,13 @@ public abstract class SerialHelper {
                     if (SerialHelper.this.mInputStream == null) {
                         return;
                     }
-
                     byte[] buffer = getStickPackageHelper().execute(SerialHelper.this.mInputStream);
-//                    Log.e("xxxxx",null+"*********"+Arrays.toString(buffer));
                     if (buffer != null && buffer.length > 0) {
 //                        Log.e("xxxxx", Arrays.toString(buffer)+"*********");
                         ComBean ComRecData = new ComBean(SerialHelper.this.sPort, buffer, buffer.length);
 //                        Log.e("xxxxx", "-------------------");
                         SerialHelper.this.onDataReceived(ComRecData);
-                    }else {
+                    } else {
 //                        Log.e("xxxxx",null+"*********");
                     }
 //                    int available = SerialHelper.this.mInputStream.available();
@@ -123,6 +123,8 @@ public abstract class SerialHelper {
 
                 } catch (Throwable e) {
                     Log.e("error", e.getMessage());
+                    close();
+                    onStartError();
                     return;
                 }
             }
@@ -285,8 +287,9 @@ public abstract class SerialHelper {
     }
 
     protected abstract void onDataReceived(ComBean paramComBean);
+    protected abstract void onStartError();
 
-    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("AB BA".getBytes(),"CRCH CRCL".getBytes());  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;

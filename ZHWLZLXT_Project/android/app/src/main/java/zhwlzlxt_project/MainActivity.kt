@@ -10,8 +10,6 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        System.loadLibrary("serial_port")
-        Log.i("initSerial", "SerialPort: ")
         initSerial()
     }
 
@@ -22,11 +20,6 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun initSerial() {
-
-
-
-
-
 
     }
 
