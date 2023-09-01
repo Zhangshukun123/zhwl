@@ -78,7 +78,7 @@ class Spastic {
     String data = BYTE00_RW.B01;
 
     data = "$data ${BYTE01_MD.B05}"; // byt01 功能模块    01
-    data = "$data XX"; //BYte02 通道 02
+    data = "$data 00"; //BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03

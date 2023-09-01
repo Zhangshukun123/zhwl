@@ -124,9 +124,9 @@ class Neuromuscular {
     // data = "$data $frequencyA"; // byte07 频率 07
     data = "$data ${((double.tryParse(frequencyA!))!*10).toInt()}";
 
-    data = "$data XX";  // byte08  08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00";  // byte08  08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;
@@ -184,9 +184,9 @@ class Neuromuscular {
     // data = "$data $frequencyB"; // byte07 频率 07
     data = "$data ${((double.tryParse(frequencyB!))!*10).toInt()}";
 
-    data = "$data XX";  // byte08  08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00";  // byte08  08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;

@@ -143,8 +143,8 @@ class Percutaneous {
     // data = "$data $pulseA"; // byte08 脉宽 08
     data = "$data ${((double.tryParse(pulseA!))!/10).toInt()}";
 
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;
@@ -213,8 +213,8 @@ class Percutaneous {
     data = "$data ${((double.tryParse(pulseB!))!/10).toInt()}";
 
 
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;

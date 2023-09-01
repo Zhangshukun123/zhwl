@@ -103,10 +103,10 @@ class MidFrequency {
     // data = "$data $powerA"; // byte06 强度 06
     data = "$data ${(double.tryParse(powerA!))?.toInt()}";
 
-    data = "$data XX";  // byte07  07
-    data = "$data XX";  // byte08  08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00";  // byte07  07
+    data = "$data 00";  // byte08  08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;
@@ -153,10 +153,10 @@ class MidFrequency {
     // data = "$data $powerB"; // byte06 强度 06
     data = "$data ${(double.tryParse(powerB!))?.toInt()}";
 
-    data = "$data XX";  // byte07  07
-    data = "$data XX";  // byte08  08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00";  // byte07  07
+    data = "$data 00";  // byte08  08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;

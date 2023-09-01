@@ -58,7 +58,7 @@ class Pulsed {
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B02}"; // byt01 功能模块    01
-    data = "$data XX";
+    data = "$data 00";
     if (isStart) {
       // 03
       data = "$data ${BYTE03_STOP.B01}";
@@ -85,9 +85,9 @@ class Pulsed {
     data = "$data ${(double.tryParse(power!))?.toInt()}";
 
     data = "$data ${isOpen ? '01' : '00'}";
-    data = "$data XX"; // 08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00"; // 08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
     SerialPort().send(data);
     return isStart;
   }

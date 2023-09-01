@@ -116,9 +116,9 @@ class Ultrasonic {
     data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
     data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
 
-    data = "$data XX"; // 08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00"; // 08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
     SerialPort().send(data);
     return isStart;
   }

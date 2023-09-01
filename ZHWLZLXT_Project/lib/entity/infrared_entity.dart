@@ -59,7 +59,7 @@ class InfraredEntity {
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    01
-    data = "$data XX";//BYte02 通道 02
+    data = "$data 00";//BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03
@@ -100,11 +100,11 @@ class InfraredEntity {
     // data = "$data $power"; // 06
     data = "$data ${(double.tryParse(power!))?.toInt()}";
 
-    data = "$data XX"; //07
+    data = "$data 00"; //07
 
-    data = "$data XX"; // 08
-    data = "$data XX"; // 09
-    data = "$data XX"; // 10
+    data = "$data 00"; // 08
+    data = "$data 00"; // 09
+    data = "$data 00"; // 10
     SerialPort().send(data);
     return isStart;
   }
