@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
@@ -91,26 +93,47 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     });
 
     Future.delayed(Duration.zero, () {
-      showConnectPort('正在连接设备', "正在尝试链接设备", false);
+      SerialMsg().startPort();
     });
-    SerialMsg().startPort().then((value) => {
-          if (value == AppConfig.port_start_error)
-            {showConnectPort('链接设备失败', "正在尝试重新连接", false)}
-        });
-
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      SerialMsg().sendHeart().then((value) => {
-            if (value == AppConfig.connect_time)
-              {showConnectPort('设备连接超时', "正在尝试重新连接", false)}
-          });
+      SerialMsg().sendHeart().then((value) => {});
     });
+
+    SerialMsg.platform.setMethodCallHandler(flutterMethod);
   }
 
-  showConnectPort(title, con, bool isShow) async {
+
+  Future<dynamic> flutterMethod(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'onPortDataReceived':
+        Future.delayed(const Duration(seconds: 2), () {
+          Fluttertoast.showToast(
+              msg: '返回数据=${methodCall.arguments}', fontSize: 22, backgroundColor: Colors.blue);
+        });
+        break;
+    }
+  }
+
+
+  sendHeart(value) {
+    if (value == AppConfig.connect_time) {
+      showConnectPort('设备连接超时', "正在尝试重新连接");
+    }
+    if (value == "102") {
+      if(isShow){
+        Get.back();
+        isShow = false;
+      }
+    }
+  }
+
+  bool isShow = false;
+
+  showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
 
-    if(isShow){
+    if (!isShow) {
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -119,11 +142,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               restConnect: (value) {
                 if (value) {}
                 // ultrasonicController.startTimer();
-                SerialMsg().startPort().then(
-                        (value) => {if (value == AppConfig.port_start) Get.back()});
+                SerialMsg().startPort().then((value) => {
+                      if (value == AppConfig.port_start) Get.back(),
+                      isShow = false
+                    });
               },
             );
           });
+      isShow = true;
     }
   }
 

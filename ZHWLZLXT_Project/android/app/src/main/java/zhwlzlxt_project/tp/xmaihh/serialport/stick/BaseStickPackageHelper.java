@@ -21,7 +21,6 @@ public class BaseStickPackageHelper implements AbsStickPackageHelper {
             if (available > 0) {
                 byte[] buffer = new byte[available];
                 int size = is.read(buffer);
-                Log.e("----++++----","size  "+size+"");
 
                 if (size > 0) {
                     return buffer;

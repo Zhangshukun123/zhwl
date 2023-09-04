@@ -8,11 +8,25 @@ import '../cofig/config.dart';
 import '../entity/port_data.dart';
 
 class SerialMsg {
-  factory SerialMsg() => _instance;
+
+  static const platform = MethodChannel('toFlutter');
+
+
+  factory SerialMsg() {
+    return _instance;
+  }
 
   SerialMsg._internal();
 
   static final SerialMsg _instance = SerialMsg._internal();
+
+
+  Future init() async {
+    print("----------onPortDataReceived------");
+
+  }
+
+
 
   // _channel 是通道的实例，package_manager 是自定义的通道名称
   // ignore: unnecessary_const
@@ -34,13 +48,14 @@ class SerialMsg {
 
   Future<String> sendData(String data) async {
     // sendData 调用方法的名称，com.example.zhwlzlxt_project 应用包名
-    String buffer = '${PortData.FH} $data ${PortData.FE}';
-    Fluttertoast.showToast(msg: '发送数据=$buffer',fontSize: 22,backgroundColor: Colors.blue);
+    String buffer = '${PortData.FH} $data';
+    print("-----sendData----$buffer");
+
+    Fluttertoast.showToast(
+        msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
     String res = await _channel.invokeMethod("sendData", buffer);
     // print('-----sendData-------$res');
-    Future.delayed(const Duration(seconds: 1), () {
-      Fluttertoast.showToast(msg: '返回数据=$res',fontSize: 22,backgroundColor: Colors.blue);
-    });
+
 
     return res;
   }

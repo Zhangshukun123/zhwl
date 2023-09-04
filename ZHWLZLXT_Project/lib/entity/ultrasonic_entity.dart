@@ -61,7 +61,6 @@ class Ultrasonic {
 
   bool start(bool isStart) {
     final TreatmentController controller = Get.find();
-    print('--------------${controller.user.value.userId}');
     if (controller.user.value.userId == 0) {
       Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
       return false;
@@ -114,7 +113,15 @@ class Ultrasonic {
     //data = "$data $time";
     data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
+    if (TextUtil.isEmpty(power)) {
+      power = '0.0';
+    }
     data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
+
+    if (TextUtil.isEmpty(soundIntensity)) {
+      soundIntensity = '0.0';
+    }
+
     data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
 
     data = "$data 00"; // 08

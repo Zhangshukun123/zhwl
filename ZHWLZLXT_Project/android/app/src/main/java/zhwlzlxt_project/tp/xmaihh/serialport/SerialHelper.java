@@ -1,5 +1,8 @@
 package zhwlzlxt_project.tp.xmaihh.serialport;
 
+import static zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil.ByteArrToHex;
+import static zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil.hexStringToString;
+
 import android.util.Log;
 
 import java.io.File;
@@ -83,8 +86,11 @@ public abstract class SerialHelper {
     }
 
     public void sendTxt(String sTxt) {
-        byte[] bOutArray = sTxt.getBytes();
-        send(bOutArray);
+        if (_isOpen) {
+            byte[] bOutArray = sTxt.getBytes();
+            send(bOutArray);
+        }
+
     }
 
     private class ReadThread
@@ -100,8 +106,18 @@ public abstract class SerialHelper {
                         return;
                     }
                     byte[] buffer = getStickPackageHelper().execute(SerialHelper.this.mInputStream);
-                    if (buffer != null && buffer.length > 0) {
-//                        Log.e("xxxxx", Arrays.toString(buffer)+"*********");
+                    byte[] bytes = getbLoopData();
+                    count = 0;
+//                    if (buffer == null) {
+//                        ComBean ComRecData = new ComBean(SerialHelper.this.sPort, bytes, bytes.length);
+//                        SerialHelper.this.onDataReceived(ComRecData);
+//                        return;
+//                    }
+//                    Log.e("xxxxx buffer", ByteArrToHex(buffer) + "*********");
+//                    Log.e("xxxxx buffer", hexStringToString(ByteArrToHex(bytes))+"*********");
+
+                    if (buffer!=null&&buffer.length > 0) {
+
                         ComBean ComRecData = new ComBean(SerialHelper.this.sPort, buffer, buffer.length);
 //                        Log.e("xxxxx", "-------------------");
                         SerialHelper.this.onDataReceived(ComRecData);
@@ -157,6 +173,7 @@ public abstract class SerialHelper {
                     e.printStackTrace();
                 }
             }
+            Log.i("SerialHelper", "run:112 " + !isInterrupted());
         }
 
         public void setSuspendFlag() {
@@ -263,7 +280,7 @@ public abstract class SerialHelper {
     }
 
     public void setHexLoopData(String sHex) {
-        this._bLoopData = ByteUtil.HexToByteArr(sHex);
+        this._bLoopData = ByteUtil.HexToByteArr(ByteUtil.convertStringToHex(sHex));
     }
 
     public int getiDelay() {
@@ -287,9 +304,11 @@ public abstract class SerialHelper {
     }
 
     protected abstract void onDataReceived(ComBean paramComBean);
+
     protected abstract void onStartError();
 
-    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("AB BA".getBytes(),"CRCH CRCL".getBytes());  // 默认不处理粘包，直接读取返回
+    //    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("AB BA".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;
