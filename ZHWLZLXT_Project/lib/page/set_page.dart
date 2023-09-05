@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/widget/switch_value.dart';
 
@@ -129,7 +130,8 @@ class _SetPageState extends State<SetPage> {
                           onChanged: (value) {
                             sliderValue = value;
                             setState(() {});
-                            print("onChanged : $value");
+                            setBrightness(value);
+                            // print("onChanged : $value");
                           },
                           //刚开始点击
                           onChangeStart: (value) {
@@ -153,4 +155,16 @@ class _SetPageState extends State<SetPage> {
       ),
     );
   }
+
+
+  Future<void> setBrightness(double brightness) async {
+    try {
+      await ScreenBrightness().setScreenBrightness(brightness);
+    } catch (e) {
+      print(e);
+      throw 'Failed to set brightness';
+    }
+  }
+
+
 }
