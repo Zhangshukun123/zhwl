@@ -279,21 +279,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
-                                  enabled: true,
+                                  enabled: false,
                                   isInt: false,
                                   isEventBus: true,
                                   title: Globalization.soundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
-                                  initialValue: double.tryParse(
-                                      ultrasonic?.soundIntensity ?? '0.0'),
-                                  appreciation: 0.3,
-                                  maxValue: ultrasonicController
-                                              .ultrasonic.frequency.value ==
-                                          1
-                                      ? 1.8
-                                      : 1.5,
-                                  //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
+                                  // initialValue: double.tryParse(
+                                  //     ultrasonic?.soundIntensity ?? '0.0'),
+                                  initialValue: ultrasonicController.ultrasonic.frequency.value == 1 ? double.tryParse(ultrasonic?.power ?? '0')!/2 : double.tryParse(ultrasonic?.power ?? '0')!/4,
+                                  // appreciation: 0.3,
+                                  // maxValue: ultrasonicController
+                                  //             .ultrasonic.frequency.value ==
+                                  //         1
+                                  //     ? 1.8
+                                  //     : 1.5,
+                                  // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'w/cm2',
                                   valueListener: (value) {
                                     print("------声强-----$value");

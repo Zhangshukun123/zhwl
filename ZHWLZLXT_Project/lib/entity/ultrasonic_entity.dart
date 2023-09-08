@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -110,8 +111,24 @@ class Ultrasonic {
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }
+    //李建成09.06提出修改，时间输出应该由10进制改成16进制
+
+    debugPrint('++++time+++++$time');
+    var value = double.tryParse(time!);
+    debugPrint('++++value+++++$value');
+    //转成16进制数据
+    var tmpS = value?.toInt().toRadixString(16);
+    debugPrint('++++tmpS+++++$tmpS');
+
+    if (tmpS!.length > 1){
+      data = "$data $tmpS"; // 05
+    }
+    else{
+      data = "$data 0$tmpS"; // 05
+    }
+
     //data = "$data $time";
-    data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
+    // data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
     if (TextUtil.isEmpty(power)) {
       power = '0.0';
