@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/electrotherapy_page.dart';
 import 'package:zhwlzlxt_project/page/pulsed_page.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
@@ -39,10 +40,6 @@ class _FunctionPageState extends State<FunctionPage> {
     // eventBus.on<UserEvent>().listen((event) {
     //   controller.setUserForType(event.type);
     // });
-
-
-
-
   }
 
   @override
@@ -74,10 +71,10 @@ class _FunctionPageState extends State<FunctionPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      pageButton('超声疗法', 0),
-                      pageButton('脉冲磁疗法', 1),
-                      pageButton('红外偏振光治疗', 2),
-                      pageButton('电疗', 3),
+                      pageButton(Globalization.ultrasound.tr, 0),
+                      pageButton(Globalization.pulse.tr, 1),
+                      pageButton(Globalization.infrared.tr, 2),
+                      pageButton(Globalization.electricity.tr, 3),
                     ],
                   ),
                 ),
@@ -136,6 +133,7 @@ class _FunctionPageState extends State<FunctionPage> {
           },
           child: Text(
             txt,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,

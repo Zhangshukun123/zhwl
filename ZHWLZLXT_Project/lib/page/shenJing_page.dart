@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
 import '../utils/event_bus.dart';
@@ -153,7 +155,9 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                       children: [
                                         Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                        Text(
+                                          Globalization.mode.tr,
+                                          style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
@@ -175,7 +179,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(neuromuscular?.timeA ?? '1'),
                           minValue: 1,
@@ -193,7 +197,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           height: 90.h,
                           enabled: true,
                           isInt: true,
-                          title: '强度',
+                          title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue: double.tryParse(neuromuscular?.powerA ?? '1'),
                           maxValue: 99,
@@ -210,7 +214,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           height: 90.h,
                           enabled: true,
                           isInt: false,
-                          title: '频率',
+                          title: Globalization.frequency.tr,
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
                           initialValue: double.tryParse(neuromuscular?.frequencyA ?? '0.5'),
@@ -295,7 +299,9 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                       children: [
                                         Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 16.w,height: 16.h,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                        Text(
+                                          Globalization.mode.tr,
+                                          style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
@@ -316,7 +322,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(neuromuscular?.timeB ?? '1'),
                           maxValue: 30,
@@ -334,7 +340,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           height: 90.h,
                           enabled: true,
                           isInt: true,
-                          title: '强度',
+                          title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue: double.tryParse(neuromuscular?.powerB ?? '1'),
                           minValue: 1,
@@ -351,7 +357,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           height: 90.h,
                           enabled: true,
                           isInt: false,
-                          title: '频率',
+                          title: Globalization.frequency.tr,
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
                           initialValue: double.tryParse(neuromuscular?.frequencyB ?? '0.5'),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/jingLuan_page.dart';
 import 'package:zhwlzlxt_project/page/jingPi_page.dart';
 import 'package:zhwlzlxt_project/page/shenJing_page.dart';
@@ -25,7 +26,12 @@ class ElectrotherapyPage extends StatefulWidget {
 
 class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  List tabs = ['痉挛肌治疗', '经皮神经电刺激', '神经肌肉电刺激', '中频/干扰电治疗'];
+  List tabs = [
+    Globalization.spasm.tr,
+    Globalization.tens.tr,
+    Globalization.muscle.tr,
+    Globalization.medium.tr
+  ];
 
   //定义四个页面
   List<Widget> pageViewList = [
@@ -132,7 +138,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                         ),
                       ),
                       Container(
-                        width: 78.w,
+                        width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
                         // margin: EdgeInsets.only(top: 15.5.h),
                         decoration: const BoxDecoration(
                             image: DecorationImage(
@@ -154,7 +160,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                                   height: 18.h,
                                 ),
                                 Text(
-                                  '详情',
+                                  Globalization.details.tr,
                                   style: TextStyle(
                                       color: const Color(0xFF009CB4),
                                       fontSize: 18.sp),

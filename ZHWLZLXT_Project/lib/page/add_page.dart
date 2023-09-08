@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/utils/utils_tool.dart';
@@ -88,7 +89,7 @@ class _AddPageState extends State<AddPage> {
         ),
         leadingWidth: 40.w,
         title: Text(
-          '添加用户',
+          Globalization.addUser.tr,
           style: TextStyle(fontSize: 15.sp, color: Colors.white),
         ),
       ),
@@ -107,7 +108,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '编号',
+                            Globalization.no.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -135,7 +136,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '姓名',
+                            Globalization.name.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -168,7 +169,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '年龄',
+                            Globalization.age.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -197,7 +198,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '性别',
+                            Globalization.gender.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -269,7 +270,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '电话',
+                            Globalization.tel.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -298,7 +299,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '证件',
+                            Globalization.certificate.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -331,7 +332,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '住院号',
+                            Globalization.hospitalNo.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -359,7 +360,7 @@ class _AddPageState extends State<AddPage> {
                       SizedBox(
                           width: 52.w,
                           child: Text(
-                            '床号',
+                            Globalization.bedNo.tr,
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 16.sp),
@@ -403,7 +404,7 @@ class _AddPageState extends State<AddPage> {
                         Get.back();
                       },
                       child: Text(
-                        '取消',
+                        Globalization.cancel.tr,
                         style: TextStyle(
                             color: const Color(0xFF00A8E7), fontSize: 18.sp),
                       ),
@@ -450,7 +451,7 @@ class _AddPageState extends State<AddPage> {
                         // print('AAAAAAA$');
                       },
                       child: Text(
-                        '保存',
+                        Globalization.save.tr,
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF), fontSize: 18.sp),
                       ),

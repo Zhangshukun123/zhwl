@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/jingPi_entity.dart';
@@ -144,7 +146,9 @@ class _JingPiPageState extends State<JingPiPage>
                                         children: [
                                           Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w),
                                           SizedBox(width: 4.w,),
-                                          Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                          Text(
+                                            Globalization.mode.tr,
+                                            style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                         ],
                                       )
                                   ),
@@ -166,7 +170,7 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
-                            title: '时间',
+                            title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue: double.tryParse(percutaneous?.timeA ?? '1'),
                             minValue: 1,
@@ -183,7 +187,7 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
-                            title: '强度',
+                            title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue: double.tryParse(percutaneous?.powerA ?? '1'),
                             maxValue: 99,
@@ -199,7 +203,7 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
-                            title: '频率',
+                            title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
                             initialValue: double.tryParse(percutaneous?.frequencyA ?? '2'),
                             minValue: 2,
@@ -216,7 +220,7 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
-                            title: '脉宽',
+                            title: Globalization.pulseWidth.tr,
                             assets: 'assets/images/2.0x/icon_maikuan.png',
                             initialValue: double.tryParse(percutaneous?.pulseA ?? '60'),
                             minValue: 60,
@@ -303,7 +307,9 @@ class _JingPiPageState extends State<JingPiPage>
                                       children: [
                                         Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w,),
                                         SizedBox(width: 4.w,),
-                                        Text('模式',style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                        Text(
+                                          Globalization.mode.tr,
+                                          style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
                                       ],
                                     )
                                 ),
@@ -325,7 +331,7 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(percutaneous?.timeB ?? '1'),
                           maxValue: 30,
@@ -342,7 +348,7 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
-                          title: '强度',
+                          title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue: double.tryParse(percutaneous?.powerB ?? '1'),
                           maxValue: 99,
@@ -358,7 +364,7 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
-                          title: '频率',
+                          title: Globalization.frequency.tr,
                           assets: 'assets/images/2.0x/icon_pinlv.png',
                           initialValue: double.tryParse(percutaneous?.frequencyB ?? '2'),
                           minValue: 2,
@@ -375,7 +381,7 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
-                          title: '脉宽',
+                          title: Globalization.pulseWidth.tr,
                           assets: 'assets/images/2.0x/icon_maikuan.png',
                           initialValue: double.tryParse(percutaneous?.pulseB ?? '60'),
                           minValue: 60,

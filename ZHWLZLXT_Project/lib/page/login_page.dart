@@ -89,7 +89,7 @@ class LoginPageState extends State<LoginPage> {
                                         height: 17.h,
                                       ),
                                       Text(
-                                        '综合物理治疗系统',
+                                        Globalization.theme.tr,
                                         style: TextStyle(
                                             fontSize: 18.sp,
                                             color: const Color(0xFF999999)),
@@ -151,8 +151,8 @@ class LoginPageState extends State<LoginPage> {
                                                 child: TextField(
                                                   controller: acController,
                                                   decoration:
-                                                      const InputDecoration(
-                                                          hintText: '请输入用户名',
+                                                       InputDecoration(
+                                                          hintText: Globalization.userName.tr,
                                                           border:
                                                               InputBorder.none),
                                                   style: TextStyle(
@@ -189,8 +189,8 @@ class LoginPageState extends State<LoginPage> {
                                                 child: TextField(
                                                   controller: pwdController,
                                                   decoration:
-                                                      const InputDecoration(
-                                                    hintText: '请输入密码',
+                                                       InputDecoration(
+                                                    hintText: Globalization.password.tr,
                                                     border: InputBorder.none,
                                                   ),
                                                   style: TextStyle(
@@ -228,7 +228,7 @@ class LoginPageState extends State<LoginPage> {
                                                         width: 3.w,
                                                       ),
                                                       Text(
-                                                        "记住密码",
+                                                        Globalization.rememberPassword.tr,
                                                         style: TextStyle(
                                                             color: const Color(
                                                                 0xFF999999),
@@ -268,7 +268,7 @@ class LoginPageState extends State<LoginPage> {
                                             //                 ));
                                           },
                                           child: Text(
-                                            '确定',
+                                            Globalization.confirm.tr,
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 18.sp),
@@ -289,7 +289,7 @@ class LoginPageState extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
               child: Text(
-                '当前版本号：v1.0',
+                Globalization.version.tr + ':v1.0',
                 style: TextStyle(fontSize: 18.sp, color: Colors.white),
               ),
             ),

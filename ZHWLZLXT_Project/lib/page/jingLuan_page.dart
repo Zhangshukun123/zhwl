@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
 
 import '../utils/event_bus.dart';
@@ -122,7 +124,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                 children: [
                   SetValueHorizontal(
                     enabled: true,
-                    title: '时间',
+                    title: Globalization.time.tr,
                     assets: 'assets/images/2.0x/icon_shijian.png',
                     initialValue: double.tryParse(spastic?.time ?? '1'),
                     maxValue: 30,
@@ -136,7 +138,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
-                    title: '脉宽 (A)',
+                    title: Globalization.pulseWidthA.tr,
                     assets: 'assets/images/2.0x/icon_maikuan.png',
                     initialValue: double.tryParse(spastic?.widthA ?? '0.1'),
                     appreciation: 0.1,
@@ -151,7 +153,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
-                    title: '脉宽 (B)',
+                    title: Globalization.pulseWidthB.tr,
                     assets: 'assets/images/2.0x/icon_maikuan.png',
                     initialValue: double.tryParse(spastic?.widthB ?? '0.1'),
                     appreciation: 0.1,
@@ -166,7 +168,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
-                    title: '延时时间',
+                    title: Globalization.delayTime.tr,
                     assets: 'assets/images/2.0x/icon_yanshi.png',
                     initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
                     appreciation: 0.1,
@@ -188,7 +190,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     SetValueHorizontal(
                       enabled: true,
                       isInt: false,
-                      title: '脉冲周期',
+                      title: Globalization.pulsePeriod.tr,
                       assets: 'assets/images/2.0x/icon_maichong.png',
                       initialValue: double.tryParse(spastic?.circle ?? '1'),
                       appreciation: 0.1,
@@ -203,7 +205,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     SetValueHorizontal(
                       enabled: true,
                       isInt: true,
-                      title: '强度 (A)',
+                      title: Globalization.intensityA.tr,
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
                       initialValue: double.tryParse(spastic?.powerA ?? '1'),
                       maxValue: 99,
@@ -216,7 +218,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     SetValueHorizontal(
                       enabled: true,
                       isInt: true,
-                      title: '强度 (B)',
+                      title: Globalization.intensityB.tr,
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
                       initialValue: double.tryParse(spastic?.powerB ?? '1'),
                       maxValue: 99,

@@ -1,5 +1,65 @@
 class Globalization {
   static const String languageSelected = "languageSelected";
-  static const String login = "login";
-  static const String setting = "setting";
+  static const String login = "login";//登录
+  static const String setting = "setting";//设置
+  static const String language = "language";//语言
+  static const String bluetooth = "bluetooth";//蓝牙
+  static const String open = "open";//打开
+  static const String close = "close";//关闭
+  static const String brightness = "brightness";//亮度
+  static const String userManagement = "user management";//用户管理
+  static const String mode = "Mode";//模式
+  static const String time = "Time";//时间
+  static const String power = "Power";//功率
+  static const String soundIntensity = "Sound Intensity";//声强
+  static const String frequency = "Frequency";//频率
+  static const String start = "Start";//开始
+  static const String stop = "Stop";//停止
+  static const String details = "Details";//详情
+  static const String intensity = "Intensity";//强度
+  static const String vibration = "Vibration";//震动
+  static const String currEmStSt = "Current Emergency Stop State";//当前急停状态
+  static const String pulseWidthA = "Pulse Width(A)";//脉宽A
+  static const String pulseWidthB = "Pulse Width(B)";//脉宽B
+  static const String delayTime = "Delay Time";//延时时间
+  static const String pulsePeriod = "Pulse Period";//脉冲周期
+  static const String intensityA = "Intensity(A)";//强度A
+  static const String intensityB = "Intensity(B)";//强度B
+  static const String pulseWidth = "Pulse Width";//脉宽
+  static const String recipe = "Recipe";//处方
+  static const String ultrasound = "Ultrasound Therapy";//超声疗法
+  static const String pulse = "Pulse Magnetic Therapy";//脉冲磁疗法
+  static const String infrared = "Infrared Polarized Light Therapy";//红外偏振光治疗
+  static const String electricity = "Electrotherapy";//电疗
+  static const String spasm = "SpasmMuscleTherapy";//痉挛肌治疗
+  static const String tens = "TENS";//经皮神经电刺激
+  static const String muscle = "MuscleStimulator";//神经肌肉电刺激
+  static const String medium = "MediumFrequency/InterferentialCurrentTherapy";//中频/干扰电治疗
+  static const String name = "Name";//姓名
+  static const String tel = "Tel";//电话
+  static const String no = "No.";//编号
+  static const String age = "Age";//年龄
+  static const String gender = "Gender";//性别
+  static const String certificate = "Certificate";//证件
+  static const String hospitalNo = "Hospital No.";//住院号
+  static const String bedNo = "Bed No.";//床号
+  static const String editInfo = "Edit information";//编辑信息
+  static const String treatmentRecords = "Treatment Records";//治疗记录
+  static const String startTreatment = "Start treatment";//开始治疗
+  static const String newUsers = "New Users";//新增用户
+  static const String save = "Save";//保存
+  static const String cancel = "Cancel";//取消
+  static const String addUser = "Add user";//添加用户
+  static const String theme = "Integrated Physiotherapy System";//综合物理治疗系统
+  static const String rememberPassword = "Remember password";//记住密码
+  static const String version = "Current Version Number";//当前版本号
+  static const String confirm = "Confirm";//确定
+  static const String userName = "Please input username";//请输入用户名
+  static const String password = "Please input password";//请输入密码
+
+
+
+//Intensity
+
+
 }

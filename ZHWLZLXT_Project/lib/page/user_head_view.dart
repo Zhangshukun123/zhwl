@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/infrared_entity.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
@@ -91,7 +92,7 @@ class _UserHeadViewState extends State<UserHeadView>
           Row(
             children: [
               Container(
-                width: 130.w,
+                width: (Get.locale?.countryCode == "CN") ? 130.w : 180.w,
                 height: 40.h,
                 decoration: BoxDecoration(
                     color: const Color(0xFF00C290),
@@ -119,7 +120,7 @@ class _UserHeadViewState extends State<UserHeadView>
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        '用户管理',
+                        Globalization.userManagement.tr,
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontSize: 16.sp,
@@ -162,7 +163,7 @@ class _UserHeadViewState extends State<UserHeadView>
                         width: 5.w,
                       ),
                       Text(
-                        '设置',
+                        Globalization.setting.tr,
                         style: TextStyle(
                             color: const Color(0xFFFFFFFF),
                             fontSize: 16.sp,

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
@@ -195,7 +196,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 15.h),
-                                  width: 72.w,
+                                  width: 80.w,
                                   child: TextButton(
                                       onPressed: () {},
                                       child: Row(
@@ -212,7 +213,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             width: 5.w,
                                           ),
                                           Text(
-                                            '模式',
+                                            Globalization.mode.tr,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF999999)),
@@ -234,7 +235,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
                                   enabled: true,
-                                  title: '时间',
+                                  title: Globalization.time.tr,
                                   assets: 'assets/images/2.0x/icon_shijian.png',
                                   initialValue:
                                       double.tryParse(ultrasonic?.time ?? '1'),
@@ -255,7 +256,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 child: SetValue(
                               enabled: true,
-                              title: '功率',
+                              title: Globalization.power.tr,
                               isEventBus: true,
                               assets: 'assets/images/2.0x/icon_gonglv.png',
                               initialValue:
@@ -281,7 +282,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   enabled: true,
                                   isInt: false,
                                   isEventBus: true,
-                                  title: '声强',
+                                  title: Globalization.soundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
                                   initialValue: double.tryParse(
@@ -311,7 +312,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 29.h),
-                                  width: 70.w,
+                                  width: (Get.locale?.countryCode == "CN") ? 70.w : 130.w,
                                   child: TextButton(
                                       onPressed: () {},
                                       child: Row(
@@ -328,7 +329,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             width: 5.w,
                                           ),
                                           Text(
-                                            '频率',
+                                            Globalization.frequency.tr,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF999999)),
@@ -356,7 +357,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Container(
-                                      width: 78.w,
+                                      width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
                                       margin: EdgeInsets.only(top: 15.5.h),
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
@@ -379,7 +380,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                 height: 18.h,
                                               ),
                                               Text(
-                                                '详情',
+                                                Globalization.details.tr,
                                                 style: TextStyle(
                                                     color:
                                                         const Color(0xFF009CB4),

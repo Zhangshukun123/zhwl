@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
@@ -120,7 +122,7 @@ class _InfraredPageState extends State<InfraredPage>
                         height: 150.h,
                         child: SetValue(
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue:
                               double.tryParse(infraredEntity?.time ?? '12'),
@@ -140,7 +142,7 @@ class _InfraredPageState extends State<InfraredPage>
                           child: SetValue(
                             enabled: !isDGW,
                             isEventBus: true,
-                            title: '强度',
+                            title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue:
                                 double.tryParse(infraredEntity?.power ?? '1'),
@@ -171,7 +173,7 @@ class _InfraredPageState extends State<InfraredPage>
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 29.h),
-                                width: 70.w,
+                                width: (Get.locale?.countryCode == "CN") ? 70.w : 100.w,
                                 child: TextButton(
                                     onPressed: () {},
                                     child: Row(
@@ -188,7 +190,7 @@ class _InfraredPageState extends State<InfraredPage>
                                           width: 5.w,
                                         ),
                                         Text(
-                                          '模式',
+                                          Globalization.mode.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xFF999999)),
@@ -262,7 +264,7 @@ class _InfraredPageState extends State<InfraredPage>
                                       setState(() {});
                                     },
                                     child: Text(
-                                      '当前急停状态',
+                                      Globalization.currEmStSt.tr,
                                       style: TextStyle(
                                           color: Color(0xFFFD5F1F),
                                           fontSize: 18.sp),
@@ -290,7 +292,7 @@ class _InfraredPageState extends State<InfraredPage>
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                width: 78.w,
+                                width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
                                 margin: EdgeInsets.only(top: 15.5.h),
                                 decoration: const BoxDecoration(
                                     image: DecorationImage(
@@ -312,7 +314,7 @@ class _InfraredPageState extends State<InfraredPage>
                                           height: 18.h,
                                         ),
                                         Text(
-                                          '详情',
+                                          Globalization.details.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF009CB4),
                                               fontSize: 18.sp),

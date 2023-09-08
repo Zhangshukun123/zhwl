@@ -64,7 +64,9 @@ class _SetPageState extends State<SetPage> {
                     child:
                     Row(
                       children: [
-                        Text('语言',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                        Text(
+                          Globalization.language.tr,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
                         SizedBox(width: 14.w,),
                         HomeSwitchButton(onString: "中文", offString: "EN", pressed: languageBtnSelected, onTap: (obj){
                           languageBtnSelected = !languageBtnSelected;
@@ -76,6 +78,7 @@ class _SetPageState extends State<SetPage> {
                             var locale = const Locale('en', 'US');
                             Get.updateLocale(locale);
                           }
+                          debugPrint('当前的语言为: ${Get.locale?.countryCode == "CN"}');
                           setState(() {
                             print(obj);
                           });
@@ -88,14 +91,20 @@ class _SetPageState extends State<SetPage> {
                     child:
                     Row(
                       children: [
-                        Text('蓝牙',style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
+                        Text(
+                          Globalization.bluetooth.tr,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
                         SizedBox(width: 14.w,),
-                        HomeSwitchButton(onString: "打开", offString: "关闭", pressed: blueBtnSelected, onTap: (obj){
-                          setState(() {
-                            blueBtnSelected = !blueBtnSelected;
-                            print(obj);
-                          });
-                        }),
+                        HomeSwitchButton(
+                            onString: Globalization.open.tr,
+                            offString: Globalization.close.tr,
+                            pressed: blueBtnSelected,
+                            onTap: (obj){
+                              setState(() {
+                                blueBtnSelected = !blueBtnSelected;
+                                print(obj);
+                              });
+                            }),
                       ],
                     ),
                   ),
@@ -106,7 +115,7 @@ class _SetPageState extends State<SetPage> {
                   Container(
                       margin: EdgeInsets.only(left: 180.w),
                       child: Text(
-                        '亮度调节',
+                        Globalization.brightness.tr,
                         style: TextStyle(
                             color: const Color(0xFF999999), fontSize: 18.sp),
                       )),

@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
 import '../utils/event_bus.dart';
@@ -142,7 +144,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                                           width: 4.w,
                                         ),
                                         Text(
-                                          '处方',
+                                          Globalization.recipe.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xFF999999)),
@@ -165,7 +167,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
@@ -182,7 +184,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
-                          title: '强度',
+                          title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue: double.tryParse(midFrequency?.powerA ?? '1'),
                           maxValue: 99,
@@ -274,7 +276,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                                           width: 4.w,
                                         ),
                                         Text(
-                                          '处方',
+                                          Globalization.recipe.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xFF999999)),
@@ -297,7 +299,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
-                          title: '时间',
+                          title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(midFrequency?.timeB ?? '1'),
                           maxValue: 30,
@@ -314,7 +316,7 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
-                          title: '强度',
+                          title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue: double.tryParse(midFrequency?.powerB ?? '1'),
                           maxValue: 99,

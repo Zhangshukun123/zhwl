@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/add_page.dart';
 import 'package:zhwlzlxt_project/page/record_page.dart';
@@ -169,7 +170,7 @@ class _ControlPageState extends State<ControlPage> {
         ),
         leadingWidth: 40.w,
         title: Text(
-          '用户管理',
+          Globalization.userManagement.tr,
           style: TextStyle(fontSize: 15.sp, color: Colors.white),
         ),
         actions: <Widget>[
@@ -209,7 +210,7 @@ class _ControlPageState extends State<ControlPage> {
                     width: 5.w,
                   ),
                   Text(
-                    '新增用户',
+                    Globalization.newUsers.tr,
                     style: TextStyle(color: Colors.white, fontSize: 12.sp),
                   ),
                   SizedBox(
@@ -299,7 +300,7 @@ class _ControlPageState extends State<ControlPage> {
                                 margin: EdgeInsets.only(left: 41.w),
                                 width: 60.w,
                                 child: Text(
-                                  '姓名',
+                                  Globalization.name.tr,
                                   style: TextStyle(
                                       color: const Color(0xFF999999),
                                       fontSize: 14.sp),
@@ -307,7 +308,7 @@ class _ControlPageState extends State<ControlPage> {
                             Container(
                                 margin: EdgeInsets.only(left: 20.w),
                                 child: Text(
-                                  '电话',
+                                  Globalization.tel.tr,
                                   style: TextStyle(
                                       color: const Color(0xFF999999),
                                       fontSize: 14.sp),
@@ -359,7 +360,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 60.w,
                                         child: Text(
-                                          '编号',
+                                          Globalization.no.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -396,7 +397,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 40.w,
                                         child: Text(
-                                          '姓名',
+                                          Globalization.name.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -438,7 +439,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 60.w,
                                         child: Text(
-                                          '年龄',
+                                          Globalization.age.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -475,7 +476,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 60.w,
                                         child: Text(
-                                          '性别',
+                                          Globalization.gender.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -561,7 +562,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 60.w,
                                         child: Text(
-                                          '电话',
+                                          Globalization.tel.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -598,7 +599,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 40.w,
                                         child: Text(
-                                          '证件',
+                                          Globalization.certificate.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -640,7 +641,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 60.w,
                                         child: Text(
-                                          '住院号',
+                                          Globalization.hospitalNo.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -677,7 +678,7 @@ class _ControlPageState extends State<ControlPage> {
                                     SizedBox(
                                         width: 40.w,
                                         child: Text(
-                                          '床号',
+                                          Globalization.bedNo.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 16.sp),
@@ -718,7 +719,7 @@ class _ControlPageState extends State<ControlPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                      height: 43.h,
+                                      height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
                                       width: 110.w,
                                       decoration: BoxDecoration(
                                         border: Border.all(
@@ -734,7 +735,8 @@ class _ControlPageState extends State<ControlPage> {
                                           setState(() {});
                                         },
                                         child: Text(
-                                          isEdit ? '编辑信息' : '取消',
+                                          isEdit ? Globalization.editInfo.tr: Globalization.cancel.tr,
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: const Color(0xFF00A8E7),
                                               fontSize: 18.sp),
@@ -746,7 +748,7 @@ class _ControlPageState extends State<ControlPage> {
                                     maintainAnimation: false,
                                     maintainSize: false,
                                     child: Container(
-                                        height: 43.h,
+                                        height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
                                         width: 110.w,
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF00A8E7),
@@ -767,7 +769,8 @@ class _ControlPageState extends State<ControlPage> {
                                                           const RecordPage()));
                                             },
                                             child: Text(
-                                              '治疗记录',
+                                              Globalization.treatmentRecords.tr,
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color:
                                                       const Color(0xFFFFFFFF),
@@ -775,7 +778,7 @@ class _ControlPageState extends State<ControlPage> {
                                             ))),
                                   ),
                                   Container(
-                                      height: 43.h,
+                                      height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
                                       width: 110.w,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFF00C290),
@@ -823,7 +826,8 @@ class _ControlPageState extends State<ControlPage> {
                                             }
                                           },
                                           child: Text(
-                                            isEdit ? '开始治疗' : '保存',
+                                            isEdit ? Globalization.startTreatment.tr : Globalization.save.tr,
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: const Color(0xFFFFFFFF),
                                                 fontSize: 18.sp),

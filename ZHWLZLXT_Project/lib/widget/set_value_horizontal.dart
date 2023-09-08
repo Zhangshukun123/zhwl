@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 typedef ValueListener = void Function(double value);
@@ -64,7 +66,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               width: 20.w,
             ),
             SizedBox(
-              width: 70.w,
+              width: (Get.locale?.countryCode == "CN") ? 70.w : 100.w,
               child: TextButton(
                   onPressed: () {},
                   child: Row(children: [

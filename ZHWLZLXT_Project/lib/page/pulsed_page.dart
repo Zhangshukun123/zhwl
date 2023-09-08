@@ -4,7 +4,9 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
 import 'package:zhwlzlxt_project/page/operate_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
@@ -127,7 +129,7 @@ class _PulsedPageState extends State<PulsedPage>
                           height: 150.h,
                           child: SetValue(
                             enabled: true,
-                            title: '强度',
+                            title:  Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue: double.tryParse(pulsed?.power ?? '0'),
                             maxValue: 5,
@@ -143,7 +145,7 @@ class _PulsedPageState extends State<PulsedPage>
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
                             enabled: true,
-                            title: '频率',
+                            title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
                             initialValue:
                                 double.tryParse(pulsed?.frequency ?? '20'),
@@ -162,7 +164,7 @@ class _PulsedPageState extends State<PulsedPage>
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
                             enabled: true,
-                            title: '时间',
+                            title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue: double.tryParse(pulsed?.time ?? '12'),
                             maxValue: 99,
@@ -211,7 +213,7 @@ class _PulsedPageState extends State<PulsedPage>
                                           fit: BoxFit.cover,
                                         ),
                                         Text(
-                                          '振动',
+                                          Globalization.vibration.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 18.sp),
@@ -267,7 +269,7 @@ class _PulsedPageState extends State<PulsedPage>
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                width: 78.w,
+                                width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
                                 margin: EdgeInsets.only(top: 15.5.h),
                                 decoration: const BoxDecoration(
                                     image: DecorationImage(
@@ -289,7 +291,7 @@ class _PulsedPageState extends State<PulsedPage>
                                           height: 18.h,
                                         ),
                                         Text(
-                                          '详情',
+                                          Globalization.details.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF009CB4),
                                               fontSize: 18.sp),

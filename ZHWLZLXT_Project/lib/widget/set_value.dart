@@ -5,6 +5,8 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 
 import '../utils/event_bus.dart';
@@ -86,7 +88,7 @@ class _SetValueState extends State<SetValue> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 29.h),
-          width: 72.w,
+          width: (Get.locale?.countryCode == "CN") ? 80.w : 150.w,
           child: TextButton(
               onPressed: () {},
               child: Row(
