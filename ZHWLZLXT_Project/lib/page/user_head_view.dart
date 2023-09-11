@@ -53,6 +53,9 @@ class _UserHeadViewState extends State<UserHeadView>
         controller.user.value = event.user!;
       }
     });
+
+    user = controller.user.value;
+
     // event = eventBus.on<TreatmentType>().listen((event) {
     //   if (!mounted) {
     //     return;

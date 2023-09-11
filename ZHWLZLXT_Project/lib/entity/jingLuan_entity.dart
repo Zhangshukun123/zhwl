@@ -42,6 +42,16 @@ class Spastic {
     this.powerB,
   });
 
+  void init() {
+    time = "1";
+    circle = "1";
+    widthA = "1";
+    widthB = "1";
+    delayTime = "1";
+    powerA = "1";
+    powerB = "1";
+  }
+
   factory Spastic.fromJson(String str) => Spastic.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
@@ -71,7 +81,8 @@ class Spastic {
   bool start(bool isStart) {
     final TreatmentController controller = Get.find();
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
 
@@ -119,6 +130,8 @@ class Spastic {
     else{
       data = "$data 0$delayTmps";
     }
+
+
 
 
     if (TextUtil.isEmpty(widthA)) {

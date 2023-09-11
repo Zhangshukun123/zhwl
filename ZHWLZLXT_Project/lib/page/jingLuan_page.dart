@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
 
+import '../entity/set_value_state.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -22,90 +23,30 @@ class JingLuanPage extends StatefulWidget {
   State<JingLuanPage> createState() => _JingLuanPageState();
 }
 
-class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClientMixin{
+class _JingLuanPageState extends State<JingLuanPage>
+    with AutomaticKeepAliveClientMixin {
   bool jingStartSelected = true;
   bool startSelected = false;
 
   Spastic? spastic;
 
-  StreamController<String> cTime = StreamController<String>();
-  StreamController<String> cCircle = StreamController<String>();
-  StreamController<String> cWidthA = StreamController<String>();
-  StreamController<String> cWidthB = StreamController<String>();
-  StreamController<String> cDelayTime = StreamController<String>();
-  StreamController<String> cPowerA = StreamController<String>();
-  StreamController<String> cPowerB = StreamController<String>();
-
   @override
   void initState() {
     super.initState();
-
-
-    //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(SpasticField.SpasticKey))) {
-      spastic = Spastic();
-    } else {
-      spastic =
-          Spastic.fromJson(SpUtils.getString(SpasticField.SpasticKey)!);
-    }
-
-    // spastic = Spastic();
-
-
-    // 一定时间内 返回一个数据
-    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
-      spastic?.time = time;
-      save();
-    });
-    cCircle.stream.debounceTime(const Duration(seconds: 1)).listen((circle) {
-      spastic?.circle = circle;
-      save();
-    });
-    cWidthA.stream.debounceTime(const Duration(seconds: 1)).listen((widthA) {
-      spastic?.widthA = widthA;
-      save();
-    });
-    cWidthB.stream.debounceTime(const Duration(seconds: 1)).listen((widthB) {
-      spastic?.widthB = widthB;
-      save();
-    });
-    cDelayTime.stream.debounceTime(const Duration(seconds: 1)).listen((delayTime) {
-      spastic?.delayTime = delayTime;
-      save();
-    });
-    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
-      spastic?.powerA = powerA;
-      save();
-    });
-    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
-      spastic?.powerB = powerB;
-      save();
-    });
+    spastic = Spastic();
+    spastic?.init();
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.spasm) {
         spastic?.userId = event.user?.userId;
-        save();
+        save(event.user?.userId ?? -1);
       }
     });
   }
 
-  void save() {
-    SpUtils.set(SpasticField.SpasticKey, spastic?.toJson());
+  void save(int userId) {
+    SpUtils.set(SpasticField.SpasticKey, userId);
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    cTime.close();
-    cWidthA.close();
-    cWidthB.close();
-    cDelayTime.close();
-    cCircle.close();
-    cPowerB.close();
-    cPowerA.close();
-  }
-
 
 
   @override
@@ -124,6 +65,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                 children: [
                   SetValueHorizontal(
                     enabled: true,
+                    type: TreatmentType.spasm,
                     title: Globalization.time.tr,
                     assets: 'assets/images/2.0x/icon_shijian.png',
                     initialValue: double.tryParse(spastic?.time ?? '1'),
@@ -131,13 +73,13 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     minValue: 1,
                     unit: 'min',
                     valueListener: (value) {
-                      print("------时间-----$value");
-                      cTime.add(value.toString());
+                      spastic?.time = value.toString();
                     },
                   ),
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
+                    type: TreatmentType.spasm,
                     title: Globalization.pulseWidthA.tr,
                     assets: 'assets/images/2.0x/icon_maikuan.png',
                     initialValue: double.tryParse(spastic?.widthA ?? '0.1'),
@@ -146,13 +88,13 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     maxValue: 0.5,
                     unit: 'ms',
                     valueListener: (value) {
-                      print("------脉宽 A-----$value");
-                      cWidthA.add(value.toString());
+                      spastic?.widthA = value.toString();
                     },
                   ),
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
+                    type: TreatmentType.spasm,
                     title: Globalization.pulseWidthB.tr,
                     assets: 'assets/images/2.0x/icon_maikuan.png',
                     initialValue: double.tryParse(spastic?.widthB ?? '0.1'),
@@ -161,13 +103,13 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     maxValue: 0.5,
                     unit: 'ms',
                     valueListener: (value) {
-                      print("------脉宽 B-----$value");
-                      cWidthB.add(value.toString());
+                      spastic?.widthB = value.toString();
                     },
                   ),
                   SetValueHorizontal(
                     enabled: true,
                     isInt: false,
+                    type: TreatmentType.spasm,
                     title: Globalization.delayTime.tr,
                     assets: 'assets/images/2.0x/icon_yanshi.png',
                     initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
@@ -176,8 +118,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     minValue: 0.1,
                     unit: 's',
                     valueListener: (value) {
-                      print("------延时时间-----$value");
-                      cDelayTime.add(value.toString());
+                      spastic?.delayTime = value.toString();
                     },
                   ),
                 ],
@@ -190,6 +131,7 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                     SetValueHorizontal(
                       enabled: true,
                       isInt: false,
+                      type: TreatmentType.spasm,
                       title: Globalization.pulsePeriod.tr,
                       assets: 'assets/images/2.0x/icon_maichong.png',
                       initialValue: double.tryParse(spastic?.circle ?? '1'),
@@ -198,34 +140,33 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                       maxValue: 2,
                       unit: 's',
                       valueListener: (value) {
-                        print("------周期-----$value");
-                        cCircle.add(value.toString());
+                        spastic?.circle = value.toString();
                       },
                     ),
                     SetValueHorizontal(
                       enabled: true,
                       isInt: true,
+                      type: TreatmentType.spasm,
                       title: Globalization.intensityA.tr,
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
                       initialValue: double.tryParse(spastic?.powerA ?? '1'),
                       maxValue: 99,
                       minValue: 0,
                       valueListener: (value) {
-                        print("------强度 A-----$value");
-                        cPowerA.add(value.toString());
+                        spastic?.powerA = value.toString();
                       },
                     ),
                     SetValueHorizontal(
                       enabled: true,
                       isInt: true,
+                      type: TreatmentType.spasm,
                       title: Globalization.intensityB.tr,
                       assets: 'assets/images/2.0x/icon_qiangdu.png',
                       initialValue: double.tryParse(spastic?.powerB ?? '1'),
                       maxValue: 99,
                       minValue: 0,
                       valueListener: (value) {
-                        print("------强度 B-----$value");
-                        cPowerB.add(value.toString());
+                        spastic?.powerB = value.toString();
                       },
                     ),
                     Container(
@@ -246,10 +187,17 @@ class _JingLuanPageState extends State<JingLuanPage> with AutomaticKeepAliveClie
                         child: Container(
                           child: TextButton(
                             onPressed: () {
-                              startSelected = spastic
-                                  ?.start(!startSelected) ??
-                                  false;
+                              startSelected =
+                                  spastic?.start(!startSelected) ?? false;
+
+                              if (!startSelected) {
+                                spastic?.init();
+                                Future.delayed(const Duration(milliseconds: 500), () {
+                                  eventBus.fire(SetValueState(TreatmentType.spasm));
+                                });
+                              }
                               setState(() {});
+
                             },
                             child: Image.asset(
                               startSelected

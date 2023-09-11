@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
+import '../entity/set_value_state.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -23,70 +24,29 @@ class ZhongPinPage extends StatefulWidget {
   State<ZhongPinPage> createState() => _ZhongPinPageState();
 }
 
-class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClientMixin {
+class _ZhongPinPageState extends State<ZhongPinPage>
+    with AutomaticKeepAliveClientMixin {
   bool yiStartSelected = true;
   bool erStartSelected = true;
 
   MidFrequency? midFrequency;
 
-  StreamController<String> cTimeA = StreamController<String>();
-  StreamController<String> cPowerA = StreamController<String>();
-  StreamController<String> cTimeB = StreamController<String>();
-  StreamController<String> cPowerB = StreamController<String>();
   @override
   void initState() {
     super.initState();
-
-    //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(MidFrequencyField.MidFrequencyKey))) {
-      midFrequency = MidFrequency();
-    } else {
-      midFrequency =
-          MidFrequency.fromJson(SpUtils.getString(MidFrequencyField.MidFrequencyKey)!);
-    }
-
-    // midFrequency = MidFrequency();
-
-    // 一定时间内 返回一个数据
-    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
-      midFrequency?.timeA = timeA;
-      save();
-    });
-    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
-      midFrequency?.powerA = powerA;
-      save();
-    });
-
-
-    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
-      midFrequency?.timeB = timeB;
-      save();
-    });
-    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
-      midFrequency?.powerB = powerB;
-      save();
-    });
-
-
+    midFrequency = MidFrequency();
+    midFrequency?.init();
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.frequency) {
         midFrequency?.userId = event.user?.userId;
-        save();
+        save(event.user?.userId ?? -1);
       }
     });
   }
 
-  void save() {
-    SpUtils.set(MidFrequencyField.MidFrequencyKey, midFrequency?.toJson());
-  }
-  @override
-  void dispose() {
-    super.dispose();
-    cTimeA.close();
-    cPowerA.close();
-    cTimeB.close();
-    cPowerB.close();
+  void save(int userId) {
+    SpUtils.set(MidFrequencyField.MidFrequencyKey, userId);
   }
 
   @override
@@ -101,13 +61,6 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
             Expanded(
               flex: 1,
               child: Container(
-                  // color: Colors.white,
-                  // decoration: const BoxDecoration(
-                  //   image: DecorationImage(
-                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
                   margin: EdgeInsets.only(top: 11.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -157,7 +110,6 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                                 patternStr: midFrequency?.patternA ?? "1",
                                 popupListener: (value) {
                                   midFrequency?.patternA = value;
-                                  save();
                                 },
                               ),
                             ],
@@ -167,15 +119,16 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
+                          type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: double.tryParse(midFrequency?.timeA ?? '1'),
+                          initialValue:
+                              double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间A-----$value");
-                            cTimeA.add(value.toString());
+                            midFrequency?.timeA = value.toString();
                           },
                         ),
                       ),
@@ -184,14 +137,15 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
+                          type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: double.tryParse(midFrequency?.powerA ?? '1'),
+                          initialValue:
+                              double.tryParse(midFrequency?.powerA ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
-                            print("------强度 A-----$value");
-                            cPowerA.add(value.toString());
+                            midFrequency?.powerA = value.toString();
                           },
                         ),
                       ),
@@ -206,6 +160,12 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                                 yiStartSelected =
                                     midFrequency?.start1(!yiStartSelected) ??
                                         false;
+                                if (yiStartSelected) {
+                                  midFrequency?.init();
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.frequency));
+                                  });
+                                }
                                 setState(() {});
                               },
                               child: Image.asset(
@@ -233,13 +193,6 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
             Expanded(
               flex: 1,
               child: Container(
-                  // color: Colors.white,
-                  // decoration: const BoxDecoration(
-                  //   image: DecorationImage(
-                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
                   margin: EdgeInsets.only(top: 11.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -289,7 +242,6 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                                 patternStr: midFrequency?.patternB ?? "1",
                                 popupListener: (value) {
                                   midFrequency?.patternB = value;
-                                  save();
                                 },
                               ),
                             ],
@@ -299,15 +251,16 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
+                          type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: double.tryParse(midFrequency?.timeB ?? '1'),
+                          initialValue:
+                              double.tryParse(midFrequency?.timeB ?? '1'),
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间B-----$value");
-                            cTimeB.add(value.toString());
+                            midFrequency?.timeB = value.toString();
                           },
                         ),
                       ),
@@ -316,14 +269,15 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: true,
+                          type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: double.tryParse(midFrequency?.powerB ?? '1'),
+                          initialValue:
+                              double.tryParse(midFrequency?.powerB ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
-                            print("------强度 B-----$value");
-                            cPowerB.add(value.toString());
+                            midFrequency?.powerB = value.toString();
                           },
                         ),
                       ),
@@ -335,9 +289,15 @@ class _ZhongPinPageState extends State<ZhongPinPage> with AutomaticKeepAliveClie
                           )),
                           child: TextButton(
                               onPressed: () {
-                                erStartSelected = midFrequency
-                                    ?.start2(!erStartSelected) ??
-                                    false;
+                                erStartSelected =
+                                    midFrequency?.start2(!erStartSelected) ??
+                                        false;
+                                if (erStartSelected) {
+                                  midFrequency?.init();
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.frequency));
+                                  });
+                                }
                                 setState(() {});
                               },
                               child: Image.asset(

@@ -12,9 +12,9 @@ import '../Controller/treatment_controller.dart';
 class InfraredField {
   static String InfraredKey = "InfraredKey"; // 存储 -key
   static String userId = "userId";
-  static String time = "time";//时间
-  static String power = "power";//强度
-  static String pattern = "pattern";//模式
+  static String time = "time"; //时间
+  static String power = "power"; //强度
+  static String pattern = "pattern"; //模式
 }
 
 class InfraredEntity {
@@ -24,7 +24,6 @@ class InfraredEntity {
   String? pattern;
   bool? isStart;
 
-
   InfraredEntity({
     this.userId,
     this.time,
@@ -33,36 +32,44 @@ class InfraredEntity {
     this.isStart,
   });
 
-  factory InfraredEntity.fromJson(String str) => InfraredEntity.fromMap(json.decode(str));
+  void init() {
+    time = "1";
+    power = "0";
+    pattern = "连续模式1";
+  }
+
+  factory InfraredEntity.fromJson(String str) =>
+      InfraredEntity.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory InfraredEntity.fromMap(Map<String, dynamic> json) => InfraredEntity(
-    userId: json[InfraredField.userId],
-    time: json[InfraredField.time],
-    power: json[InfraredField.power],
-    pattern: json[InfraredField.pattern],
-  );
+        userId: json[InfraredField.userId],
+        time: json[InfraredField.time],
+        power: json[InfraredField.power],
+        pattern: json[InfraredField.pattern],
+      );
 
   Map<String, dynamic> toMap() => {
-    InfraredField.userId: userId,
-    InfraredField.time: time,
-    InfraredField.power: power,
-    InfraredField.pattern: pattern,
-  };
+        InfraredField.userId: userId,
+        InfraredField.time: time,
+        InfraredField.power: power,
+        InfraredField.pattern: pattern,
+      };
 
   bool start(bool isStart, bool isOpen) {
     final TreatmentController controller = Get.find();
     print('--------------${controller.user.value.userId}');
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    01
-    data = "$data 00";//BYte02 通道 02
+    data = "$data 00"; //BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03
@@ -178,9 +185,4 @@ class InfraredEntity {
     SerialPort().send(data);
     return isStart;
   }
-
-
-
-
-
 }

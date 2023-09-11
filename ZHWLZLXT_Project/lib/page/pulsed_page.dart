@@ -14,6 +14,7 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../entity/set_value_state.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -38,23 +39,13 @@ class _PulsedPageState extends State<PulsedPage>
   //初始化字段存储
   Pulsed? pulsed;
 
-  StreamController<String> cTime = StreamController<String>();
-  StreamController<String> cPower = StreamController<String>();
-  StreamController<String> cFrequency = StreamController<String>();
-
   @override
   void initState() {
     super.initState();
     dialog = DetailsDialog(
         index: 2); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-
-    //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(PulsedField.PulsedKey))) {
-      pulsed = Pulsed();
-    } else {
-      pulsed = Pulsed.fromJson(SpUtils.getString(PulsedField.PulsedKey)!);
-    }
-
+    pulsed = Pulsed();
+    pulsed?.init();
     // pulsed = Pulsed();
 
     _tabController =
@@ -63,40 +54,21 @@ class _PulsedPageState extends State<PulsedPage>
 
     dialog?.setTabController(_tabController);
 
-    // 一定时间内 返回一个数据
-    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
-      pulsed?.time = time;
-      save();
-    });
-    cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
-      pulsed?.power = power;
-      save();
-    });
-    cFrequency.stream
-        .debounceTime(const Duration(seconds: 1))
-        .listen((frequency) {
-      pulsed?.frequency = frequency;
-      save();
-    });
-
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.pulsed) {
-        pulsed?.userId = event.user?.userId;
-        save();
+        // pulsed?.userId = event.user?.userId;
+        save(event.user?.userId ?? -1);
       }
     });
   }
 
-  void save() {
-    SpUtils.set(PulsedField.PulsedKey, pulsed?.toJson());
+  void save(int userId) {
+    SpUtils.set(PulsedField.PulsedKey, userId);
   }
 
   @override
   void dispose() {
     super.dispose();
-    cTime.close();
-    cPower.close();
-    cFrequency.close();
   }
 
   @override
@@ -129,14 +101,14 @@ class _PulsedPageState extends State<PulsedPage>
                           height: 150.h,
                           child: SetValue(
                             enabled: true,
-                            title:  Globalization.intensity.tr,
+                            type: TreatmentType.pulsed,
+                            title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue: double.tryParse(pulsed?.power ?? '0'),
                             maxValue: 5,
                             minValue: 0,
                             valueListener: (value) {
-                              print("------强度-----$value");
-                              cPower.add(value.toString());
+                              pulsed?.power = value.toString();
                             },
                           )),
                       ContainerBg(
@@ -145,6 +117,7 @@ class _PulsedPageState extends State<PulsedPage>
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
                             enabled: true,
+                            type: TreatmentType.pulsed,
                             title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
                             initialValue:
@@ -154,8 +127,7 @@ class _PulsedPageState extends State<PulsedPage>
                             minValue: 20,
                             unit: '次/min',
                             valueListener: (value) {
-                              print("------频率-----$value");
-                              cFrequency.add(value.toString());
+                              pulsed?.frequency = value.toString();
                             },
                           )),
                       ContainerBg(
@@ -164,6 +136,7 @@ class _PulsedPageState extends State<PulsedPage>
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
                             enabled: true,
+                            type: TreatmentType.pulsed,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue: double.tryParse(pulsed?.time ?? '12'),
@@ -171,8 +144,7 @@ class _PulsedPageState extends State<PulsedPage>
                             minValue: 1,
                             unit: 'min',
                             valueListener: (value) {
-                              print("------时间-----$value");
-                              cTime.add(value.toString());
+                              pulsed?.time = value.toString();
                             },
                           )),
                     ],
@@ -233,19 +205,9 @@ class _PulsedPageState extends State<PulsedPage>
                                         trackColor: const Color(0xFFF9F9F9),
                                         onChanged: (value) {
                                           switchSelected = !switchSelected;
-                                          print(value);
                                           setState(() {});
                                         }),
                                   )
-                                  // TextButton(
-                                  //     onPressed: (){
-                                  //       switchSelected = !switchSelected;
-                                  //       setState(() {
-                                  //
-                                  //       });
-                                  //     },
-                                  //     child: Image.asset(switchSelected ? 'assets/images/2.0x/img_kai.png' : 'assets/images/2.0x/img_guan.png',fit: BoxFit.fill,width: 120.w,height: 70.h,)
-                                  // ),
                                   ),
                             ],
                           )),
@@ -269,7 +231,9 @@ class _PulsedPageState extends State<PulsedPage>
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
+                                width: (Get.locale?.countryCode == "CN")
+                                    ? 78.w
+                                    : 100.w,
                                 margin: EdgeInsets.only(top: 15.5.h),
                                 decoration: const BoxDecoration(
                                     image: DecorationImage(
@@ -307,6 +271,12 @@ class _PulsedPageState extends State<PulsedPage>
                                       startSelected = pulsed
                                           ?.start(!startSelected, switchSelected) ??
                                           false;
+                                      if (startSelected) {
+                                        pulsed?.init();
+                                        Future.delayed(const Duration(milliseconds: 500), () {
+                                          eventBus.fire(SetValueState(TreatmentType.pulsed));
+                                        });
+                                      }
                                       setState(() {});
                                     },
                                     child: Image.asset(

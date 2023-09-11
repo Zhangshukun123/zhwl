@@ -30,6 +30,12 @@ class Pulsed {
     this.frequency,
   });
 
+  init() {
+    time = '1';
+    power = '1';
+    frequency = '1';
+  }
+
   factory Pulsed.fromJson(String str) => Pulsed.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
@@ -49,11 +55,11 @@ class Pulsed {
       };
 
   bool start(bool isStart, bool isOpen) {
-
     final TreatmentController controller = Get.find();
     print('--------------${controller.user.value.userId}');
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL

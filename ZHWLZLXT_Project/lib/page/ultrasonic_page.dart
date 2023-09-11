@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/cofig/config.dart';
+import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
@@ -45,10 +46,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   Ultrasonic? ultrasonic;
 
-  StreamController<String> cTime = StreamController<String>();
-  StreamController<String> cPower = StreamController<String>();
-  StreamController<String> cSoundIntensity = StreamController<String>();
-
   final TreatmentController controller = Get.find();
   final UltrasonicController ultrasonicController =
       Get.put(UltrasonicController());
@@ -58,41 +55,27 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     super.initState();
     dialog = DetailsDialog(
         index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-    if (TextUtil.isEmpty(SpUtils.getString(UltrasonicField.UltrasonicKey))) {
-      ultrasonic = Ultrasonic();
-    } else {
-      ultrasonic = Ultrasonic.fromJson(
-          SpUtils.getString(UltrasonicField.UltrasonicKey)!);
-    }
+
+    ultrasonic = Ultrasonic();
+    ultrasonic?.init();
+
+    // if (TextUtil.isEmpty(SpUtils.getString(UltrasonicField.UltrasonicKey))) {
+    // } else {
+    //   ultrasonic = Ultrasonic.fromJson(
+    //       SpUtils.getString(UltrasonicField.UltrasonicKey)!);
+    // }
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
 
-    // 一定时间内 返回一个数据
-    cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
-      ultrasonic?.time = time;
-      save();
-    });
-    cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
-      ultrasonic?.power = power;
-      setState(() {
 
-      });
-      save();
-    });
-    cSoundIntensity.stream
-        .debounceTime(const Duration(seconds: 1))
-        .listen((soundIntensity) {
-      ultrasonic?.soundIntensity = soundIntensity;
-      save();
-    });
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.ultrasonic) {
-        ultrasonic?.userId = event.user?.userId;
-        save();
+        // ultrasonic?.userId = event.user?.userId;
+        save(event.user?.userId ?? -1);
       }
     });
 
@@ -106,25 +89,25 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
   }
 
-
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     switch (methodCall.method) {
       case 'onPortDataReceived':
         Future.delayed(const Duration(seconds: 2), () {
           Fluttertoast.showToast(
-              msg: '返回数据=${methodCall.arguments}', fontSize: 22, backgroundColor: Colors.blue);
+              msg: '返回数据=${methodCall.arguments}',
+              fontSize: 22,
+              backgroundColor: Colors.blue);
         });
         break;
     }
   }
-
 
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
       showConnectPort('设备连接超时', "正在尝试重新连接");
     }
     if (value == "102") {
-      if(isShow){
+      if (isShow) {
         Get.back();
         isShow = false;
       }
@@ -157,16 +140,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     }
   }
 
-  void save() {
-    SpUtils.set(UltrasonicField.UltrasonicKey, ultrasonic?.toJson());
+  void save(int userId) {
+    SpUtils.set(UltrasonicField.UltrasonicKey, userId);
   }
 
   @override
   void dispose() {
     super.dispose();
-    cTime.close();
-    cPower.close();
-    cSoundIntensity.close();
   }
 
   @override
@@ -229,7 +209,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   patternStr: ultrasonic?.pattern ?? "连续模式1",
                                   popupListener: (value) {
                                     ultrasonic?.pattern = value;
-                                    save();
+                                    // save();
                                   },
                                 ),
                               ],
@@ -238,15 +218,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
                                   enabled: true,
+                                  type: TreatmentType.ultrasonic,
                                   title: Globalization.time.tr,
                                   assets: 'assets/images/2.0x/icon_shijian.png',
                                   initialValue:
                                       double.tryParse(ultrasonic?.time ?? '1'),
                                   minValue: 1,
                                   maxValue: 30,
+                                  isEventBus: true,
                                   unit: 'min',
                                   valueListener: (value) {
-                                    cTime.add(value.toString());
+                                    ultrasonic?.time = value.toString();
                                   },
                                 )),
                           ],
@@ -259,6 +241,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 child: SetValue(
                               enabled: true,
+                                  type: TreatmentType.ultrasonic,
                               title: Globalization.power.tr,
                               isEventBus: true,
                               assets: 'assets/images/2.0x/icon_gonglv.png',
@@ -275,10 +258,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
-
-                                print("------功率-----$value");
-
-                                cPower.add(value.toString());
+                                ultrasonic?.power = value.toString();
+                                // cPower.add(value.toString());
                               },
                             )),
                             ContainerBg(
@@ -286,24 +267,25 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: SetValue(
                                   enabled: true,
                                   isInt: false,
+                                  type: TreatmentType.ultrasonic,
                                   isEventBus: true,
                                   title: Globalization.soundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
-                                  // initialValue: double.tryParse(
-                                  //     ultrasonic?.soundIntensity ?? '0.0'),
-                                  initialValue: ultrasonicController.ultrasonic.frequency.value == 1 ? double.tryParse(ultrasonic?.power ?? '0')!/2 : double.tryParse(ultrasonic?.power ?? '0')!/4,
-                                  // appreciation: 0.3,
-                                  // maxValue: ultrasonicController
-                                  //             .ultrasonic.frequency.value ==
-                                  //         1
-                                  //     ? 1.8
-                                  //     : 1.5,
+                                  initialValue: double.tryParse(
+                                      ultrasonic?.soundIntensity ?? '0.0'),
+                                  appreciation: 0.3,
+                                  maxValue: ultrasonicController
+                                              .ultrasonic.frequency.value ==
+                                          1
+                                      ? 1.8
+                                      : 1.5,
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'w/cm2',
                                   valueListener: (value) {
                                     print("------声强-----$value");
-                                    cSoundIntensity.add(value.toString());
+                                    ultrasonic?.soundIntensity =
+                                        value.toString();
                                   },
                                 )),
                           ],
@@ -318,7 +300,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 29.h),
-                                  width: (Get.locale?.countryCode == "CN") ? 70.w : 130.w,
+                                  width: (Get.locale?.countryCode == "CN")
+                                      ? 70.w
+                                      : 130.w,
                                   child: TextButton(
                                       onPressed: () {},
                                       child: Row(
@@ -352,7 +336,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                     // debugPrint(value);
                                     setState(() {});
                                     ultrasonic?.frequency = value;
-                                    save();
+                                    // save();
                                   },
                                 )
                               ],
@@ -363,7 +347,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Container(
-                                      width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
+                                      width: (Get.locale?.countryCode == "CN")
+                                          ? 78.w
+                                          : 100.w,
                                       margin: EdgeInsets.only(top: 15.5.h),
                                       decoration: const BoxDecoration(
                                           image: DecorationImage(
@@ -405,6 +391,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             startSelected = ultrasonic
                                                     ?.start(!startSelected) ??
                                                 false;
+
+                                            if (!startSelected) {
+                                              ultrasonic?.init();
+                                              Future.delayed(const Duration(milliseconds: 500), () {
+                                                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+                                              });
+                                            }
                                             setState(() {});
                                           },
                                           child: Image.asset(
