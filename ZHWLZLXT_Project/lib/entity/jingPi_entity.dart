@@ -207,7 +207,7 @@ class Percutaneous {
 
     var pulseAValue = double.tryParse(pulseA!)!~/10;
     var pulseATmps = pulseAValue.toInt().toRadixString(16);
-    if (pulseATmps!.length > 1) {
+    if (pulseATmps.length > 1) {
       data = "$data $pulseATmps";
     }
     else{
