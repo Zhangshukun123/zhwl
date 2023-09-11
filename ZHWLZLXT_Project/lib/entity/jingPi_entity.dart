@@ -101,9 +101,9 @@ class Percutaneous {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+      data = "$data ${BYTE03_STOP.B01}";
     }
 
     if (TextUtil.isEmpty(patternA)) {
@@ -111,38 +111,97 @@ class Percutaneous {
     }
     if (patternA == BYTE04_PT.S_J_01) {
       // 04
-      data = "$data ${BYTE04_PT.B01}";
+      // data = "$data ${BYTE04_PT.B01}";
+      var patternValue = double.tryParse(BYTE04_PT.B01);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1){
+        data = "$data $patternTmps";
+      }
+      else{
+        data = "$data 0$patternTmps";
+      }
     }
     if (patternA == BYTE04_PT.S_J_02) {
-      data = "$data ${BYTE04_PT.B02}";
+      // data = "$data ${BYTE04_PT.B02}";
+      var patternValue = double.tryParse(BYTE04_PT.B02);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1){
+        data = "$data $patternTmps";
+      }
+      else{
+        data = "$data 0$patternTmps";
+      }
     }
     if (patternA == BYTE04_PT.S_J_03) {
-      data = "$data ${BYTE04_PT.B03}";
+      // data = "$data ${BYTE04_PT.B03}";
+      var patternValue = double.tryParse(BYTE04_PT.B03);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1){
+        data = "$data $patternTmps";
+      }
+      else{
+        data = "$data 0$patternTmps";
+      }
     }
 
     if (TextUtil.isEmpty(timeA)) {
       timeA = '1';
     }
     // data = "$data $timeA"; //byte05 工作时间 05
-    data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+    var timeAValue = double.tryParse(timeA!);
+    var timeATmps = timeAValue?.toInt().toRadixString(16);
+    if (timeATmps!.length > 1) {
+      data = "$data $timeATmps";
+    }
+    else{
+      data = "$data 0$timeATmps";
+    }
 
     if (TextUtil.isEmpty(powerA)) {
       powerA = '1';
     }
     // data = "$data $powerA"; // byte06 强度 06
-    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    var powerAValue = double.tryParse(powerA!);
+    var powerATmps = powerAValue?.toInt().toRadixString(16);
+    if (powerATmps!.length > 1) {
+      data = "$data $powerATmps";
+    }
+    else{
+      data = "$data 0$powerATmps";
+    }
 
     if (TextUtil.isEmpty(frequencyA)) {
       frequencyA = '2';
     }
     // data = "$data $frequencyA"; // byte07 频率 07
-    data = "$data ${(double.tryParse(frequencyA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(frequencyA!))?.toInt()}";
+    var frequencyAValue = double.tryParse(frequencyA!);
+    var frequencyATmps = frequencyAValue?.toInt().toRadixString(16);
+    if (frequencyATmps!.length > 1) {
+      data = "$data $frequencyATmps";
+    }
+    else{
+      data = "$data 0$frequencyATmps";
+    }
 
     if (TextUtil.isEmpty(pulseA)) {
       pulseA = '0';
     }
     // data = "$data $pulseA"; // byte08 脉宽 08
-    data = "$data ${(double.tryParse(pulseA!))!~/10}";
+    // data = "$data ${(double.tryParse(pulseA!))!~/10}";
+
+    var pulseAValue = double.tryParse(pulseA!)!~/10;
+    var pulseATmps = pulseAValue.toInt().toRadixString(16);
+    if (pulseATmps!.length > 1) {
+      data = "$data $pulseATmps";
+    }
+    else{
+      data = "$data 0$pulseATmps";
+    }
+
+
 
     data = "$data 00"; // 09
     data = "$data 00"; // 10
@@ -169,9 +228,9 @@ class Percutaneous {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+      data = "$data ${BYTE03_STOP.B01}";
     }
 
     //如果启动的通道2开始按钮
@@ -180,38 +239,95 @@ class Percutaneous {
       }
       if (patternB == BYTE04_PT.S_J_01) {
         // 04
-        data = "$data ${BYTE04_PT.B01}";
+        // data = "$data ${BYTE04_PT.B01}";
+        var patternValue = double.tryParse(BYTE04_PT.B01);
+        var patternTmps = patternValue?.toInt().toRadixString(16);
+        if (patternTmps!.length > 1){
+          data = "$data $patternTmps";
+        }
+        else{
+          data = "$data 0$patternTmps";
+        }
       }
+
       if (patternB == BYTE04_PT.S_J_02) {
-        data = "$data ${BYTE04_PT.B02}";
+        // data = "$data ${BYTE04_PT.B02}";
+        var patternValue = double.tryParse(BYTE04_PT.B02);
+        var patternTmps = patternValue?.toInt().toRadixString(16);
+        if (patternTmps!.length > 1){
+          data = "$data $patternTmps";
+        }
+        else{
+          data = "$data 0$patternTmps";
+        }
       }
       if (patternB == BYTE04_PT.S_J_03) {
-        data = "$data ${BYTE04_PT.B03}";
+        // data = "$data ${BYTE04_PT.B03}";
+        var patternValue = double.tryParse(BYTE04_PT.B03);
+        var patternTmps = patternValue?.toInt().toRadixString(16);
+        if (patternTmps!.length > 1){
+          data = "$data $patternTmps";
+        }
+        else{
+          data = "$data 0$patternTmps";
+        }
       }
 
       if (TextUtil.isEmpty(timeB)) {
         timeB = '1';
       }
       // data = "$data $timeB"; //byte05 工作时间 05
-    data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+    var timeBValue = double.tryParse(timeB!);
+    var timeBTmps = timeBValue?.toInt().toRadixString(16);
+    if (timeBTmps!.length > 1) {
+      data = "$data $timeBTmps";
+    }
+    else{
+      data = "$data 0$timeBTmps";
+    }
 
       if (TextUtil.isEmpty(powerB)) {
         powerB = '1';
       }
       // data = "$data $powerB"; // byte06 强度 06
-    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    var powerBValue = double.tryParse(powerB!);
+    var powerBTmps = powerBValue?.toInt().toRadixString(16);
+    if (powerBTmps!.length > 1) {
+      data = "$data $powerBTmps";
+    }
+    else{
+      data = "$data 0$powerBTmps";
+    }
 
       if (TextUtil.isEmpty(frequencyB)) {
         frequencyB = '2';
       }
       // data = "$data $frequencyB"; // byte07 频率 07
-    data = "$data ${(double.tryParse(frequencyB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(frequencyB!))?.toInt()}";
+    var frequencyBValue = double.tryParse(frequencyB!);
+    var frequencyBTmps = frequencyBValue?.toInt().toRadixString(16);
+    if (frequencyBTmps!.length > 1) {
+      data = "$data $frequencyBTmps";
+    }
+    else{
+      data = "$data 0$frequencyBTmps";
+    }
 
       if (TextUtil.isEmpty(pulseB)) {
         pulseB = '0';
       }
       // data = "$data $pulseB"; // byte08 脉宽 08
-    data = "$data ${(double.tryParse(pulseB!))!~/10}";
+    // data = "$data ${(double.tryParse(pulseB!))!~/10}";
+    var pulseBValue = double.tryParse(pulseB!)!~/10;
+    var pulseBTmps = pulseBValue.toInt().toRadixString(16);
+    if (pulseBTmps.length > 1) {
+      data = "$data $pulseBTmps";
+    }
+    else{
+      data = "$data 0$pulseBTmps";
+    }
 
 
     data = "$data 00"; // 09

@@ -96,30 +96,69 @@ class Ultrasonic {
 
     if (pattern == BYTE04_PT.B_T_01) {
       // 04
-      data = "$data ${BYTE04_PT.B01}";
+      // data = "$data ${BYTE04_PT.B01}";
+      //转成double类型数据
+      var patternValue1 = double.tryParse(BYTE04_PT.B01);
+      //转成16进制数据
+      var patternTmps1 = patternValue1?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps1!.length > 1) {
+        data = "$data $patternTmps1";
+      }
+      else{
+        data = "$data 0$patternTmps1";
+      }
     }
     if (pattern == BYTE04_PT.B_T_02) {
-      data = "$data ${BYTE04_PT.B02}";
+      // data = "$data ${BYTE04_PT.B02}";
+      //转成double类型数据
+      var patternValue2 = double.tryParse(BYTE04_PT.B02);
+      //转成16进制数据
+      var patternTmps2 = patternValue2?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps2!.length > 1) {
+        data = "$data $patternTmps2";
+      }
+      else{
+        data = "$data 0$patternTmps2";
+      }
     }
     if (pattern == BYTE04_PT.B_T_03) {
-      data = "$data ${BYTE04_PT.B03}";
+      // data = "$data ${BYTE04_PT.B03}";
+      //转成double类型数据
+      var patternValue3 = double.tryParse(BYTE04_PT.B03);
+      //转成16进制数据
+      var patternTmps3 = patternValue3?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps3!.length > 1) {
+        data = "$data $patternTmps3";
+      }
+      else{
+        data = "$data 0$patternTmps3";
+      }
     }
     if (pattern == BYTE04_PT.B_T_04) {
-      data = "$data ${BYTE04_PT.B04}";
+      // data = "$data ${BYTE04_PT.B04}";
+      //转成double类型数据
+      var patternValue4 = double.tryParse(BYTE04_PT.B04);
+      //转成16进制数据
+      var patternTmps4 = patternValue4?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps4!.length > 1) {
+        data = "$data $patternTmps4";
+      }
+      else{
+        data = "$data 0$patternTmps4";
+      }
     }
 
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }
     //李建成09.06提出修改，时间输出应该由10进制改成16进制
-
-    debugPrint('++++time+++++$time');
     var value = double.tryParse(time!);
-    debugPrint('++++value+++++$value');
     //转成16进制数据
     var tmpS = value?.toInt().toRadixString(16);
-    debugPrint('++++tmpS+++++$tmpS');
-
     if (tmpS!.length > 1){
       data = "$data $tmpS"; // 05
     }
@@ -133,13 +172,31 @@ class Ultrasonic {
     if (TextUtil.isEmpty(power)) {
       power = '0.0';
     }
-    data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
+    // data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
+    //数据进制转换
+    var powerValue = double.tryParse(power!)! * 10;
+    var powerTmps = powerValue.toInt().toRadixString(16);
+    if (powerTmps.length > 1) {
+      data = "$data $powerTmps";
+    }
+    else{
+      data = "$data 0$powerTmps";
+    }
+
 
     if (TextUtil.isEmpty(soundIntensity)) {
       soundIntensity = '0.0';
     }
-
-    data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
+    // data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
+    //数据进制转换
+    var soundValue = double.tryParse(soundIntensity!)! * 100;
+    var soundTmps = soundValue.toInt().toRadixString(16);
+    if (soundTmps.length > 1) {
+      data = "$data $soundTmps";
+    }
+    else{
+      data = "$data 0$soundTmps";
+    }
 
     data = "$data 00"; // 08
     data = "$data 00"; // 09

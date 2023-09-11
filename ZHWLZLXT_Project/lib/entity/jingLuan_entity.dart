@@ -92,48 +92,109 @@ class Spastic {
     if (TextUtil.isEmpty(circle)) {
       circle = '1';
     }
-
     // data = "$data $circle";
-    data = "$data ${((double.tryParse(circle!))! * 10).toInt()}";
+    // data = "$data ${((double.tryParse(circle!))! * 10).toInt()}";
+    //数据进制转换
+    var circleValue = double.tryParse(circle!)! * 10;
+    var circleTmps = circleValue.toInt().toRadixString(16);
+    if (circleTmps.length > 1) {
+      data = "$data $circleTmps";
+    }
+    else{
+      data = "$data 0$circleTmps";
+    }
 
     if (TextUtil.isEmpty(delayTime)) {
       delayTime = '0.1';
     }
     // data = "$data $delayTime"; //byte05 延时时间 05
+    // data =
+    //     "$data ${((double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2))))! * 10).toInt()}";
+    //数据进制转换
+    var delayValue = double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2)))! * 10;
+    var delayTmps = delayValue.toInt().toRadixString(16);
+    if (delayTmps.length > 1) {
+      data = "$data $delayTmps";
+    }
+    else{
+      data = "$data 0$delayTmps";
+    }
 
-
-    data =
-        "$data ${((double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2))))! * 10).toInt()}";
 
     if (TextUtil.isEmpty(widthA)) {
       widthA = '0.1';
     }
     // data = "$data $widthA"; // byte06 脉宽A 06
-    data = "$data ${((double.tryParse(widthA!))! * 10).toInt()}";
+    // data = "$data ${((double.tryParse(widthA!))! * 10).toInt()}";
+    //数据进制转换
+    var widthAValue = double.tryParse(widthA!)! * 10;
+    var widthATmps = widthAValue.toInt().toRadixString(16);
+    if (widthATmps.length > 1) {
+      data = "$data $widthATmps";
+    }
+    else{
+      data = "$data 0$widthATmps";
+    }
+
+
 
     if (TextUtil.isEmpty(widthB)) {
       widthB = '0.1';
     }
     // data = "$data $widthB"; // byte07 脉宽B 07
-    data = "$data ${((double.tryParse(widthB!))! * 10).toInt()}";
+    // data = "$data ${((double.tryParse(widthB!))! * 10).toInt()}";
+//数据进制转换
+    var widthBValue = double.tryParse(widthB!)! * 10;
+    var widthBTmps = widthBValue.toInt().toRadixString(16);
+    if (widthBTmps.length > 1) {
+      data = "$data $widthBTmps";
+    }
+    else{
+      data = "$data 0$widthBTmps";
+    }
 
     if (TextUtil.isEmpty(powerA)) {
       powerA = '0';
     }
     // data = "$data $powerA"; // byte08 强度A 08
-    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    var powerAValue = double.tryParse(powerA!)!;
+    var powerATmps = powerAValue.toInt().toRadixString(16);
+    if (powerATmps.length > 1) {
+      data = "$data $powerATmps";
+    }
+    else{
+      data = "$data 0$powerATmps";
+    }
+
 
     if (TextUtil.isEmpty(powerB)) {
       powerB = '0';
     }
     // data = "$data $powerB"; // byte09 强度B 09
-    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    var powerBValue = double.tryParse(powerB!)!;
+    var powerBTmps = powerBValue.toInt().toRadixString(16);
+    if (powerBTmps.length > 1) {
+      data = "$data $powerBTmps";
+    }
+    else{
+      data = "$data 0$powerBTmps";
+    }
 
     if (TextUtil.isEmpty(time)) {
       time = '0';
     }
     // data = "$data $time"; // byte10 工作时间 10
-    data = "$data ${(double.tryParse(time!))?.toInt()}";
+    // data = "$data ${(double.tryParse(time!))?.toInt()}";
+    var timeValue = double.tryParse(time!)!;
+    var timeTmps = timeValue.toInt().toRadixString(16);
+    if (timeTmps.length > 1) {
+      data = "$data $timeTmps";
+    }
+    else{
+      data = "$data 0$timeTmps";
+    }
 
     SerialPort().send(data);
     return isStart;

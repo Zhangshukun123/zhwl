@@ -69,26 +69,20 @@ class Pulsed {
     } else {
       data = "$data ${BYTE03_STOP.B01}";
     }
-//04
+    //04
     if (TextUtil.isEmpty(frequency)) {
       frequency = '20';
     }
     //频率发送的数据  需要将10进制的数据转换成16进制数据
-    debugPrint('++++frequency+++++$frequency');
     var value = double.tryParse(frequency!);
-    debugPrint('++++value+++++$value');
     //转成16进制数据
     var tmpS = value?.toInt().toRadixString(16);
-    debugPrint('++++tmpS+++++$tmpS');
-
     if (tmpS!.length > 1){
       data = "$data $tmpS"; // 04
     }
     else{
       data = "$data 0$tmpS"; // 04
     }
-
-
 
     // // data = "$data $frequency";
     // data = "$data ${(double.tryParse(frequency!))?.toInt()}";
@@ -97,13 +91,35 @@ class Pulsed {
       time = '1';
     }
     // data = "$data $time"; // 05
-    data = "$data ${(double.tryParse(time!))?.toInt()}";
+    // data = "$data ${(double.tryParse(time!))?.toInt()}";
+    //转成double类型数据
+    var timeValue = double.tryParse(time!);
+    //转成16进制数据
+    var timeTmps = timeValue?.toInt().toRadixString(16);
+    //以16进制数据发送
+    if (timeTmps!.length > 1) {
+      data = "$data $timeTmps";
+    }
+    else{
+      data = "$data 0$timeTmps";
+    }
 
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
     // data = "$data $power"; // 06
-    data = "$data ${(double.tryParse(power!))?.toInt()}";
+    // data = "$data ${(double.tryParse(power!))?.toInt()}";
+    //转成double类型数据
+    var powerValue = double.tryParse(power!);
+    //转成16进制数据
+    var powerTmps = powerValue?.toInt().toRadixString(16);
+    //以16进制数据发送
+    if (powerTmps!.length > 1) {
+      data = "$data $powerTmps";
+    }
+    else{
+      data = "$data 0$powerTmps";
+    }
 
     data = "$data ${isOpen ? '01' : '00'}";
     data = "$data 00"; // 08

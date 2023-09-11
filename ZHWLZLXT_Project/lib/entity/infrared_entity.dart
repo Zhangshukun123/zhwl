@@ -78,16 +78,60 @@ class InfraredEntity {
 
     if (pattern == BYTE04_PT.B_T_01) {
       // 04
-      data = "$data ${BYTE04_PT.B01}";
+      // data = "$data ${BYTE04_PT.B01}";
+      //转成double类型数据
+      var patternValue1 = double.tryParse(BYTE04_PT.B01);
+      //转成16进制数据
+      var patternTmps1 = patternValue1?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps1!.length > 1) {
+        data = "$data $patternTmps1";
+      }
+      else{
+        data = "$data 0$patternTmps1";
+      }
     }
     if (pattern == BYTE04_PT.B_T_02) {
-      data = "$data ${BYTE04_PT.B02}";
+      // data = "$data ${BYTE04_PT.B02}";
+      //转成double类型数据
+      var patternValue2 = double.tryParse(BYTE04_PT.B02);
+      //转成16进制数据
+      var patternTmps2 = patternValue2?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps2!.length > 1) {
+        data = "$data $patternTmps2";
+      }
+      else{
+        data = "$data 0$patternTmps2";
+      }
     }
     if (pattern == BYTE04_PT.B_T_03) {
-      data = "$data ${BYTE04_PT.B03}";
+      // data = "$data ${BYTE04_PT.B03}";
+      //转成double类型数据
+      var patternValue3 = double.tryParse(BYTE04_PT.B03);
+      //转成16进制数据
+      var patternTmps3 = patternValue3?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps3!.length > 1) {
+        data = "$data $patternTmps3";
+      }
+      else{
+        data = "$data 0$patternTmps3";
+      }
     }
     if (pattern == BYTE04_PT.B_T_04) {
-      data = "$data ${BYTE04_PT.B04}";
+      // data = "$data ${BYTE04_PT.B04}";
+      //转成double类型数据
+      var patternValue4 = double.tryParse(BYTE04_PT.B04);
+      //转成16进制数据
+      var patternTmps4 = patternValue4?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps4!.length > 1) {
+        data = "$data $patternTmps4";
+      }
+      else{
+        data = "$data 0$patternTmps4";
+      }
     }
 
     //byte05 光疗工作时间
@@ -95,13 +139,36 @@ class InfraredEntity {
       time = '1';
     }
     // data = "$data $time"; // 05
-    data = "$data ${(double.tryParse(time!))?.toInt()}";
+    // data = "$data ${(double.tryParse(time!))?.toInt()}";
+    //转成double类型数据
+    var timeValue = double.tryParse(time!);
+    //转成16进制数据
+    var timeTmps = timeValue?.toInt().toRadixString(16);
+    //以16进制数据发送
+    if (timeTmps!.length > 1) {
+      data = "$data $timeTmps";
+    }
+    else{
+      data = "$data 0$timeTmps";
+    }
+
 
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
     // data = "$data $power"; // 06
-    data = "$data ${(double.tryParse(power!))?.toInt()}";
+    // data = "$data ${(double.tryParse(power!))?.toInt()}";
+    //转成double类型数据
+    var powerValue = double.tryParse(power!);
+    //转成16进制数据
+    var powerTmps = powerValue?.toInt().toRadixString(16);
+    //以16进制数据发送
+    if (powerTmps!.length > 1) {
+      data = "$data $powerTmps";
+    }
+    else{
+      data = "$data 0$powerTmps";
+    }
 
     data = "$data 00"; //07
 

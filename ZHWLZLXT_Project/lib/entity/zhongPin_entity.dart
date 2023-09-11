@@ -81,28 +81,54 @@ class MidFrequency {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+
+      data = "$data ${BYTE03_STOP.B01}";
     }
 
     //处方暂未更改
     if (TextUtil.isEmpty(patternA)) {
       patternA = '1';
     }
-    data = "$data $patternA";
+    // data = "$data $patternA";
+    var patternValue = double.tryParse(patternA!);
+    var patternTmps = patternValue?.toInt().toRadixString(16);
+    if (patternTmps!.length > 1) {
+      data = "$data $patternTmps";
+    }
+    else{
+      data = "$data 0$patternTmps";
+    }
+
 
     if (TextUtil.isEmpty(timeA)) {
       timeA = '1';
     }
     // data = "$data $timeA"; //byte05 工作时间 05
-    data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(timeA!))?.toInt()}";
+    var timeAValue = double.tryParse(timeA!);
+    var timeATmps = timeAValue?.toInt().toRadixString(16);
+    if (timeATmps!.length > 1) {
+      data = "$data $timeATmps";
+    }
+    else{
+      data = "$data 0$timeATmps";
+    }
 
     if (TextUtil.isEmpty(powerA)) {
       powerA = '1';
     }
     // data = "$data $powerA"; // byte06 强度 06
-    data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
+    var powerAValue = double.tryParse(powerA!);
+    var powerATmps = powerAValue?.toInt().toRadixString(16);
+    if (powerATmps!.length > 1) {
+      data = "$data $powerATmps";
+    }
+    else{
+      data = "$data 0$powerATmps";
+    }
 
     data = "$data 00";  // byte07  07
     data = "$data 00";  // byte08  08
@@ -131,28 +157,53 @@ class MidFrequency {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+
+      data = "$data ${BYTE03_STOP.B01}";
     }
 
     //处方暂未更改
     if (TextUtil.isEmpty(patternB)) {
       patternB = '1';
     }
-    data = "$data $patternB";
+    // data = "$data $patternB";
+    var patternValue = double.tryParse(patternB!);
+    var patternTmps = patternValue?.toInt().toRadixString(16);
+    if (patternTmps!.length > 1) {
+      data = "$data $patternTmps";
+    }
+    else{
+      data = "$data 0$patternTmps";
+    }
 
     if (TextUtil.isEmpty(timeB)) {
       timeB = '1';
     }
     // data = "$data $timeB"; //byte05 工作时间 05
-    data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(timeB!))?.toInt()}";
+    var timeBValue = double.tryParse(timeB!);
+    var timeBTmps = timeBValue?.toInt().toRadixString(16);
+    if (timeBTmps!.length > 1) {
+      data = "$data $timeBTmps";
+    }
+    else{
+      data = "$data 0$timeBTmps";
+    }
 
     if (TextUtil.isEmpty(powerB)) {
       powerB = '1';
     }
     // data = "$data $powerB"; // byte06 强度 06
-    data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
+    var powerBValue = double.tryParse(powerB!);
+    var powerBTmps = powerBValue?.toInt().toRadixString(16);
+    if (powerBTmps!.length > 1) {
+      data = "$data $powerBTmps";
+    }
+    else{
+      data = "$data 0$powerBTmps";
+    }
 
     data = "$data 00";  // byte07  07
     data = "$data 00";  // byte08  08
