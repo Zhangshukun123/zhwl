@@ -59,19 +59,39 @@ class Pulsed {
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B02}"; // byt01 功能模块    01
-    data = "$data 00";
+    data = "$data 00"; //02
+
+
+    //此处解决磁疗的开始和停止按钮命令反的问题 09。06李建成提出
     if (isStart) {
       // 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+      data = "$data ${BYTE03_STOP.B01}";
     }
-
+//04
     if (TextUtil.isEmpty(frequency)) {
       frequency = '20';
     }
-    // data = "$data $frequency";
-    data = "$data ${(double.tryParse(frequency!))?.toInt()}";
+    //频率发送的数据  需要将10进制的数据转换成16进制数据
+    debugPrint('++++frequency+++++$frequency');
+    var value = double.tryParse(frequency!);
+    debugPrint('++++value+++++$value');
+    //转成16进制数据
+    var tmpS = value?.toInt().toRadixString(16);
+    debugPrint('++++tmpS+++++$tmpS');
+
+    if (tmpS!.length > 1){
+      data = "$data $tmpS"; // 04
+    }
+    else{
+      data = "$data 0$tmpS"; // 04
+    }
+
+
+
+    // // data = "$data $frequency";
+    // data = "$data ${(double.tryParse(frequency!))?.toInt()}";
 
     if (TextUtil.isEmpty(time)) {
       time = '1';

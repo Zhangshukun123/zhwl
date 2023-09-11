@@ -22,6 +22,7 @@ class InfraredEntity {
   String? time;
   String? power;
   String? pattern;
+  bool? isStart;
 
 
   InfraredEntity({
@@ -29,6 +30,7 @@ class InfraredEntity {
     this.time,
     this.power,
     this.pattern,
+    this.isStart,
   });
 
   factory InfraredEntity.fromJson(String str) => InfraredEntity.fromMap(json.decode(str));
@@ -64,9 +66,9 @@ class InfraredEntity {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B01}";
-    } else {
       data = "$data ${BYTE03_STOP.B02}";
+    } else {
+      data = "$data ${BYTE03_STOP.B01}";
     }
 
     //byte04 光疗 04

@@ -92,6 +92,7 @@ class Spastic {
     if (TextUtil.isEmpty(circle)) {
       circle = '1';
     }
+
     // data = "$data $circle";
     data = "$data ${((double.tryParse(circle!))! * 10).toInt()}";
 

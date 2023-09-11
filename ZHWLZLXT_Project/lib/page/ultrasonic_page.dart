@@ -77,6 +77,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     });
     cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
       ultrasonic?.power = power;
+      setState(() {
+
+      });
       save();
     });
     cSoundIntensity.stream
@@ -97,7 +100,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       SerialMsg().startPort();
     });
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      SerialMsg().sendHeart().then((value) => {});
+      // SerialMsg().sendHeart().then((value) => {});
     });
 
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
@@ -272,14 +275,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
+
                                 print("------功率-----$value");
+
                                 cPower.add(value.toString());
                               },
                             )),
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
-                                  enabled: false,
+                                  enabled: true,
                                   isInt: false,
                                   isEventBus: true,
                                   title: Globalization.soundIntensity.tr,

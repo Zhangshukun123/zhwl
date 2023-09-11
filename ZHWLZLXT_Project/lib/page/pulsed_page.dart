@@ -304,8 +304,8 @@ class _PulsedPageState extends State<PulsedPage>
                                   margin: EdgeInsets.only(top: 50.5.h),
                                   child: TextButton(
                                     onPressed: () {
-                                      startSelected = pulsed?.start(
-                                              !startSelected, switchSelected) ??
+                                      startSelected = pulsed
+                                          ?.start(!startSelected, switchSelected) ??
                                           false;
                                       setState(() {});
                                     },

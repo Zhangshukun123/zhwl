@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:zhwlzlxt_project/Controller/infrared_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/attention_page.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
@@ -41,7 +42,10 @@ class _InfraredPageState extends State<InfraredPage>
 
   DetailsDialog? dialog;
 
-  InfraredEntity? infraredEntity;
+
+  InfraredController infraredController = Get.find();
+
+  // InfraredEntity? infraredEntity;
 
   StreamController<String> cTime = StreamController<String>();
   StreamController<String> cPower = StreamController<String>();
@@ -55,14 +59,20 @@ class _InfraredPageState extends State<InfraredPage>
         index: 3); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
 
     //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(InfraredField.InfraredKey))) {
-      infraredEntity = InfraredEntity();
-    } else {
-      infraredEntity = InfraredEntity.fromJson(
+    if (!TextUtil.isEmpty(SpUtils.getString(InfraredField.InfraredKey))) {
+      // infraredEntity = InfraredEntity();
+
+      infraredController.infraredEntity.value = InfraredEntity.fromJson(
           SpUtils.getString(InfraredField.InfraredKey)!);
-      isDGW = (infraredEntity?.pattern != "连续模式1");
+      isDGW = (infraredController.infraredEntity.value.pattern != "连续模式1");
       setState(() {});
     }
+    // else {
+    //   infraredController.infraredEntity.value = InfraredEntity.fromJson(
+    //       SpUtils.getString(InfraredField.InfraredKey)!);
+    //   isDGW = (infraredEntity?.pattern != "连续模式1");
+    //   setState(() {});
+    // }
 
     // infraredEntity = InfraredEntity();
 
@@ -74,24 +84,26 @@ class _InfraredPageState extends State<InfraredPage>
 
     // 一定时间内 返回一个数据
     cTime.stream.debounceTime(const Duration(seconds: 1)).listen((time) {
-      infraredEntity?.time = time;
+      infraredController.infraredEntity.value.time = time;
       save();
     });
     cPower.stream.debounceTime(const Duration(seconds: 1)).listen((power) {
-      infraredEntity?.power = power;
+
+      infraredController.infraredEntity.value.power = power;
       save();
+
     });
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.infrared) {
-        infraredEntity?.userId = event.user?.userId;
+        infraredController.infraredEntity.value.userId = event.user?.userId;
         save();
       }
     });
   }
 
   void save() {
-    SpUtils.set(InfraredField.InfraredKey, infraredEntity?.toJson());
+    SpUtils.set(InfraredField.InfraredKey, infraredController.infraredEntity.value.toJson());
   }
 
   bool startSelected = true;
@@ -125,7 +137,7 @@ class _InfraredPageState extends State<InfraredPage>
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue:
-                              double.tryParse(infraredEntity?.time ?? '12'),
+                              double.tryParse(infraredController.infraredEntity.value.time ?? '12'),
                           maxValue: 99,
                           minValue: 0,
                           unit: 'min',
@@ -145,12 +157,13 @@ class _InfraredPageState extends State<InfraredPage>
                             title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue:
-                                double.tryParse(infraredEntity?.power ?? '1'),
+                                !startSelected ? double.tryParse(infraredController.infraredEntity.value.power ?? '1') : double.tryParse('0'),
                             maxValue: 8,
                             minValue: 1,
                             valueListener: (value) {
                               print("------强度-----$value");
                               cPower.add(value.toString());
+
                             },
                           )),
                       Container(
@@ -200,14 +213,15 @@ class _InfraredPageState extends State<InfraredPage>
                               ),
                               PopupMenuBtn(
                                 index: 2,
-                                patternStr: infraredEntity?.pattern ?? "连续模式1",
+                                patternStr: infraredController.infraredEntity.value.pattern ?? "连续模式1",
                                 popupListener: (value) {
+                                  debugPrint('++++++++$value');
                                   isDGW = (value != "连续模式1");
 
                                   if (isDGW) {
                                     eventBus.fire(Infrared());
                                   }
-                                  infraredEntity?.pattern = value;
+                                  infraredController.infraredEntity.value.pattern = value;
                                   save();
                                   setState(() {});
                                 },
@@ -330,9 +344,14 @@ class _InfraredPageState extends State<InfraredPage>
                                   child: TextButton(
                                     onPressed: () {
                                       // thirdStartSelected = !thirdStartSelected;
-                                      startSelected = infraredEntity?.start(
+                                      startSelected = infraredController.infraredEntity.value.start(
                                           !startSelected, switchSelected) ??
                                           false;
+
+                                      infraredController.infraredEntity.value.isStart = startSelected;
+
+                                      eventBus.fire(infraredController.infraredEntity.value);
+
                                       setState(() {});
                                     },
                                     child: Image.asset(

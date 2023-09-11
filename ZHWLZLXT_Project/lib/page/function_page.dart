@@ -7,6 +7,7 @@ import 'package:zhwlzlxt_project/page/electrotherapy_page.dart';
 import 'package:zhwlzlxt_project/page/pulsed_page.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
 
+import '../Controller/infrared_controller.dart';
 import '../Controller/treatment_controller.dart';
 import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
@@ -24,6 +25,10 @@ class _FunctionPageState extends State<FunctionPage> {
   int curPosition = 0;
   final PageController _pageController = PageController();
   final TreatmentController controller = Get.put(TreatmentController());
+
+
+  InfraredController infraredController =Get.put(InfraredController());
+
   List<Widget> pageView = [
     const UltrasonicPage(),
     const PulsedPage(),

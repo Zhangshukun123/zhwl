@@ -7,8 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:zhwlzlxt_project/Controller/infrared_controller.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
+import 'package:zhwlzlxt_project/utils/enum_tool.dart';
 
+import '../entity/infrared_entity.dart';
 import '../utils/event_bus.dart';
 
 typedef ValueListener = void Function(double value);
@@ -25,8 +28,12 @@ class SetValue extends StatefulWidget {
   double? minValue;
   double? maxValue;
   double? appreciation = 1;
+  TreatmentFunctionType? type;
+
 
   ValueListener? valueListener;
+
+
 
   SetValue({
     Key? key,
@@ -41,6 +48,7 @@ class SetValue extends StatefulWidget {
     this.isEventBus,
     this.minValue,
     this.maxValue,
+    this.type
   }) : super(key: key);
 
   @override
@@ -53,6 +61,7 @@ class _SetValueState extends State<SetValue> {
 
   var timer;
 
+  InfraredController infraredController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -79,11 +88,39 @@ class _SetValueState extends State<SetValue> {
       });
 
 
+
+      eventBus.on<InfraredEntity>().listen((event) {
+        if(event.isStart  == true){
+
+        }
+      });
+
     }
+
+
+
+
+
   }
 
+
+  Widget function(){
+
+  var tmp =  infraredController.infraredEntity.value.pattern;
+  debugPrint('----tmp----$tmp');
+
+    return Container();
+  }
   @override
   Widget build(BuildContext context) {
+
+
+
+
+    Obx(() => function());
+
+
+
     return Column(
       children: [
         Container(
