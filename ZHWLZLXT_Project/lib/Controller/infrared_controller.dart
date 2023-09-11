@@ -1,8 +1,13 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:zhwlzlxt_project/entity/infrared_entity.dart';
 
-import '../entity/infrared_entity.dart';
+import '../utils/sp_utils.dart';
 
-class InfraredController extends GetxController{
-  var infraredEntity = InfraredEntity().obs;
+class InfraredController extends GetxController {
+  var infrared = InfraredEntity().obs;
+
+  void setInfrared(InfraredEntity infraredEntity) {
+    infrared.value = infraredEntity;
+  }
 }

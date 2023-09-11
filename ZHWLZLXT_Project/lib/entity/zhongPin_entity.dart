@@ -40,6 +40,18 @@ class MidFrequency {
     this.powerB,
   });
 
+  void init() {
+    patternA = "1";
+    timeA = "1";
+    powerA = "1";
+    patternB = "1";
+    timeB = "1";
+    powerB = "1";
+  }
+
+
+
+
   factory MidFrequency.fromJson(String str) => MidFrequency.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
@@ -162,6 +174,7 @@ class MidFrequency {
     SerialPort().send(data);
     return isStart;
   }
+
 
 
 }

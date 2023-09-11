@@ -7,11 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:zhwlzlxt_project/Controller/infrared_controller.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
-import 'package:zhwlzlxt_project/utils/enum_tool.dart';
+import 'package:zhwlzlxt_project/entity/set_value_state.dart';
+import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
-import '../entity/infrared_entity.dart';
 import '../utils/event_bus.dart';
 
 typedef ValueListener = void Function(double value);
@@ -20,7 +19,7 @@ typedef ValueListener = void Function(double value);
 class SetValue extends StatefulWidget {
   bool enabled = true;
   bool? isInt = true;
-  bool? isEventBus = false;
+  bool? isEventBus = true;
   String? assets;
   String? title;
   String? unit;
@@ -28,12 +27,9 @@ class SetValue extends StatefulWidget {
   double? minValue;
   double? maxValue;
   double? appreciation = 1;
-  TreatmentFunctionType? type;
-
+  TreatmentType? type;
 
   ValueListener? valueListener;
-
-
 
   SetValue({
     Key? key,
@@ -41,6 +37,7 @@ class SetValue extends StatefulWidget {
     this.assets,
     this.title,
     this.unit,
+    this.type,
     this.initialValue,
     this.valueListener,
     this.appreciation,
@@ -48,7 +45,6 @@ class SetValue extends StatefulWidget {
     this.isEventBus,
     this.minValue,
     this.maxValue,
-    this.type
   }) : super(key: key);
 
   @override
@@ -61,7 +57,6 @@ class _SetValueState extends State<SetValue> {
 
   var timer;
 
-  InfraredController infraredController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -71,56 +66,40 @@ class _SetValueState extends State<SetValue> {
     if (widget.isEventBus == true) {
       eventBus.on<UltrasonicObs>().listen((event) {
         value = 0;
-        if(!mounted){
+        if (!mounted) {
           return;
         }
         widget.valueListener!(value);
         setState(() {});
       });
 
-      eventBus.on<Infrared>().listen((event) { //光疗强度 低功率 。
+      eventBus.on<Infrared>().listen((event) {
+        //光疗强度 低功率 。
         value = 1;
-        if(!mounted){
+        if (!mounted) {
           return;
         }
         widget.valueListener!(value);
         setState(() {});
       });
-
-
-
-      eventBus.on<InfraredEntity>().listen((event) {
-        if(event.isStart  == true){
-
-        }
-      });
-
     }
 
-
-
+    eventBus.on<SetValueState>().listen((event) {
+      if (event.type != widget.type) {
+        return;
+      }
+      value = widget.initialValue ?? 0;
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
 
 
   }
 
-
-  Widget function(){
-
-  var tmp =  infraredController.infraredEntity.value.pattern;
-  debugPrint('----tmp----$tmp');
-
-    return Container();
-  }
   @override
   Widget build(BuildContext context) {
-
-
-
-
-    Obx(() => function());
-
-
-
     return Column(
       children: [
         Container(

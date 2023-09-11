@@ -7,8 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/serial_port.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 
 import '../Controller/treatment_controller.dart';
+import '../utils/event_bus.dart';
 
 class UltrasonicField {
   static String UltrasonicKey = "UltrasonicKey"; // 存储 -key
@@ -37,6 +39,14 @@ class Ultrasonic {
     this.frequency,
   });
 
+  init() {
+    pattern = "连续模式1";
+    time = '1';
+    power = '0.0';
+    soundIntensity = '0.0';
+    frequency = '1';
+  }
+
   factory Ultrasonic.fromJson(String str) =>
       Ultrasonic.fromMap(json.decode(str));
 
@@ -63,7 +73,8 @@ class Ultrasonic {
   bool start(bool isStart) {
     final TreatmentController controller = Get.find();
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
 
@@ -120,10 +131,9 @@ class Ultrasonic {
     var tmpS = value?.toInt().toRadixString(16);
     debugPrint('++++tmpS+++++$tmpS');
 
-    if (tmpS!.length > 1){
+    if (tmpS!.length > 1) {
       data = "$data $tmpS"; // 05
-    }
-    else{
+    } else {
       data = "$data 0$tmpS"; // 05
     }
 

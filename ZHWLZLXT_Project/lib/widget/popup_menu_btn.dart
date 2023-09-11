@@ -107,9 +107,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                 });
                 if (widget.index == 1) {
                   eventBus.fire(UltrasonicObs());
-
-                  print("---value-----${(value == "1")}");
-
                   if (value == "1") {
                     controller.ultrasonic.frequency.value = 1;
                   } else {

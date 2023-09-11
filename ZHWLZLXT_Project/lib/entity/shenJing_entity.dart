@@ -46,6 +46,20 @@ class Neuromuscular {
     this.frequencyB,
   });
 
+  void init() {
+    patternA = "1";
+    timeA = "1";
+    powerA = "1";
+    frequencyA = "1";
+    patternB = "1";
+    timeB = "1";
+    powerB = "1";
+    frequencyB = "1";
+  }
+
+
+
+
   factory Neuromuscular.fromJson(String str) => Neuromuscular.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
@@ -192,6 +206,7 @@ class Neuromuscular {
     SerialPort().send(data);
     return isStart;
   }
+
 
 
 

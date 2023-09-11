@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
+import '../entity/set_value_state.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -29,77 +30,23 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
 
   Neuromuscular? neuromuscular;
 
-  StreamController<String> cTimeA = StreamController<String>();
-  StreamController<String> cPowerA = StreamController<String>();
-  StreamController<String> cFrequencyA = StreamController<String>();
-  StreamController<String> cTimeB = StreamController<String>();
-  StreamController<String> cPowerB = StreamController<String>();
-  StreamController<String> cFrequencyB = StreamController<String>();
+
   @override
   void initState() {
     super.initState();
-
-    //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(NeuromuscularField.NeuromuscularKey))) {
-      neuromuscular = Neuromuscular();
-    } else {
-      neuromuscular =
-          Neuromuscular.fromJson(SpUtils.getString(NeuromuscularField.NeuromuscularKey)!);
-      print('-----neuromuscular-----${neuromuscular?.patternA}');
-      setState(() {
-      });
-    }
-
-    // neuromuscular = Neuromuscular();
-
-    // 一定时间内 返回一个数据
-    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
-      neuromuscular?.timeA = timeA;
-      save();
-    });
-    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
-      neuromuscular?.powerA = powerA;
-      save();
-    });
-    cFrequencyA.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyA) {
-      neuromuscular?.frequencyA = frequencyA;
-      save();
-    });
-
-    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
-      neuromuscular?.timeB = timeB;
-      save();
-    });
-    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
-      neuromuscular?.powerB = powerB;
-      save();
-    });
-    cFrequencyB.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyB) {
-      neuromuscular?.frequencyB = frequencyB;
-      save();
-    });
+    neuromuscular = Neuromuscular();
+    neuromuscular?.init();
 
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.neuromuscular) {
         neuromuscular?.userId = event.user?.userId;
-        save();
+        save(event.user?.userId ?? -1);
       }
     });
   }
-
-  void save() {
-    SpUtils.set(NeuromuscularField.NeuromuscularKey, neuromuscular?.toJson());
-  }
-  @override
-  void dispose() {
-    super.dispose();
-    cTimeA.close();
-    cPowerA.close();
-    cFrequencyA.close();
-    cTimeB.close();
-    cPowerB.close();
-    cFrequencyB.close();
+  void save(int userId) {
+    SpUtils.set(NeuromuscularField.NeuromuscularKey, userId);
   }
 
   @override
@@ -109,20 +56,13 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
         child: Row(
           children: [
             Expanded(
               flex: 1,
               child: Container(
-                  // color: Colors.white,
-                  // decoration: const BoxDecoration(
-                  //   image: DecorationImage(
-                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
                 margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,7 +107,6 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 patternStr: neuromuscular?.patternA ?? "完全失神经",
                                 popupListener: (value) {
                                   neuromuscular?.patternA = value;
-                                  save();
                                 },
                               ),
 
@@ -178,6 +117,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 90.h,
+                          type: TreatmentType.neuromuscular,
                           enabled: true,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -186,8 +126,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           maxValue: 30,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间A-----$value");
-                            cTimeA.add(value.toString());
+                            neuromuscular?.timeA = value.toString();
                           },
                         ),
                       ),
@@ -196,6 +135,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
+                          type: TreatmentType.neuromuscular,
                           isInt: true,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -203,8 +143,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
-                            print("------强度 A-----$value");
-                            cPowerA.add(value.toString());
+                            neuromuscular?.powerA = value.toString();
                           },
                         ),
                       ),
@@ -213,6 +152,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
+                          type: TreatmentType.neuromuscular,
                           isInt: false,
                           title: Globalization.frequency.tr,
                           unit: 'Hz',
@@ -222,8 +162,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           maxValue: 5,
                           appreciation: 0.5,
                           valueListener: (value) {
-                            print("------频率 A-----$value");
-                            cFrequencyA.add(value.toString());
+                            neuromuscular?.frequencyA = value.toString();
                           },
                         ),
                       ),
@@ -239,8 +178,13 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 yiStartSelected =
                                     neuromuscular?.start1(!yiStartSelected) ??
                                     false;
+                                if (yiStartSelected) {
+                                  neuromuscular?.init();
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+                                  });
+                                }
                                 setState(() {});
-
                               },
                               child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
                           ),
@@ -260,13 +204,6 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
             Expanded(
               flex: 1,
               child: Container(
-                  // color: Colors.white,
-                  // decoration: const BoxDecoration(
-                  //   image: DecorationImage(
-                  //       image: AssetImage('assets/images/2.0x/img_tongdaoyi.png'),
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
                 margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -311,7 +248,6 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 patternStr: neuromuscular?.patternB ?? "完全失神经",
                                 popupListener: (value) {
                                   neuromuscular?.patternB = value;
-                                  save();
                                 },
                               ),
                             ],
@@ -322,6 +258,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
+                          type: TreatmentType.neuromuscular,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(neuromuscular?.timeB ?? '1'),
@@ -329,8 +266,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           minValue: 1,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间B-----$value");
-                            cTimeB.add(value.toString());
+                            neuromuscular?.timeB = value.toString();
                           },
                         ),
                       ),
@@ -339,6 +275,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                         child: SetValueHorizontal(
                           height: 90.h,
                           enabled: true,
+                          type: TreatmentType.neuromuscular,
                           isInt: true,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -346,8 +283,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           minValue: 1,
                           maxValue: 99,
                           valueListener: (value) {
-                            print("------强度 B-----$value");
-                            cPowerB.add(value.toString());
+                            neuromuscular?.powerB = value.toString();
                           },
                         ),
                       ),
@@ -357,6 +293,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           height: 90.h,
                           enabled: true,
                           isInt: false,
+                          type: TreatmentType.neuromuscular,
                           title: Globalization.frequency.tr,
                           unit: 'Hz',
                           assets: 'assets/images/2.0x/icon_pinlv.png',
@@ -365,8 +302,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           maxValue: 5,
                           appreciation: 0.5,
                           valueListener: (value) {
-                            print("------频率B-----$value");
-                            cFrequencyB.add(value.toString());
+                            neuromuscular?.frequencyB = value.toString();
                           },
                         ),
                       ),
@@ -382,6 +318,12 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 erStartSelected = neuromuscular
                                     ?.start2(!erStartSelected) ??
                                     false;
+                                if (erStartSelected) {
+                                  neuromuscular?.init();
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+                                  });
+                                }
                                 setState(() {});
                               },
                               child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)

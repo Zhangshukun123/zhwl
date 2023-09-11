@@ -10,6 +10,7 @@ import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/jingPi_entity.dart';
+import '../entity/set_value_state.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -31,91 +32,26 @@ class _JingPiPageState extends State<JingPiPage>
 
   Percutaneous? percutaneous;
 
-  StreamController<String> cTimeA = StreamController<String>();
-  StreamController<String> cPowerA = StreamController<String>();
-  StreamController<String> cFrequencyA = StreamController<String>();
-  StreamController<String> cPulseA = StreamController<String>();
-  StreamController<String> cTimeB = StreamController<String>();
-  StreamController<String> cPowerB = StreamController<String>();
-  StreamController<String> cFrequencyB = StreamController<String>();
-  StreamController<String> cPulseB = StreamController<String>();
-
   @override
   void initState() {
     super.initState();
-
-    //数据的更改与保存，是否是新建或者从已知json中读取
-    if (TextUtil.isEmpty(SpUtils.getString(PercutaneousField.PercutaneousKey))) {
-      percutaneous = Percutaneous();
-    } else {
-      percutaneous =
-          Percutaneous.fromJson(SpUtils.getString(PercutaneousField.PercutaneousKey)!);
-    }
-
-    // percutaneous = Percutaneous();
-
-    // 一定时间内 返回一个数据
-    cTimeA.stream.debounceTime(const Duration(seconds: 1)).listen((timeA) {
-      percutaneous?.timeA = timeA;
-      save();
-    });
-    cPowerA.stream.debounceTime(const Duration(seconds: 1)).listen((powerA) {
-      percutaneous?.powerA = powerA;
-      save();
-    });
-    cFrequencyA.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyA) {
-      percutaneous?.frequencyA = frequencyA;
-      save();
-    });
-    cPulseA.stream.debounceTime(const Duration(seconds: 1)).listen((pulseA) {
-      percutaneous?.pulseA = pulseA;
-      save();
-    });
-    cTimeB.stream.debounceTime(const Duration(seconds: 1)).listen((timeB) {
-      percutaneous?.timeB = timeB;
-      save();
-    });
-    cPowerB.stream.debounceTime(const Duration(seconds: 1)).listen((powerB) {
-      percutaneous?.powerB = powerB;
-      save();
-    });
-    cFrequencyB.stream.debounceTime(const Duration(seconds: 1)).listen((frequencyB) {
-      percutaneous?.frequencyB = frequencyB;
-      save();
-    });
-    cPulseB.stream.debounceTime(const Duration(seconds: 1)).listen((pulseB) {
-      percutaneous?.pulseB = pulseB;
-      save();
-    });
+    percutaneous = Percutaneous();
+    percutaneous?.init();
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.percutaneous) {
         percutaneous?.userId = event.user?.userId;
-        save();
+        save(event.user?.userId ?? -1);
       }
     });
   }
 
-  void save() {
-    SpUtils.set(PercutaneousField.PercutaneousKey, percutaneous?.toJson());
+  void save(int userId) {
+    SpUtils.set(PercutaneousField.PercutaneousKey, userId);
   }
-  @override
-  void dispose() {
-    super.dispose();
-    cTimeA.close();
-    cPowerA.close();
-    cFrequencyA.close();
-    cPulseA.close();
-    cTimeB.close();
-    cPowerB.close();
-    cFrequencyB.close();
-    cPulseB.close();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
@@ -140,45 +76,49 @@ class _JingPiPageState extends State<JingPiPage>
                                 Container(
                                   margin: EdgeInsets.only(left: 20.w),
                                   child: TextButton(
-                                      onPressed: (){
-                                      },
+                                      onPressed: () {},
                                       child: Row(
                                         children: [
-                                          Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w),
-                                          SizedBox(width: 4.w,),
+                                          Image.asset(
+                                              'assets/images/2.0x/icon_moshi.png',
+                                              fit: BoxFit.fitWidth,
+                                              width: 15.w),
+                                          SizedBox(
+                                            width: 4.w,
+                                          ),
                                           Text(
                                             Globalization.mode.tr,
-                                            style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: const Color(0xFF999999)),
+                                          ),
                                         ],
-                                      )
-                                  ),
+                                      )),
                                 ),
                                 PopupMenuBtn(
                                   index: 3,
                                   patternStr: percutaneous?.patternA ?? "连续输出",
                                   popupListener: (value) {
-
                                     percutaneous?.patternA = value;
-                                    save();
                                   },
                                 ),
                               ],
-                            )
-                        ),
+                            )),
                         Container(
                           margin: EdgeInsets.only(top: 11.h),
                           child: SetValueHorizontal(
                             height: 70.h,
+                            type:  TreatmentType.percutaneous,
                             enabled: true,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue: double.tryParse(percutaneous?.timeA ?? '1'),
+                            initialValue:
+                                double.tryParse(percutaneous?.timeA ?? '1'),
                             minValue: 1,
                             maxValue: 30,
                             unit: 'min',
                             valueListener: (value) {
-                              print("------时间A-----$value");
-                              cTimeA.add(value.toString());
+                              percutaneous?.timeA = value.toString();
                             },
                           ),
                         ),
@@ -187,14 +127,15 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
+                            type:  TreatmentType.percutaneous,
                             title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue: double.tryParse(percutaneous?.powerA ?? '1'),
+                            initialValue:
+                                double.tryParse(percutaneous?.powerA ?? '1'),
                             maxValue: 99,
                             minValue: 1,
                             valueListener: (value) {
-                              print("------强度 A-----$value");
-                               cPowerA.add(value.toString());
+                              percutaneous?.powerA = value.toString();
                             },
                           ),
                         ),
@@ -203,15 +144,16 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
+                            type:  TreatmentType.percutaneous,
                             title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: double.tryParse(percutaneous?.frequencyA ?? '2'),
+                            initialValue: double.tryParse(
+                                percutaneous?.frequencyA ?? '2'),
                             minValue: 2,
                             maxValue: 160,
                             unit: 'Hz',
                             valueListener: (value) {
-                              print("------频率 A-----$value");
-                              cFrequencyA.add(value.toString());
+                              percutaneous?.frequencyA = value.toString();
                             },
                           ),
                         ),
@@ -220,16 +162,17 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             enabled: true,
+                            type:  TreatmentType.percutaneous,
                             title: Globalization.pulseWidth.tr,
                             assets: 'assets/images/2.0x/icon_maikuan.png',
-                            initialValue: double.tryParse(percutaneous?.pulseA ?? '60'),
+                            initialValue:
+                                double.tryParse(percutaneous?.pulseA ?? '60'),
                             minValue: 60,
                             maxValue: 520,
                             appreciation: 10,
                             unit: 'μs',
                             valueListener: (value) {
-                              print("------脉宽 A-----$value");
-                              cPulseA.add(value.toString());
+                              percutaneous?.pulseA = value.toString();
                             },
                           ),
                         ),
@@ -237,34 +180,45 @@ class _JingPiPageState extends State<JingPiPage>
                           child: Container(
                             decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                )
-                            ),
+                              Radius.circular(10),
+                            )),
                             child: TextButton(
-                                onPressed: (){
-                                  yiStartSelected = percutaneous
-                                      ?.start1(!yiStartSelected) ??
-                                      false;
-                                  setState(() {});
+                                onPressed: () {
+                                  yiStartSelected =
+                                      percutaneous?.start1(!yiStartSelected) ??
+                                          false;
 
+                                  if (yiStartSelected) {
+                                    percutaneous?.init();
+                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(TreatmentType.percutaneous));
+                                    });
+                                  }
+                                  setState(() {});
                                 },
-                                child:
-                                Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                            ),
+                                child: Image.asset(
+                                  yiStartSelected
+                                      ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                      : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                  fit: BoxFit.cover,
+                                  width: 120.w,
+                                  height: 45.h,
+                                )),
                           ),
                         ),
                       ],
-                    )
-                ),
+                    )),
               ),
             ),
             Container(
-              width: 1,
-              height: 487.h,
-              margin: EdgeInsets.only(top: 11.h),
-              color: const Color(0xFFD6D6D6),
-                child: Text('',style: TextStyle(fontSize: 18.sp,color: Colors.black),)
-            ),
+                width: 1,
+                height: 487.h,
+                margin: EdgeInsets.only(top: 11.h),
+                color: const Color(0xFFD6D6D6),
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.black),
+                )),
             Expanded(
               flex: 1,
               child: Container(
@@ -292,8 +246,7 @@ class _JingPiPageState extends State<JingPiPage>
                               ],
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15.w),
-                              )
-                          ),
+                              )),
                           width: 340.w,
                           height: 70.h,
                           child: Row(
@@ -301,45 +254,50 @@ class _JingPiPageState extends State<JingPiPage>
                               Container(
                                 margin: EdgeInsets.only(left: 20.w),
                                 child: TextButton(
-                                    onPressed: (){
-                                    },
+                                    onPressed: () {},
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_moshi.png',fit: BoxFit.fitWidth,width: 15.w,),
-                                        SizedBox(width: 4.w,),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_moshi.png',
+                                          fit: BoxFit.fitWidth,
+                                          width: 15.w,
+                                        ),
+                                        SizedBox(
+                                          width: 4.w,
+                                        ),
                                         Text(
                                           Globalization.mode.tr,
-                                          style: TextStyle(fontSize: 16.sp,color: const Color(0xFF999999)),),
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: const Color(0xFF999999)),
+                                        ),
                                       ],
-                                    )
-                                ),
+                                    )),
                               ),
                               PopupMenuBtn(
                                 index: 3,
                                 patternStr: percutaneous?.patternB ?? "连续输出",
                                 popupListener: (value) {
                                   percutaneous?.patternB = value;
-                                  save();
                                 },
                               ),
-
                             ],
-                          )
-                      ),
+                          )),
                       Container(
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
+                          type:  TreatmentType.percutaneous,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue: double.tryParse(percutaneous?.timeB ?? '1'),
+                          initialValue:
+                              double.tryParse(percutaneous?.timeB ?? '1'),
                           maxValue: 30,
                           minValue: 1,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间B-----$value");
-                            cTimeB.add(value.toString());
+                            percutaneous?.timeB = value.toString();
                           },
                         ),
                       ),
@@ -348,14 +306,15 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
+                          type:  TreatmentType.percutaneous,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: double.tryParse(percutaneous?.powerB ?? '1'),
+                          initialValue:
+                              double.tryParse(percutaneous?.powerB ?? '1'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
-                            print("------强度 B-----$value");
-                             cPowerB.add(value.toString());
+                            percutaneous?.powerB = value.toString();
                           },
                         ),
                       ),
@@ -364,15 +323,16 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
+                          type:  TreatmentType.percutaneous,
                           title: Globalization.frequency.tr,
                           assets: 'assets/images/2.0x/icon_pinlv.png',
-                          initialValue: double.tryParse(percutaneous?.frequencyB ?? '2'),
+                          initialValue:
+                              double.tryParse(percutaneous?.frequencyB ?? '2'),
                           minValue: 2,
                           maxValue: 160,
                           unit: 'Hz',
                           valueListener: (value) {
-                            print("------频率B-----$value");
-                            cFrequencyB.add(value.toString());
+                            percutaneous?.frequencyB = value.toString();
                           },
                         ),
                       ),
@@ -381,16 +341,17 @@ class _JingPiPageState extends State<JingPiPage>
                         child: SetValueHorizontal(
                           height: 70.h,
                           enabled: true,
+                          type:  TreatmentType.percutaneous,
                           title: Globalization.pulseWidth.tr,
                           assets: 'assets/images/2.0x/icon_maikuan.png',
-                          initialValue: double.tryParse(percutaneous?.pulseB ?? '60'),
+                          initialValue:
+                              double.tryParse(percutaneous?.pulseB ?? '60'),
                           minValue: 60,
                           maxValue: 520,
                           appreciation: 10,
                           unit: 'μs',
                           valueListener: (value) {
-                            print("------脉宽 B-----$value");
-                            cPulseB.add(value.toString());
+                            percutaneous?.pulseB = value.toString();
                           },
                         ),
                       ),
@@ -398,24 +359,35 @@ class _JingPiPageState extends State<JingPiPage>
                         child: Container(
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )
-                          ),
+                            Radius.circular(10),
+                          )),
                           child: TextButton(
-                              onPressed: (){
-                                erStartSelected = percutaneous
-                                    ?.start2(!erStartSelected) ??
-                                    false;
-                                setState(() {});
+                              onPressed: () {
+                                erStartSelected =
+                                    percutaneous?.start2(!erStartSelected) ??
+                                        false;
 
+                                if (erStartSelected) {
+                                  percutaneous?.init();
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.percutaneous));
+                                  });
+                                }
+
+                                setState(() {});
                               },
-                              child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_kaishi_nor.png' : 'assets/images/2.0x/btn_tingzhi_nor.png',fit: BoxFit.cover,width: 120.w,height: 43.h,)
-                          ),
+                              child: Image.asset(
+                                erStartSelected
+                                    ? 'assets/images/2.0x/btn_kaishi_nor.png'
+                                    : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                fit: BoxFit.cover,
+                                width: 120.w,
+                                height: 43.h,
+                              )),
                         ),
                       ),
                     ],
-                  )
-              ),
+                  )),
             ),
           ],
         ),

@@ -7,6 +7,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
+import '../entity/set_value_state.dart';
+import '../utils/event_bus.dart';
+import '../utils/treatment_type.dart';
+
 typedef ValueListener = void Function(double value);
 
 // ignore: must_be_immutable
@@ -22,6 +26,7 @@ class SetValueHorizontal extends StatefulWidget {
   double? height;
   double? minValue;
   double? maxValue;
+  TreatmentType? type;
 
   SetValueHorizontal(
       {Key? key,
@@ -35,6 +40,7 @@ class SetValueHorizontal extends StatefulWidget {
       this.valueListener,
       this.minValue,
       this.maxValue,
+      this.type,
       this.unit})
       : super(key: key);
 
@@ -53,6 +59,20 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
     super.initState();
     value = widget.initialValue ?? 0;
     appreciation = widget.appreciation ?? 1;
+
+
+
+    eventBus.on<SetValueState>().listen((event) {
+      if (event.type != widget.type) {
+        return;
+      }
+      value = widget.initialValue ?? 0;
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
+
   }
 
   @override
