@@ -45,8 +45,8 @@ class Spastic {
   void init() {
     time = "1";
     circle = "1";
-    widthA = "1";
-    widthB = "1";
+    widthA = "0.1";
+    widthB = "0.1";
     delayTime = "1";
     powerA = "1";
     powerB = "1";
