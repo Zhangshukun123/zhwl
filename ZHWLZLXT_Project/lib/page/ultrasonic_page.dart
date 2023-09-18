@@ -83,7 +83,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       SerialMsg().startPort();
     });
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      // SerialMsg().sendHeart().then((value) => {});
+      SerialMsg().sendHeart().then((value) => {});
     });
 
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
