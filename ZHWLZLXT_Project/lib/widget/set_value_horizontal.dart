@@ -12,6 +12,7 @@ import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
 
 typedef ValueListener = void Function(double value);
+typedef ButtonTouchClick  = void Function();
 
 // ignore: must_be_immutable
 class SetValueHorizontal extends StatefulWidget {
@@ -27,6 +28,8 @@ class SetValueHorizontal extends StatefulWidget {
   double? minValue;
   double? maxValue;
   TreatmentType? type;
+  ButtonTouchClick? onClick;
+
 
   SetValueHorizontal(
       {Key? key,
@@ -41,7 +44,9 @@ class SetValueHorizontal extends StatefulWidget {
       this.minValue,
       this.maxValue,
       this.type,
-      this.unit})
+      this.unit,
+      this.onClick,
+      })
       : super(key: key);
 
   @override
@@ -118,6 +123,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     value = (widget.minValue ?? 0);
                   }
                   widget.valueListener!(value);
+                  widget.onClick!();
                   setState(() {});
                 }
               },
@@ -131,6 +137,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                         value = (widget.minValue ?? 0);
                       }
                       widget.valueListener!(value);
+                      widget.onClick!();
                       setState(() {});
                     }
                   });
@@ -199,6 +206,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     widget.valueListener!(value);
                   }
                   widget.valueListener!(value);
+                  widget.onClick!();
                   setState(() {});
                 }
               },
@@ -212,6 +220,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                         widget.valueListener!(value);
                       }
                       widget.valueListener!(value);
+                      widget.onClick!();
                       setState(() {});
                     }
                   });
