@@ -108,6 +108,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternA ?? "1",
+                                enabled: yiStartSelected ? true : false,
                                 popupListener: (value) {
                                   midFrequency?.patternA = value;
                                 },
@@ -118,7 +119,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: true,
+                          enabled: yiStartSelected ? true : false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -136,16 +137,19 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: true,
+                          enabled: yiStartSelected ? false : true,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue:
-                              double.tryParse(midFrequency?.powerA ?? '1'),
+                              double.tryParse(midFrequency?.powerA ?? '0'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
                             midFrequency?.powerA = value.toString();
+                          },
+                          onClick: (){
+                            midFrequency?.start1(true);
                           },
                         ),
                       ),
@@ -240,6 +244,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternB ?? "1",
+                                enabled: erStartSelected ? true : false,
                                 popupListener: (value) {
                                   midFrequency?.patternB = value;
                                 },
@@ -250,7 +255,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: true,
+                          enabled: erStartSelected ? true : false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -268,16 +273,19 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: true,
+                          enabled: erStartSelected ? false : true,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue:
-                              double.tryParse(midFrequency?.powerB ?? '1'),
+                              double.tryParse(midFrequency?.powerB ?? '0'),
                           maxValue: 99,
                           minValue: 1,
                           valueListener: (value) {
                             midFrequency?.powerB = value.toString();
+                          },
+                          onClick: () {
+                            midFrequency?.start2(true);
                           },
                         ),
                       ),

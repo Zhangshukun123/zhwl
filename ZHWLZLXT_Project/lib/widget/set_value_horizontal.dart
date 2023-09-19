@@ -12,12 +12,13 @@ import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
 
 typedef ValueListener = void Function(double value);
+typedef ButtonTouchClick  = void Function();
 
 // ignore: must_be_immutable
 class SetValueHorizontal extends StatefulWidget {
   String? title;
   String? assets;
-  bool? enabled = true;
+  bool? enabled = true ;
   bool? isInt = true;
   double? initialValue;
   String? unit;
@@ -27,6 +28,8 @@ class SetValueHorizontal extends StatefulWidget {
   double? minValue;
   double? maxValue;
   TreatmentType? type;
+  ButtonTouchClick? onClick;
+
 
   SetValueHorizontal(
       {Key? key,
@@ -41,7 +44,9 @@ class SetValueHorizontal extends StatefulWidget {
       this.minValue,
       this.maxValue,
       this.type,
-      this.unit})
+      this.unit,
+      this.onClick,
+      })
       : super(key: key);
 
   @override
@@ -59,8 +64,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
     super.initState();
     value = widget.initialValue ?? 0;
     appreciation = widget.appreciation ?? 1;
-
-
 
     eventBus.on<SetValueState>().listen((event) {
       if (event.type != widget.type) {
@@ -111,6 +114,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
+                if (widget.enabled == false) {
+                  return;
+                }
                 if (widget.enabled == true) {
                   if (value == 0) return;
                   value = (value - appreciation);
@@ -119,6 +125,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   }
                   widget.valueListener!(value);
                   setState(() {});
+                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -132,6 +139,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       }
                       widget.valueListener!(value);
                       setState(() {});
+                      widget.onClick!();
                     }
                   });
                 });
@@ -192,6 +200,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
+                if (widget.enabled == false) {
+                  return;
+                }
                 if (widget.enabled = true) {
                   value = value + appreciation;
                   if (value > (widget.maxValue ?? 999999)) {
@@ -200,6 +211,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   }
                   widget.valueListener!(value);
                   setState(() {});
+                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -213,6 +225,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       }
                       widget.valueListener!(value);
                       setState(() {});
+                      widget.onClick!();
                     }
                   });
                 });

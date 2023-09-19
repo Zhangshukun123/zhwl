@@ -43,10 +43,10 @@ class MidFrequency {
   void init() {
     patternA = "1";
     timeA = "1";
-    powerA = "1";
+    powerA = "0";
     patternB = "1";
     timeB = "1";
-    powerB = "1";
+    powerB = "0";
   }
 
 
@@ -129,7 +129,7 @@ class MidFrequency {
     }
 
     if (TextUtil.isEmpty(powerA)) {
-      powerA = '1';
+      powerA = '0';
     }
     // data = "$data $powerA"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
@@ -204,7 +204,7 @@ class MidFrequency {
     }
 
     if (TextUtil.isEmpty(powerB)) {
-      powerB = '1';
+      powerB = '0';
     }
     // data = "$data $powerB"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerB!))?.toInt()}";

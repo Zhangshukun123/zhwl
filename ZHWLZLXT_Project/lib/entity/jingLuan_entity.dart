@@ -90,7 +90,7 @@ class Spastic {
     String data = BYTE00_RW.B01;
 
     data = "$data ${BYTE01_MD.B05}"; // byt01 功能模块    01
-    data = "$data 00"; //BYte02 通道 02
+    data = "$data 0x0A"; //BYte02 通道 02 //09。15修改  痉挛肌也有通道
 
     if (isStart) {
       // byte03 通道启停 03

@@ -17,6 +17,7 @@ class PopupMenuBtn extends StatefulWidget {
   PopupListener? popupListener;
   String? patternStr = "1";
   String? unit = "";
+  bool? enabled = true ;
 
   PopupMenuBtn({
     Key? key,
@@ -25,6 +26,7 @@ class PopupMenuBtn extends StatefulWidget {
     this.offset,
     this.unit,
     this.popupListener,
+    this.enabled,
   }) : super(key: key);
 
   @override
@@ -63,6 +65,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
               itemBuilder: (BuildContext context) {
                 return pop;
               },
+              enabled: widget.enabled!,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -76,7 +79,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                         Text(
                           value,
                           style: TextStyle(
-                              color: const Color(0xFF333333),
+                              color: widget.enabled! ? const Color(0xFF333333) : Colors.grey,
                               fontSize: 17.sp,
                               fontWeight: FontWeight.w600),
                         ),
@@ -85,7 +88,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                               ? Text(
                                   widget.unit!,
                                   style: TextStyle(
-                                      fontSize: 10.sp, color: Colors.black),
+                                      fontSize: 10.sp, color:  Colors.black ),
                                 )
                               : const Text(''),
                         ),

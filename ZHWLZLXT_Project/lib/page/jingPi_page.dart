@@ -98,6 +98,7 @@ class _JingPiPageState extends State<JingPiPage>
                                 PopupMenuBtn(
                                   index: 3,
                                   patternStr: percutaneous?.patternA ?? "连续输出",
+                                  enabled: true,
                                   popupListener: (value) {
                                     percutaneous?.patternA = value;
                                   },
@@ -277,6 +278,7 @@ class _JingPiPageState extends State<JingPiPage>
                               PopupMenuBtn(
                                 index: 3,
                                 patternStr: percutaneous?.patternB ?? "连续输出",
+                                enabled: true,
                                 popupListener: (value) {
                                   percutaneous?.patternB = value;
                                 },
