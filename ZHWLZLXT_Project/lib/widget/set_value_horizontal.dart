@@ -18,7 +18,7 @@ typedef ButtonTouchClick  = void Function();
 class SetValueHorizontal extends StatefulWidget {
   String? title;
   String? assets;
-  bool? enabled = true;
+  bool? enabled = true ;
   bool? isInt = true;
   double? initialValue;
   String? unit;
@@ -64,8 +64,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
     super.initState();
     value = widget.initialValue ?? 0;
     appreciation = widget.appreciation ?? 1;
-
-
 
     eventBus.on<SetValueState>().listen((event) {
       if (event.type != widget.type) {
@@ -116,6 +114,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
+                if (widget.enabled == false) {
+                  return;
+                }
                 if (widget.enabled == true) {
                   if (value == 0) return;
                   value = (value - appreciation);
@@ -123,8 +124,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     value = (widget.minValue ?? 0);
                   }
                   widget.valueListener!(value);
-                  widget.onClick!();
                   setState(() {});
+                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -137,8 +138,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                         value = (widget.minValue ?? 0);
                       }
                       widget.valueListener!(value);
-                      widget.onClick!();
                       setState(() {});
+                      widget.onClick!();
                     }
                   });
                 });
@@ -199,6 +200,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
+                if (widget.enabled == false) {
+                  return;
+                }
                 if (widget.enabled = true) {
                   value = value + appreciation;
                   if (value > (widget.maxValue ?? 999999)) {
@@ -206,8 +210,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     widget.valueListener!(value);
                   }
                   widget.valueListener!(value);
-                  widget.onClick!();
                   setState(() {});
+                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -220,8 +224,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                         widget.valueListener!(value);
                       }
                       widget.valueListener!(value);
-                      widget.onClick!();
                       setState(() {});
+                      widget.onClick!();
                     }
                   });
                 });

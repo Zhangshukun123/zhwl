@@ -207,6 +207,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 PopupMenuBtn(
                                   index: 0,
                                   patternStr: ultrasonic?.pattern ?? "连续模式1",
+                                  enabled: true,
                                   popupListener: (value) {
                                     ultrasonic?.pattern = value;
                                     // save();
@@ -332,6 +333,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   unit: 'MHz',
                                   offset: Offset(0, -80.h),
                                   patternStr: ultrasonic?.frequency ?? '1',
+                                  enabled: true,
                                   popupListener: (value) {
                                     // debugPrint(value);
                                     setState(() {});

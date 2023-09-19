@@ -105,6 +105,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                               PopupMenuBtn(
                                 index: 5,
                                 patternStr: neuromuscular?.patternA ?? "完全失神经",
+                                enabled: true,
                                 popupListener: (value) {
                                   neuromuscular?.patternA = value;
                                 },
@@ -246,6 +247,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                               PopupMenuBtn(
                                 index: 5,
                                 patternStr: neuromuscular?.patternB ?? "完全失神经",
+                                enabled: true,
                                 popupListener: (value) {
                                   neuromuscular?.patternB = value;
                                 },

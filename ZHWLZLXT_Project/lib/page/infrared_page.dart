@@ -188,6 +188,7 @@ class _InfraredPageState extends State<InfraredPage>
                               PopupMenuBtn(
                                 index: 2,
                                 patternStr: infraredEntity?.pattern ?? "连续模式1",
+                                enabled: true,
                                 popupListener: (value) {
                                   isDGW = (value != "连续模式1");
 
