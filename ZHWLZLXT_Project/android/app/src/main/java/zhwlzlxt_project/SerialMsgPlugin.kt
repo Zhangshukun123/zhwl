@@ -76,11 +76,11 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 serialPortHelper.open()
             }
             "heard" -> {
-                if (serialPortHelper.count > 30) {
-                    result.success("101")
-                } else {
-                    result.success("102")
-                }
+//                if (serialPortHelper.count > 30) {
+//                    result.success("101")
+//                } else {
+//                    result.success("102")
+//                }
             }
             "sendData" -> {
                 // 这里的 packageName 是在 Flutter 中定义的 com.allensu

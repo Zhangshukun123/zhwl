@@ -35,8 +35,8 @@ class SerialMsg {
   // 注：方法名install和invokeMethod中的参数install不是要一定相同，这里相同是为了方便一眼看出函数的功能
   Future<String> startPort() async {
     // sendData 调用方法的名称，com.example.zhwlzlxt_project 应用包名
-    // String res = await _channel.invokeMethod("startPort");
-    return "res";
+    String res = await _channel.invokeMethod("startPort");
+    return res;
   }
 
   Future<String> sendHeart() async {
@@ -51,10 +51,8 @@ class SerialMsg {
 
     Fluttertoast.showToast(
         msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
-    // String res = await _channel.invokeMethod("sendData", buffer);
+    String res = await _channel.invokeMethod("sendData", buffer);
     // print('-----sendData-------$res');
-
-
-    return "res";
+    return res;
   }
 }
