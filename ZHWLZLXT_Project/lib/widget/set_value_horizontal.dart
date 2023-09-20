@@ -17,7 +17,8 @@ typedef ValueListener = void Function(double value);
 class SetValueHorizontal extends StatefulWidget {
   String? title;
   String? assets;
-  bool? enabled = true ;
+  bool? enabled = true;
+
   bool? isInt = true;
   double? initialValue;
   String? unit;
@@ -28,23 +29,21 @@ class SetValueHorizontal extends StatefulWidget {
   double? maxValue;
   TreatmentType? type;
 
-
-  SetValueHorizontal(
-      {Key? key,
-      this.title,
-      this.assets,
-      this.enabled,
-      this.initialValue,
-      this.appreciation,
-      this.isInt,
-      this.height,
-      this.valueListener,
-      this.minValue,
-      this.maxValue,
-      this.type,
-      this.unit,
-      })
-      : super(key: key);
+  SetValueHorizontal({
+    Key? key,
+    this.title,
+    this.assets,
+    this.enabled,
+    this.initialValue,
+    this.appreciation,
+    this.isInt,
+    this.height,
+    this.valueListener,
+    this.minValue,
+    this.maxValue,
+    this.type,
+    this.unit,
+  }) : super(key: key);
 
   @override
   State<SetValueHorizontal> createState() => _SetValueHorizontalState();
@@ -72,7 +71,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       }
       setState(() {});
     });
-
   }
 
   @override
@@ -111,10 +109,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.enabled == false) {
-                  return;
-                }
-                if (widget.enabled == true) {
+                if (widget.enabled ?? false) {
                   if (value == 0) return;
                   value = (value - appreciation);
                   if (value <= (widget.minValue ?? 0)) {
@@ -127,7 +122,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               onTapDown: (e) {
                 timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
                   setState(() {
-                    if (widget.enabled == true) {
+                    if (widget.enabled ?? false) {
                       if (value == 0) return;
                       value = (value - appreciation);
                       if (value <= (widget.minValue ?? 0)) {
@@ -195,10 +190,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             GestureDetector(
               onTap: () {
-                if (widget.enabled == false) {
-                  return;
-                }
-                if (widget.enabled = true) {
+                if (widget.enabled ?? false) {
                   value = value + appreciation;
                   if (value > (widget.maxValue ?? 999999)) {
                     value = (widget.maxValue ?? 999999);
@@ -211,7 +203,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               onTapDown: (e) {
                 timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
                   setState(() {
-                    if (widget.enabled = true) {
+                    if (widget.enabled ?? false) {
                       value = value + appreciation;
                       if (value > (widget.maxValue ?? 999999)) {
                         value = (widget.maxValue ?? 999999);

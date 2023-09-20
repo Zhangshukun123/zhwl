@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
-import 'package:zhwlzlxt_project/page/login_page.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
