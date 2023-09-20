@@ -147,8 +147,6 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 1,
                           valueListener: (value) {
                             midFrequency?.powerA = value.toString();
-                          },
-                          onClick: (){
                             midFrequency?.start1(true);
                           },
                         ),
@@ -283,8 +281,6 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 1,
                           valueListener: (value) {
                             midFrequency?.powerB = value.toString();
-                          },
-                          onClick: () {
                             midFrequency?.start2(true);
                           },
                         ),

@@ -12,7 +12,6 @@ import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
 
 typedef ValueListener = void Function(double value);
-typedef ButtonTouchClick  = void Function();
 
 // ignore: must_be_immutable
 class SetValueHorizontal extends StatefulWidget {
@@ -28,7 +27,6 @@ class SetValueHorizontal extends StatefulWidget {
   double? minValue;
   double? maxValue;
   TreatmentType? type;
-  ButtonTouchClick? onClick;
 
 
   SetValueHorizontal(
@@ -45,7 +43,6 @@ class SetValueHorizontal extends StatefulWidget {
       this.maxValue,
       this.type,
       this.unit,
-      this.onClick,
       })
       : super(key: key);
 
@@ -125,7 +122,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   }
                   widget.valueListener!(value);
                   setState(() {});
-                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -139,7 +135,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       }
                       widget.valueListener!(value);
                       setState(() {});
-                      widget.onClick!();
                     }
                   });
                 });
@@ -211,7 +206,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   }
                   widget.valueListener!(value);
                   setState(() {});
-                  widget.onClick!();
                 }
               },
               onTapDown: (e) {
@@ -225,7 +219,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       }
                       widget.valueListener!(value);
                       setState(() {});
-                      widget.onClick!();
                     }
                   });
                 });
