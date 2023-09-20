@@ -110,7 +110,7 @@ class _JingPiPageState extends State<JingPiPage>
                           child: SetValueHorizontal(
                             height: 70.h,
                             type:  TreatmentType.percutaneous,
-                            enabled: false,
+                            enabled: true,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue:
