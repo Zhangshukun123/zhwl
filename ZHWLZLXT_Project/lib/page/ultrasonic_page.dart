@@ -49,6 +49,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   final TreatmentController controller = Get.find();
   final UltrasonicController ultrasonicController =
       Get.put(UltrasonicController());
+  //计时器
+  late Timer _timer;
+  int _countdownTime = 0;
+
 
   @override
   void initState() {
@@ -147,6 +151,32 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   @override
   void dispose() {
     super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
+  void startCountdownTimer() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime < 1) {
+          _timer.cancel();
+          //计时结束
+          //结束治疗
+          ultrasonic?.start(false);
+          startSelected = false;
+          ultrasonic?.init();
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+
+        } else {
+          _countdownTime = _countdownTime - 1;
+        }
+      })
+    };
+    _timer = Timer.periodic(oneSec, callback);
   }
 
   @override
@@ -154,7 +184,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF0FAFE),
@@ -393,14 +422,19 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             startSelected = ultrasonic
                                                     ?.start(!startSelected) ??
                                                 false;
-
                                             if (!startSelected) {
                                               ultrasonic?.init();
                                               Future.delayed(const Duration(milliseconds: 500), () {
                                                 eventBus.fire(SetValueState(TreatmentType.ultrasonic));
                                               });
                                             }
-                                            setState(() {});
+                                            setState(() {
+                                              //点击开始治疗
+                                              double? tmp = double.tryParse(ultrasonic?.time ?? '1');
+                                              _countdownTime = ((tmp?.toInt())! * 60)!;
+                                              debugPrint('++++_countdownTime+++++$_countdownTime');
+                                              startCountdownTimer();
+                                            });
                                           },
                                           child: Image.asset(
                                             startSelected
