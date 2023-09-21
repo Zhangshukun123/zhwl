@@ -105,9 +105,10 @@ class Neuromuscular {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B02}";
-    } else {
       data = "$data ${BYTE03_STOP.B01}";
+
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
     }
 
     if (TextUtil.isEmpty(patternA)) {
@@ -205,10 +206,9 @@ class Neuromuscular {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B02}";
-    } else {
-
       data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
     }
 
     if (TextUtil.isEmpty(patternB)) {

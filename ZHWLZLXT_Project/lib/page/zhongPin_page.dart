@@ -26,8 +26,14 @@ class ZhongPinPage extends StatefulWidget {
 
 class _ZhongPinPageState extends State<ZhongPinPage>
     with AutomaticKeepAliveClientMixin {
-  bool yiStartSelected = true;
-  bool erStartSelected = true;
+  bool yiStartSelected = false;
+  bool erStartSelected = false;
+  //计时器
+  late Timer _timer1;
+  int _countdownTime1 = 0;
+
+  late Timer _timer2;
+  int _countdownTime2 = 0;
 
   MidFrequency? midFrequency;
 
@@ -47,6 +53,61 @@ class _ZhongPinPageState extends State<ZhongPinPage>
 
   void save(int userId) {
     SpUtils.set(MidFrequencyField.MidFrequencyKey, userId);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer1 != null) {
+      _timer1.cancel();
+    }
+    if (_timer2 != null) {
+      _timer2.cancel();
+    }
+  }
+
+  void startCountdownTimer1() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime1 < 1) {
+          _timer1.cancel();
+          //计时结束
+          //结束治疗
+          midFrequency?.start1(false);
+          yiStartSelected = false;
+          midFrequency?.init();
+          setState(() {
+          });
+
+        } else {
+          _countdownTime1 = _countdownTime1 - 1;
+        }
+      })
+    };
+    _timer1 = Timer.periodic(oneSec, callback);
+  }
+
+  void startCountdownTimer2() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime2 < 1) {
+          _timer2.cancel();
+          //计时结束
+          //结束治疗
+          midFrequency?.start2(false);
+          erStartSelected = false;
+          midFrequency?.init();
+          setState(() {
+          });
+
+        } else {
+          _countdownTime2 = _countdownTime2 - 1;
+        }
+      })
+    };
+    _timer2 = Timer.periodic(oneSec, callback);
   }
 
   @override
@@ -168,12 +229,18 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     eventBus.fire(SetValueState(TreatmentType.frequency));
                                   });
                                 }
-                                setState(() {});
+                                setState(() {
+                                  //点击开始治疗
+                                  // double? tmp = double.tryParse(midFrequency?.timeA ?? '1');
+                                  // _countdownTime1 = ((tmp?.toInt())! * 60)!;
+                                  // debugPrint('++++_countdownTime+++++$_countdownTime1');
+                                  // startCountdownTimer1();
+                                });
                               },
                               child: Image.asset(
                                 yiStartSelected
-                                    ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                    : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                    ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                    : 'assets/images/2.0x/btn_kaishi_nor.png',
                                 fit: BoxFit.cover,
                                 width: 120.w,
                                 height: 45.h,
@@ -302,12 +369,18 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     eventBus.fire(SetValueState(TreatmentType.frequency));
                                   });
                                 }
-                                setState(() {});
+                                setState(() {
+                                  //点击开始治疗
+                                  // double? tmp = double.tryParse(midFrequency?.timeB ?? '1');
+                                  // _countdownTime2 = ((tmp?.toInt())! * 60)!;
+                                  // debugPrint('++++_countdownTime+++++$_countdownTime2');
+                                  // startCountdownTimer2();
+                                });
                               },
                               child: Image.asset(
                                 erStartSelected
-                                    ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                    : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                    ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                    : 'assets/images/2.0x/btn_kaishi_nor.png',
                                 fit: BoxFit.cover,
                                 width: 120.w,
                                 height: 45.h,

@@ -90,9 +90,10 @@ class MidFrequency {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B02}";
-    } else {
+
       data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
     }
 
     //处方暂未更改
@@ -165,9 +166,10 @@ class MidFrequency {
 
     if (isStart) {
       // byte03 通道启停 03
-      data = "$data ${BYTE03_STOP.B02}";
+
+    data = "$data ${BYTE03_STOP.B01}";
     } else {
-      data = "$data ${BYTE03_STOP.B01}";
+      data = "$data ${BYTE03_STOP.B02}";
     }
 
     //处方暂未更改

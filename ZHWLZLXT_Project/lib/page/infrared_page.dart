@@ -42,7 +42,9 @@ class _InfraredPageState extends State<InfraredPage>
   DetailsDialog? dialog;
 
   InfraredEntity? infraredEntity;
-
+//计时器
+  late Timer _timer;
+  int _countdownTime = 0;
 
   var isDGW = false;
 
@@ -78,7 +80,37 @@ class _InfraredPageState extends State<InfraredPage>
     SpUtils.set(InfraredField.InfraredKey, userId);
   }
 
-  bool startSelected = true;
+  bool startSelected = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
+  void startCountdownTimer() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime < 1) {
+          _timer.cancel();
+          //计时结束
+          //结束治疗
+          infraredEntity?.start(false,false);
+          startSelected = false;
+          infraredEntity?.init();
+          setState(() {
+          });
+
+        } else {
+          _countdownTime = _countdownTime - 1;
+        }
+      })
+    };
+    _timer = Timer.periodic(oneSec, callback);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -328,12 +360,18 @@ class _InfraredPageState extends State<InfraredPage>
                                           eventBus.fire(SetValueState(TreatmentType.infrared));
                                         });
                                       }
-                                      setState(() {});
+                                      setState(() {
+                                        //点击开始治疗
+                                        // double? tmp = double.tryParse(infraredEntity?.time ?? '1');
+                                        // _countdownTime = ((tmp?.toInt())! * 60)!;
+                                        // debugPrint('++++_countdownTime+++++$_countdownTime');
+                                        // startCountdownTimer();
+                                      });
                                     },
                                     child: Image.asset(
                                       startSelected
-                                          ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                          : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                          ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                          : 'assets/images/2.0x/btn_kaishi_nor.png',
                                       width: 100.w,
                                       fit: BoxFit.fitWidth,
                                     ),

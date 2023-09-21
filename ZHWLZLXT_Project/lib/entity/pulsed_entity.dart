@@ -71,9 +71,9 @@ class Pulsed {
     //此处解决磁疗的开始和停止按钮命令反的问题 09。06李建成提出
     if (isStart) {
       // 03
-      data = "$data ${BYTE03_STOP.B02}";
-    } else {
       data = "$data ${BYTE03_STOP.B01}";
+    } else {
+      data = "$data ${BYTE03_STOP.B02}";
     }
     //04
     if (TextUtil.isEmpty(frequency)) {

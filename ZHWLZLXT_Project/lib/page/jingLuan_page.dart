@@ -29,6 +29,9 @@ class _JingLuanPageState extends State<JingLuanPage>
   bool startSelected = false;
 
   Spastic? spastic;
+  //计时器
+  late Timer _timer;
+  int _countdownTime = 0;
 
   @override
   void initState() {
@@ -48,6 +51,35 @@ class _JingLuanPageState extends State<JingLuanPage>
     SpUtils.set(SpasticField.SpasticKey, userId);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
+  void startCountdownTimer() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime < 1) {
+          _timer.cancel();
+          //计时结束
+          //结束治疗
+          spastic?.start(false);
+          startSelected = false;
+          spastic?.init();
+          setState(() {
+          });
+
+        } else {
+          _countdownTime = _countdownTime - 1;
+        }
+      })
+    };
+    _timer = Timer.periodic(oneSec, callback);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +228,13 @@ class _JingLuanPageState extends State<JingLuanPage>
                                   eventBus.fire(SetValueState(TreatmentType.spasm));
                                 });
                               }
-                              setState(() {});
+                              setState(() {
+                                //点击开始治疗
+                                // double? tmp = double.tryParse(spastic?.time ?? '1');
+                                // _countdownTime = ((tmp?.toInt())! * 60)!;
+                                // debugPrint('++++_countdownTime+++++$_countdownTime');
+                                // startCountdownTimer();
+                              });
 
                             },
                             child: Image.asset(

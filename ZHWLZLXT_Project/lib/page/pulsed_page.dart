@@ -39,6 +39,10 @@ class _PulsedPageState extends State<PulsedPage>
   //初始化字段存储
   Pulsed? pulsed;
 
+  //计时器
+  late Timer _timer;
+  int _countdownTime = 0;
+
   @override
   void initState() {
     super.initState();
@@ -69,10 +73,35 @@ class _PulsedPageState extends State<PulsedPage>
   @override
   void dispose() {
     super.dispose();
+    if (_timer != null) {
+      _timer.cancel();
+    }
+  }
+
+  void startCountdownTimer() {
+    const oneSec = Duration(seconds: 1);
+    callback(timer) => {
+      setState(() {
+        if (_countdownTime < 1) {
+          _timer.cancel();
+          //计时结束
+          //结束治疗
+          pulsed?.start(false,false);
+          startSelected = false;//
+          pulsed?.init();
+          setState(() {
+          });
+
+        } else {
+          _countdownTime = _countdownTime - 1;
+        }
+      })
+    };
+    _timer = Timer.periodic(oneSec, callback);
   }
 
   @override
-  bool startSelected = true;
+  bool startSelected = false;
   bool switchSelected = true;
 
   @override
@@ -277,12 +306,18 @@ class _PulsedPageState extends State<PulsedPage>
                                           eventBus.fire(SetValueState(TreatmentType.pulsed));
                                         });
                                       }
-                                      setState(() {});
+                                      setState(() {
+                                        //点击开始治疗
+                                        // double? tmp = double.tryParse(pulsed?.time ?? '1');
+                                        // _countdownTime = ((tmp?.toInt())! * 60)!;
+                                        // debugPrint('++++_countdownTime+++++$_countdownTime');
+                                        // startCountdownTimer();
+                                      });
                                     },
                                     child: Image.asset(
                                       startSelected
-                                          ? 'assets/images/2.0x/btn_kaishi_nor.png'
-                                          : 'assets/images/2.0x/btn_tingzhi_nor.png',
+                                          ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                          : 'assets/images/2.0x/btn_kaishi_nor.png',
                                       width: 100.w,
                                       fit: BoxFit.fitWidth,
                                     ),
