@@ -4,6 +4,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -43,7 +44,7 @@ class _InfraredPageState extends State<InfraredPage>
 
   InfraredEntity? infraredEntity;
 //计时器
-  late Timer _timer;
+  Timer? _timer;
   int _countdownTime = 0;
 
   var isDGW = false;
@@ -86,29 +87,36 @@ class _InfraredPageState extends State<InfraredPage>
   void dispose() {
     super.dispose();
     if (_timer != null) {
-      _timer.cancel();
+      _timer?.cancel();
     }
   }
 
-  void startCountdownTimer() {
-    const oneSec = Duration(seconds: 1);
-    callback(timer) => {
-      setState(() {
-        if (_countdownTime < 1) {
-          _timer.cancel();
-          //计时结束
-          //结束治疗
-          infraredEntity?.start(false,false);
-          startSelected = false;
-          infraredEntity?.init();
-          setState(() {
-          });
+  void startCountdownTimer(bool startSelected) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
 
-        } else {
-          _countdownTime = _countdownTime - 1;
-        }
-      })
-    };
+    if (!startSelected) {
+      _timer?.cancel();
+      return;
+    }
+    const oneSec = Duration(seconds: 1);
+    callback(timer) {
+      if (_countdownTime < 1) {
+        _timer?.cancel();
+        //计时结束
+        //结束治疗
+        infraredEntity?.start(false,false);
+        this.startSelected = false;
+        infraredEntity?.init();
+        setState(() {
+          Fluttertoast.showToast(msg: '治疗结束!');
+        });
+      } else {
+        _countdownTime = _countdownTime - 1;
+      }
+    }
+
     _timer = Timer.periodic(oneSec, callback);
   }
 
@@ -362,10 +370,10 @@ class _InfraredPageState extends State<InfraredPage>
                                       }
                                       setState(() {
                                         //点击开始治疗
-                                        // double? tmp = double.tryParse(infraredEntity?.time ?? '1');
-                                        // _countdownTime = ((tmp?.toInt())! * 60)!;
-                                        // debugPrint('++++_countdownTime+++++$_countdownTime');
-                                        // startCountdownTimer();
+                                        double? tmp = double.tryParse(infraredEntity?.time ?? '1');
+                                        _countdownTime = ((tmp?.toInt())! * 60)!;
+                                        debugPrint('++++_countdownTime+++++$_countdownTime');
+                                        startCountdownTimer(startSelected);
                                       });
                                     },
                                     child: Image.asset(

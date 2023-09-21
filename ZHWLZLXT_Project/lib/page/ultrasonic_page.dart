@@ -157,7 +157,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       _timer?.cancel();
     }
 
-
     if (!startSelected) {
       _timer?.cancel();
       return;
@@ -169,7 +168,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         //计时结束
         //结束治疗
         ultrasonic?.start(false);
-        startSelected = false;
+        this.startSelected = false;
         ultrasonic?.init();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');

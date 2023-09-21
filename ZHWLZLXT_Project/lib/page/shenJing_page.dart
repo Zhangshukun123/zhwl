@@ -4,6 +4,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -30,10 +31,10 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
 
   Neuromuscular? neuromuscular;
 //计时器
-  late Timer _timer1;
+  Timer? _timer1;
   int _countdownTime1 = 0;
 
-  late Timer _timer2;
+  Timer? _timer2;
   int _countdownTime2 = 0;
 
   @override
@@ -58,54 +59,67 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
   void dispose() {
     super.dispose();
     if (_timer1 != null) {
-      _timer1.cancel();
+      _timer1?.cancel();
     }
     if (_timer2 != null) {
-      _timer2.cancel();
+      _timer2?.cancel();
     }
   }
 
-  void startCountdownTimer1() {
-    const oneSec = Duration(seconds: 1);
-    callback(timer) => {
-      setState(() {
-        if (_countdownTime1 < 1) {
-          _timer1.cancel();
-          //计时结束
-          //结束治疗
-          neuromuscular?.start1(false);
-          yiStartSelected = false;
-          neuromuscular?.init();
-          setState(() {
-          });
+  void startCountdownTimer1(bool startSelected) {
+    if (_timer1 != null) {
+      _timer1?.cancel();
+    }
 
-        } else {
-          _countdownTime1 = _countdownTime1 - 1;
-        }
-      })
-    };
+    if (!startSelected) {
+      _timer1?.cancel();
+      return;
+    }
+    const oneSec = Duration(seconds: 1);
+    callback(timer) {
+      if (_countdownTime1 < 1) {
+        _timer1?.cancel();
+        //计时结束
+        //结束治疗
+        neuromuscular?.start1(false);
+        yiStartSelected = false;
+        neuromuscular?.init();
+        setState(() {
+          Fluttertoast.showToast(msg: '治疗结束!');
+        });
+      } else {
+        _countdownTime1 = _countdownTime1 - 1;
+      }
+    }
     _timer1 = Timer.periodic(oneSec, callback);
   }
 
-  void startCountdownTimer2() {
-    const oneSec = Duration(seconds: 1);
-    callback(timer) => {
-      setState(() {
-        if (_countdownTime2 < 1) {
-          _timer2.cancel();
-          //计时结束
-          //结束治疗
-          neuromuscular?.start2(false);
-          erStartSelected = false;
-          neuromuscular?.init();
-          setState(() {
-          });
+  void startCountdownTimer2(bool startSelected) {
+    if (_timer2 != null) {
+      _timer2?.cancel();
+    }
 
-        } else {
-          _countdownTime2 = _countdownTime2 - 1;
-        }
-      })
-    };
+    if (!startSelected) {
+      _timer2?.cancel();
+      return;
+    }
+    const oneSec = Duration(seconds: 1);
+    callback(timer) {
+      if (_countdownTime2 < 1) {
+        _timer2?.cancel();
+        //计时结束
+        //结束治疗
+        neuromuscular?.start2(false);
+        erStartSelected = false;
+        neuromuscular?.init();
+        setState(() {
+          Fluttertoast.showToast(msg: '治疗结束!');
+        });
+      } else {
+        _countdownTime2 = _countdownTime2 - 1;
+      }
+    }
+
     _timer2 = Timer.periodic(oneSec, callback);
   }
 
@@ -247,10 +261,10 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 }
                                 setState(() {
                                   //点击开始治疗
-                                  // double? tmp = double.tryParse(neuromuscular?.timeA ?? '1');
-                                  // _countdownTime1 = ((tmp?.toInt())! * 60)!;
-                                  // debugPrint('++++_countdownTime+++++$_countdownTime1');
-                                  // startCountdownTimer1();
+                                  double? tmp = double.tryParse(neuromuscular?.timeA ?? '1');
+                                  _countdownTime1 = ((tmp?.toInt())! * 60)!;
+                                  debugPrint('++++_countdownTime+++++$_countdownTime1');
+                                  startCountdownTimer1(yiStartSelected);
                                 });
                               },
                               child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
@@ -394,10 +408,10 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 }
                                 setState(() {
                                   //点击开始治疗
-                                  // double? tmp = double.tryParse(neuromuscular?.timeB ?? '1');
-                                  // _countdownTime2 = ((tmp?.toInt())! * 60)!;
-                                  // debugPrint('++++_countdownTime+++++$_countdownTime2');
-                                  // startCountdownTimer2();
+                                  double? tmp = double.tryParse(neuromuscular?.timeB ?? '1');
+                                  _countdownTime2 = ((tmp?.toInt())! * 60)!;
+                                  debugPrint('++++_countdownTime+++++$_countdownTime2');
+                                  startCountdownTimer2(erStartSelected);
                                 });
                               },
                               child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)

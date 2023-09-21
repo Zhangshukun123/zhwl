@@ -4,6 +4,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -30,7 +31,7 @@ class _JingLuanPageState extends State<JingLuanPage>
 
   Spastic? spastic;
   //计时器
-  late Timer _timer;
+  Timer? _timer;
   int _countdownTime = 0;
 
   @override
@@ -55,29 +56,36 @@ class _JingLuanPageState extends State<JingLuanPage>
   void dispose() {
     super.dispose();
     if (_timer != null) {
-      _timer.cancel();
+      _timer?.cancel();
     }
   }
 
-  void startCountdownTimer() {
-    const oneSec = Duration(seconds: 1);
-    callback(timer) => {
-      setState(() {
-        if (_countdownTime < 1) {
-          _timer.cancel();
-          //计时结束
-          //结束治疗
-          spastic?.start(false);
-          startSelected = false;
-          spastic?.init();
-          setState(() {
-          });
+  void startCountdownTimer(bool startSelected) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
 
-        } else {
-          _countdownTime = _countdownTime - 1;
-        }
-      })
-    };
+    if (!startSelected) {
+      _timer?.cancel();
+      return;
+    }
+    const oneSec = Duration(seconds: 1);
+    callback(timer) {
+      if (_countdownTime < 1) {
+        _timer?.cancel();
+        //计时结束
+        //结束治疗
+        spastic?.start(false);
+        this.startSelected = false;
+        spastic?.init();
+        setState(() {
+          Fluttertoast.showToast(msg: '治疗结束!');
+        });
+      } else {
+        _countdownTime = _countdownTime - 1;
+      }
+    }
+
     _timer = Timer.periodic(oneSec, callback);
   }
 
@@ -230,10 +238,10 @@ class _JingLuanPageState extends State<JingLuanPage>
                               }
                               setState(() {
                                 //点击开始治疗
-                                // double? tmp = double.tryParse(spastic?.time ?? '1');
-                                // _countdownTime = ((tmp?.toInt())! * 60)!;
-                                // debugPrint('++++_countdownTime+++++$_countdownTime');
-                                // startCountdownTimer();
+                                double? tmp = double.tryParse(spastic?.time ?? '1');
+                                _countdownTime = ((tmp?.toInt())! * 60)!;
+                                debugPrint('++++_countdownTime+++++$_countdownTime');
+                                startCountdownTimer(startSelected);
                               });
 
                             },
