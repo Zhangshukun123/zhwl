@@ -49,10 +49,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   final TreatmentController controller = Get.find();
   final UltrasonicController ultrasonicController =
       Get.put(UltrasonicController());
-  //计时器
-  late Timer _timer;
-  int _countdownTime = 0;
 
+  //计时器
+  Timer? _timer;
+  int _countdownTime = 0;
 
   @override
   void initState() {
@@ -73,8 +73,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
-
-
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.ultrasonic) {
@@ -151,31 +149,37 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   @override
   void dispose() {
     super.dispose();
-    if (_timer != null) {
-      _timer.cancel();
-    }
+    _timer?.cancel();
   }
 
-  void startCountdownTimer() {
-    const oneSec = Duration(seconds: 1);
-    callback(timer) => {
-      setState(() {
-        if (_countdownTime < 1) {
-          _timer.cancel();
-          //计时结束
-          //结束治疗
-          ultrasonic?.start(false);
-          startSelected = false;
-          ultrasonic?.init();
-          setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
-          });
+  void startCountdownTimer(bool startSelected) {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
 
-        } else {
-          _countdownTime = _countdownTime - 1;
-        }
-      })
-    };
+
+    if (!startSelected) {
+      _timer?.cancel();
+      return;
+    }
+    const oneSec = Duration(seconds: 1);
+    callback(timer) {
+      if (_countdownTime < 1) {
+        _timer?.cancel();
+        //计时结束
+        //结束治疗
+        ultrasonic?.start(false);
+        startSelected = false;
+        ultrasonic?.init();
+        setState(() {
+          Fluttertoast.showToast(msg: '治疗结束!');
+        });
+      } else {
+        _countdownTime = _countdownTime - 1;
+        print("-------$_countdownTime");
+      }
+    }
+
     _timer = Timer.periodic(oneSec, callback);
   }
 
@@ -271,7 +275,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 child: SetValue(
                               enabled: true,
-                                  type: TreatmentType.ultrasonic,
+                              type: TreatmentType.ultrasonic,
                               title: Globalization.power.tr,
                               isEventBus: true,
                               assets: 'assets/images/2.0x/icon_gonglv.png',
@@ -424,16 +428,23 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                 false;
                                             if (!startSelected) {
                                               ultrasonic?.init();
-                                              Future.delayed(const Duration(milliseconds: 500), () {
-                                                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 500), () {
+                                                eventBus.fire(SetValueState(
+                                                    TreatmentType.ultrasonic));
                                               });
                                             }
                                             setState(() {
                                               //点击开始治疗
-                                              double? tmp = double.tryParse(ultrasonic?.time ?? '1');
-                                              _countdownTime = ((tmp?.toInt())! * 60)!;
-                                              debugPrint('++++_countdownTime+++++$_countdownTime');
-                                              startCountdownTimer();
+                                              double? tmp = double.tryParse(
+                                                  ultrasonic?.time ?? '1');
+                                              _countdownTime =
+                                                  ((tmp?.toInt())! * 60)!;
+                                              debugPrint(
+                                                  '++++_countdownTime+++++$_countdownTime');
+                                              startCountdownTimer(
+                                                  startSelected);
                                             });
                                           },
                                           child: Image.asset(
