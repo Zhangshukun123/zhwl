@@ -134,7 +134,7 @@ class _JingPiPageState extends State<JingPiPage>
                             initialValue:
                                 double.tryParse(percutaneous?.powerA ?? '1'),
                             maxValue: 99,
-                            minValue: 1,
+                            minValue: 0,
                             valueListener: (value) {
                               percutaneous?.powerA = value.toString();
                             },
@@ -314,7 +314,7 @@ class _JingPiPageState extends State<JingPiPage>
                           initialValue:
                               double.tryParse(percutaneous?.powerB ?? '1'),
                           maxValue: 99,
-                          minValue: 1,
+                          minValue: 0,
                           valueListener: (value) {
                             percutaneous?.powerB = value.toString();
                           },

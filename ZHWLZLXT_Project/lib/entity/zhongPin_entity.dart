@@ -12,12 +12,12 @@ import '../Controller/treatment_controller.dart';
 class MidFrequencyField {
   static String MidFrequencyKey = "MidFrequencyKey"; // 存储 -key
   static String userId = "userId";
-  static String patternA = "patternA";//模式 A
-  static String timeA = "timeA";// 时间 A
-  static String powerA = "powerA";// 强度 A
-  static String patternB = "patternB";//模式 B
-  static String timeB = "timeB";// 时间 B
-  static String powerB = "powerB";// 强度 B
+  static String patternA = "patternA"; //模式 A
+  static String timeA = "timeA"; // 时间 A
+  static String powerA = "powerA"; // 强度 A
+  static String patternB = "patternB"; //模式 B
+  static String timeB = "timeB"; // 时间 B
+  static String powerB = "powerB"; // 强度 B
 }
 
 class MidFrequency {
@@ -28,7 +28,6 @@ class MidFrequency {
   String? patternB;
   String? timeB;
   String? powerB;
-
 
   MidFrequency({
     this.userId,
@@ -42,44 +41,43 @@ class MidFrequency {
 
   void init() {
     patternA = "1";
-    timeA = "1";
+    timeA = "20";
     powerA = "0";
     patternB = "1";
-    timeB = "1";
+    timeB = "20";
     powerB = "0";
   }
 
-
-
-
-  factory MidFrequency.fromJson(String str) => MidFrequency.fromMap(json.decode(str));
+  factory MidFrequency.fromJson(String str) =>
+      MidFrequency.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory MidFrequency.fromMap(Map<String, dynamic> json) => MidFrequency(
-    userId: json[MidFrequencyField.userId],
-    patternA: json[MidFrequencyField.patternA],
-    timeA: json[MidFrequencyField.timeA],
-    powerA: json[MidFrequencyField.powerA],
-    patternB: json[MidFrequencyField.patternB],
-    timeB: json[MidFrequencyField.timeB],
-    powerB: json[MidFrequencyField.powerB],
-  );
+        userId: json[MidFrequencyField.userId],
+        patternA: json[MidFrequencyField.patternA],
+        timeA: json[MidFrequencyField.timeA],
+        powerA: json[MidFrequencyField.powerA],
+        patternB: json[MidFrequencyField.patternB],
+        timeB: json[MidFrequencyField.timeB],
+        powerB: json[MidFrequencyField.powerB],
+      );
 
   Map<String, dynamic> toMap() => {
-    MidFrequencyField.userId: userId,
-    MidFrequencyField.patternA: patternA,
-    MidFrequencyField.timeA: timeA,
-    MidFrequencyField.powerA: powerA,
-    MidFrequencyField.patternB: patternB,
-    MidFrequencyField.timeB: timeB,
-    MidFrequencyField.powerB: powerB,
-  };
+        MidFrequencyField.userId: userId,
+        MidFrequencyField.patternA: patternA,
+        MidFrequencyField.timeA: timeA,
+        MidFrequencyField.powerA: powerA,
+        MidFrequencyField.patternB: patternB,
+        MidFrequencyField.timeB: timeB,
+        MidFrequencyField.powerB: powerB,
+      };
 
   bool start1(bool isStart) {
     final TreatmentController controller = Get.find();
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
 
@@ -88,14 +86,12 @@ class MidFrequency {
     data = "$data ${BYTE01_MD.B08}"; // byt01 功能模块    01
 
     //如果开始按钮1
-    data = "$data ${BYTE02_CN.B81}";//BYte02 通道 02
-
+    data = "$data ${BYTE02_CN.B81}"; //BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03
       data = "$data ${BYTE03_STOP.B02}";
     } else {
-
       data = "$data ${BYTE03_STOP.B01}";
     }
 
@@ -108,11 +104,9 @@ class MidFrequency {
     var patternTmps = patternValue?.toInt().toRadixString(16);
     if (patternTmps!.length > 1) {
       data = "$data $patternTmps";
-    }
-    else{
+    } else {
       data = "$data 0$patternTmps";
     }
-
 
     if (TextUtil.isEmpty(timeA)) {
       timeA = '1';
@@ -123,8 +117,7 @@ class MidFrequency {
     var timeATmps = timeAValue?.toInt().toRadixString(16);
     if (timeATmps!.length > 1) {
       data = "$data $timeATmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeATmps";
     }
 
@@ -134,16 +127,20 @@ class MidFrequency {
     // data = "$data $powerA"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
     var powerAValue = double.tryParse(powerA!);
+
+    if (isStart) {
+      powerAValue = 0;
+    }
+
     var powerATmps = powerAValue?.toInt().toRadixString(16);
     if (powerATmps!.length > 1) {
       data = "$data $powerATmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerATmps";
     }
 
-    data = "$data 00";  // byte07  07
-    data = "$data 00";  // byte08  08
+    data = "$data 00"; // byte07  07
+    data = "$data 00"; // byte08  08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
@@ -151,11 +148,11 @@ class MidFrequency {
     return isStart;
   }
 
-
   bool start2(bool isStart) {
     final TreatmentController controller = Get.find();
     if (controller.user.value.userId == 0) {
-      Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
+      Fluttertoast.showToast(
+          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
     }
 
@@ -164,14 +161,12 @@ class MidFrequency {
     data = "$data ${BYTE01_MD.B08}"; // byt01 功能模块    01
 
     //如果开始按钮1
-    data = "$data ${BYTE02_CN.B82}";//BYte02 通道 02
-
+    data = "$data ${BYTE02_CN.B82}"; //BYte02 通道 02
 
     if (isStart) {
       // byte03 通道启停 03
       data = "$data ${BYTE03_STOP.B02}";
     } else {
-
       data = "$data ${BYTE03_STOP.B01}";
     }
 
@@ -184,8 +179,7 @@ class MidFrequency {
     var patternTmps = patternValue?.toInt().toRadixString(16);
     if (patternTmps!.length > 1) {
       data = "$data $patternTmps";
-    }
-    else{
+    } else {
       data = "$data 0$patternTmps";
     }
 
@@ -198,8 +192,7 @@ class MidFrequency {
     var timeBTmps = timeBValue?.toInt().toRadixString(16);
     if (timeBTmps!.length > 1) {
       data = "$data $timeBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeBTmps";
     }
 
@@ -209,23 +202,23 @@ class MidFrequency {
     // data = "$data $powerB"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
     var powerBValue = double.tryParse(powerB!);
+    if (isStart) {
+      powerBValue = 0;
+    }
     var powerBTmps = powerBValue?.toInt().toRadixString(16);
+
     if (powerBTmps!.length > 1) {
       data = "$data $powerBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerBTmps";
     }
 
-    data = "$data 00";  // byte07  07
-    data = "$data 00";  // byte08  08
+    data = "$data 00"; // byte07  07
+    data = "$data 00"; // byte08  08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
     SerialPort().send(data);
     return isStart;
   }
-
-
-
 }

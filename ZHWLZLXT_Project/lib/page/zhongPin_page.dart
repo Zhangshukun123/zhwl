@@ -144,10 +144,10 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           initialValue:
                               double.tryParse(midFrequency?.powerA ?? '0'),
                           maxValue: 99,
-                          minValue: 1,
+                          minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerA = value.toString();
-                            midFrequency?.start1(true);
+                            midFrequency?.start1(false);
                           },
                         ),
                       ),
@@ -278,10 +278,10 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           initialValue:
                               double.tryParse(midFrequency?.powerB ?? '0'),
                           maxValue: 99,
-                          minValue: 1,
+                          minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerB = value.toString();
-                            midFrequency?.start2(true);
+                            midFrequency?.start2(false);
                           },
                         ),
                       ),

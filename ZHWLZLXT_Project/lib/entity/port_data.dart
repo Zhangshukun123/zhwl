@@ -18,14 +18,14 @@ class BYTE01_MD {
 }
 
 class BYTE02_CN {
-  static const String B01 = "0301"; //超声1Mhz输出通道
-  static const String B03 = "0401"; //超声3Mhz输出通道
-  static const String B61 = "0601"; //电疗经皮神经输出通道1
-  static const String B62 = "0602"; //电疗经皮神经输出通道2
-  static const String B71 = "0701"; //电疗神经肌肉输出通道1
-  static const String B72 = "0702"; //电疗神经肌肉输出通道2
-  static const String B81 = "0801"; //电疗中频干扰电输出通道1
-  static const String B82 = "0802"; //电疗中频干扰电输出通道2
+  static const String B01 = "10"; //超声1Mhz输出通道
+  static const String B03 = "10"; //超声3Mhz输出通道
+  static const String B61 = "0A"; //电疗经皮神经输出通道1
+  static const String B62 = "0B"; //电疗经皮神经输出通道2
+  static const String B71 = "0A"; //电疗神经肌肉输出通道1
+  static const String B72 = "0B"; //电疗神经肌肉输出通道2
+  static const String B81 = "0A"; //电疗中频干扰电输出通道1
+  static const String B82 = "0B"; //电疗中频干扰电输出通道2
   // static const String B01 = "0x10"; //超声1Mhz输出通道
   // static const String B03 = "0x10"; //超声3Mhz输出通道
   // static const String B61 = "0x0A"; //电疗经皮神经输出通道1

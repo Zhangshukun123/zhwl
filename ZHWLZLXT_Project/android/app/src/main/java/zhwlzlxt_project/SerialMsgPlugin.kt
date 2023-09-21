@@ -3,6 +3,7 @@ package zhwlzlxt_project
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -51,7 +52,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         timer?.schedule(object : TimerTask() {
             override fun run() {
                 serialPortHelper.count++
-                Log.i("timer", "run: " + serialPortHelper.count)
 //                serialPortHelper.sendByte(heard)
             }
         }, 1000, 500)
@@ -96,6 +96,9 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 //                    override fun onStartError() {
 //                    }
 //                })
+
+
+
                 Log.i("sendData", "onMethodCall: "+ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)))
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
                 // 将安装结果回调给 Flutter
