@@ -308,7 +308,7 @@ class _PulsedPageState extends State<PulsedPage>
                                       startSelected = pulsed
                                           ?.start(!startSelected, switchSelected) ??
                                           false;
-                                      if (startSelected) {
+                                      if (!startSelected) {
                                         pulsed?.init();
                                         Future.delayed(const Duration(milliseconds: 500), () {
                                           eventBus.fire(SetValueState(TreatmentType.pulsed));

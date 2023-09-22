@@ -362,7 +362,7 @@ class _InfraredPageState extends State<InfraredPage>
                                       startSelected = infraredEntity?.start(
                                               !startSelected, switchSelected) ??
                                           false;
-                                      if (startSelected) {
+                                      if (!startSelected) {
                                         infraredEntity?.init();
                                         Future.delayed(const Duration(milliseconds: 500), () {
                                           eventBus.fire(SetValueState(TreatmentType.infrared));

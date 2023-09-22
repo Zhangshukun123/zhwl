@@ -267,7 +267,7 @@ class _JingPiPageState extends State<JingPiPage>
                                   yiStartSelected =
                                       percutaneous?.start1(!yiStartSelected) ??
                                           false;
-                                  if (yiStartSelected) {
+                                  if (!yiStartSelected) {
                                     percutaneous?.init();
                                     Future.delayed(const Duration(milliseconds: 500), () {
                                       eventBus.fire(SetValueState(TreatmentType.percutaneous));
@@ -453,7 +453,7 @@ class _JingPiPageState extends State<JingPiPage>
                                     percutaneous?.start2(!erStartSelected) ??
                                         false;
 
-                                if (erStartSelected) {
+                                if (!erStartSelected) {
                                   percutaneous?.init();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.percutaneous));

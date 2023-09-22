@@ -238,7 +238,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 yiStartSelected =
                                     midFrequency?.start1(!yiStartSelected) ??
                                         false;
-                                if (yiStartSelected) {
+                                if (!yiStartSelected) {
                                   midFrequency?.init();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.frequency));
@@ -378,7 +378,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 erStartSelected =
                                     midFrequency?.start2(!erStartSelected) ??
                                         false;
-                                if (erStartSelected) {
+                                if (!erStartSelected) {
                                   midFrequency?.init();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.frequency));

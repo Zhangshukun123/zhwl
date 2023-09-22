@@ -253,7 +253,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 yiStartSelected =
                                     neuromuscular?.start1(!yiStartSelected) ??
                                     false;
-                                if (yiStartSelected) {
+                                if (!yiStartSelected) {
                                   neuromuscular?.init();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.neuromuscular));
@@ -400,7 +400,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 erStartSelected = neuromuscular
                                     ?.start2(!erStartSelected) ??
                                     false;
-                                if (erStartSelected) {
+                                if (!erStartSelected) {
                                   neuromuscular?.init();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.neuromuscular));
