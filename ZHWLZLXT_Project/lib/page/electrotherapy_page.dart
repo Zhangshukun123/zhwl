@@ -27,10 +27,7 @@ class ElectrotherapyPage extends StatefulWidget {
 class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   List tabs = [
-    Globalization.spasm.tr,
-    Globalization.tens.tr,
-    Globalization.muscle.tr,
-    Globalization.medium.tr
+    Globalization.spasm.tr, Globalization.tens.tr, Globalization.muscle.tr, Globalization.medium.tr
   ];
 
   //定义四个页面

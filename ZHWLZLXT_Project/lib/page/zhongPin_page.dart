@@ -195,7 +195,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: yiStartSelected ? true : false,
+                          enabled: yiStartSelected ? false : true,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -213,7 +213,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: yiStartSelected ? false : true,
+                          enabled: yiStartSelected ? true : false,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -335,7 +335,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: erStartSelected ? true : false,
+                          enabled: erStartSelected ? false : true,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -353,7 +353,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: erStartSelected ? false : true,
+                          enabled: erStartSelected ? true : false,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
