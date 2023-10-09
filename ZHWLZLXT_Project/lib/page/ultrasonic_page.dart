@@ -416,9 +416,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           )),
                                     ),
                                     Center(
-                                      child: SizedBox(
-                                        width: 150.w,
-                                        height: 75.h,
+                                      child: Container(
+                                        width: 120.w,
+                                        height: 55.h,
+                                        decoration: BoxDecoration(
+                                            color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10.w),
+                                            )),
                                         child: TextButton(
                                           onPressed: () {
                                             // startSelected = !startSelected;
@@ -446,12 +451,20 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                   startSelected);
                                             });
                                           },
-                                          child: Image.asset(
-                                            startSelected
-                                                ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                                : 'assets/images/btn_kaishi_nor.png',
-                                            width: 100.w,
-                                            fit: BoxFit.fitWidth,
+                                          // child: Image.asset(
+                                          //   startSelected
+                                          //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                          //       : 'assets/images/btn_kaishi_nor.png',
+                                          //   width: 100.w,
+                                          //   fit: BoxFit.fitWidth,
+                                          // ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                              SizedBox(width: 8.w,),
+                                              Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                            ],
                                           ),
                                         ),
                                       ),
