@@ -226,36 +226,56 @@ class _JingLuanPageState extends State<JingLuanPage>
                             borderRadius: BorderRadius.all(
                               Radius.circular(15.w),
                             )),
-                        child: Container(
-                          child: TextButton(
-                            onPressed: () {
-                              startSelected =
-                                  spastic?.start(!startSelected) ?? false;
-
-                              if (!startSelected) {
-                                spastic?.init();
-                                Future.delayed(const Duration(milliseconds: 500), () {
-                                  eventBus.fire(SetValueState(TreatmentType.spasm));
-                                });
-                              }
-                              setState(() {
-                                //点击开始治疗
-                                double? tmp = double.tryParse(spastic?.time ?? '1');
-                                _countdownTime = ((tmp?.toInt())! * 60)!;
-                                debugPrint('++++_countdownTime+++++$_countdownTime');
-                                startCountdownTimer(startSelected);
-                              });
-
-                            },
-                            child: Image.asset(
-                              startSelected
-                                  ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                  : 'assets/images/btn_kaishi_nor.png',
-                              fit: BoxFit.fill,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
                               width: 120.w,
                               height: 55.h,
+                              decoration: BoxDecoration(
+                                  color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.w),
+                                  )),
+                              child: TextButton(
+                                onPressed: () {
+                                  startSelected =
+                                      spastic?.start(!startSelected) ?? false;
+
+                                  if (!startSelected) {
+                                    spastic?.init();
+                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(TreatmentType.spasm));
+                                    });
+                                  }
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp = double.tryParse(spastic?.time ?? '1');
+                                    _countdownTime = ((tmp?.toInt())! * 60)!;
+                                    debugPrint('++++_countdownTime+++++$_countdownTime');
+                                    startCountdownTimer(startSelected);
+                                  });
+
+                                },
+                                // child: Image.asset(
+                                //   startSelected
+                                //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                //       : 'assets/images/btn_kaishi_nor.png',
+                                //   fit: BoxFit.fill,
+                                //   width: 120.w,
+                                //   height: 55.h,
+                                // ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                    SizedBox(width: 8.w,),
+                                    Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         )),
                   ],
                 ),

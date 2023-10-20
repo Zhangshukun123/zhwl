@@ -258,10 +258,14 @@ class _JingPiPageState extends State<JingPiPage>
                         ),
                         Container(
                           child: Container(
-                            decoration: const BoxDecoration(
+                            width: 120.w,
+                            height: 45.h,
+                            margin: EdgeInsets.only(top: 10.h),
+                            decoration: BoxDecoration(
+                                color: yiStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
                                 borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            )),
+                                  Radius.circular(10.w),
+                                )),
                             child: TextButton(
                                 onPressed: () {
                                   yiStartSelected =
@@ -285,14 +289,23 @@ class _JingPiPageState extends State<JingPiPage>
                                     startCountdownTimer1(yiStartSelected);
                                   });
                                 },
-                                child: Image.asset(
-                                  yiStartSelected
-                                      ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                      : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                  fit: BoxFit.cover,
-                                  width: 120.w,
-                                  height: 45.h,
-                                )),
+                                // child: Image.asset(
+                                //   yiStartSelected
+                                //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                                //   fit: BoxFit.cover,
+                                //   width: 120.w,
+                                //   height: 45.h,
+                                // )
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                  SizedBox(width: 8.w,),
+                                  Text(yiStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -448,10 +461,14 @@ class _JingPiPageState extends State<JingPiPage>
                       ),
                       Container(
                         child: Container(
-                          decoration: const BoxDecoration(
+                          width: 120.w,
+                          height: 45.h,
+                          margin: EdgeInsets.only(top: 10.h),
+                          decoration: BoxDecoration(
+                              color: erStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
                               borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          )),
+                                Radius.circular(10.w),
+                              )),
                           child: TextButton(
                               onPressed: () {
                                 erStartSelected =
@@ -477,14 +494,23 @@ class _JingPiPageState extends State<JingPiPage>
                                   startCountdownTimer2(erStartSelected);
                                 });
                               },
-                              child: Image.asset(
-                                erStartSelected
-                                    ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                    : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                fit: BoxFit.cover,
-                                width: 120.w,
-                                height: 43.h,
-                              )),
+                              // child: Image.asset(
+                              //   erStartSelected
+                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                              //   fit: BoxFit.cover,
+                              //   width: 120.w,
+                              //   height: 43.h,
+                              // )
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                SizedBox(width: 8.w,),
+                                Text(erStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
