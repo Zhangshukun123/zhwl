@@ -94,7 +94,7 @@ class _PulsedPageState extends State<PulsedPage>
         _timer?.cancel();
         //计时结束
         //结束治疗
-        pulsed?.start(false,false);
+        pulsed?.start(false, false);
         this.startSelected = false;
         pulsed?.init();
         setState(() {
@@ -137,7 +137,7 @@ class _PulsedPageState extends State<PulsedPage>
                           width: 416.w,
                           height: 150.h,
                           child: SetValue(
-                            enabled: true,
+                            enabled: startSelected,
                             type: TreatmentType.pulsed,
                             title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -146,6 +146,7 @@ class _PulsedPageState extends State<PulsedPage>
                             minValue: 0,
                             valueListener: (value) {
                               pulsed?.power = value.toString();
+                              pulsed?.start(true, switchSelected);
                             },
                           )),
                       ContainerBg(
@@ -153,7 +154,7 @@ class _PulsedPageState extends State<PulsedPage>
                           height: 150.h,
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
-                            enabled: true,
+                            enabled: !startSelected,
                             type: TreatmentType.pulsed,
                             title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
@@ -172,7 +173,7 @@ class _PulsedPageState extends State<PulsedPage>
                           height: 150.h,
                           margin: EdgeInsets.only(top: 25.h),
                           child: SetValue(
-                            enabled: true,
+                            enabled: !startSelected,
                             type: TreatmentType.pulsed,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
@@ -244,8 +245,7 @@ class _PulsedPageState extends State<PulsedPage>
                                           switchSelected = !switchSelected;
                                           setState(() {});
                                         }),
-                                  )
-                                  ),
+                                  )),
                             ],
                           )),
                       Container(
@@ -305,20 +305,26 @@ class _PulsedPageState extends State<PulsedPage>
                                   margin: EdgeInsets.only(top: 50.5.h),
                                   child: TextButton(
                                     onPressed: () {
-                                      startSelected = pulsed
-                                          ?.start(!startSelected, switchSelected) ??
+                                      startSelected = pulsed?.start(
+                                              !startSelected, switchSelected) ??
                                           false;
                                       if (!startSelected) {
                                         pulsed?.init();
-                                        Future.delayed(const Duration(milliseconds: 500), () {
-                                          eventBus.fire(SetValueState(TreatmentType.pulsed));
+                                        Future.delayed(
+                                            const Duration(milliseconds: 500),
+                                            () {
+                                          eventBus.fire(SetValueState(
+                                              TreatmentType.pulsed));
                                         });
                                       }
                                       setState(() {
                                         //点击开始治疗
-                                        double? tmp = double.tryParse(pulsed?.time ?? '1');
-                                        _countdownTime = ((tmp?.toInt())! * 60)!;
-                                        debugPrint('++++_countdownTime+++++$_countdownTime');
+                                        double? tmp = double.tryParse(
+                                            pulsed?.time ?? '1');
+                                        _countdownTime =
+                                            ((tmp?.toInt())! * 60)!;
+                                        debugPrint(
+                                            '++++_countdownTime+++++$_countdownTime');
                                         startCountdownTimer(startSelected);
                                       });
                                     },

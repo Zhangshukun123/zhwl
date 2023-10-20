@@ -165,11 +165,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
-        //计时结束
-        //结束治疗
         ultrasonic?.start(false);
-        this.startSelected = false;
         ultrasonic?.init();
+        this.startSelected = false;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -250,15 +248,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
-                                  enabled: true,
+                                  enabled: !startSelected,
                                   type: TreatmentType.ultrasonic,
                                   title: Globalization.time.tr,
                                   assets: 'assets/images/2.0x/icon_shijian.png',
-                                  initialValue:
-                                      double.tryParse(ultrasonic?.time ?? '1'),
+                                  initialValue: double.tryParse(ultrasonic?.time ?? '1'),
                                   minValue: 1,
                                   maxValue: 30,
-                                  isEventBus: true,
                                   unit: 'min',
                                   valueListener: (value) {
                                     ultrasonic?.time = value.toString();
@@ -298,7 +294,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
-                                  enabled: true,
+                                  enabled: !startSelected,
                                   isInt: false,
                                   type: TreatmentType.ultrasonic,
                                   isEventBus: true,
@@ -365,7 +361,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   unit: 'MHz',
                                   offset: Offset(0, -80.h),
                                   patternStr: ultrasonic?.frequency ?? '1',
-                                  enabled: true,
+                                  enabled: !startSelected,
                                   popupListener: (value) {
                                     // debugPrint(value);
                                     setState(() {});
@@ -422,11 +418,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         child: TextButton(
                                           onPressed: () {
                                             // startSelected = !startSelected;
-                                            startSelected = ultrasonic
-                                                    ?.start(!startSelected) ??
-                                                false;
+                                            startSelected = ultrasonic?.start(!startSelected) ?? false;
                                             if (!startSelected) {
                                               ultrasonic?.init();
+                                              ultrasonicController.ultrasonic.frequency.value=1;
                                               Future.delayed(
                                                   const Duration(
                                                       milliseconds: 500), () {
@@ -435,15 +430,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               });
                                             }
                                             setState(() {
-                                              //点击开始治疗
-                                              double? tmp = double.tryParse(
-                                                  ultrasonic?.time ?? '1');
-                                              _countdownTime =
-                                                  ((tmp?.toInt())! * 60)!;
-                                              debugPrint(
-                                                  '++++_countdownTime+++++$_countdownTime');
-                                              startCountdownTimer(
-                                                  startSelected);
+                                              double? tmp = double.tryParse(ultrasonic?.time ?? '1');
+                                              _countdownTime = ((tmp?.toInt())! * 60);
+                                              startCountdownTimer(startSelected);
                                             });
                                           },
                                           child: Image.asset(

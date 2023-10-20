@@ -33,7 +33,7 @@ class InfraredEntity {
   });
 
   void init() {
-    time = "1";
+    time = "20";
     power = "0";
     pattern = "连续模式1";
   }
@@ -141,6 +141,23 @@ class InfraredEntity {
       }
     }
 
+
+    if (pattern == BYTE04_PT.B_T_05) {
+      // data = "$data ${BYTE04_PT.B04}";
+      //转成double类型数据
+      var patternValue4 = double.tryParse(BYTE04_PT.B05);
+      //转成16进制数据
+      var patternTmps4 = patternValue4?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps4!.length > 1) {
+        data = "$data $patternTmps4";
+      }
+      else{
+        data = "$data 0$patternTmps4";
+      }
+    }
+
+
     //byte05 光疗工作时间
     if (TextUtil.isEmpty(time)) {
       time = '1';
@@ -167,6 +184,9 @@ class InfraredEntity {
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
     var powerValue = double.tryParse(power!);
+    if (!isStart) {
+      powerValue = 0;
+    }
     //转成16进制数据
     var powerTmps = powerValue?.toInt().toRadixString(16);
     //以16进制数据发送

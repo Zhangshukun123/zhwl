@@ -51,12 +51,14 @@ class BYTE04_PT {
   static const String B02 = "02"; //02-断续模式1；
   static const String B03 = "03"; //03-断续模式2；
   static const String B04 = "04"; //04-断续模式3；
+  static const String B05 = "05"; //04-断续模式3；
 
 //光疗 超声
   static const String B_T_01 = "连续模式1";
   static const String B_T_02 = "断续模式1";
   static const String B_T_03 = "断续模式2";
   static const String B_T_04 = "断续模式3";
+  static const String B_T_05 = "扫频";
 
   //经皮神经
   static const String S_J_01 = "连续输出";

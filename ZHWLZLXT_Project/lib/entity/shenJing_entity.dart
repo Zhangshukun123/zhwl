@@ -47,16 +47,30 @@ class Neuromuscular {
   });
 
   void init() {
-    patternA = "1";
-    timeA = "1";
+    patternA = "完全失神经";
+    timeA = "20";
     powerA = "1";
-    frequencyA = "1";
-    patternB = "1";
-    timeB = "1";
+    frequencyA = "0.5";
+    patternB = "完全失神经";
+    timeB = "20";
     powerB = "1";
-    frequencyB = "1";
+    frequencyB = "0.5";
   }
 
+
+  void setARestValue(){
+    patternA = "完全失神经";
+    timeA = "20";
+    powerA = "1";
+    frequencyA = "0.5";
+  }
+
+  void setBRestValue(){
+    patternB = "完全失神经";
+    timeB = "20";
+    powerB = "1";
+    frequencyB = "0.5";
+  }
 
 
 
@@ -272,8 +286,8 @@ class Neuromuscular {
     // data = "$data $frequencyB"; // byte07 频率 07
     // data = "$data ${((double.tryParse(frequencyB!))!*10).toInt()}";
     var frequencyBValue = double.tryParse(frequencyB!)!*10;
-    var frequencyBTmps = frequencyBValue?.toInt().toRadixString(16);
-    if (frequencyBTmps!.length > 1) {
+    var frequencyBTmps = frequencyBValue.toInt().toRadixString(16);
+    if (frequencyBTmps.length > 1) {
       data = "$data $frequencyBTmps";
     }
     else{

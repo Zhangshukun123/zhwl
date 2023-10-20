@@ -31,9 +31,9 @@ class Pulsed {
   });
 
   init() {
-    time = '1';
-    power = '1';
-    frequency = '1';
+    time = '20';
+    power = '0';
+    frequency = '20';
   }
 
   factory Pulsed.fromJson(String str) => Pulsed.fromMap(json.decode(str));
@@ -117,6 +117,11 @@ class Pulsed {
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
     var powerValue = double.tryParse(power!);
+
+    if(!isStart){
+      powerValue = 0;
+    }
+
     //转成16进制数据
     var powerTmps = powerValue?.toInt().toRadixString(16);
     //以16进制数据发送

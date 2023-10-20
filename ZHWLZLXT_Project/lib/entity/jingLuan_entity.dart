@@ -43,13 +43,13 @@ class Spastic {
   });
 
   void init() {
-    time = "1";
+    time = "20";
     circle = "1";
     widthA = "0.1";
     widthB = "0.1";
-    delayTime = "1";
-    powerA = "1";
-    powerB = "1";
+    delayTime = "0.1";
+    powerA = "0";
+    powerB = "0";
   }
 
   factory Spastic.fromJson(String str) => Spastic.fromMap(json.decode(str));
@@ -90,7 +90,7 @@ class Spastic {
     String data = BYTE00_RW.B01;
 
     data = "$data ${BYTE01_MD.B05}"; // byt01 功能模块    01
-    data = "$data 00"; //BYte02 通道 02 //09。15修改  痉挛肌也有通道
+    data = "$data 0A"; //BYte02 通道 02 //09。15修改  痉挛肌也有通道
 
     if (isStart) {
       // byte03 通道启停 03
@@ -172,6 +172,9 @@ class Spastic {
     // data = "$data $powerA"; // byte08 强度A 08
     // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
     var powerAValue = double.tryParse(powerA!)!;
+    if (!isStart) {
+      powerAValue = 0;
+    }
     var powerATmps = powerAValue.toInt().toRadixString(16);
     if (powerATmps.length > 1) {
       data = "$data $powerATmps";
@@ -187,6 +190,9 @@ class Spastic {
     // data = "$data $powerB"; // byte09 强度B 09
     // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
     var powerBValue = double.tryParse(powerB!)!;
+    if (!isStart) {
+      powerBValue = 0;
+    }
     var powerBTmps = powerBValue.toInt().toRadixString(16);
     if (powerBTmps.length > 1) {
       data = "$data $powerBTmps";

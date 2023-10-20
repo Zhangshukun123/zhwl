@@ -43,6 +43,9 @@ class MidFrequency {
     patternA = "1";
     timeA = "20";
     powerA = "0";
+  }
+
+  void init2() {
     patternB = "1";
     timeB = "20";
     powerB = "0";
@@ -129,7 +132,7 @@ class MidFrequency {
     // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
     var powerAValue = double.tryParse(powerA!);
 
-    if (isStart) {
+    if (!isStart) {
       powerAValue = 0;
     }
 
@@ -167,7 +170,7 @@ class MidFrequency {
     if (isStart) {
       // byte03 通道启停 03
 
-    data = "$data ${BYTE03_STOP.B01}";
+      data = "$data ${BYTE03_STOP.B01}";
     } else {
       data = "$data ${BYTE03_STOP.B02}";
     }
@@ -204,7 +207,7 @@ class MidFrequency {
     // data = "$data $powerB"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
     var powerBValue = double.tryParse(powerB!);
-    if (isStart) {
+    if (!isStart) {
       powerBValue = 0;
     }
     var powerBTmps = powerBValue?.toInt().toRadixString(16);

@@ -41,8 +41,8 @@ class Ultrasonic {
 
   init() {
     pattern = "连续模式1";
-    time = '1';
-    power = '0.0';
+    time = '20';
+    power = '0';
     soundIntensity = '0.0';
     frequency = '1';
   }
@@ -162,6 +162,22 @@ class Ultrasonic {
         data = "$data 0$patternTmps4";
       }
     }
+
+    if (pattern == BYTE04_PT.B_T_05) {
+      // data = "$data ${BYTE04_PT.B04}";
+      //转成double类型数据
+      var patternValue4 = double.tryParse(BYTE04_PT.B05);
+      //转成16进制数据
+      var patternTmps4 = patternValue4?.toInt().toRadixString(16);
+      //以16进制数据发送
+      if (patternTmps4!.length > 1) {
+        data = "$data $patternTmps4";
+      }
+      else{
+        data = "$data 0$patternTmps4";
+      }
+    }
+
 
     if (TextUtil.isEmpty(time)) {
       time = '1';

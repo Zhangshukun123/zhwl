@@ -77,7 +77,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          value,
+                          widget.patternStr ?? "0",
                           style: TextStyle(
                               color: widget.enabled! ? const Color(0xFF333333) : Colors.grey,
                               fontSize: 17.sp,
@@ -106,17 +106,17 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
               ),
               onSelected: (ovc) {
                 setState(() {
-                  value = (ovc as String);
+                  widget.patternStr = (ovc as String);
                 });
                 if (widget.index == 1) {
                   eventBus.fire(UltrasonicObs());
-                  if (value == "1") {
+                  if (widget.patternStr == "1") {
                     controller.ultrasonic.frequency.value = 1;
                   } else {
                     controller.ultrasonic.frequency.value = 3;
                   }
                 }
-                widget.popupListener!(value);
+                widget.popupListener!(widget.patternStr??"0");
 
               },
               onCanceled: () {
@@ -137,6 +137,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('断续模式1'),
           _getPopupMenuItem('断续模式2'),
           _getPopupMenuItem('断续模式3'),
+          _getPopupMenuItem('扫频'),
         ];
       case 1:
         widget.unit = "MHz";

@@ -43,6 +43,7 @@ class _InfraredPageState extends State<InfraredPage>
   DetailsDialog? dialog;
 
   InfraredEntity? infraredEntity;
+
 //计时器
   Timer? _timer;
   int _countdownTime = 0;
@@ -74,7 +75,6 @@ class _InfraredPageState extends State<InfraredPage>
         save(event.user?.userId ?? -1);
       }
     });
-
   }
 
   void save(int userId) {
@@ -106,7 +106,7 @@ class _InfraredPageState extends State<InfraredPage>
         _timer?.cancel();
         //计时结束
         //结束治疗
-        infraredEntity?.start(false,false);
+        infraredEntity?.start(false, false);
         this.startSelected = false;
         infraredEntity?.init();
         setState(() {
@@ -145,7 +145,7 @@ class _InfraredPageState extends State<InfraredPage>
                         width: 416.w,
                         height: 150.h,
                         child: SetValue(
-                          enabled: true,
+                          enabled: !startSelected,
                           type: TreatmentType.infrared,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -155,7 +155,6 @@ class _InfraredPageState extends State<InfraredPage>
                           minValue: 0,
                           unit: 'min',
                           valueListener: (value) {
-                            print("------时间-----$value");
                             infraredEntity?.time = value.toString();
                           },
                         ),
@@ -165,7 +164,7 @@ class _InfraredPageState extends State<InfraredPage>
                           width: 416.w,
                           height: 150.h,
                           child: SetValue(
-                            enabled: !isDGW,
+                            enabled: startSelected,
                             type: TreatmentType.infrared,
                             isEventBus: true,
                             title: Globalization.intensity.tr,
@@ -173,9 +172,12 @@ class _InfraredPageState extends State<InfraredPage>
                             initialValue:
                                 double.tryParse(infraredEntity?.power ?? '1'),
                             maxValue: 8,
-                            minValue: 1,
+                            minValue: 0,
+                            isInt: true,
+                            appreciation: 1,
                             valueListener: (value) {
                               infraredEntity?.power = value.toString();
+                              infraredEntity?.start(true, switchSelected);
                             },
                           )),
                       Container(
@@ -228,10 +230,9 @@ class _InfraredPageState extends State<InfraredPage>
                               PopupMenuBtn(
                                 index: 2,
                                 patternStr: infraredEntity?.pattern ?? "连续模式1",
-                                enabled: true,
+                                enabled: !startSelected,
                                 popupListener: (value) {
                                   isDGW = (value != "连续模式1");
-
                                   if (isDGW) {
                                     eventBus.fire(Infrared());
                                   }
@@ -364,15 +365,21 @@ class _InfraredPageState extends State<InfraredPage>
                                           false;
                                       if (!startSelected) {
                                         infraredEntity?.init();
-                                        Future.delayed(const Duration(milliseconds: 500), () {
-                                          eventBus.fire(SetValueState(TreatmentType.infrared));
+                                        Future.delayed(
+                                            const Duration(milliseconds: 500),
+                                            () {
+                                          eventBus.fire(SetValueState(
+                                              TreatmentType.infrared));
                                         });
                                       }
                                       setState(() {
                                         //点击开始治疗
-                                        double? tmp = double.tryParse(infraredEntity?.time ?? '1');
-                                        _countdownTime = ((tmp?.toInt())! * 60)!;
-                                        debugPrint('++++_countdownTime+++++$_countdownTime');
+                                        double? tmp = double.tryParse(
+                                            infraredEntity?.time ?? '1');
+                                        _countdownTime =
+                                            ((tmp?.toInt())! * 60)!;
+                                        debugPrint(
+                                            '++++_countdownTime+++++$_countdownTime');
                                         startCountdownTimer(startSelected);
                                       });
                                     },

@@ -43,6 +43,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     super.initState();
     midFrequency = MidFrequency();
     midFrequency?.init();
+    midFrequency?.init2();
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.frequency) {
@@ -113,7 +114,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         //结束治疗
         midFrequency?.start2(false);
         erStartSelected = false;
-        midFrequency?.init();
+        midFrequency?.init2();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -184,7 +185,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternA ?? "1",
-                                enabled: yiStartSelected ? true : false,
+                                enabled: !yiStartSelected,
                                 popupListener: (value) {
                                   midFrequency?.patternA = value;
                                 },
@@ -195,7 +196,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: yiStartSelected ? false : true,
+                          enabled: !yiStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -213,7 +214,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: yiStartSelected ? true : false,
+                          enabled: yiStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -223,7 +224,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerA = value.toString();
-                            midFrequency?.start1(false);
+                            midFrequency?.start1(true);
                           },
                         ),
                       ),
@@ -324,7 +325,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternB ?? "1",
-                                enabled: erStartSelected ? true : false,
+                                enabled: !erStartSelected,
                                 popupListener: (value) {
                                   midFrequency?.patternB = value;
                                 },
@@ -335,7 +336,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: erStartSelected ? false : true,
+                          enabled: !erStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
@@ -353,7 +354,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: erStartSelected ? true : false,
+                          enabled: erStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -363,7 +364,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerB = value.toString();
-                            midFrequency?.start2(false);
+                            midFrequency?.start2(true);
                           },
                         ),
                       ),
@@ -379,7 +380,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     midFrequency?.start2(!erStartSelected) ??
                                         false;
                                 if (!erStartSelected) {
-                                  midFrequency?.init();
+                                  midFrequency?.init2();
                                   Future.delayed(const Duration(milliseconds: 500), () {
                                     eventBus.fire(SetValueState(TreatmentType.frequency));
                                   });

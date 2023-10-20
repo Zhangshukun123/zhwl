@@ -45,6 +45,7 @@ class _JingPiPageState extends State<JingPiPage>
     super.initState();
     percutaneous = Percutaneous();
     percutaneous?.init();
+    percutaneous?.initB();
 
     eventBus.on<UserEvent>().listen((event) {
       if (event.type == TreatmentType.percutaneous) {
@@ -115,7 +116,7 @@ class _JingPiPageState extends State<JingPiPage>
         //结束治疗
         percutaneous?.start2(false);
         erStartSelected = false;
-        percutaneous?.init();
+        percutaneous?.initB();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -126,8 +127,6 @@ class _JingPiPageState extends State<JingPiPage>
 
     _timer2 = Timer.periodic(oneSec, callback);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +176,7 @@ class _JingPiPageState extends State<JingPiPage>
                                 PopupMenuBtn(
                                   index: 3,
                                   patternStr: percutaneous?.patternA ?? "连续输出",
-                                  enabled: true,
+                                  enabled: !yiStartSelected,
                                   popupListener: (value) {
                                     percutaneous?.patternA = value;
                                   },
@@ -188,8 +187,8 @@ class _JingPiPageState extends State<JingPiPage>
                           margin: EdgeInsets.only(top: 11.h),
                           child: SetValueHorizontal(
                             height: 70.h,
-                            type:  TreatmentType.percutaneous,
-                            enabled: true,
+                            type: TreatmentType.percutaneous,
+                            enabled: !yiStartSelected,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue:
@@ -206,8 +205,8 @@ class _JingPiPageState extends State<JingPiPage>
                           margin: EdgeInsets.only(top: 11.h),
                           child: SetValueHorizontal(
                             height: 70.h,
-                            enabled: true,
-                            type:  TreatmentType.percutaneous,
+                            enabled: yiStartSelected,
+                            type: TreatmentType.percutaneous,
                             title: Globalization.intensity.tr,
                             assets: 'assets/images/2.0x/icon_qiangdu.png',
                             initialValue:
@@ -216,6 +215,7 @@ class _JingPiPageState extends State<JingPiPage>
                             minValue: 0,
                             valueListener: (value) {
                               percutaneous?.powerA = value.toString();
+                              percutaneous?.start1(true);
                             },
                           ),
                         ),
@@ -223,8 +223,8 @@ class _JingPiPageState extends State<JingPiPage>
                           margin: EdgeInsets.only(top: 11.h),
                           child: SetValueHorizontal(
                             height: 70.h,
-                            enabled: true,
-                            type:  TreatmentType.percutaneous,
+                            enabled: !yiStartSelected,
+                            type: TreatmentType.percutaneous,
                             title: Globalization.frequency.tr,
                             assets: 'assets/images/2.0x/icon_pinlv.png',
                             initialValue: double.tryParse(
@@ -241,8 +241,8 @@ class _JingPiPageState extends State<JingPiPage>
                           margin: EdgeInsets.only(top: 11.h),
                           child: SetValueHorizontal(
                             height: 70.h,
-                            enabled: true,
-                            type:  TreatmentType.percutaneous,
+                            enabled: !yiStartSelected,
+                            type: TreatmentType.percutaneous,
                             title: Globalization.pulseWidth.tr,
                             assets: 'assets/images/2.0x/icon_maikuan.png',
                             initialValue:
@@ -269,15 +269,19 @@ class _JingPiPageState extends State<JingPiPage>
                                           false;
                                   if (!yiStartSelected) {
                                     percutaneous?.init();
-                                    Future.delayed(const Duration(milliseconds: 500), () {
-                                      eventBus.fire(SetValueState(TreatmentType.percutaneous));
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(
+                                          TreatmentType.percutaneous));
                                     });
                                   }
                                   setState(() {
                                     //点击开始治疗
-                                    double? tmp = double.tryParse(percutaneous?.timeA ?? '1');
+                                    double? tmp = double.tryParse(
+                                        percutaneous?.timeA ?? '1');
                                     _countdownTime1 = ((tmp?.toInt())! * 60)!;
-                                    debugPrint('++++_countdownTime+++++$_countdownTime1');
+                                    debugPrint(
+                                        '++++_countdownTime+++++$_countdownTime1');
                                     startCountdownTimer1(yiStartSelected);
                                   });
                                 },
@@ -362,7 +366,7 @@ class _JingPiPageState extends State<JingPiPage>
                               PopupMenuBtn(
                                 index: 3,
                                 patternStr: percutaneous?.patternB ?? "连续输出",
-                                enabled: true,
+                                enabled: !erStartSelected,
                                 popupListener: (value) {
                                   percutaneous?.patternB = value;
                                 },
@@ -373,8 +377,8 @@ class _JingPiPageState extends State<JingPiPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 70.h,
-                          enabled: true,
-                          type:  TreatmentType.percutaneous,
+                          enabled: !erStartSelected,
+                          type: TreatmentType.percutaneous,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue:
@@ -391,8 +395,8 @@ class _JingPiPageState extends State<JingPiPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 70.h,
-                          enabled: true,
-                          type:  TreatmentType.percutaneous,
+                          enabled: erStartSelected,
+                          type: TreatmentType.percutaneous,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue:
@@ -401,6 +405,7 @@ class _JingPiPageState extends State<JingPiPage>
                           minValue: 0,
                           valueListener: (value) {
                             percutaneous?.powerB = value.toString();
+                            percutaneous?.start2(true);
                           },
                         ),
                       ),
@@ -408,8 +413,8 @@ class _JingPiPageState extends State<JingPiPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 70.h,
-                          enabled: true,
-                          type:  TreatmentType.percutaneous,
+                          enabled: !erStartSelected,
+                          type: TreatmentType.percutaneous,
                           title: Globalization.frequency.tr,
                           assets: 'assets/images/2.0x/icon_pinlv.png',
                           initialValue:
@@ -426,8 +431,8 @@ class _JingPiPageState extends State<JingPiPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 70.h,
-                          enabled: true,
-                          type:  TreatmentType.percutaneous,
+                          enabled: !erStartSelected,
+                          type: TreatmentType.percutaneous,
                           title: Globalization.pulseWidth.tr,
                           assets: 'assets/images/2.0x/icon_maikuan.png',
                           initialValue:
@@ -454,17 +459,21 @@ class _JingPiPageState extends State<JingPiPage>
                                         false;
 
                                 if (!erStartSelected) {
-                                  percutaneous?.init();
-                                  Future.delayed(const Duration(milliseconds: 500), () {
-                                    eventBus.fire(SetValueState(TreatmentType.percutaneous));
+                                  percutaneous?.initB();
+                                  Future.delayed(
+                                      const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(
+                                        TreatmentType.percutaneous));
                                   });
                                 }
 
                                 setState(() {
                                   //点击开始治疗
-                                  double? tmp = double.tryParse(percutaneous?.timeB ?? '1');
+                                  double? tmp = double.tryParse(
+                                      percutaneous?.timeB ?? '1');
                                   _countdownTime2 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint('++++_countdownTime+++++$_countdownTime2');
+                                  debugPrint(
+                                      '++++_countdownTime+++++$_countdownTime2');
                                   startCountdownTimer2(erStartSelected);
                                 });
                               },

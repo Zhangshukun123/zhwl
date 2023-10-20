@@ -52,16 +52,19 @@ class Percutaneous {
   });
 
   void init() {
-    patternA = "1";
-    timeA = "1";
-    powerA = "1";
-    frequencyA = "1";
-    pulseA = "1";
-    patternB = "1";
-    timeB = "1";
-    powerB = "1";
-    frequencyB = "1";
-    pulseB = "1";
+    patternA = "连续输出";
+    timeA = "20";
+    powerA = "0";
+    frequencyA = "2";
+    pulseA = "60";
+  }
+
+  void initB() {
+    patternB = "连续输出";
+    timeB = "20";
+    powerB = "0";
+    frequencyB = "2";
+    pulseB = "60";
   }
 
   factory Percutaneous.fromJson(String str) =>
@@ -115,7 +118,6 @@ class Percutaneous {
     if (isStart) {
       // byte03 通道启停 03
       data = "$data ${BYTE03_STOP.B01}";
-
     } else {
       data = "$data ${BYTE03_STOP.B02}";
     }
@@ -128,10 +130,9 @@ class Percutaneous {
       // data = "$data ${BYTE04_PT.B01}";
       var patternValue = double.tryParse(BYTE04_PT.B01);
       var patternTmps = patternValue?.toInt().toRadixString(16);
-      if (patternTmps!.length > 1){
+      if (patternTmps!.length > 1) {
         data = "$data $patternTmps";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps";
       }
     }
@@ -139,10 +140,9 @@ class Percutaneous {
       // data = "$data ${BYTE04_PT.B02}";
       var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);
-      if (patternTmps!.length > 1){
+      if (patternTmps!.length > 1) {
         data = "$data $patternTmps";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps";
       }
     }
@@ -150,10 +150,9 @@ class Percutaneous {
       // data = "$data ${BYTE04_PT.B03}";
       var patternValue = double.tryParse(BYTE04_PT.B03);
       var patternTmps = patternValue?.toInt().toRadixString(16);
-      if (patternTmps!.length > 1){
+      if (patternTmps!.length > 1) {
         data = "$data $patternTmps";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps";
       }
     }
@@ -167,8 +166,7 @@ class Percutaneous {
     var timeATmps = timeAValue?.toInt().toRadixString(16);
     if (timeATmps!.length > 1) {
       data = "$data $timeATmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeATmps";
     }
 
@@ -178,11 +176,15 @@ class Percutaneous {
     // data = "$data $powerA"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerA!))?.toInt()}";
     var powerAValue = double.tryParse(powerA!);
+
+    if (!isStart) {
+      powerAValue = 0;
+    }
+
     var powerATmps = powerAValue?.toInt().toRadixString(16);
     if (powerATmps!.length > 1) {
       data = "$data $powerATmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerATmps";
     }
 
@@ -195,8 +197,7 @@ class Percutaneous {
     var frequencyATmps = frequencyAValue?.toInt().toRadixString(16);
     if (frequencyATmps!.length > 1) {
       data = "$data $frequencyATmps";
-    }
-    else{
+    } else {
       data = "$data 0$frequencyATmps";
     }
 
@@ -206,17 +207,13 @@ class Percutaneous {
     // data = "$data $pulseA"; // byte08 脉宽 08
     // data = "$data ${(double.tryParse(pulseA!))!~/10}";
 
-    var pulseAValue = double.tryParse(pulseA!)!~/10;
+    var pulseAValue = double.tryParse(pulseA!)! ~/ 10;
     var pulseATmps = pulseAValue.toInt().toRadixString(16);
     if (pulseATmps.length > 1) {
       data = "$data $pulseATmps";
-    }
-    else{
+    } else {
       data = "$data 0$pulseATmps";
     }
-
-
-
 
     data = "$data 00"; // 09
     data = "$data 00"; // 10
@@ -243,108 +240,104 @@ class Percutaneous {
     if (isStart) {
       // byte03 通道启停 03
       data = "$data ${BYTE03_STOP.B01}";
-
     } else {
       data = "$data ${BYTE03_STOP.B02}";
     }
 
     //如果启动的通道2开始按钮
-      if (TextUtil.isEmpty(patternB)) {
-        patternB = BYTE04_PT.S_J_01;
+    if (TextUtil.isEmpty(patternB)) {
+      patternB = BYTE04_PT.S_J_01;
+    }
+    if (patternB == BYTE04_PT.S_J_01) {
+      // 04
+      // data = "$data ${BYTE04_PT.B01}";
+      var patternValue = double.tryParse(BYTE04_PT.B01);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1) {
+        data = "$data $patternTmps";
+      } else {
+        data = "$data 0$patternTmps";
       }
-      if (patternB == BYTE04_PT.S_J_01) {
-        // 04
-        // data = "$data ${BYTE04_PT.B01}";
-        var patternValue = double.tryParse(BYTE04_PT.B01);
-        var patternTmps = patternValue?.toInt().toRadixString(16);
-        if (patternTmps!.length > 1){
-          data = "$data $patternTmps";
-        }
-        else{
-          data = "$data 0$patternTmps";
-        }
-      }
+    }
 
-      if (patternB == BYTE04_PT.S_J_02) {
-        // data = "$data ${BYTE04_PT.B02}";
-        var patternValue = double.tryParse(BYTE04_PT.B02);
-        var patternTmps = patternValue?.toInt().toRadixString(16);
-        if (patternTmps!.length > 1){
-          data = "$data $patternTmps";
-        }
-        else{
-          data = "$data 0$patternTmps";
-        }
+    if (patternB == BYTE04_PT.S_J_02) {
+      // data = "$data ${BYTE04_PT.B02}";
+      var patternValue = double.tryParse(BYTE04_PT.B02);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1) {
+        data = "$data $patternTmps";
+      } else {
+        data = "$data 0$patternTmps";
       }
-      if (patternB == BYTE04_PT.S_J_03) {
-        // data = "$data ${BYTE04_PT.B03}";
-        var patternValue = double.tryParse(BYTE04_PT.B03);
-        var patternTmps = patternValue?.toInt().toRadixString(16);
-        if (patternTmps!.length > 1){
-          data = "$data $patternTmps";
-        }
-        else{
-          data = "$data 0$patternTmps";
-        }
+    }
+    if (patternB == BYTE04_PT.S_J_03) {
+      // data = "$data ${BYTE04_PT.B03}";
+      var patternValue = double.tryParse(BYTE04_PT.B03);
+      var patternTmps = patternValue?.toInt().toRadixString(16);
+      if (patternTmps!.length > 1) {
+        data = "$data $patternTmps";
+      } else {
+        data = "$data 0$patternTmps";
       }
+    }
 
-      if (TextUtil.isEmpty(timeB)) {
-        timeB = '1';
-      }
-      // data = "$data $timeB"; //byte05 工作时间 05
+    if (TextUtil.isEmpty(timeB)) {
+      timeB = '1';
+    }
+    // data = "$data $timeB"; //byte05 工作时间 05
     // data = "$data ${(double.tryParse(timeB!))?.toInt()}";
     var timeBValue = double.tryParse(timeB!);
     var timeBTmps = timeBValue?.toInt().toRadixString(16);
     if (timeBTmps!.length > 1) {
       data = "$data $timeBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeBTmps";
     }
 
-      if (TextUtil.isEmpty(powerB)) {
-        powerB = '1';
-      }
-      // data = "$data $powerB"; // byte06 强度 06
+    if (TextUtil.isEmpty(powerB)) {
+      powerB = '1';
+    }
+    // data = "$data $powerB"; // byte06 强度 06
     // data = "$data ${(double.tryParse(powerB!))?.toInt()}";
     var powerBValue = double.tryParse(powerB!);
+
+    if (!isStart) {
+      powerBValue = 0;
+    }
+
+
     var powerBTmps = powerBValue?.toInt().toRadixString(16);
     if (powerBTmps!.length > 1) {
       data = "$data $powerBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerBTmps";
     }
 
-      if (TextUtil.isEmpty(frequencyB)) {
-        frequencyB = '2';
-      }
-      // data = "$data $frequencyB"; // byte07 频率 07
+    if (TextUtil.isEmpty(frequencyB)) {
+      frequencyB = '2';
+    }
+    // data = "$data $frequencyB"; // byte07 频率 07
     // data = "$data ${(double.tryParse(frequencyB!))?.toInt()}";
     var frequencyBValue = double.tryParse(frequencyB!);
     var frequencyBTmps = frequencyBValue?.toInt().toRadixString(16);
     if (frequencyBTmps!.length > 1) {
       data = "$data $frequencyBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$frequencyBTmps";
     }
 
-      if (TextUtil.isEmpty(pulseB)) {
-        pulseB = '0';
-      }
-      // data = "$data $pulseB"; // byte08 脉宽 08
+    if (TextUtil.isEmpty(pulseB)) {
+      pulseB = '0';
+    }
+    // data = "$data $pulseB"; // byte08 脉宽 08
     // data = "$data ${(double.tryParse(pulseB!))!~/10}";
-    var pulseBValue = double.tryParse(pulseB!)!~/10;
+    var pulseBValue = double.tryParse(pulseB!)! ~/ 10;
     var pulseBTmps = pulseBValue.toInt().toRadixString(16);
     if (pulseBTmps.length > 1) {
       data = "$data $pulseBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$pulseBTmps";
     }
-
-
 
     data = "$data 00"; // 09
     data = "$data 00"; // 10

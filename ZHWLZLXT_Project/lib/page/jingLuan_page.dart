@@ -104,7 +104,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SetValueHorizontal(
-                    enabled: true,
+                    enabled: !startSelected,
                     type: TreatmentType.spasm,
                     title: Globalization.time.tr,
                     assets: 'assets/images/2.0x/icon_shijian.png',
@@ -117,7 +117,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                     },
                   ),
                   SetValueHorizontal(
-                    enabled: true,
+                    enabled: !startSelected,
                     isInt: false,
                     type: TreatmentType.spasm,
                     title: Globalization.pulseWidthA.tr,
@@ -132,7 +132,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                     },
                   ),
                   SetValueHorizontal(
-                    enabled: true,
+                    enabled: !startSelected,
                     isInt: false,
                     type: TreatmentType.spasm,
                     title: Globalization.pulseWidthB.tr,
@@ -147,7 +147,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                     },
                   ),
                   SetValueHorizontal(
-                    enabled: true,
+                    enabled: !startSelected,
                     isInt: false,
                     type: TreatmentType.spasm,
                     title: Globalization.delayTime.tr,
@@ -169,7 +169,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SetValueHorizontal(
-                      enabled: true,
+                      enabled: !startSelected,
                       isInt: false,
                       type: TreatmentType.spasm,
                       title: Globalization.pulsePeriod.tr,
@@ -184,7 +184,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       },
                     ),
                     SetValueHorizontal(
-                      enabled: true,
+                      enabled: startSelected,
                       isInt: true,
                       type: TreatmentType.spasm,
                       title: Globalization.intensityA.tr,
@@ -194,10 +194,11 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerA = value.toString();
+                        spastic?.start(true);
                       },
                     ),
                     SetValueHorizontal(
-                      enabled: true,
+                      enabled: startSelected,
                       isInt: true,
                       type: TreatmentType.spasm,
                       title: Globalization.intensityB.tr,
@@ -207,6 +208,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerB = value.toString();
+                        spastic?.start(true);
                       },
                     ),
                     Container(
