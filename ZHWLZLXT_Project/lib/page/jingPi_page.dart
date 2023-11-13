@@ -79,7 +79,7 @@ class _JingPiPageState extends State<JingPiPage>
       _timer1?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
@@ -92,6 +92,7 @@ class _JingPiPageState extends State<JingPiPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        percutaneous?.start1(yiStartSelected);
         _countdownTime1 = _countdownTime1 - 1;
       }
     }
@@ -108,7 +109,7 @@ class _JingPiPageState extends State<JingPiPage>
       _timer2?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
@@ -121,6 +122,7 @@ class _JingPiPageState extends State<JingPiPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        percutaneous?.start2(erStartSelected);
         _countdownTime2 = _countdownTime2 - 1;
       }
     }
@@ -283,9 +285,7 @@ class _JingPiPageState extends State<JingPiPage>
                                     //点击开始治疗
                                     double? tmp = double.tryParse(
                                         percutaneous?.timeA ?? '1');
-                                    _countdownTime1 = ((tmp?.toInt())! * 60)!;
-                                    debugPrint(
-                                        '++++_countdownTime+++++$_countdownTime1');
+                                    _countdownTime1 = ((tmp?.toInt())!);
                                     startCountdownTimer1(yiStartSelected);
                                   });
                                 },
@@ -488,9 +488,7 @@ class _JingPiPageState extends State<JingPiPage>
                                   //点击开始治疗
                                   double? tmp = double.tryParse(
                                       percutaneous?.timeB ?? '1');
-                                  _countdownTime2 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint(
-                                      '++++_countdownTime+++++$_countdownTime2');
+                                  _countdownTime2 = ((tmp?.toInt())!);
                                   startCountdownTimer2(erStartSelected);
                                 });
                               },

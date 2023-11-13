@@ -17,7 +17,7 @@ class PopupMenuBtn extends StatefulWidget {
   PopupListener? popupListener;
   String? patternStr = "1";
   String? unit = "";
-  bool? enabled = true ;
+  bool? enabled = true;
 
   PopupMenuBtn({
     Key? key,
@@ -49,80 +49,79 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return UnconstrainedBox(
+    return Container(
+      decoration: BoxDecoration(
+          color: const Color(0xFFF0FAFE),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.w),
+          )),
+      width: 230.w,
+      height: 55.h,
       child: Container(
-        decoration: BoxDecoration(
-            color: const Color(0xFFF0FAFE),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.w),
-            )),
-        width: 230.w,
-        height: 55.h,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 100.0),
-          child: PopupMenuButton(
-              offset: widget.offset ?? Offset(0, 57.h),
-              itemBuilder: (BuildContext context) {
-                return pop;
-              },
-              enabled: widget.enabled!,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.only(left: 30.0.w),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.patternStr ?? "0",
-                          style: TextStyle(
-                              color: widget.enabled! ? const Color(0xFF333333) : Colors.grey,
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Container(
-                          child: !TextUtil.isEmpty(widget.unit)
-                              ? Text(
-                                  widget.unit!,
-                                  style: TextStyle(
-                                      fontSize: 10.sp, color:  Colors.black ),
-                                )
-                              : const Text(''),
-                        ),
-                      ],
-                    ),
-                  )),
-                  Image.asset(
-                    'assets/images/2.0x/icon_xiala.png',
-                    width: 16.w,
+        constraints: const BoxConstraints(maxHeight: 100),
+        child: PopupMenuButton(
+            offset: widget.offset ?? Offset(0, 57.h),
+            itemBuilder: (BuildContext context) {
+              return pop;
+            },
+            enabled: widget.enabled!,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: EdgeInsets.only(left: 30.0.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.patternStr ?? "0",
+                        style: TextStyle(
+                            color: widget.enabled!
+                                ? const Color(0xFF333333)
+                                : Colors.grey,
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      Container(
+                        child: !TextUtil.isEmpty(widget.unit)
+                            ? Text(
+                                widget.unit!,
+                                style: TextStyle(
+                                    fontSize: 10.sp, color: Colors.black),
+                              )
+                            : const Text(''),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: 15.w,
-                  )
-                ],
-              ),
-              onSelected: (ovc) {
-                setState(() {
-                  widget.patternStr = (ovc as String);
-                });
-                if (widget.index == 1) {
-                  eventBus.fire(UltrasonicObs());
-                  if (widget.patternStr == "1") {
-                    controller.ultrasonic.frequency.value = 1;
-                  } else {
-                    controller.ultrasonic.frequency.value = 3;
-                  }
+                )),
+                Image.asset(
+                  'assets/images/2.0x/icon_xiala.png',
+                  width: 16.w,
+                ),
+                SizedBox(
+                  width: 15.w,
+                )
+              ],
+            ),
+            onSelected: (ovc) {
+              setState(() {
+                widget.patternStr = (ovc as String);
+              });
+              if (widget.index == 1) {
+                eventBus.fire(UltrasonicObs());
+                if (widget.patternStr == "1") {
+                  controller.ultrasonic.frequency.value = 1;
+                } else {
+                  controller.ultrasonic.frequency.value = 3;
                 }
-                widget.popupListener!(widget.patternStr??"0");
-
-              },
-              onCanceled: () {
-                print('cancel');
-              }),
-        ),
+              }
+              widget.popupListener!(widget.patternStr ?? "0");
+            },
+            onCanceled: () {
+              print('cancel');
+            }),
       ),
     );
   }
@@ -186,7 +185,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('连续 2'),
         ];
       case 7:
-        widget.offset = Offset(0, 57.h);
         var pop = <PopupMenuEntry<String>>[];
         for (var i = 0; i < 60; i++) {
           pop.add(_getPopupMenuItem((i + 1).toString()));

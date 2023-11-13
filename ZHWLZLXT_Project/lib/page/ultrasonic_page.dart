@@ -22,6 +22,7 @@ import 'package:zhwlzlxt_project/widget/set_value.dart';
 
 import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_entity.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
 import 'control_page.dart';
@@ -94,15 +95,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     switch (methodCall.method) {
       case 'onPortDataReceived':
-        Future.delayed(const Duration(seconds: 2), () {
-          Fluttertoast.showToast(
-              msg: '返回数据=${methodCall.arguments}',
-              fontSize: 22,
-              backgroundColor: Colors.blue);
-        });
+        // Future.delayed(const Duration(seconds: 2), () {
+        //   Fluttertoast.showToast(
+        //       msg: '返回数据=${methodCall.arguments}',
+        //       fontSize: 22,
+        //       backgroundColor: Colors.blue);
+        // });
         break;
     }
   }
+
+
+
+
+
+
 
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
@@ -117,7 +124,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   }
 
   bool isShow = false;
-
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
@@ -161,7 +167,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
@@ -172,8 +178,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        ultrasonic?.start(startSelected);
         _countdownTime = _countdownTime - 1;
-        print("-------$_countdownTime");
       }
     }
 
@@ -252,7 +258,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   type: TreatmentType.ultrasonic,
                                   title: Globalization.time.tr,
                                   assets: 'assets/images/2.0x/icon_shijian.png',
-                                  initialValue: double.tryParse(ultrasonic?.time ?? '1'),
+                                  initialValue:
+                                      double.tryParse(ultrasonic?.time ?? '1'),
                                   minValue: 1,
                                   maxValue: 30,
                                   unit: 'min',
@@ -288,31 +295,38 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               isInt: false,
                               valueListener: (value) {
                                 ultrasonic?.power = value.toString();
+                                if (ultrasonicController
+                                        .ultrasonic.frequency.value == 1) {
+                                  ultrasonic?.soundIntensity = (value / 4).toString();
+                                  eventBus.fire(UltrasonicSound((value / 4)));
+                                } else {
+                                  ultrasonic?.soundIntensity = (value / 2).toString();
+                                  eventBus.fire(UltrasonicSound((value / 2)));
+                                }
+                                if (startSelected) {
+                                  ultrasonic?.start(startSelected);
+                                }
                                 // cPower.add(value.toString());
                               },
                             )),
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
                                 child: SetValue(
-                                  enabled: !startSelected,
+                                  enabled: false,
                                   isInt: false,
+                                  isViImg: false,
+                                  indexType: 1,
                                   type: TreatmentType.ultrasonic,
                                   isEventBus: true,
+                                  IntFixed: 2,
                                   title: Globalization.soundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
                                   initialValue: double.tryParse(
                                       ultrasonic?.soundIntensity ?? '0.0'),
-                                  appreciation: 0.3,
-                                  maxValue: ultrasonicController
-                                              .ultrasonic.frequency.value ==
-                                          1
-                                      ? 1.8
-                                      : 1.5,
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'w/cm2',
                                   valueListener: (value) {
-                                    print("------声强-----$value");
                                     ultrasonic?.soundIntensity =
                                         value.toString();
                                   },
@@ -416,17 +430,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         width: 120.w,
                                         height: 55.h,
                                         decoration: BoxDecoration(
-                                            color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                            color: startSelected
+                                                ? const Color(0xFF00C290)
+                                                : const Color(0xFF00A8E7),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(10.w),
                                             )),
                                         child: TextButton(
                                           onPressed: () {
                                             // startSelected = !startSelected;
-                                            startSelected = ultrasonic?.start(!startSelected) ?? false;
+                                            startSelected = ultrasonic
+                                                    ?.start(!startSelected) ??
+                                                false;
                                             if (!startSelected) {
                                               ultrasonic?.init();
-                                              ultrasonicController.ultrasonic.frequency.value=1;
+                                              ultrasonicController.ultrasonic
+                                                  .frequency.value = 1;
                                               Future.delayed(
                                                   const Duration(
                                                       milliseconds: 500), () {
@@ -435,9 +454,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               });
                                             }
                                             setState(() {
-                                              double? tmp = double.tryParse(ultrasonic?.time ?? '1');
-                                              _countdownTime = ((tmp?.toInt())! * 60);
-                                              startCountdownTimer(startSelected);
+                                              double? tmp = double.tryParse(
+                                                  ultrasonic?.time ?? '1');
+                                              _countdownTime = ((tmp?.toInt())!);
+                                              startCountdownTimer(
+                                                  startSelected);
                                             });
                                           },
                                           // child: Image.asset(
@@ -448,11 +469,28 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           //   fit: BoxFit.fitWidth,
                                           // ),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
-                                              Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                              SizedBox(width: 8.w,),
-                                              Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                              Image.asset(
+                                                'assets/images/2.0x/icon_kaishi.png',
+                                                fit: BoxFit.fitWidth,
+                                                width: 18.w,
+                                                height: 18.h,
+                                              ),
+                                              SizedBox(
+                                                width: 8.w,
+                                              ),
+                                              Text(
+                                                startSelected
+                                                    ? Globalization.stop.tr
+                                                    : Globalization.start.tr,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
                                             ],
                                           ),
                                         ),

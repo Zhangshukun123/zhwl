@@ -75,7 +75,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
       _timer1?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
@@ -88,6 +88,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        neuromuscular?.start1(yiStartSelected);
         _countdownTime1 = _countdownTime1 - 1;
       }
     }
@@ -103,7 +104,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
       _timer2?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
@@ -116,6 +117,8 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        neuromuscular
+            ?.start2(erStartSelected);
         _countdownTime2 = _countdownTime2 - 1;
       }
     }
@@ -214,9 +217,9 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           isInt: true,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: double.tryParse(neuromuscular?.powerA ?? '1'),
+                          initialValue: double.tryParse(neuromuscular?.powerA ?? '0'),
                           maxValue: 99,
-                          minValue: 1,
+                          minValue: 0,
                           valueListener: (value) {
                             neuromuscular?.powerA = value.toString();
                             neuromuscular?.start1(true);
@@ -266,8 +269,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 setState(() {
                                   //点击开始治疗
                                   double? tmp = double.tryParse(neuromuscular?.timeA ?? '1');
-                                  _countdownTime1 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint('++++_countdownTime+++++$_countdownTime1');
+                                  _countdownTime1 = ((tmp?.toInt())!);
                                   startCountdownTimer1(yiStartSelected);
                                 });
                               },
@@ -373,8 +375,8 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           isInt: true,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
-                          initialValue: double.tryParse(neuromuscular?.powerB ?? '1'),
-                          minValue: 1,
+                          initialValue: double.tryParse(neuromuscular?.powerB ?? '0'),
+                          minValue: 0,
                           maxValue: 99,
                           valueListener: (value) {
                             neuromuscular?.powerB = value.toString();
@@ -425,8 +427,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 setState(() {
                                   //点击开始治疗
                                   double? tmp = double.tryParse(neuromuscular?.timeB ?? '1');
-                                  _countdownTime2 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint('++++_countdownTime+++++$_countdownTime2');
+                                  _countdownTime2 = ((tmp?.toInt())!);
                                   startCountdownTimer2(erStartSelected);
                                 });
                               },

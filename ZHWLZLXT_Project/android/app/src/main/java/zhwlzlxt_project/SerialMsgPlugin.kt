@@ -52,7 +52,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         timer?.schedule(object : TimerTask() {
             override fun run() {
                 serialPortHelper.count++
-//                serialPortHelper.sendByte(heard)
             }
         }, 1000, 500)
 
@@ -85,25 +84,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             "sendData" -> {
                 // 这里的 packageName 是在 Flutter 中定义的 com.allensu
                 sendData = call.arguments<String>()
-                // 校验
-//                serialPortHelper.setReceived(object : SerialPortHelper.onPortDataReceived {
-//                    override fun onPortDataReceived(paramComBean: ComBean?) {
-////                        result.success(bRec)
-////                        Log.i("TAG", "onPortDataReceived: $bRec")
-////                        if (bRec.subSequence(0, 4).trim() != "0100") {
-////                        }
-//                    }
-//                    override fun onStartError() {
-//                    }
-//                })
-
-
-
                 Log.i("sendData", "onMethodCall: "+ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)))
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
-                // 将安装结果回调给 Flutter
-//                result.success("res")
-//                Log.i("packageName", "onMethodCall: $sendData")
             }
 
         }

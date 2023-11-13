@@ -88,7 +88,7 @@ class _PulsedPageState extends State<PulsedPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
@@ -101,6 +101,7 @@ class _PulsedPageState extends State<PulsedPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        pulsed?.start(startSelected, switchSelected);
         _countdownTime = _countdownTime - 1;
       }
     }
@@ -110,7 +111,7 @@ class _PulsedPageState extends State<PulsedPage>
 
   @override
   bool startSelected = false;
-  bool switchSelected = true;
+  bool switchSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -183,6 +184,7 @@ class _PulsedPageState extends State<PulsedPage>
                             unit: 'min',
                             valueListener: (value) {
                               pulsed?.time = value.toString();
+                              pulsed?.start(!startSelected, switchSelected);
                             },
                           )),
                     ],
@@ -242,8 +244,11 @@ class _PulsedPageState extends State<PulsedPage>
                                         activeColor: const Color(0xFF00A8E7),
                                         trackColor: const Color(0xFFF9F9F9),
                                         onChanged: (value) {
-                                          switchSelected = !switchSelected;
-                                          setState(() {});
+                                          if(startSelected){
+                                            switchSelected = !switchSelected;
+                                            setState(() {});
+                                            pulsed?.start(startSelected, switchSelected);
+                                          }
                                         }),
                                   )),
                             ],
@@ -312,6 +317,11 @@ class _PulsedPageState extends State<PulsedPage>
                                       )),
                                   child: TextButton(
                                     onPressed: () {
+
+                                      if(startSelected){
+                                        switchSelected = false;
+                                      }
+
                                       startSelected = pulsed?.start(
                                               !startSelected, switchSelected) ??
                                           false;
@@ -329,9 +339,7 @@ class _PulsedPageState extends State<PulsedPage>
                                         double? tmp = double.tryParse(
                                             pulsed?.time ?? '1');
                                         _countdownTime =
-                                            ((tmp?.toInt())! * 60)!;
-                                        debugPrint(
-                                            '++++_countdownTime+++++$_countdownTime');
+                                            ((tmp?.toInt())!);
                                         startCountdownTimer(startSelected);
                                       });
                                     },

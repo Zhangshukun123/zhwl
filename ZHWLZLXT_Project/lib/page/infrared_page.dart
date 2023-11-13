@@ -100,7 +100,7 @@ class _InfraredPageState extends State<InfraredPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
@@ -113,6 +113,7 @@ class _InfraredPageState extends State<InfraredPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        infraredEntity?.start(startSelected, switchSelected);
         _countdownTime = _countdownTime - 1;
       }
     }
@@ -270,33 +271,26 @@ class _InfraredPageState extends State<InfraredPage>
                               Container(
                                 margin: EdgeInsets.only(top: 30.h),
                                 height: 100.h,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_jiting.png',
-                                          fit: BoxFit.fitHeight,
-                                          height: 100.h,
-                                        ),
-                                      ],
-                                    )),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/2.0x/icon_jiting.png',
+                                      fit: BoxFit.fitHeight,
+                                      height: 100.h,
+                                    ),
+                                  ],
+                                ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 10.h),
-                                child: TextButton(
-                                    onPressed: () {
-                                      switchSelected = !switchSelected;
-                                      setState(() {});
-                                    },
-                                    child: Text(
-                                      Globalization.currEmStSt.tr,
-                                      style: TextStyle(
-                                          color: const Color(0xFFFD5F1F),
-                                          fontSize: 18.sp),
-                                    )),
+                                child: Text(
+                                  Globalization.currEmStSt.tr,
+                                  style: TextStyle(
+                                      color: const Color(0xFFFD5F1F),
+                                      fontSize: 18.sp),
+                                ),
                               ),
                             ],
                           )),
@@ -382,9 +376,8 @@ class _InfraredPageState extends State<InfraredPage>
                                         double? tmp = double.tryParse(
                                             infraredEntity?.time ?? '1');
                                         _countdownTime =
-                                            ((tmp?.toInt())! * 60)!;
-                                        debugPrint(
-                                            '++++_countdownTime+++++$_countdownTime');
+                                            ((tmp?.toInt())!);
+
                                         startCountdownTimer(startSelected);
                                       });
                                     },

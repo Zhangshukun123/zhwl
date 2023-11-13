@@ -3,12 +3,11 @@ import 'dart:ffi';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
+import 'package:zhwlzlxt_project/entity/ultrasonic_sound.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
 import '../utils/event_bus.dart';
@@ -20,15 +19,17 @@ class SetValue extends StatefulWidget {
   bool enabled = true;
   bool? isInt = true;
   bool? isEventBus = true;
+  bool? isViImg = true;
   String? assets;
   String? title;
   String? unit;
   double? initialValue;
   double? minValue;
   double? maxValue;
+  int? indexType;
+  int? IntFixed=1;
   double? appreciation = 1;
   TreatmentType? type;
-
   ValueListener? valueListener;
 
   SetValue({
@@ -38,12 +39,15 @@ class SetValue extends StatefulWidget {
     this.title,
     this.unit,
     this.type,
+    this.IntFixed,
+    this.indexType,
     this.initialValue,
     this.valueListener,
     this.appreciation,
     this.isInt,
     this.isEventBus,
     this.minValue,
+    this.isViImg,
     this.maxValue,
   }) : super(key: key);
 
@@ -73,15 +77,15 @@ class _SetValueState extends State<SetValue> {
         setState(() {});
       });
 
-      eventBus.on<Infrared>().listen((event) {
-        //光疗强度 低功率 。
-        value = 1;
-        if (!mounted) {
-          return;
-        }
-        widget.valueListener!(value);
-        setState(() {});
-      });
+      // eventBus.on<Infrared>().listen((event) {
+      //   //光疗强度 低功率 。
+      //   value = 1;
+      //   if (!mounted) {
+      //     return;
+      //   }
+      //   widget.valueListener!(value);
+      //   setState(() {});
+      // });
     }
 
     eventBus.on<SetValueState>().listen((event) {
@@ -95,6 +99,15 @@ class _SetValueState extends State<SetValue> {
       setState(() {});
     });
 
+    if(widget.indexType==1){  // 超声声强
+      eventBus.on<UltrasonicSound>().listen((event) {
+        value = event.value ?? 0;
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
+      });
+    }
 
   }
 
@@ -142,7 +155,7 @@ class _SetValueState extends State<SetValue> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
                   if (widget.enabled) {
                     if (value == 0) return;
                     value = (value - appreciation);
@@ -164,13 +177,16 @@ class _SetValueState extends State<SetValue> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled
-                    ? 'assets/images/btn_jian_nor.png'
-                    : 'assets/images/2.0x/btn_jian_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible: widget.isViImg ?? true,
+                child: Image.asset(
+                  widget.enabled
+                      ? 'assets/images/btn_jian_nor.png'
+                      : 'assets/images/2.0x/btn_jian_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
             SizedBox(
@@ -190,7 +206,7 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.isInt ?? true
                         ? value.toInt().toString()
-                        : value.toStringAsFixed(1),
+                        : value.toStringAsFixed(widget.IntFixed??1),
                     style: TextStyle(
                         color: const Color(0xFF333333), fontSize: 20.sp),
                   ),
@@ -220,7 +236,7 @@ class _SetValueState extends State<SetValue> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
                   setState(() {
                     // todo  长按点击事件
                     if (widget.enabled) {
@@ -244,13 +260,16 @@ class _SetValueState extends State<SetValue> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled
-                    ? 'assets/images/btn_jia_nor.png'
-                    : 'assets/images/2.0x/btn_jia_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible:  widget.isViImg ?? true,
+                child: Image.asset(
+                  widget.enabled
+                      ? 'assets/images/btn_jia_nor.png'
+                      : 'assets/images/2.0x/btn_jia_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
           ],

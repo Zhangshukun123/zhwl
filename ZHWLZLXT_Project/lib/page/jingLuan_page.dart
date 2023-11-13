@@ -69,7 +69,7 @@ class _JingLuanPageState extends State<JingLuanPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
@@ -82,6 +82,7 @@ class _JingLuanPageState extends State<JingLuanPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        spastic?.start(startSelected);
         _countdownTime = _countdownTime - 1;
       }
     }
@@ -251,8 +252,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                                   setState(() {
                                     //点击开始治疗
                                     double? tmp = double.tryParse(spastic?.time ?? '1');
-                                    _countdownTime = ((tmp?.toInt())! * 60)!;
-                                    debugPrint('++++_countdownTime+++++$_countdownTime');
+                                    _countdownTime = ((tmp?.toInt())!);
                                     startCountdownTimer(startSelected);
                                   });
 
