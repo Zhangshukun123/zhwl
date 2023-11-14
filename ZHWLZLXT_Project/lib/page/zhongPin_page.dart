@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
 import '../entity/set_value_state.dart';
@@ -29,6 +29,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     with AutomaticKeepAliveClientMixin {
   bool yiStartSelected = false;
   bool erStartSelected = false;
+  bool aliveAuto = false;
   //计时器
   Timer? _timer1;
   int _countdownTime1 = 0;
@@ -77,7 +78,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
       _timer1?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
@@ -90,6 +91,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        midFrequency?.start1(yiStartSelected);
         _countdownTime1 = _countdownTime1 - 1;
       }
     }
@@ -106,7 +108,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
       _timer2?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
@@ -119,6 +121,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
+        midFrequency?.start2(erStartSelected);
         _countdownTime2 = _countdownTime2 - 1;
       }
     }
@@ -187,7 +190,20 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 patternStr: midFrequency?.patternA ?? "1",
                                 enabled: !yiStartSelected,
                                 popupListener: (value) {
+                                  if((int.parse(value)>50)&&erStartSelected){
+                                    setState(() {});
+                                    Fluttertoast.showToast(msg: '当前有设置正在运行!');
+                                    return;
+                                  }
+
                                   midFrequency?.patternA = value;
+                                  aliveAuto = (int.parse(value)>50);
+                                  if(int.parse(value)>50){
+                                    midFrequency?.patternB = value;
+                                    eventBus.fire(SetValueEntity(value:double.tryParse(midFrequency?.timeA ?? '1'),power:-1,));
+                                  }
+                                  setState(() {});
+
                                 },
                               ),
                             ],
@@ -199,14 +215,18 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           enabled: !yiStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
+                          indexType: 12,
                           assets: 'assets/images/2.0x/icon_shijian.png',
-                          initialValue:
-                              double.tryParse(midFrequency?.timeA ?? '1'),
+                          initialValue: double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
                           maxValue: 30,
                           unit: 'min',
                           valueListener: (value) {
                             midFrequency?.timeA = value.toString();
+                            if(aliveAuto){
+                              midFrequency?.timeB = value.toString();
+                              eventBus.fire(SetValueEntity(value: value,power: -1));
+                            }
                           },
                         ),
                       ),
@@ -215,6 +235,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: yiStartSelected,
+                          indexType: 13,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -224,55 +245,62 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerA = value.toString();
+                            if(aliveAuto){
+                              midFrequency?.powerB = value.toString();
+                              eventBus.fire(SetValueEntity(power: value,value:-1));
+                            }
                             midFrequency?.start1(true);
                           },
                         ),
                       ),
                       Container(
-                        child: Container(
-                          width: 120.w,
-                          height: 45.h,
-                          margin: EdgeInsets.only(top: 10.h),
-                          decoration: BoxDecoration(
-                              color: yiStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.w),
-                              )),
-                          child: TextButton(
-                              onPressed: () {
-                                yiStartSelected =
-                                    midFrequency?.start1(!yiStartSelected) ??
-                                        false;
-                                if (!yiStartSelected) {
-                                  midFrequency?.init();
-                                  Future.delayed(const Duration(milliseconds: 500), () {
-                                    eventBus.fire(SetValueState(TreatmentType.frequency));
-                                  });
+                        width: 120.w,
+                        height: 45.h,
+                        margin: EdgeInsets.only(top: 10.h),
+                        decoration: BoxDecoration(
+                            color: yiStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.w),
+                            )),
+                        child: TextButton(
+                            onPressed: () {
+                              yiStartSelected = midFrequency?.start1(!yiStartSelected) ?? false;
+                              if (!yiStartSelected) {
+                                midFrequency?.init();
+                                if(aliveAuto){
+                                  erStartSelected = yiStartSelected;
+                                  midFrequency?.init2();
+                                  aliveAuto =false;
                                 }
-                                setState(() {
-                                  //点击开始治疗
-                                  double? tmp = double.tryParse(midFrequency?.timeA ?? '1');
-                                  _countdownTime1 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint('++++_countdownTime+++++$_countdownTime1');
-                                  startCountdownTimer1(yiStartSelected);
+                                Future.delayed(const Duration(milliseconds: 500), () {
+                                  eventBus.fire(SetValueState(TreatmentType.frequency));
                                 });
-                              },
-                              // child: Image.asset(
-                              //   yiStartSelected
-                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                              //   fit: BoxFit.cover,
-                              //   width: 120.w,
-                              //   height: 45.h,
-                              // )
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                SizedBox(width: 8.w,),
-                                Text(yiStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
-                              ],
-                            ),
+                              }
+                              if(aliveAuto){
+                                erStartSelected = yiStartSelected;
+                              }
+                              setState(() {
+                                //点击开始治疗
+                                double? tmp = double.tryParse(midFrequency?.timeA ?? '1');
+                                _countdownTime1 = ((tmp?.toInt())!);
+                                startCountdownTimer1(yiStartSelected);
+                              });
+                            },
+                            // child: Image.asset(
+                            //   yiStartSelected
+                            //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                            //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                            //   fit: BoxFit.cover,
+                            //   width: 120.w,
+                            //   height: 45.h,
+                            // )
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                              SizedBox(width: 8.w,),
+                              Text(yiStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                            ],
                           ),
                         ),
                       ),
@@ -338,9 +366,20 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternB ?? "1",
-                                enabled: !erStartSelected,
+                                enabled: !erStartSelected && !aliveAuto,
                                 popupListener: (value) {
+                                  if((int.parse(value)>50)&&yiStartSelected){
+                                    setState(() {});
+                                    Fluttertoast.showToast(msg: '当前有设置正在运行!');
+                                    return;
+                                  }
                                   midFrequency?.patternB = value;
+                                  aliveAuto = (int.parse(value)>50);
+                                  if(int.parse(value)>50){
+                                    midFrequency?.patternA = value;
+                                  }
+                                  setState(() {});
+
                                 },
                               ),
                             ],
@@ -352,6 +391,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           enabled: !erStartSelected,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
+                          indexType: 12,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue:
                               double.tryParse(midFrequency?.timeB ?? '1'),
@@ -360,6 +400,10 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           unit: 'min',
                           valueListener: (value) {
                             midFrequency?.timeB = value.toString();
+                            if(aliveAuto){
+                              midFrequency?.powerA = value.toString();
+                              eventBus.fire(SetValueEntity(value: value,power: -1));
+                            }
                           },
                         ),
                       ),
@@ -368,6 +412,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         child: SetValueHorizontal(
                           height: 120.h,
                           enabled: erStartSelected,
+                          indexType: 13,
                           type: TreatmentType.frequency,
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
@@ -377,22 +422,28 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           minValue: 0,
                           valueListener: (value) {
                             midFrequency?.powerB = value.toString();
-                            midFrequency?.start2(true);
+                            if(aliveAuto){
+                              midFrequency?.powerA = value.toString();
+                              eventBus.fire(SetValueEntity(value:-1,power: value));
+                              midFrequency?.start1(true);
+                            }else{
+                              midFrequency?.start2(true);
+                            }
                           },
                         ),
                       ),
                       Container(
-                        child: Container(
-                          width: 120.w,
-                          height: 45.h,
-                          margin: EdgeInsets.only(top: 10.h),
-                          decoration: BoxDecoration(
-                              color: erStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.w),
-                              )),
-                          child: TextButton(
-                              onPressed: () {
+                        width: 120.w,
+                        height: 45.h,
+                        margin: EdgeInsets.only(top: 10.h),
+                        decoration: BoxDecoration(
+                            color: erStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.w),
+                            )),
+                        child: TextButton(
+                            onPressed: () {
+                              if(!aliveAuto){
                                 erStartSelected =
                                     midFrequency?.start2(!erStartSelected) ??
                                         false;
@@ -405,27 +456,45 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 setState(() {
                                   //点击开始治疗
                                   double? tmp = double.tryParse(midFrequency?.timeB ?? '1');
-                                  _countdownTime2 = ((tmp?.toInt())! * 60)!;
-                                  debugPrint('++++_countdownTime+++++$_countdownTime2');
+                                  _countdownTime2 = ((tmp?.toInt())!);
                                   startCountdownTimer2(erStartSelected);
                                 });
-                              },
-                              // child: Image.asset(
-                              //   erStartSelected
-                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                              //   fit: BoxFit.cover,
-                              //   width: 120.w,
-                              //   height: 45.h,
-                              // )
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                SizedBox(width: 8.w,),
-                                Text(erStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
-                              ],
-                            ),
+                              }else{
+                                yiStartSelected = midFrequency?.start1(!yiStartSelected) ?? false;
+                                if (!yiStartSelected) {
+                                  midFrequency?.init();
+                                  midFrequency?.init2();
+                                  aliveAuto =false;
+                                  Future.delayed(const Duration(milliseconds: 500), () {
+                                    eventBus.fire(SetValueState(TreatmentType.frequency));
+                                  });
+                                }
+                                erStartSelected = yiStartSelected;
+                                setState(() {
+                                  //点击开始治疗
+                                  double? tmp = double.tryParse(midFrequency?.timeA ?? '1');
+                                  _countdownTime1 = ((tmp?.toInt())!);
+                                  startCountdownTimer1(yiStartSelected);
+                                });
+
+                              }
+
+                            },
+                            // child: Image.asset(
+                            //   erStartSelected
+                            //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                            //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                            //   fit: BoxFit.cover,
+                            //   width: 120.w,
+                            //   height: 45.h,
+                            // )
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                              SizedBox(width: 8.w,),
+                              Text(erStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                            ],
                           ),
                         ),
                       ),

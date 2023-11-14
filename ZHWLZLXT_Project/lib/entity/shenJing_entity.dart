@@ -104,7 +104,7 @@ class Neuromuscular {
 
   bool start1(bool isStart) {
     final TreatmentController controller = Get.find();
-    if (controller.user.value.userId == 0) {
+    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
       Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
       return false;
     }
@@ -205,7 +205,7 @@ class Neuromuscular {
 
   bool start2(bool isStart) {
     final TreatmentController controller = Get.find();
-    if (controller.user.value.userId == 0) {
+    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
       Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
       return false;
     }

@@ -60,7 +60,7 @@ class InfraredEntity {
   bool start(bool isStart, bool isOpen) {
     final TreatmentController controller = Get.find();
     print('--------------${controller.user.value.userId}');
-    if (controller.user.value.userId == 0) {
+    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
       Fluttertoast.showToast(
           msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;

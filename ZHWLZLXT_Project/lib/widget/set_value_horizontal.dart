@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/set_value_state.dart';
@@ -26,6 +27,7 @@ class SetValueHorizontal extends StatefulWidget {
   ValueListener? valueListener;
   double? height;
   double? minValue;
+  int? indexType;
   double? maxValue;
   TreatmentType? type;
 
@@ -38,6 +40,7 @@ class SetValueHorizontal extends StatefulWidget {
     this.appreciation,
     this.isInt,
     this.height,
+    this.indexType,
     this.valueListener,
     this.minValue,
     this.maxValue,
@@ -71,6 +74,22 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       }
       setState(() {});
     });
+
+    if (widget.indexType == 12||widget.indexType == 13) {
+      // 中频 时间
+      eventBus.on<SetValueEntity>().listen((event) {
+        if(widget.indexType == 12 && (event.value ?? 0) > 0){
+          value = event.value ?? 0;
+        }
+        if(widget.indexType == 13&& (event.power ?? 0) > 0){
+          value = event.power ?? 0;
+        }
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
+      });
+    }
   }
 
   @override

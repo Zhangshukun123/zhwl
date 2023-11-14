@@ -25,9 +25,6 @@ class SerialMsg {
     print("----------onPortDataReceived------");
 
   }
-
-
-
   // _channel 是通道的实例，package_manager 是自定义的通道名称
   // ignore: unnecessary_const
   static const MethodChannel _channel = MethodChannel("serialMsg_manager");
@@ -49,8 +46,8 @@ class SerialMsg {
     String buffer = '${PortData.FH} $data';
     print("-----sendData----$buffer");
 
-    Fluttertoast.showToast(
-        msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
+    // Fluttertoast.showToast(
+    //     msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
     String res = await _channel.invokeMethod("sendData", buffer);
     // print('-----sendData-------$res');
     return res;

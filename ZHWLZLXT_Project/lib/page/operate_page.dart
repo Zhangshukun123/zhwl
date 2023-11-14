@@ -29,7 +29,7 @@ class _OperatePageState extends State<OperatePage> {
             child:
             Text(
               textString(widget.index),
-                style: const TextStyle(fontSize: 18,color: Color(0xFF999999)),
+                style: const TextStyle(fontSize: 22,color: Color(0xFF999999)),
             ),
 
           ),
