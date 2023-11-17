@@ -66,8 +66,10 @@ class LanguageValue extends Translations {
           Globalization.intermittentOne:"intermittent1",
           Globalization.intermittentTwo:"intermittent2",
           Globalization.intermittentThree:"intermittent3",
-
-
+          Globalization.fast:"Fast Intermittent",
+          Globalization.slow:"Slow Intermittent",
+          Globalization.complete:"Complete denervation",
+          Globalization.partial:"Partial denervation",
 
         },
         "zh_CN": {
@@ -131,6 +133,10 @@ class LanguageValue extends Translations {
           Globalization.intermittentOne:"断续1",
           Globalization.intermittentTwo:"断续2",
           Globalization.intermittentThree:"断续3",
+          Globalization.fast:"快速断续输出",
+          Globalization.slow:"慢速断续输出",
+          Globalization.complete:"完全失神经",
+          Globalization.partial:"部分失神经",
 
 
         }

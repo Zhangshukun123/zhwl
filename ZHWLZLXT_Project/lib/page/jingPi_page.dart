@@ -177,7 +177,7 @@ class _JingPiPageState extends State<JingPiPage>
                                 ),
                                 PopupMenuBtn(
                                   index: 3,
-                                  patternStr: percutaneous?.patternA ?? "连续输出",
+                                  patternStr: percutaneous?.patternA ?? Globalization.continuous.tr,
                                   enabled: !yiStartSelected,
                                   popupListener: (value) {
                                     percutaneous?.patternA = value;
@@ -378,7 +378,7 @@ class _JingPiPageState extends State<JingPiPage>
                               ),
                               PopupMenuBtn(
                                 index: 3,
-                                patternStr: percutaneous?.patternB ?? "连续输出",
+                                patternStr: percutaneous?.patternB ?? Globalization.continuous.tr,
                                 enabled: !erStartSelected,
                                 popupListener: (value) {
                                   percutaneous?.patternB = value;
