@@ -8,6 +8,7 @@ import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
 import 'base/globalization.dart';
+import 'cofig/AnpConfig.dart';
 import 'cofig/routes.dart';
 import 'dataResource/tables_init.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -25,7 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   initialization(null);
-
+  AnpConfig.init();
   runApp(const MyApp());
 }
 //启动图延时移除方法

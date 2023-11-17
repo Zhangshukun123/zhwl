@@ -1,10 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
 
+import '../entity/record_entity.dart';
+
+// ignore: must_be_immutable
 class RecordPage extends StatefulWidget {
-  const RecordPage({Key? key}) : super(key: key);
+  int? userId;
+
+  RecordPage(this.userId, {Key? key}) : super(key: key);
 
   @override
   State<RecordPage> createState() => _RecordPageState();
@@ -12,6 +21,41 @@ class RecordPage extends StatefulWidget {
 
 class _RecordPageState extends State<RecordPage> {
   TextEditingController searchController = TextEditingController();
+
+  List<Record> records = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.userId == null || widget.userId == 0) {
+      Fluttertoast.showToast(msg: '获取用户信息错误，请退出重新登录！');
+      Get.back();
+      return;
+    }
+
+    RecordSqlDao.instance()
+        .queryRecordForUserId(userId: widget.userId!)
+        .then((value) => {RecordForJson(value)});
+
+  }
+
+  // ignore: non_constant_identifier_names
+  void RecordForJson(value) {
+    if (!mounted) {
+      return;
+    }
+    records.clear();
+    for (var map in value) {
+      records.add(Record.fromMap(map));
+    }
+
+    setState(() {
+    });
+
+    print('---------${records.length}');
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +156,7 @@ class _RecordPageState extends State<RecordPage> {
                     height: 34.h,
                     margin: EdgeInsets.only(left: 21.w),
                     decoration: BoxDecoration(
-                        color: Color(0xFF1875F0),
+                        color: const Color(0xFF1875F0),
                         borderRadius: BorderRadius.all(
                           Radius.circular(10.w),
                         )),
@@ -148,7 +192,7 @@ class _RecordPageState extends State<RecordPage> {
               child: Container(
                 margin: EdgeInsets.only(top: 10.h),
                 child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: records.length,
                     itemBuilder: (context, i) {
                       return Container(
                         // height: 114.h,
@@ -162,15 +206,15 @@ class _RecordPageState extends State<RecordPage> {
                         ),
                         child: Column(
                           children: [
-                            Container(
-                                width: 930.w,
+                            SizedBox(
+                              width: double.infinity,
                                 height: 50.5.h,
                                 child: Row(
                                   children: [
                                     Container(
                                         margin: EdgeInsets.only(left: 27.5.w),
                                         child: Text(
-                                          '2022/09/06  12:12:34',
+                                          records[i].dataTime ?? '',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -178,7 +222,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 42.w),
                                         child: Text(
-                                          '治疗方式：超声疗法',
+                                          '治疗方式：${records[i].recordType}',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -206,10 +250,9 @@ class _RecordPageState extends State<RecordPage> {
                             Container(
                                 color: const Color(0xFFDFDFDF),
                                 height: 0.5.h,
-                                width: 930.w,
                                 child: const Text('')),
-                            Container(
-                                width: 930.w,
+                            SizedBox(
+                                width: double.infinity,
                                 height: 53.h,
                                 child: Row(
                                   mainAxisAlignment:
@@ -218,25 +261,25 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 27.5.w),
                                         child: Text(
-                                          '模式：断续1',
+                                          '模式：${records[i].pattern}',
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 18.sp),
                                         )),
                                     Text(
-                                      '时间：20min',
+                                      '时间：${records[i].utilityTime}min',
                                       style: TextStyle(
                                           color: const Color(0xFF999999),
                                           fontSize: 18.sp),
                                     ),
                                     Text(
-                                      '功率：1w',
+                                      '功率：${records[i].power}w',
                                       style: TextStyle(
                                           color: const Color(0xFF999999),
                                           fontSize: 18.sp),
                                     ),
                                     Text(
-                                      '声强：0.3w/c㎡',
+                                      '声强：${records[i].soundIntensity}w/c㎡',
                                       style: TextStyle(
                                           color: const Color(0xFF999999),
                                           fontSize: 18.sp),
@@ -244,7 +287,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(right: 27.5.w),
                                         child: Text(
-                                          '频率：1MHz',
+                                          '频率：${records[i].frequency}MHz',
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
                                               fontSize: 18.sp),
@@ -268,9 +311,7 @@ class _RecordPageState extends State<RecordPage> {
         context: context,
         builder: (BuildContext context) {
           return TCalender(
-            cDateTime: (data) {
-
-            },
+            cDateTime: (data) {},
           );
         });
   }

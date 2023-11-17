@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class RecordField {
   static String recordId = "recordId"; // ID
+  static String userId = "userId"; // ID
   static String recordType = "recordType"; // 治疗方式
   static String pattern = "pattern"; // 模式
   static String power = "power"; // 功率
@@ -9,9 +10,7 @@ class RecordField {
   static String frequency = "frequency"; // 频率
   static String dataTime = "dataTime"; // 时间
   static String utilityTime = "utilityTime"; // 时长
-
-
-
+  static String actionTime = "actionTime"; // 使用时间
 }
 
 class Record {
@@ -23,6 +22,8 @@ class Record {
   String? frequency;
   String? dataTime;
   String? utilityTime;
+  String? actionTime;
+  int? userId;
 
   Record({
     this.recordId,
@@ -31,8 +32,10 @@ class Record {
     this.power,
     this.soundIntensity,
     this.frequency,
+    this.actionTime,
     this.dataTime,
     this.utilityTime,
+    this.userId,
   });
 
   factory Record.fromJson(String str) => Record.fromMap(json.decode(str));
@@ -41,7 +44,9 @@ class Record {
 
   factory Record.fromMap(Map<String, dynamic> json) => Record(
         recordId: json[RecordField.recordId],
+        userId: json[RecordField.userId],
         recordType: json[RecordField.recordType],
+        actionTime: json[RecordField.actionTime],
         pattern: json[RecordField.pattern],
         power: json[RecordField.power],
         soundIntensity: json[RecordField.soundIntensity],
@@ -52,8 +57,10 @@ class Record {
 
   Map<String, dynamic> toMap() => {
         RecordField.recordId: recordId,
+        RecordField.userId: userId,
         RecordField.recordType: recordType,
         RecordField.pattern: pattern,
+        RecordField.actionTime: actionTime,
         RecordField.power: power,
         RecordField.soundIntensity: soundIntensity,
         RecordField.frequency: frequency,

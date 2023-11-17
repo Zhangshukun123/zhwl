@@ -116,7 +116,6 @@ class _ControlPageState extends State<ControlPage> {
     if(!mounted){
       return;
     }
-
     userList.clear();
     for (var map in value) {
       userList.add(User.fromMap(map));
@@ -766,7 +765,7 @@ class _ControlPageState extends State<ControlPage> {
                                                   MaterialPageRoute(
                                                       builder: (BuildContext
                                                               context) =>
-                                                          const RecordPage()));
+                                                           RecordPage(user?.userId)));
                                             },
                                             child: Text(
                                               Globalization.treatmentRecords.tr,
@@ -881,23 +880,25 @@ class _ControlPageState extends State<ControlPage> {
                       width: 60.w,
                       child: Text(
                         userList[index].userName ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: const Color(0xFF333333), fontSize: 15.sp),
                       )),
-                  Container(
-                      margin: EdgeInsets.only(left: 20.w),
-                      width: 110.w,
-                      child: Text(
-                        userList[index].phone ?? "",
-                        style: TextStyle(
-                            color: const Color(0xFF333333), fontSize: 15.sp),
-                      )),
+                  Expanded(
+                    child: Container(
+                        margin: EdgeInsets.only(left: 20.w),
+                        child: Text(
+                          userList[index].phone ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: const Color(0xFF333333), fontSize: 15.sp),
+                        )),
+                  ),
                 ],
               ),
             ),
-          ),
-          SizedBox(
-            width: 10.w,
           ),
           InkWell(
               onTap: () {

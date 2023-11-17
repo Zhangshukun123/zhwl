@@ -18,6 +18,11 @@ class SqlConfig {
   /// text
   static String sqltext = 'TEXT';
 
+
+  /// text
+  static String sqlInt = 'INTEGER';
+
+
   /// 列表数据表名字
   static String tableUse = 'Use';
 

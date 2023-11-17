@@ -33,14 +33,26 @@ class RecordSqlDao {
       str = "添加成功";
     }
 
-    showToastMsg(
-        msg: str,
-        ontap: () {
-          if (yorn) {
-            // currentGoback(Get.context!, info: {"rl": "1"});
-          }
-        });
+    // showToastMsg(
+    //     msg: str,
+    //     ontap: () {
+    //       if (yorn) {
+    //       }
+    //     });
   }
+
+
+  queryRecordForUserId({
+    required int userId,
+  }) async {
+    SqlUtils sqlUtils = SqlUtils();
+    var map = await queryRecordUserId(sqlUtils: sqlUtils, userId: userId);
+    sqlUtils.close();
+    return map;
+  }
+
+
+
 
   //select * from 表名
 

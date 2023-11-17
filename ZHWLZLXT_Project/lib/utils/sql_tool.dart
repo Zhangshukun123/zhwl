@@ -99,6 +99,33 @@ queryUserId({
 }
 
 
+
+queryRecordUserId({
+  required SqlUtils sqlUtils,
+  required int userId,
+}) async {
+  await sqlUtils.open();
+  return await sqlUtils.queryListByHelper(
+    tableName: SqlConfig.tableRecord,
+    selects: [
+      RecordField.recordType,
+      RecordField.pattern,
+      RecordField.power,
+      RecordField.soundIntensity,
+      RecordField.frequency,
+      RecordField.dataTime,
+      RecordField.utilityTime,
+      RecordField.actionTime
+    ],
+    whereStr: '${RecordField.userId} = ?',
+    whereArgs: [userId],
+  );
+}
+
+
+
+
+
 /// sql原生查找列表
 /// SqlUtils sqlUtils = SqlUtils();
 /// await sqlUtils.open();

@@ -78,7 +78,6 @@ class _UserHeadViewState extends State<UserHeadView>
     event.cancel();
   }
 
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -86,10 +85,30 @@ class _UserHeadViewState extends State<UserHeadView>
       padding: EdgeInsets.only(top: 25.5.h, left: 39.5.w, right: 40.w),
       child: Row(
         children: [
-          Obx(() => Text(
-                '${controller.user.value.userName ?? ""}   ${controller.user.value.phone ?? ""}   ',
-                style:
-                    TextStyle(color: const Color(0xFF999999), fontSize: 18.sp),
+          Obx(() => Container(
+                constraints: BoxConstraints(maxWidth: 350.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        controller.user.value.userName ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: const Color(0xFF999999), fontSize: 18.sp),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        controller.user.value.phone ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: const Color(0xFF999999), fontSize: 18.sp),
+                      ),
+                    ),
+                  ],
+                ),
               )),
           const Expanded(child: SizedBox()),
           Row(

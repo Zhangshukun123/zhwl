@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
 import '../base/globalization.dart';
+import '../cofig/AnpConfig.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,7 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  bool setSelected = true;
+  bool setSelected = SpUtils.getBool('setSelected', defaultValue: false)!;
   TextEditingController acController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
 
@@ -28,6 +31,21 @@ class LoginPageState extends State<LoginPage> {
         [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
+    if (setSelected) {
+
+
+
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        acController.text = SpUtils.getString('account', defaultValue: "")!;
+        pwdController.text = SpUtils.getString('password', defaultValue: "")!;
+        setState(() {});
+        print(SpUtils.getString('account', defaultValue: ""));
+
+
+      });
+
+    }
   }
 
   @override
@@ -150,11 +168,10 @@ class LoginPageState extends State<LoginPage> {
                                               Expanded(
                                                 child: TextField(
                                                   controller: acController,
-                                                  decoration:
-                                                       InputDecoration(
-                                                          hintText: Globalization.userName.tr,
-                                                          border:
-                                                              InputBorder.none),
+                                                  decoration: InputDecoration(
+                                                      hintText: Globalization
+                                                          .userName.tr,
+                                                      border: InputBorder.none),
                                                   style: TextStyle(
                                                       fontSize: 15.sp),
                                                 ),
@@ -188,9 +205,10 @@ class LoginPageState extends State<LoginPage> {
                                               Expanded(
                                                 child: TextField(
                                                   controller: pwdController,
-                                                  decoration:
-                                                       InputDecoration(
-                                                    hintText: Globalization.password.tr,
+                                                  obscureText: true,
+                                                  decoration: InputDecoration(
+                                                    hintText: Globalization
+                                                        .password.tr,
                                                     border: InputBorder.none,
                                                   ),
                                                   style: TextStyle(
@@ -219,8 +237,8 @@ class LoginPageState extends State<LoginPage> {
                                                     children: [
                                                       Image.asset(
                                                         setSelected
-                                                            ? 'assets/images/2.0x/icon_btn_nor.png'
-                                                            : 'assets/images/2.0x/icon_btn_sel.png',
+                                                            ? 'assets/images/2.0x/icon_btn_sel.png'
+                                                            : 'assets/images/2.0x/icon_btn_nor.png',
                                                         height: 18.h,
                                                         fit: BoxFit.fitHeight,
                                                       ),
@@ -228,7 +246,9 @@ class LoginPageState extends State<LoginPage> {
                                                         width: 3.w,
                                                       ),
                                                       Text(
-                                                        Globalization.rememberPassword.tr,
+                                                        Globalization
+                                                            .rememberPassword
+                                                            .tr,
                                                         style: TextStyle(
                                                             color: const Color(
                                                                 0xFF999999),
@@ -253,19 +273,24 @@ class LoginPageState extends State<LoginPage> {
                                           )),
                                       child: TextButton(
                                           onPressed: () {
-                                            print('点击确定按钮');
-                                            print(acController.text);
-                                            print(pwdController.text);
+                                            if (AccList.contains(
+                                                    acController.text) &&
+                                                PswLIst.contains(
+                                                    pwdController.text)) {
+                                              if (setSelected) {
+                                                SpUtils.setString('account',
+                                                    acController.text);
+                                                SpUtils.setString('password',
+                                                    pwdController.text);
+                                                SpUtils.setBool(
+                                                    'setSelected', setSelected);
+                                              }
 
-
-                                            Get.to(const FunctionPage());
-
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder:
-                                            //             (BuildContext context) =>
-                                            //                 ));
+                                              Get.to(const FunctionPage());
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: '账号密码错误');
+                                            }
                                           },
                                           child: Text(
                                             Globalization.confirm.tr,
@@ -289,7 +314,7 @@ class LoginPageState extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
               child: Text(
-                Globalization.version.tr + ':v1.0',
+                '${Globalization.version.tr}:v1.0',
                 style: TextStyle(fontSize: 18.sp, color: Colors.white),
               ),
             ),

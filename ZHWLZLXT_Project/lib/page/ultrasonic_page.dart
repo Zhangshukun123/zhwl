@@ -104,13 +104,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         break;
     }
   }
-
-
-
-
-
-
-
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
       showConnectPort('设备连接超时', "正在尝试重新连接");

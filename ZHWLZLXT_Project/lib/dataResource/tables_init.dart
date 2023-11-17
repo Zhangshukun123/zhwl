@@ -27,12 +27,14 @@ class NormalCreateTables {
   static final String createRecord = '''
     ${SqlConfig.creattable} ${SqlConfig.tableRecord} (
     ${RecordField.recordId} ${SqlConfig.primarykeyauto},                            
+    ${RecordField.userId} ${SqlConfig.sqlInt},                            
     ${RecordField.recordType} ${SqlConfig.sqltext},
     ${RecordField.pattern} ${SqlConfig.sqltext},
     ${RecordField.power} ${SqlConfig.sqltext},
     ${RecordField.soundIntensity} ${SqlConfig.sqltext},
     ${RecordField.frequency} ${SqlConfig.sqltext},
     ${RecordField.dataTime} ${SqlConfig.sqltext},
+    ${RecordField.actionTime} ${SqlConfig.sqltext},
     ${RecordField.utilityTime} ${SqlConfig.sqltext})
     ''';
 

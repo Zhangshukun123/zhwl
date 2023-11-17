@@ -1,15 +1,20 @@
 import 'dart:convert';
+import 'dart:core';
 import 'dart:ffi';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/serial_port.dart';
+import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/record_entity.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 
 import '../Controller/treatment_controller.dart';
+import '../base/globalization.dart';
 import '../utils/event_bus.dart';
 
 class UltrasonicField {
@@ -70,9 +75,13 @@ class Ultrasonic {
         UltrasonicField.frequency: frequency,
       };
 
+  DateTime? startTime;
+  DateTime? endTime;
+
   bool start(bool isStart) {
     final TreatmentController controller = Get.find();
-    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
+    if (controller.user.value.userId == 0 ||
+        controller.user.value.userId == null) {
       Fluttertoast.showToast(
           msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
@@ -115,8 +124,7 @@ class Ultrasonic {
       //以16进制数据发送
       if (patternTmps1!.length > 1) {
         data = "$data $patternTmps1";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps1";
       }
     }
@@ -129,8 +137,7 @@ class Ultrasonic {
       //以16进制数据发送
       if (patternTmps2!.length > 1) {
         data = "$data $patternTmps2";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps2";
       }
     }
@@ -143,8 +150,7 @@ class Ultrasonic {
       //以16进制数据发送
       if (patternTmps3!.length > 1) {
         data = "$data $patternTmps3";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps3";
       }
     }
@@ -157,8 +163,7 @@ class Ultrasonic {
       //以16进制数据发送
       if (patternTmps4!.length > 1) {
         data = "$data $patternTmps4";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps4";
       }
     }
@@ -172,12 +177,10 @@ class Ultrasonic {
       //以16进制数据发送
       if (patternTmps4!.length > 1) {
         data = "$data $patternTmps4";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps4";
       }
     }
-
 
     if (TextUtil.isEmpty(time)) {
       time = '1';
@@ -186,8 +189,7 @@ class Ultrasonic {
     var value = double.tryParse(time!);
     //转成16进制数据
     var tmpS = value?.toInt().toRadixString(16);
-    if (tmpS!.length > 1){
-
+    if (tmpS!.length > 1) {
       data = "$data $tmpS"; // 05
     } else {
       data = "$data 0$tmpS"; // 05
@@ -205,11 +207,9 @@ class Ultrasonic {
     var powerTmps = powerValue.toInt().toRadixString(16);
     if (powerTmps.length > 1) {
       data = "$data $powerTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerTmps";
     }
-
 
     if (TextUtil.isEmpty(soundIntensity)) {
       soundIntensity = '0.0';
@@ -220,14 +220,37 @@ class Ultrasonic {
     var soundTmps = soundValue.toInt().toRadixString(16);
     if (soundTmps.length > 1) {
       data = "$data $soundTmps";
-    }
-    else{
+    } else {
       data = "$data 0$soundTmps";
     }
 
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
+    if (!isStart) {
+      endTime = DateTime.now();
+      Duration diff = endTime!.difference(startTime!);
+      // print('两个日期相差 ${diff.inMinutes} 分钟');
+
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime:
+            formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd,' ',HH,':',nn,':',ss]),
+        utilityTime: time,
+        pattern: pattern,
+        recordType: Globalization.ultrasound.tr,
+        power: power,
+        soundIntensity: soundIntensity,
+        actionTime: diff.inMinutes.toString(),
+        frequency: frequency,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime = DateTime.now();
+    }
+
     SerialPort().send(data);
     return isStart;
   }

@@ -46,8 +46,8 @@ class SerialMsg {
     String buffer = '${PortData.FH} $data';
     print("-----sendData----$buffer");
 
-    // Fluttertoast.showToast(
-    //     msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
+    Fluttertoast.showToast(
+        msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
     String res = await _channel.invokeMethod("sendData", buffer);
     // print('-----sendData-------$res');
     return res;
