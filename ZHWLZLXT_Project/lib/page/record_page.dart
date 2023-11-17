@@ -36,7 +36,6 @@ class _RecordPageState extends State<RecordPage> {
     RecordSqlDao.instance()
         .queryRecordForUserId(userId: widget.userId!)
         .then((value) => {RecordForJson(value)});
-
   }
 
   // ignore: non_constant_identifier_names
@@ -49,12 +48,9 @@ class _RecordPageState extends State<RecordPage> {
       records.add(Record.fromMap(map));
     }
 
-    setState(() {
-    });
+    setState(() {});
 
     print('---------${records.length}');
-
-
   }
 
   @override
@@ -207,7 +203,7 @@ class _RecordPageState extends State<RecordPage> {
                         child: Column(
                           children: [
                             SizedBox(
-                              width: double.infinity,
+                                width: double.infinity,
                                 height: 50.5.h,
                                 child: Row(
                                   children: [
@@ -253,46 +249,21 @@ class _RecordPageState extends State<RecordPage> {
                                 child: const Text('')),
                             SizedBox(
                                 width: double.infinity,
-                                height: 53.h,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                        margin: EdgeInsets.only(left: 27.5.w),
-                                        child: Text(
-                                          '模式：${records[i].pattern}',
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 18.sp),
-                                        )),
-                                    Text(
-                                      '时间：${records[i].utilityTime}min',
-                                      style: TextStyle(
-                                          color: const Color(0xFF999999),
-                                          fontSize: 18.sp),
-                                    ),
-                                    Text(
-                                      '功率：${records[i].power}w',
-                                      style: TextStyle(
-                                          color: const Color(0xFF999999),
-                                          fontSize: 18.sp),
-                                    ),
-                                    Text(
-                                      '声强：${records[i].soundIntensity}w/c㎡',
-                                      style: TextStyle(
-                                          color: const Color(0xFF999999),
-                                          fontSize: 18.sp),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(right: 27.5.w),
-                                        child: Text(
-                                          '频率：${records[i].frequency}MHz',
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 18.sp),
-                                        )),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 30.0,right: 30,top: 20,bottom: 20),
+                                  child: Wrap(
+                                    spacing: 60,
+                                    runSpacing: 20.0,
+                                    children: records[i]
+                                        .getInfoList()!
+                                        .map((e) => Text(
+                                              e,
+                                              style: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  color: const Color(0xff666666)),
+                                            ))
+                                        .toList(),
+                                  ),
                                 )),
                           ],
                         ),

@@ -230,20 +230,24 @@ class Ultrasonic {
 
     if (!isStart) {
       endTime = DateTime.now();
+      String min = '';
       Duration diff = endTime!.difference(startTime!);
-      // print('两个日期相差 ${diff.inMinutes} 分钟');
-
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
       // 存储信息 结束
       Record record = Record(
         userId: controller.user.value.userId,
-        dataTime:
-            formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd,' ',HH,':',nn,':',ss]),
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
         utilityTime: time,
         pattern: pattern,
         recordType: Globalization.ultrasound.tr,
         power: power,
         soundIntensity: soundIntensity,
-        actionTime: diff.inMinutes.toString(),
+        actionTime: min,
         frequency: frequency,
       );
       RecordSqlDao.instance().addData(record: record);
