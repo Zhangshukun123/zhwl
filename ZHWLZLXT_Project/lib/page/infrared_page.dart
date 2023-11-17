@@ -106,14 +106,14 @@ class _InfraredPageState extends State<InfraredPage>
         _timer?.cancel();
         //计时结束
         //结束治疗
-        infraredEntity?.start(false, false);
+        infraredEntity?.start(false);
         this.startSelected = false;
         infraredEntity?.init();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        infraredEntity?.start(startSelected, switchSelected);
+        infraredEntity?.start(startSelected);
         _countdownTime = _countdownTime - 1;
       }
     }
@@ -178,7 +178,7 @@ class _InfraredPageState extends State<InfraredPage>
                             appreciation: 1,
                             valueListener: (value) {
                               infraredEntity?.power = value.toString();
-                              infraredEntity?.start(true, switchSelected);
+                              infraredEntity?.start(true);
                             },
                           )),
                       Container(
@@ -360,7 +360,7 @@ class _InfraredPageState extends State<InfraredPage>
                                     onPressed: () {
                                       // thirdStartSelected = !thirdStartSelected;
                                       startSelected = infraredEntity?.start(
-                                              !startSelected, switchSelected) ??
+                                              !startSelected) ??
                                           false;
                                       if (!startSelected) {
                                         infraredEntity?.init();

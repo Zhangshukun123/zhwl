@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/record_entity.dart';
 
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
+import '../base/globalization.dart';
+import '../dataResource/record_sql_dao.dart';
 
 class PulsedField {
   static String PulsedKey = "PulsedKey"; // 存储 -key
@@ -54,10 +59,18 @@ class Pulsed {
         PulsedField.frequency: frequency,
       };
 
+  DateTime? startTime;
+  DateTime? endTime;
+
+  num zdTime = 0;
+
+  DateTime? zdStartTime;
+  DateTime? zdEndTime;
+
   bool start(bool isStart, bool isOpen) {
     final TreatmentController controller = Get.find();
-    print('--------------${controller.user.value.userId}');
-    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
+    if (controller.user.value.userId == 0 ||
+        controller.user.value.userId == null) {
       Fluttertoast.showToast(
           msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
@@ -66,7 +79,6 @@ class Pulsed {
     String data = BYTE00_RW.B01; // 00
     data = "$data ${BYTE01_MD.B02}"; // byt01 功能模块    01
     data = "$data 00"; //02
-
 
     //此处解决磁疗的开始和停止按钮命令反的问题 09。06李建成提出
     if (isStart) {
@@ -83,10 +95,9 @@ class Pulsed {
     var value = double.tryParse(frequency!);
     //转成16进制数据
     var tmpS = value?.toInt().toRadixString(16);
-    if (tmpS!.length > 1){
+    if (tmpS!.length > 1) {
       data = "$data $tmpS"; // 04
-    }
-    else{
+    } else {
       data = "$data 0$tmpS"; // 04
     }
 
@@ -105,8 +116,7 @@ class Pulsed {
     //以16进制数据发送
     if (timeTmps!.length > 1) {
       data = "$data $timeTmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeTmps";
     }
 
@@ -118,7 +128,7 @@ class Pulsed {
     //转成double类型数据
     var powerValue = double.tryParse(power!);
 
-    if(!isStart){
+    if (!isStart) {
       powerValue = 0;
     }
 
@@ -127,8 +137,7 @@ class Pulsed {
     //以16进制数据发送
     if (powerTmps!.length > 1) {
       data = "$data $powerTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerTmps";
     }
 
@@ -136,6 +145,41 @@ class Pulsed {
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
+    if (!isOpen) {
+      zdEndTime = DateTime.now();
+      Duration diff = zdEndTime!.difference(zdStartTime!);
+      zdTime = diff.inMinutes + zdTime;
+    } else {
+      zdStartTime = DateTime.now();
+    }
+
+    if (!isStart) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: time,
+        recordType: Globalization.pulse.tr,
+        strengthGrade: power,
+        actionTime: min,
+        frequency: frequency,
+        zdTime: zdTime.toString(),
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime = DateTime.now();
+    }
+
     SerialPort().send(data);
     return isStart;
   }

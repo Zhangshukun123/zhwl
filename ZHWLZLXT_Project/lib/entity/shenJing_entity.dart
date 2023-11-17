@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/record_entity.dart';
 
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
+import '../dataResource/record_sql_dao.dart';
 
 class NeuromuscularField {
   static String NeuromuscularKey = "NeuromuscularKey"; // 存储 -key
@@ -101,6 +104,10 @@ class Neuromuscular {
     NeuromuscularField.powerB: powerB,
     NeuromuscularField.frequencyB: frequencyB,
   };
+
+
+  DateTime? startTime;
+  DateTime? endTime;
 
   bool start1(bool isStart) {
     final TreatmentController controller = Get.find();
@@ -198,9 +205,40 @@ class Neuromuscular {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
+
+    if (!isStart) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        pattern: patternA,
+        utilityTime: timeA,
+        recordType: '神经肌肉电刺激',
+        actionTime: min,
+        strengthGrade: powerA,
+        frequency: frequencyA,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime = DateTime.now();
+    }
+
+
     SerialPort().send(data);
     return isStart;
   }
+
+  DateTime? startTime2;
+  DateTime? endTime2;
 
 
   bool start2(bool isStart) {
@@ -297,6 +335,34 @@ class Neuromuscular {
     data = "$data 00";  // byte08  08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
+    if (!isStart) {
+      endTime2 = DateTime.now();
+      String min = '';
+      Duration diff = endTime2!.difference(startTime2!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        pattern: patternB,
+        utilityTime: timeB,
+        recordType: '神经肌肉电刺激',
+        actionTime: min,
+        strengthGrade: powerB,
+        frequency: frequencyB,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime2 = DateTime.now();
+    }
+
+
 
     SerialPort().send(data);
     return isStart;

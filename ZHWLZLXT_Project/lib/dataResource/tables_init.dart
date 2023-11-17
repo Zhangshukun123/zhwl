@@ -35,6 +35,15 @@ class NormalCreateTables {
     ${RecordField.frequency} ${SqlConfig.sqltext},
     ${RecordField.dataTime} ${SqlConfig.sqltext},
     ${RecordField.actionTime} ${SqlConfig.sqltext},
+    ${RecordField.zdTime} ${SqlConfig.sqltext},
+    ${RecordField.widthA} ${SqlConfig.sqltext},
+    ${RecordField.widthB} ${SqlConfig.sqltext},
+    ${RecordField.delayTime} ${SqlConfig.sqltext},
+    ${RecordField.circle} ${SqlConfig.sqltext},
+    ${RecordField.strengthGradeA} ${SqlConfig.sqltext},
+    ${RecordField.strengthGradeB} ${SqlConfig.sqltext},
+    ${RecordField.width} ${SqlConfig.sqltext},
+    ${RecordField.prescription} ${SqlConfig.sqltext},
     ${RecordField.utilityTime} ${SqlConfig.sqltext})
     ''';
 

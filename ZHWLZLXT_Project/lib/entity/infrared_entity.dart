@@ -1,14 +1,19 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/record_entity.dart';
 
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
 import '../base/globalization.dart';
+
+import '../dataResource/record_sql_dao.dart';
 
 class InfraredField {
   static String InfraredKey = "InfraredKey"; // 存储 -key
@@ -58,10 +63,14 @@ class InfraredEntity {
         InfraredField.pattern: pattern,
       };
 
-  bool start(bool isStart, bool isOpen) {
+  DateTime? startTime;
+  DateTime? endTime;
+
+  bool start(bool isStart) {
     final TreatmentController controller = Get.find();
     print('--------------${controller.user.value.userId}');
-    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
+    if (controller.user.value.userId == 0 ||
+        controller.user.value.userId == null) {
       Fluttertoast.showToast(
           msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
@@ -94,8 +103,7 @@ class InfraredEntity {
       //以16进制数据发送
       if (patternTmps1!.length > 1) {
         data = "$data $patternTmps1";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps1";
       }
     }
@@ -108,8 +116,7 @@ class InfraredEntity {
       //以16进制数据发送
       if (patternTmps2!.length > 1) {
         data = "$data $patternTmps2";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps2";
       }
     }
@@ -122,8 +129,7 @@ class InfraredEntity {
       //以16进制数据发送
       if (patternTmps3!.length > 1) {
         data = "$data $patternTmps3";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps3";
       }
     }
@@ -136,12 +142,10 @@ class InfraredEntity {
       //以16进制数据发送
       if (patternTmps4!.length > 1) {
         data = "$data $patternTmps4";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps4";
       }
     }
-
 
     if (pattern == BYTE04_PT.B_T_05) {
       // data = "$data ${BYTE04_PT.B04}";
@@ -152,12 +156,10 @@ class InfraredEntity {
       //以16进制数据发送
       if (patternTmps4!.length > 1) {
         data = "$data $patternTmps4";
-      }
-      else{
+      } else {
         data = "$data 0$patternTmps4";
       }
     }
-
 
     //byte05 光疗工作时间
     if (TextUtil.isEmpty(time)) {
@@ -172,11 +174,9 @@ class InfraredEntity {
     //以16进制数据发送
     if (timeTmps!.length > 1) {
       data = "$data $timeTmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeTmps";
     }
-
 
     if (TextUtil.isEmpty(power)) {
       power = '0';
@@ -193,8 +193,7 @@ class InfraredEntity {
     //以16进制数据发送
     if (powerTmps!.length > 1) {
       data = "$data $powerTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerTmps";
     }
 
@@ -203,6 +202,32 @@ class InfraredEntity {
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
+    if (!isStart) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: time,
+        pattern: pattern,
+        recordType: Globalization.infrared.tr,
+        strengthGrade: power,
+        actionTime: min,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime = DateTime.now();
+    }
+
     SerialPort().send(data);
     return isStart;
   }

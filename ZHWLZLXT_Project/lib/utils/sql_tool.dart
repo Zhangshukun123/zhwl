@@ -115,6 +115,13 @@ queryRecordUserId({
       RecordField.frequency,
       RecordField.dataTime,
       RecordField.utilityTime,
+      RecordField.zdTime,
+      RecordField.widthA,
+      RecordField.widthB,
+      RecordField.delayTime,
+      RecordField.circle,
+      RecordField.strengthGradeA,
+      RecordField.strengthGradeB,
       RecordField.actionTime
     ],
     whereStr: '${RecordField.userId} = ?',

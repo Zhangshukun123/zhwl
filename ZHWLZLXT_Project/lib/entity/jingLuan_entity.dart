@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
+import 'package:zhwlzlxt_project/entity/record_entity.dart';
 
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
+import '../base/globalization.dart';
+import '../dataResource/record_sql_dao.dart';
 
 class SpasticField {
   static String SpasticKey = "SpasticKey"; // 存储 -key
@@ -78,9 +83,13 @@ class Spastic {
         SpasticField.powerB: powerB,
       };
 
+  DateTime? startTime;
+  DateTime? endTime;
+
   bool start(bool isStart) {
     final TreatmentController controller = Get.find();
-    if (controller.user.value.userId == 0||controller.user.value.userId == null) {
+    if (controller.user.value.userId == 0 ||
+        controller.user.value.userId == null) {
       Fluttertoast.showToast(
           msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
       return false;
@@ -110,8 +119,7 @@ class Spastic {
     var circleTmps = circleValue.toInt().toRadixString(16);
     if (circleTmps.length > 1) {
       data = "$data $circleTmps";
-    }
-    else{
+    } else {
       data = "$data 0$circleTmps";
     }
 
@@ -122,17 +130,15 @@ class Spastic {
     // data =
     //     "$data ${((double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2))))! * 10).toInt()}";
     //数据进制转换
-    var delayValue = double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2)))! * 10;
+    var delayValue =
+        double.tryParse((double.tryParse(delayTime!)!.toStringAsFixed(2)))! *
+            10;
     var delayTmps = delayValue.toInt().toRadixString(16);
     if (delayTmps.length > 1) {
       data = "$data $delayTmps";
-    }
-    else{
+    } else {
       data = "$data 0$delayTmps";
     }
-
-
-
 
     if (TextUtil.isEmpty(widthA)) {
       widthA = '0.1';
@@ -144,12 +150,9 @@ class Spastic {
     var widthATmps = widthAValue.toInt().toRadixString(16);
     if (widthATmps.length > 1) {
       data = "$data $widthATmps";
-    }
-    else{
+    } else {
       data = "$data 0$widthATmps";
     }
-
-
 
     if (TextUtil.isEmpty(widthB)) {
       widthB = '0.1';
@@ -161,8 +164,7 @@ class Spastic {
     var widthBTmps = widthBValue.toInt().toRadixString(16);
     if (widthBTmps.length > 1) {
       data = "$data $widthBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$widthBTmps";
     }
 
@@ -178,11 +180,9 @@ class Spastic {
     var powerATmps = powerAValue.toInt().toRadixString(16);
     if (powerATmps.length > 1) {
       data = "$data $powerATmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerATmps";
     }
-
 
     if (TextUtil.isEmpty(powerB)) {
       powerB = '0';
@@ -196,8 +196,7 @@ class Spastic {
     var powerBTmps = powerBValue.toInt().toRadixString(16);
     if (powerBTmps.length > 1) {
       data = "$data $powerBTmps";
-    }
-    else{
+    } else {
       data = "$data 0$powerBTmps";
     }
 
@@ -210,9 +209,37 @@ class Spastic {
     var timeTmps = timeValue.toInt().toRadixString(16);
     if (timeTmps.length > 1) {
       data = "$data $timeTmps";
-    }
-    else{
+    } else {
       data = "$data 0$timeTmps";
+    }
+
+    if (!isStart) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: controller.user.value.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: time,
+        recordType: '痉挛肌治疗',
+        actionTime: min,
+        circle: circle,
+        widthA: widthA,
+        widthB: widthB,
+        delayTime: delayTime,
+        strengthGradeA: powerA,
+        strengthGradeB: powerB,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    } else {
+      startTime = DateTime.now();
     }
 
     SerialPort().send(data);
