@@ -212,7 +212,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: !yiStartSelected,
+                          enabled: false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           indexType: 12,
@@ -388,7 +388,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                         margin: EdgeInsets.only(top: 11.h),
                         child: SetValueHorizontal(
                           height: 120.h,
-                          enabled: !erStartSelected,
+                          enabled: false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
                           indexType: 12,

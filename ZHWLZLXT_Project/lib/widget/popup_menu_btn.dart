@@ -132,11 +132,11 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         widget.unit = '';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续模式1'),
-          _getPopupMenuItem('断续模式1'),
-          _getPopupMenuItem('断续模式2'),
-          _getPopupMenuItem('断续模式3'),
-          _getPopupMenuItem('扫频'),
+          _getPopupMenuItem('连续'),
+          _getPopupMenuItem('断续1'),
+          _getPopupMenuItem('断续2'),
+          _getPopupMenuItem('断续3'),
+          // _getPopupMenuItem('扫频'),
         ];
       case 1:
         widget.unit = "MHz";
@@ -149,18 +149,18 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         widget.unit = '';
         widget.offset = Offset(0, -120.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续模式1'),
-          _getPopupMenuItem('断续模式1'),
-          _getPopupMenuItem('断续模式2'),
-          _getPopupMenuItem('断续模式3'),
+          _getPopupMenuItem('连续'),
+          _getPopupMenuItem('断续1'),
+          _getPopupMenuItem('断续2'),
+          _getPopupMenuItem('断续3'),
         ];
       case 3:
         widget.unit = '';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
           _getPopupMenuItem('连续输出'),
-          _getPopupMenuItem('慢速输出'),
-          _getPopupMenuItem('快速输出'),
+          _getPopupMenuItem('慢速断续输出'),
+          _getPopupMenuItem('快速断续输出'),
         ];
       case 4:
         widget.unit = '模式';

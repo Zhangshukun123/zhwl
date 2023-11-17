@@ -49,11 +49,11 @@ class Neuromuscular {
   void init() {
     patternA = "完全失神经";
     timeA = "20";
-    powerA = "1";
+    powerA = "0";
     frequencyA = "0.5";
     patternB = "完全失神经";
     timeB = "20";
-    powerB = "1";
+    powerB = "0";
     frequencyB = "0.5";
   }
 
@@ -61,14 +61,14 @@ class Neuromuscular {
   void setARestValue(){
     patternA = "完全失神经";
     timeA = "20";
-    powerA = "1";
+    powerA = "0";
     frequencyA = "0.5";
   }
 
   void setBRestValue(){
     patternB = "完全失神经";
     timeB = "20";
-    powerB = "1";
+    powerB = "0";
     frequencyB = "0.5";
   }
 

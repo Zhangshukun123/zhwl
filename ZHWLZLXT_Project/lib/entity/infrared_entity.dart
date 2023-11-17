@@ -8,6 +8,7 @@ import 'package:zhwlzlxt_project/entity/port_data.dart';
 
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
+import '../base/globalization.dart';
 
 class InfraredField {
   static String InfraredKey = "InfraredKey"; // 存储 -key
@@ -35,7 +36,7 @@ class InfraredEntity {
   void init() {
     time = "20";
     power = "0";
-    pattern = "连续模式1";
+    pattern = Globalization.continuous.tr;
   }
 
   factory InfraredEntity.fromJson(String str) =>
