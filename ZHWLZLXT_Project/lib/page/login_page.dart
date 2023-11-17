@@ -238,7 +238,7 @@ class LoginPageState extends State<LoginPage> {
                                                       Image.asset(
                                                         setSelected
                                                             ? 'assets/images/2.0x/icon_btn_sel.png'
-                                                            : 'assets/images/2.0x/icon_btn_nor.png',
+                                                            : 'assets/images/2.0x/icon_rem_nor.png',
                                                         height: 18.h,
                                                         fit: BoxFit.fitHeight,
                                                       ),
