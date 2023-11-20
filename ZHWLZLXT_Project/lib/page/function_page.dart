@@ -93,18 +93,34 @@ class _FunctionPageState extends State<FunctionPage> {
                 if (index == 0) {
                   controller.treatmentType.value = TreatmentType.ultrasonic;
                   controller.setUserForType(TreatmentType.ultrasonic);
+                  eventBus.fire(TreatmentType.ultrasonic);
                 }
                 if (index == 1) {
                   controller.treatmentType.value = TreatmentType.pulsed;
                   controller.setUserForType(TreatmentType.pulsed);
+                  eventBus.fire(TreatmentType.pulsed);
                 }
                 if (index == 2) {
                   controller.treatmentType.value = TreatmentType.infrared;
                   controller.setUserForType(TreatmentType.infrared);
+                  eventBus.fire(TreatmentType.infrared);
                 }
                 if (index == 3) {
                   controller.treatmentType.value = TreatmentType.spasm;
                   controller.setUserForType(TreatmentType.spasm);
+                  int index = tabController?.index ?? 0;
+                  if (index == 0) {
+                    eventBus.fire(TreatmentType.spasm);
+                  }
+                  if (index == 1) {
+                    eventBus.fire(TreatmentType.percutaneous);
+                  }
+                  if (index == 2) {
+                    eventBus.fire(TreatmentType.neuromuscular);
+                  }
+                  if (index == 3) {
+                    eventBus.fire(TreatmentType.frequency);
+                  }
                 }
                 setState(() {});
               },

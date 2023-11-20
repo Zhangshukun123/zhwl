@@ -47,12 +47,21 @@ class _JingPiPageState extends State<JingPiPage>
     percutaneous?.init();
     percutaneous?.initB();
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.percutaneous) {
-        percutaneous?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.percutaneous) {
+    //     percutaneous?.userId = event.user?.userId;
+    //     percutaneous?.user = event.user;
+    //     save(event.user?.userId ?? -1);
+    //   }
+    // });
+
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      percutaneous?.user = userMap[TreatmentType.ultrasonic];
     });
+
   }
 
   void save(int userId) {

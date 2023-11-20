@@ -40,12 +40,20 @@ class _JingLuanPageState extends State<JingLuanPage>
     spastic = Spastic();
     spastic?.init();
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.spasm) {
-        spastic?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      spastic?.user = userMap[TreatmentType.ultrasonic];
     });
+
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.spasm) {
+    //     spastic?.userId = event.user?.userId;
+    //     spastic?.user = event.user;
+    //     save(event.user?.userId ?? -1);
+    //   }
+    // });
   }
 
   void save(int userId) {

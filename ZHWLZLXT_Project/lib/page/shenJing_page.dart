@@ -44,12 +44,21 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
     neuromuscular?.init();
 
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.neuromuscular) {
-        neuromuscular?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.neuromuscular) {
+    //     neuromuscular?.userId = event.user?.userId;
+    //     neuromuscular?.user = event.user;
+    //     save(event.user?.userId ?? -1);
+    //   }
+    // });
+
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      neuromuscular?.user = userMap[TreatmentType.ultrasonic];
     });
+
   }
   void save(int userId) {
     SpUtils.set(NeuromuscularField.NeuromuscularKey, userId);

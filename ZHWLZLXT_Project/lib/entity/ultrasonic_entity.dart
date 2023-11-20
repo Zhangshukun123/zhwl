@@ -12,6 +12,7 @@ import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
 import 'package:zhwlzlxt_project/entity/record_entity.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
+import 'package:zhwlzlxt_project/entity/user_entity.dart';
 
 import '../Controller/treatment_controller.dart';
 import '../base/globalization.dart';
@@ -78,15 +79,9 @@ class Ultrasonic {
   DateTime? startTime;
   DateTime? endTime;
 
-  bool start(bool isStart) {
-    final TreatmentController controller = Get.find();
-    if (controller.user.value.userId == 0 ||
-        controller.user.value.userId == null) {
-      Fluttertoast.showToast(
-          msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
-      return false;
-    }
+  User? user;
 
+  bool start(bool isStart) {
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
 
@@ -228,31 +223,33 @@ class Ultrasonic {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    if (!isStart) {
-      endTime = DateTime.now();
-      String min = '';
-      Duration diff = endTime!.difference(startTime!);
-      if (diff.inMinutes == 0) {
-        min = '1';
+    if (user != null && user?.userId != 0) {
+      if (!isStart) {
+        endTime = DateTime.now();
+        String min = '';
+        Duration diff = endTime!.difference(startTime!);
+        if (diff.inMinutes == 0) {
+          min = '1';
+        } else {
+          min = '${diff.inMinutes}';
+        }
+        // 存储信息 结束
+        Record record = Record(
+          userId: user?.userId,
+          dataTime: formatDate(DateTime.now(),
+              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+          utilityTime: time,
+          pattern: pattern,
+          recordType: Globalization.ultrasound.tr,
+          power: power,
+          soundIntensity: soundIntensity,
+          actionTime: min,
+          frequency: frequency,
+        );
+        RecordSqlDao.instance().addData(record: record);
       } else {
-        min = '${diff.inMinutes}';
+        startTime = DateTime.now();
       }
-      // 存储信息 结束
-      Record record = Record(
-        userId: controller.user.value.userId,
-        dataTime: formatDate(DateTime.now(),
-            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-        utilityTime: time,
-        pattern: pattern,
-        recordType: Globalization.ultrasound.tr,
-        power: power,
-        soundIntensity: soundIntensity,
-        actionTime: min,
-        frequency: frequency,
-      );
-      RecordSqlDao.instance().addData(record: record);
-    } else {
-      startTime = DateTime.now();
     }
 
     SerialPort().send(data);

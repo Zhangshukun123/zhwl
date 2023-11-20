@@ -46,12 +46,20 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     midFrequency?.init();
     midFrequency?.init2();
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.frequency) {
-        midFrequency?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.frequency) {
+    //     midFrequency?.userId = event.user?.userId;
+    //     save(event.user?.userId ?? -1);
+    //   }
+    // });
+
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      midFrequency?.user = userMap[TreatmentType.ultrasonic];
     });
+
   }
 
   void save(int userId) {

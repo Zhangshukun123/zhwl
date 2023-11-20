@@ -76,7 +76,7 @@ class _AddPageState extends State<AddPage> {
           child: Row(
             children: [
               const SizedBox(
-                width: 30,
+                width: 25,
               ),
               Image.asset(
                 'assets/images/ic_nav_back_white.png',

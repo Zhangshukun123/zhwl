@@ -35,7 +35,6 @@ class UserHeadView extends StatefulWidget {
 class _UserHeadViewState extends State<UserHeadView>
     with AutomaticKeepAliveClientMixin {
   User? user;
-  var event;
   DateTime? lastPopTime;
 
   final TreatmentController controller = Get.find();
@@ -44,38 +43,33 @@ class _UserHeadViewState extends State<UserHeadView>
   void initState() {
     super.initState();
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (!mounted) {
-        return;
-      }
-      if (event.type == controller.treatmentType.value) {
-        user = event.user;
-        controller.user.value = event.user!;
-      }
-    });
-
-    user = controller.user.value;
-
-    // event = eventBus.on<TreatmentType>().listen((event) {
+    // eventBus.on<UserEvent>().listen((event) {
     //   if (!mounted) {
     //     return;
     //   }
-    //   if (event != TreatmentType.spasm &&
-    //       event != TreatmentType.percutaneous &&
-    //       event != TreatmentType.neuromuscular &&
-    //       event != TreatmentType.frequency) {````````````````````````````
-    //     return;
+    //   if (event.type == widget.type) {
+    //     user = event.user;
+    //
+    //     controller.user.value = event.user!;
+    //     setState(() {});
     //   }
-    //   widget.type = event;
-    //   setUserForType(event);
     // });
-    // setUserForType(widget.type!);
+    // user = controller.user.value;
+    user = userMap[widget.type];
+    setState(() {});
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      widget.type = event;
+      user = userMap[event];
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    event.cancel();
   }
 
   @override
@@ -85,31 +79,32 @@ class _UserHeadViewState extends State<UserHeadView>
       padding: EdgeInsets.only(top: 25.5.h, left: 39.5.w, right: 40.w),
       child: Row(
         children: [
-          Obx(() => Container(
-                constraints: BoxConstraints(maxWidth: 350.w),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        controller.user.value.userName ?? "",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: const Color(0xFF999999), fontSize: 18.sp),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        controller.user.value.phone ?? "",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: const Color(0xFF999999), fontSize: 18.sp),
-                      ),
-                    ),
-                  ],
+          // Obx(() => ),
+          Container(
+            constraints: BoxConstraints(maxWidth: 350.w),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    user?.userName ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: const Color(0xFF999999), fontSize: 18.sp),
+                  ),
                 ),
-              )),
+                Expanded(
+                  child: Text(
+                    user?.phone ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: const Color(0xFF999999), fontSize: 18.sp),
+                  ),
+                ),
+              ],
+            ),
+          ),
           const Expanded(child: SizedBox()),
           Row(
             children: [
@@ -123,12 +118,11 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    debugPrint('点击用户管理${controller.treatmentType.value}');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => ControlPage(
-                                  type: controller.treatmentType.value,
+                                  type: widget.type,
                                 )));
                   },
                   child: Row(

@@ -112,8 +112,7 @@ class _ControlPageState extends State<ControlPage> {
   }
 
   void userForJson(value) {
-
-    if(!mounted){
+    if (!mounted) {
       return;
     }
     userList.clear();
@@ -121,8 +120,9 @@ class _ControlPageState extends State<ControlPage> {
       userList.add(User.fromMap(map));
     }
     if (userList.isNotEmpty) {
-      userList[userList.length - 1].isChoose = true;
-      user = userList[userList.length - 1];
+      userList = userList.reversed.toList();
+      userList[0].isChoose = true;
+      user = userList[0];
       chooseUser(user!);
     }
     setState(() {});
@@ -156,7 +156,7 @@ class _ControlPageState extends State<ControlPage> {
           child: Row(
             children: [
               const SizedBox(
-                width: 30,
+                width: 25,
               ),
               Image.asset(
                 'assets/images/ic_nav_back_white.png',
@@ -229,7 +229,6 @@ class _ControlPageState extends State<ControlPage> {
             children: [
               Container(
                   width: 295.w,
-                  height: 550.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.white, width: 0.5),
@@ -315,20 +314,21 @@ class _ControlPageState extends State<ControlPage> {
                           ],
                         ),
                       ),
-                      ListView.separated(
-                        padding: const EdgeInsets.only(top: 15),
-                        shrinkWrap: true,
-                        reverse: true,
-                        itemCount: userList.length,
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider(
-                              thickness: 1,
-                              height: 10,
-                              color: Color(0xffeeeeee));
-                        },
-                        itemBuilder: (BuildContext context, int index) {
-                          return userItem(index);
-                        },
+                      Expanded(
+                        child: ListView.separated(
+                          padding: const EdgeInsets.only(top: 15, left: 15),
+                          shrinkWrap: true,
+                          itemCount: userList.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                                thickness: 1,
+                                height: 10,
+                                color: Color(0xffeeeeee));
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            return userItem(index);
+                          },
+                        ),
                       ),
                     ],
                   )),
@@ -718,7 +718,9 @@ class _ControlPageState extends State<ControlPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                      height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
+                                      height: (Get.locale?.countryCode == "CN")
+                                          ? 43.h
+                                          : 60.h,
                                       width: 110.w,
                                       decoration: BoxDecoration(
                                         border: Border.all(
@@ -734,7 +736,9 @@ class _ControlPageState extends State<ControlPage> {
                                           setState(() {});
                                         },
                                         child: Text(
-                                          isEdit ? Globalization.editInfo.tr: Globalization.cancel.tr,
+                                          isEdit
+                                              ? Globalization.editInfo.tr
+                                              : Globalization.cancel.tr,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: const Color(0xFF00A8E7),
@@ -747,7 +751,10 @@ class _ControlPageState extends State<ControlPage> {
                                     maintainAnimation: false,
                                     maintainSize: false,
                                     child: Container(
-                                        height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
+                                        height:
+                                            (Get.locale?.countryCode == "CN")
+                                                ? 43.h
+                                                : 60.h,
                                         width: 110.w,
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF00A8E7),
@@ -765,7 +772,9 @@ class _ControlPageState extends State<ControlPage> {
                                                   MaterialPageRoute(
                                                       builder: (BuildContext
                                                               context) =>
-                                                           RecordPage(user?.userId)));
+                                                          RecordPage(
+                                                              user?.userId,
+                                                              user?.userName)));
                                             },
                                             child: Text(
                                               Globalization.treatmentRecords.tr,
@@ -777,7 +786,9 @@ class _ControlPageState extends State<ControlPage> {
                                             ))),
                                   ),
                                   Container(
-                                      height: (Get.locale?.countryCode == "CN") ? 43.h : 60.h,
+                                      height: (Get.locale?.countryCode == "CN")
+                                          ? 43.h
+                                          : 60.h,
                                       width: 110.w,
                                       decoration: BoxDecoration(
                                         color: const Color(0xFF00C290),
@@ -812,20 +823,19 @@ class _ControlPageState extends State<ControlPage> {
                                               isEdit = true;
                                               setState(() {});
                                             } else {
-
-
+                                              userMap[widget.type!] = user!;
                                               eventBus.fire(UserEvent(
                                                   user: user,
                                                   type: widget.type));
-
-
-
-
+                                              eventBus.fire(widget.type);
                                               Get.back();
                                             }
                                           },
                                           child: Text(
-                                            isEdit ? Globalization.startTreatment.tr : Globalization.save.tr,
+                                            isEdit
+                                                ? Globalization
+                                                    .startTreatment.tr
+                                                : Globalization.save.tr,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: const Color(0xFFFFFFFF),
@@ -850,7 +860,7 @@ class _ControlPageState extends State<ControlPage> {
       lastIndex = index;
     }
     return Container(
-      margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
+      margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
       child: Row(
         children: [
           Expanded(
@@ -867,16 +877,15 @@ class _ControlPageState extends State<ControlPage> {
                   Opacity(
                     opacity: userList[index].isChoose ?? false ? 1 : 0,
                     child: Container(
-                        margin: EdgeInsets.only(left: 15.w),
                         child: Image.asset(
-                          'assets/images/2.0x/icon_xuanzhong.png',
-                          fit: BoxFit.fitWidth,
-                          width: 14.w,
-                          height: 14.h,
-                        )),
+                      'assets/images/2.0x/icon_xuanzhong.png',
+                      fit: BoxFit.fitWidth,
+                      width: 14.w,
+                      height: 14.h,
+                    )),
                   ),
                   Container(
-                      margin: EdgeInsets.only(left: 18.w),
+                      margin: EdgeInsets.only(left: 15.w),
                       width: 60.w,
                       child: Text(
                         userList[index].userName ?? "",

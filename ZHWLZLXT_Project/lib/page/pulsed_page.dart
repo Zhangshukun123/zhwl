@@ -59,12 +59,21 @@ class _PulsedPageState extends State<PulsedPage>
 
     dialog?.setTabController(_tabController);
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.pulsed) {
-        // pulsed?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      pulsed?.user = userMap[TreatmentType.pulsed];
     });
+
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.pulsed) {
+    //     // pulsed?.userId = event.user?.userId;
+    //     save(event.user?.userId ?? -1);
+    //     pulsed?.user = event.user;
+    //   }
+    // });
   }
 
   void save(int userId) {
@@ -184,7 +193,7 @@ class _PulsedPageState extends State<PulsedPage>
                             unit: 'min',
                             valueListener: (value) {
                               pulsed?.time = value.toString();
-                              pulsed?.start(!startSelected, switchSelected);
+                              // pulsed?.start(!startSelected, switchSelected);
                             },
                           )),
                     ],
@@ -317,11 +326,9 @@ class _PulsedPageState extends State<PulsedPage>
                                       )),
                                   child: TextButton(
                                     onPressed: () {
-
                                       if(startSelected){
                                         switchSelected = false;
                                       }
-
                                       startSelected = pulsed?.start(
                                               !startSelected, switchSelected) ??
                                           false;

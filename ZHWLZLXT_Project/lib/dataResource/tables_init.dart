@@ -40,6 +40,7 @@ class NormalCreateTables {
     ${RecordField.widthB} ${SqlConfig.sqltext},
     ${RecordField.delayTime} ${SqlConfig.sqltext},
     ${RecordField.circle} ${SqlConfig.sqltext},
+    ${RecordField.strengthGrade} ${SqlConfig.sqltext},
     ${RecordField.strengthGradeA} ${SqlConfig.sqltext},
     ${RecordField.strengthGradeB} ${SqlConfig.sqltext},
     ${RecordField.width} ${SqlConfig.sqltext},

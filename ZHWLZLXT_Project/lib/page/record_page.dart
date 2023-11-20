@@ -1,9 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:common_utils/common_utils.dart';
+import 'package:date_format/date_format.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
 
@@ -12,8 +19,9 @@ import '../entity/record_entity.dart';
 // ignore: must_be_immutable
 class RecordPage extends StatefulWidget {
   int? userId;
+  String? userName;
 
-  RecordPage(this.userId, {Key? key}) : super(key: key);
+  RecordPage(this.userId, this.userName, {Key? key}) : super(key: key);
 
   @override
   State<RecordPage> createState() => _RecordPageState();
@@ -23,6 +31,11 @@ class _RecordPageState extends State<RecordPage> {
   TextEditingController searchController = TextEditingController();
 
   List<Record> records = [];
+  List<Record> recordsList = [];
+
+  String startTime = '开始时间';
+  String endTimeDate = '结束时间';
+  var excel = Excel.createExcel();
 
   @override
   void initState() {
@@ -36,6 +49,20 @@ class _RecordPageState extends State<RecordPage> {
     RecordSqlDao.instance()
         .queryRecordForUserId(userId: widget.userId!)
         .then((value) => {RecordForJson(value)});
+
+    searchController.addListener(() {
+      if (TextUtil.isEmpty(searchController.text)) {
+        recordsList.addAll(records.reversed.toList());
+      } else {
+        recordsList.clear();
+        for (var element in records) {
+          if (searchController.text.startsWith(element.recordType.toString())) {
+            recordsList.add(element);
+          }
+        }
+      }
+      setState(() {});
+    });
   }
 
   // ignore: non_constant_identifier_names
@@ -47,10 +74,8 @@ class _RecordPageState extends State<RecordPage> {
     for (var map in value) {
       records.add(Record.fromMap(map));
     }
-
+    recordsList.addAll(records.reversed.toList());
     setState(() {});
-
-    print('---------${records.length}');
   }
 
   @override
@@ -92,7 +117,7 @@ class _RecordPageState extends State<RecordPage> {
                     child: TextField(
                       controller: searchController,
                       decoration: const InputDecoration(
-                        hintText: '请输入',
+                        hintText: '请输入治疗方式',
                         border: InputBorder.none,
                         icon: Icon(Icons.search),
                       ),
@@ -110,7 +135,7 @@ class _RecordPageState extends State<RecordPage> {
                         )),
                     child: TextButton(
                       onPressed: () {
-                        _showDialog();
+                        _showDialog(this.context);
                       },
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +147,7 @@ class _RecordPageState extends State<RecordPage> {
                               height: 14.h,
                             ),
                             Text(
-                              ' 开始时间 - 结束时间',
+                              ' $startTime - $endTimeDate',
                               style: TextStyle(
                                   color: const Color(0xFF999999),
                                   fontSize: 16.sp),
@@ -140,7 +165,36 @@ class _RecordPageState extends State<RecordPage> {
                           Radius.circular(10.w),
                         )),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var status = await requestCalendarPermission();
+                          if (status) {
+                            Sheet sheetObject = excel['Sheet1'];
+                            exportXlm(1, sheetObject);
+                            var fileBytes = excel.save();
+                            // var directory = await getExternalStorageDirectory();
+                            String path =
+                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                  yyyy,
+                                  '-',
+                                  mm,
+                                  '-',
+                                  dd
+                                ])}/${formatDate(DateTime.now(), [
+                                  HH,
+                                  nn,
+                                  ss
+                                ])}.xlsx";
+                            File(join(path))
+                              ..createSync(recursive: true)
+                              ..writeAsBytesSync(fileBytes!);
+                            EasyLoading.dismiss();
+                            Fluttertoast.showToast(
+                                msg: '导出成功，导出文件$path',
+                                toastLength: Toast.LENGTH_LONG);
+                          } else {
+                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                          }
+                        },
                         child: Text(
                           '导出当月',
                           style:
@@ -157,7 +211,37 @@ class _RecordPageState extends State<RecordPage> {
                           Radius.circular(10.w),
                         )),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var status = await requestCalendarPermission();
+                          if (status) {
+                            Sheet sheetObject = excel['Sheet1'];
+                            exportXlm(2, sheetObject);
+                            var fileBytes = excel.save();
+                            var directory = await getExternalStorageDirectory();
+                            // print('-------${directory?.path}');
+                            String path =
+                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                  yyyy,
+                                  '-',
+                                  mm,
+                                  '-',
+                                  dd
+                                ])}/${formatDate(DateTime.now(), [
+                                  HH,
+                                  nn,
+                                  ss
+                                ])}.xlsx";
+                            File(join(path))
+                              ..createSync(recursive: true)
+                              ..writeAsBytesSync(fileBytes!);
+                            EasyLoading.dismiss();
+                            Fluttertoast.showToast(
+                                msg: '导出成功，导出文件$path',
+                                toastLength: Toast.LENGTH_LONG);
+                          } else {
+                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                          }
+                        },
                         child: Text(
                           '导出当年',
                           style:
@@ -174,7 +258,36 @@ class _RecordPageState extends State<RecordPage> {
                           Radius.circular(10.w),
                         )),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var status = await requestCalendarPermission();
+                          if (status) {
+                            Sheet sheetObject = excel['Sheet1'];
+                            exportXlm(3, sheetObject);
+                            var fileBytes = excel.save();
+                            // var directory = await getExternalStorageDirectory();
+                            String path =
+                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                  yyyy,
+                                  '-',
+                                  mm,
+                                  '-',
+                                  dd
+                                ])}/${formatDate(DateTime.now(), [
+                                  HH,
+                                  nn,
+                                  ss
+                                ])}.xlsx";
+                            File(join(path))
+                              ..createSync(recursive: true)
+                              ..writeAsBytesSync(fileBytes!);
+                            EasyLoading.dismiss();
+                            Fluttertoast.showToast(
+                                msg: '导出成功，导出文件$path',
+                                toastLength: Toast.LENGTH_LONG);
+                          } else {
+                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                          }
+                        },
                         child: Text(
                           '全部导出',
                           style:
@@ -188,7 +301,7 @@ class _RecordPageState extends State<RecordPage> {
               child: Container(
                 margin: EdgeInsets.only(top: 10.h),
                 child: ListView.builder(
-                    itemCount: records.length,
+                    itemCount: recordsList.length,
                     itemBuilder: (context, i) {
                       return Container(
                         // height: 114.h,
@@ -210,7 +323,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 27.5.w),
                                         child: Text(
-                                          records[i].dataTime ?? '',
+                                          recordsList[i].dataTime ?? '',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -218,7 +331,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 42.w),
                                         child: Text(
-                                          '治疗方式：${records[i].recordType}',
+                                          '治疗方式：${recordsList[i].recordType}',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -233,7 +346,39 @@ class _RecordPageState extends State<RecordPage> {
                                         ),
                                       ),
                                       child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            var status =
+                                                await Permission.storage.status;
+                                            if (status.isGranted) {
+                                              Sheet sheetObject =
+                                                  excel['Sheet1'];
+                                              var record = recordsList[i];
+                                              indexRecord(
+                                                  record, 1, sheetObject);
+                                              var fileBytes = excel.save();
+                                              var directory =
+                                                  await getExternalStorageDirectory();
+                                              String path =
+                                                  "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                                    yyyy,
+                                                    '-',
+                                                    mm,
+                                                    '-',
+                                                    dd
+                                                  ])}/${formatDate(DateTime.now(), [
+                                                    HH,
+                                                    nn,
+                                                    ss
+                                                  ])}.xlsx";
+                                              File(join(path))
+                                                ..createSync(recursive: true)
+                                                ..writeAsBytesSync(fileBytes!);
+                                              Fluttertoast.showToast(
+                                                  msg: '导出成功，导出文件$path',
+                                                  toastLength:
+                                                      Toast.LENGTH_LONG);
+                                            }
+                                          },
                                           child: Text(
                                             '导出记录',
                                             style: TextStyle(
@@ -250,17 +395,22 @@ class _RecordPageState extends State<RecordPage> {
                             SizedBox(
                                 width: double.infinity,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 30.0,right: 30,top: 20,bottom: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 30.0,
+                                      right: 30,
+                                      top: 20,
+                                      bottom: 20),
                                   child: Wrap(
                                     spacing: 60,
                                     runSpacing: 20.0,
-                                    children: records[i]
+                                    children: recordsList[i]
                                         .getInfoList()!
                                         .map((e) => Text(
                                               e,
                                               style: TextStyle(
                                                   fontSize: 18.sp,
-                                                  color: const Color(0xff666666)),
+                                                  color:
+                                                      const Color(0xff666666)),
                                             ))
                                         .toList(),
                                   ),
@@ -277,13 +427,140 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 
-  void _showDialog() {
+  List<String> k = [
+    '0',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M'
+  ];
+
+  void indexRecord(Record record, int index, Sheet sheetObject) {
+    int kI = 1;
+    record.getListTitle().forEach((key, value) {
+      sheetObject.cell(CellIndex.indexByString('${k[kI]}$index')).value = key;
+      sheetObject.cell(CellIndex.indexByString('${k[kI]}${index + 1}')).value =
+          value;
+      kI++;
+    });
+    sheetObject.cell(CellIndex.indexByString('${k[kI]}$index')).value = '日期';
+    sheetObject.cell(CellIndex.indexByString('${k[kI]}${index + 1}')).value =
+        record.dataTime;
+  }
+
+  void _showDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return TCalender(
-            cDateTime: (data) {},
+            cDateTime: (data) {
+              List<DateTime?> listDate = data;
+              if (listDate.length != 2) {
+                Fluttertoast.showToast(msg: '请选择时间段');
+                return;
+              }
+              DateTime endTime = DateTime(
+                  listDate[1]!.year, listDate[1]!.month, listDate[1]!.day + 1);
+              List<Record> rdsList = [];
+              for (var element in recordsList) {
+                var dateCur = DateTime.parse(element.dataTime!);
+                if (!dateCur.isBefore(listDate[0]!) &&
+                    !dateCur.isAfter(endTime)) {
+                  rdsList.add(element);
+                }
+              }
+              if (rdsList.isNotEmpty) {
+                recordsList.clear();
+                recordsList.addAll(rdsList);
+                startTime = formatDate(listDate[0]!, [yy, '-', mm, '-', dd]);
+                endTimeDate = formatDate(listDate[1]!, [yy, '-', mm, '-', dd]);
+                setState(() {});
+              } else {
+                Fluttertoast.showToast(msg: "未找到数据");
+              }
+            },
           );
         });
+  }
+
+  Future<bool> requestCalendarPermission() async {
+    //获取当前的权限
+    var status = await Permission.storage.status;
+    if (status == PermissionStatus.granted) {
+      return true;
+    } else {
+      //未授权则发起一次申请
+      status = await Permission.storage.request();
+      if (status == PermissionStatus.granted) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  void exportXlm(int dateType, Sheet sheetObject) {
+    List<String> mapKey = [];
+    EasyLoading.show(status: 'loading...');
+    DateTime time = DateTime.now();
+    for (var element in recordsList) {
+      DateTime parse = DateTime.parse(element.dataTime!);
+      if (dateType == 1) {
+        if (parse.month == time.month) {
+          Map<String, String> mapVa = element.getListTitle();
+          mapVa.forEach((key, value) {
+            if (!mapKey.contains(key)) {
+              mapKey.add(key);
+            }
+          });
+        }
+      }
+      if (dateType == 2) {
+        if (parse.year == time.year) {
+          Map<String, String> mapVa = element.getListTitle();
+          mapVa.forEach((key, value) {
+            if (!mapKey.contains(key)) {
+              mapKey.add(key);
+            }
+          });
+        }
+      }
+      if (dateType == 3) {
+        Map<String, String> mapVa = element.getListTitle();
+        mapVa.forEach((key, value) {
+          if (!mapKey.contains(key)) {
+            if (mapKey.isNotEmpty && mapKey[mapKey.length - 1] == "时间") {
+              mapKey.removeAt(mapKey.length - 1);
+            }
+            mapKey.add(key);
+            mapKey.add('时间');
+          }
+        });
+      }
+    }
+    int kI = 1;
+    for (var element in mapKey) {
+      sheetObject.cell(CellIndex.indexByString('${k[kI]}1')).value = element;
+      int index = 2;
+      for (var record in recordsList) {
+        String? value = record.getValueForKey(element);
+        if (TextUtil.isEmpty(value)) {
+          value = '-';
+        }
+        sheetObject.cell(CellIndex.indexByString('${k[kI]}$index')).value =
+            value;
+        index++;
+      }
+      kI++;
+    }
   }
 }

@@ -69,12 +69,20 @@ class _InfraredPageState extends State<InfraredPage>
 
     // 一定时间内 返回一个数据
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.infrared) {
-        infraredEntity?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      infraredEntity?.user = userMap[TreatmentType.ultrasonic];
     });
+
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.infrared) {
+    //     infraredEntity?.userId = event.user?.userId;
+    //     save(event.user?.userId ?? -1);
+    //     infraredEntity?.user = event.user;
+    //   }
+    // });
   }
 
   void save(int userId) {

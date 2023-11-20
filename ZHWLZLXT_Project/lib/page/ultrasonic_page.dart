@@ -12,6 +12,7 @@ import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
+import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
@@ -55,6 +56,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   Timer? _timer;
   int _countdownTime = 0;
 
+
   @override
   void initState() {
     super.initState();
@@ -75,12 +77,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
     dialog?.setTabController(_tabController);
 
-    eventBus.on<UserEvent>().listen((event) {
-      if (event.type == TreatmentType.ultrasonic) {
-        // ultrasonic?.userId = event.user?.userId;
-        save(event.user?.userId ?? -1);
+
+    eventBus.on<TreatmentType>().listen((event) {
+      if (!mounted) {
+        return;
       }
+      ultrasonic?.user = userMap[TreatmentType.ultrasonic];
     });
+
+    // eventBus.on<UserEvent>().listen((event) {
+    //   if (event.type == TreatmentType.ultrasonic) {
+    //     // ultrasonic?.userId = event.user?.userId;
+    //     save(event.user?.userId ?? -1);
+    //     ultrasonic?.user = event.user;
+    //   }
+    // });
 
     Future.delayed(Duration.zero, () {
       SerialMsg().startPort();
@@ -104,6 +115,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         break;
     }
   }
+
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
       showConnectPort('设备连接超时', "正在尝试重新连接");
@@ -117,6 +129,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   }
 
   bool isShow = false;
+
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
@@ -287,13 +300,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
-                                ultrasonic?.power = value.toString();
+                                ultrasonic?.power = value.toStringAsFixed(2);
                                 if (ultrasonicController
-                                        .ultrasonic.frequency.value == 1) {
-                                  ultrasonic?.soundIntensity = (value / 4).toString();
+                                        .ultrasonic.frequency.value ==
+                                    1) {
+                                  ultrasonic?.soundIntensity = (value / 4).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 4)));
                                 } else {
-                                  ultrasonic?.soundIntensity = (value / 2).toString();
+                                  ultrasonic?.soundIntensity = (value / 2).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
@@ -320,8 +334,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'w/cm2',
                                   valueListener: (value) {
-                                    ultrasonic?.soundIntensity =
-                                        value.toString();
+                                    ultrasonic?.soundIntensity = value.toStringAsFixed(2);
+
                                   },
                                 )),
                           ],
@@ -449,7 +463,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             setState(() {
                                               double? tmp = double.tryParse(
                                                   ultrasonic?.time ?? '1');
-                                              _countdownTime = ((tmp?.toInt())!);
+                                              _countdownTime =
+                                                  ((tmp?.toInt())!);
                                               startCountdownTimer(
                                                   startSelected);
                                             });

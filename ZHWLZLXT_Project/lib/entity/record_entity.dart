@@ -135,10 +135,10 @@ class Record {
       infos.add('功率：${power}w');
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      infos.add('强度：${strengthGrade}w');
+      infos.add('强度：$strengthGrade');
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
-      infos.add('声强：${power}w/c㎡');
+      infos.add('声强：${soundIntensity}w/c㎡');
     }
     if (!TextUtil.isEmpty(frequency)) {
       infos.add('频率：${frequency}MHz');
@@ -165,5 +165,63 @@ class Record {
       infos.add('震动打开时间：${zdTime}min');
     }
     return infos;
+  }
+
+  String? getValueForKey(String? value) {
+    Map<String, String> vK = getListTitle();
+    return vK[value];
+  }
+
+  Map<String, String> getListTitle() {
+    Map<String, String> mapData = {};
+    if (!TextUtil.isEmpty(recordType)) {
+      mapData['治疗方式'] = recordType!;
+    }
+    if (!TextUtil.isEmpty(pattern)) {
+      mapData['模式'] = pattern!;
+    }
+    if (!TextUtil.isEmpty(prescription)) {
+      mapData['处方'] = prescription!;
+    }
+    if (!TextUtil.isEmpty(utilityTime)) {
+      mapData['设定时间'] = '${utilityTime}min';
+    }
+    if (!TextUtil.isEmpty(power)) {
+      mapData['功率'] = '${power}w';
+    }
+    if (!TextUtil.isEmpty(strengthGrade)) {
+      mapData['强度'] = strengthGrade!;
+    }
+    if (!TextUtil.isEmpty(soundIntensity)) {
+      mapData['声强'] = '${soundIntensity}w/c㎡';
+    }
+    if (!TextUtil.isEmpty(frequency)) {
+      mapData['频率'] = '${frequency}MHz';
+    }
+    if (!TextUtil.isEmpty(width)) {
+      mapData['脉宽'] = '${width}ms';
+    }
+    if (!TextUtil.isEmpty(widthA)) {
+      mapData['脉宽A'] = '${widthA}ms';
+    }
+    if (!TextUtil.isEmpty(widthB)) {
+      mapData['脉宽B'] = '${widthB}ms';
+    }
+    if (!TextUtil.isEmpty(delayTime)) {
+      mapData['延时时间'] = '${delayTime}s';
+    }
+    if (!TextUtil.isEmpty(circle)) {
+      mapData['脉冲周期'] = '${circle}s';
+    }
+    if (!TextUtil.isEmpty(actionTime)) {
+      mapData['治疗时长'] = '${actionTime}min';
+    }
+    if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
+      mapData['震动打开时间'] = '${zdTime}min';
+    }
+    if (!TextUtil.isEmpty(dataTime)) {
+      mapData['时间'] = '$dataTime';
+    }
+    return mapData;
   }
 }

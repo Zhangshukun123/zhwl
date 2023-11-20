@@ -51,10 +51,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
   @override
   void initState() {
     super.initState();
-
-    view = UserHeadView(
-      type: type,
-    );
+    type = TreatmentType.spasm;
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
       dialog = DetailsDialog(index: _tabController.index + 4);
@@ -71,13 +68,14 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       if (_tabController.index == 3) {
         type = TreatmentType.frequency;
       }
-      controller.treatmentType.value = type;
-      controller.setUserForType(type);
-      _diaController =
-          TabController(length: dialog?.tabs.length ?? 0, vsync: this);
+      // controller.treatmentType.value = type;
+      // controller.setUserForType(type);
+      _diaController = TabController(length: dialog?.tabs.length ?? 0, vsync: this);
       dialog?.setTabController(_diaController);
-      // eventBus.fire(type);
+      eventBus.fire(type);
     });
+    tabController = _tabController;
+
     controller.treatmentType.value = type;
     controller.setUserForType(type);
     // dialog = DetailsDialog(index: _tabController.index);
@@ -97,7 +95,9 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       body: SafeArea(
         child: Column(
           children: [
-            view!,
+            UserHeadView(
+              type: type,
+            ),
             Expanded(
               child: Column(
                 children: [

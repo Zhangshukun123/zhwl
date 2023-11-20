@@ -108,10 +108,10 @@ class _TCalenderState extends State<TCalender> {
                       InkWell(
                         onTap: () {
                           widget.cDateTime(_dates);
-                          debugPrint("------------>$_dates");
+                          Get.back();
                         },
                         child: Text(
-                          "导出记录",
+                          "确定",
                           style: TextStyle(fontSize: 15.sp, color: Colors.blue),
                         ),
                       ),
