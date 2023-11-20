@@ -5,6 +5,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/port_data.dart';
 import 'package:zhwlzlxt_project/entity/record_entity.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
@@ -51,28 +52,28 @@ class Neuromuscular {
   });
 
   void init() {
-    patternA = "完全失神经";
+    patternA = Globalization.complete.tr;
     timeA = "20";
-    powerA = "1";
+    powerA = "0";
     frequencyA = "0.5";
-    patternB = "完全失神经";
+    patternB = Globalization.complete.tr;
     timeB = "20";
-    powerB = "1";
+    powerB = "0";
     frequencyB = "0.5";
   }
 
 
   void setARestValue(){
-    patternA = "完全失神经";
+    patternA = Globalization.complete.tr;
     timeA = "20";
-    powerA = "1";
+    powerA = "0";
     frequencyA = "0.5";
   }
 
   void setBRestValue(){
-    patternB = "完全失神经";
+    patternB = Globalization.complete.tr;
     timeB = "20";
-    powerB = "1";
+    powerB = "0";
     frequencyB = "0.5";
   }
 

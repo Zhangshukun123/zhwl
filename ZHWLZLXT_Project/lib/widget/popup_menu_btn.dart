@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 
+import '../base/globalization.dart';
 import '../utils/event_bus.dart';
 
 typedef PopupListener = void Function(String value);
@@ -132,11 +133,11 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         widget.unit = '';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续模式1'),
-          _getPopupMenuItem('断续模式1'),
-          _getPopupMenuItem('断续模式2'),
-          _getPopupMenuItem('断续模式3'),
-          _getPopupMenuItem('扫频'),
+          _getPopupMenuItem(Globalization.continuous.tr),
+          _getPopupMenuItem(Globalization.intermittentOne.tr),
+          _getPopupMenuItem(Globalization.intermittentTwo.tr),
+          _getPopupMenuItem(Globalization.intermittentThree.tr),
+          // _getPopupMenuItem('扫频'),
         ];
       case 1:
         widget.unit = "MHz";
@@ -149,18 +150,18 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
         widget.unit = '';
         widget.offset = Offset(0, -120.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续模式1'),
-          _getPopupMenuItem('断续模式1'),
-          _getPopupMenuItem('断续模式2'),
-          _getPopupMenuItem('断续模式3'),
+          _getPopupMenuItem(Globalization.continuous.tr),
+          _getPopupMenuItem(Globalization.intermittentOne.tr),
+          _getPopupMenuItem(Globalization.intermittentTwo.tr),
+          _getPopupMenuItem(Globalization.intermittentThree.tr),
         ];
       case 3:
         widget.unit = '';
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('连续输出'),
-          _getPopupMenuItem('慢速输出'),
-          _getPopupMenuItem('快速输出'),
+          _getPopupMenuItem(Globalization.continuous.tr),
+          _getPopupMenuItem(Globalization.fast.tr),
+          _getPopupMenuItem(Globalization.slow.tr),
         ];
       case 4:
         widget.unit = '模式';
@@ -173,8 +174,8 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
       case 5:
         widget.offset = Offset(0, 57.h);
         return <PopupMenuEntry<String>>[
-          _getPopupMenuItem('完全失神经'),
-          _getPopupMenuItem('部分失神经'),
+          _getPopupMenuItem(Globalization.complete.tr),
+          _getPopupMenuItem(Globalization.partial.tr),
         ];
       case 6:
         widget.unit = '模式';

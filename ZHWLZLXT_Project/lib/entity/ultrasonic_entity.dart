@@ -30,7 +30,7 @@ class UltrasonicField {
 
 class Ultrasonic {
   int? userId = -1;
-  String? pattern = '连续模式1';
+  String? pattern = Globalization.intermittentOne.tr;
   String? time = '1';
   String? power = '0.0';
   String? soundIntensity = '0.0';
@@ -46,7 +46,7 @@ class Ultrasonic {
   });
 
   init() {
-    pattern = "连续模式1";
+    pattern = Globalization.intermittentOne.tr;
     time = '20';
     power = '0';
     soundIntensity = '0.0';

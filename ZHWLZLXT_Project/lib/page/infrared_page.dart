@@ -57,7 +57,7 @@ class _InfraredPageState extends State<InfraredPage>
         index: 3); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     infraredEntity = InfraredEntity();
     infraredEntity?.init();
-    isDGW = (infraredEntity?.pattern != "连续模式1");
+    isDGW = (infraredEntity?.pattern != "连续");
 
     // infraredEntity = InfraredEntity();
 
@@ -238,10 +238,10 @@ class _InfraredPageState extends State<InfraredPage>
                               ),
                               PopupMenuBtn(
                                 index: 2,
-                                patternStr: infraredEntity?.pattern ?? "连续模式1",
+                                patternStr: infraredEntity?.pattern ?? Globalization.continuous.tr,
                                 enabled: !startSelected,
                                 popupListener: (value) {
-                                  isDGW = (value != "连续模式1");
+                                  isDGW = (value != Globalization.continuous.tr);
                                   if (isDGW) {
                                     eventBus.fire(Infrared());
                                   }

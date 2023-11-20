@@ -56,8 +56,14 @@ class Globalization {
   static const String confirm = "Confirm";//确定
   static const String userName = "Please input username";//请输入用户名
   static const String password = "Please input password";//请输入密码
-
-
+  static const String continuous = "Continuous";//连续
+  static const String intermittentOne = "intermittent1";//断续 1
+  static const String intermittentTwo = "intermittent2";// 断续 2
+  static const String intermittentThree = "intermittent3";// 断续 3
+  static const String fast = "Fast Intermittent";// 快速断续输出
+  static const String slow = "Slow Intermittent";// 慢速断续输出
+  static const String complete = "Complete denervation";// 完全失神经
+  static const String partial = "Partial denervation";// 部分失神经
 
 //Intensity
 

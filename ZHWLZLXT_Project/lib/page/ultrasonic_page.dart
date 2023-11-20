@@ -248,7 +248,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 ),
                                 PopupMenuBtn(
                                   index: 0,
-                                  patternStr: ultrasonic?.pattern ?? "连续模式1",
+                                  patternStr: ultrasonic?.pattern ?? Globalization.intermittentOne.tr,
                                   enabled: true,
                                   popupListener: (value) {
                                     ultrasonic?.pattern = value;
@@ -282,7 +282,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                           children: [
                             ContainerBg(
                                 child: SetValue(
-                              enabled: true,
+                              enabled: startSelected,
                               type: TreatmentType.ultrasonic,
                               title: Globalization.power.tr,
                               isEventBus: true,
@@ -332,7 +332,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   initialValue: double.tryParse(
                                       ultrasonic?.soundIntensity ?? '0.0'),
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
-                                  unit: 'w/cm2',
+                                  unit: 'W/cm2',
                                   valueListener: (value) {
                                     ultrasonic?.soundIntensity = value.toStringAsFixed(2);
 
@@ -469,7 +469,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                   startSelected);
                                             });
                                           },
-                                          // child: Image.asset(
+                                           // child: Image.asset(
                                           //   startSelected
                                           //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
                                           //       : 'assets/images/btn_kaishi_nor.png',

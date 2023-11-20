@@ -62,8 +62,14 @@ class LanguageValue extends Translations {
           Globalization.confirm:"Confirm",
           Globalization.userName:"Please input username",
           Globalization.password:"Please input password",
-
-
+          Globalization.continuous:"Continuous",
+          Globalization.intermittentOne:"intermittent1",
+          Globalization.intermittentTwo:"intermittent2",
+          Globalization.intermittentThree:"intermittent3",
+          Globalization.fast:"Fast Intermittent",
+          Globalization.slow:"Slow Intermittent",
+          Globalization.complete:"Complete denervation",
+          Globalization.partial:"Partial denervation",
 
         },
         "zh_CN": {
@@ -86,12 +92,12 @@ class LanguageValue extends Translations {
           Globalization.intensity:"强度",
           Globalization.vibration:"振动",
           Globalization.currEmStSt:"当前急停状态",
-          Globalization.pulseWidthA:"脉宽（A）",
-          Globalization.pulseWidthB:"脉宽（B）",
+          Globalization.pulseWidthA:"脉宽(A）",
+          Globalization.pulseWidthB:"脉宽(B）",
           Globalization.delayTime:"延时时间",
           Globalization.pulsePeriod:"脉冲周期",
-          Globalization.intensityA:"强度（A）",
-          Globalization.intensityB:"强度（B）",
+          Globalization.intensityA:"强度(A）",
+          Globalization.intensityB:"强度(B）",
           Globalization.pulseWidth:"脉宽",
           Globalization.recipe:"处方",
           Globalization.ultrasound:"超声疗法",
@@ -123,6 +129,14 @@ class LanguageValue extends Translations {
           Globalization.confirm:"确定",
           Globalization.userName:"请输入用户名",
           Globalization.password:"请输入密码",
+          Globalization.continuous:"连续",
+          Globalization.intermittentOne:"断续1",
+          Globalization.intermittentTwo:"断续2",
+          Globalization.intermittentThree:"断续3",
+          Globalization.fast:"快速断续输出",
+          Globalization.slow:"慢速断续输出",
+          Globalization.complete:"完全失神经",
+          Globalization.partial:"部分失神经",
 
 
         }
