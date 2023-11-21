@@ -9,3 +9,8 @@ EventBus eventBus = EventBus();
 Map<TreatmentType, User> userMap = {};
 
 TabController? tabController;
+
+
+
+
+bool? electrotherapyIsRunIng = false;

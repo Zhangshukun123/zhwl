@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
@@ -27,7 +28,17 @@ Future<void> main() async {
 
   initialization(null);
   AnpConfig.init();
+  setBrightness(SpUtils.getDouble('sliderValue', defaultValue: 100)! / 100);
   runApp(const MyApp());
+}
+
+Future<void> setBrightness(double brightness) async {
+  try {
+    await ScreenBrightness().setScreenBrightness(brightness);
+  } catch (e) {
+    print(e);
+    throw 'Failed to set brightness';
+  }
 }
 //启动图延时移除方法
 void initialization(BuildContext? context) async {
@@ -89,4 +100,8 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
+
+
+
 }

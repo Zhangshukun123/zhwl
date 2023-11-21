@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
 
@@ -19,8 +21,10 @@ class SetValueHorizontal extends StatefulWidget {
   String? title;
   String? assets;
   bool? enabled = true;
-
+  bool? isVisJa = true;
   bool? isInt = true;
+  bool? isClock = false;
+  bool? isAnimate = false;
   double? initialValue;
   String? unit;
   double? appreciation = 1;
@@ -36,6 +40,8 @@ class SetValueHorizontal extends StatefulWidget {
     this.title,
     this.assets,
     this.enabled,
+    this.isClock,
+    this.isAnimate,
     this.initialValue,
     this.appreciation,
     this.isInt,
@@ -44,6 +50,7 @@ class SetValueHorizontal extends StatefulWidget {
     this.valueListener,
     this.minValue,
     this.maxValue,
+    this.isVisJa,
     this.type,
     this.unit,
   }) : super(key: key);
@@ -75,13 +82,13 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       setState(() {});
     });
 
-    if (widget.indexType == 12||widget.indexType == 13) {
+    if (widget.indexType == 12 || widget.indexType == 13) {
       // 中频 时间
       eventBus.on<SetValueEntity>().listen((event) {
-        if(widget.indexType == 12 && (event.value ?? 0) > 0){
+        if (widget.indexType == 12 && (event.value ?? 0) > 0) {
           value = event.value ?? 0;
         }
-        if(widget.indexType == 13&& (event.power ?? 0) > 0){
+        if (widget.indexType == 13 && (event.power ?? 0) > 0) {
           value = event.power ?? 0;
         }
         if (!mounted) {
@@ -90,6 +97,31 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
         setState(() {});
       });
     }
+
+    eventBus.on<RunTime>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
+
+    eventBus.on<MC>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
+
   }
 
   @override
@@ -107,11 +139,17 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: TextButton(
                   onPressed: () {},
                   child: Row(children: [
-                    Image.asset(
-                      widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
+                    (widget.isClock ?? false)
+                        ? Lottie.asset('assets/lottie/clock.json',
+                        repeat: true,
+                        animate: widget.isAnimate,
+                        width: 18.w,
+                        fit: BoxFit.fitWidth)
+                        : Image.asset(
+                      widget.assets ??
+                          'assets/images/2.0x/icon_shijian.png',
                       fit: BoxFit.fitWidth,
-                      width: 16.w,
-                      height: 16.w,
+                      width: 15.w,
                     ),
                     SizedBox(
                       width: 4.w,
@@ -163,13 +201,16 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled ?? true
-                    ? 'assets/images/btn_jian_nor.png'
-                    : 'assets/images/2.0x/btn_jian_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible: widget.isVisJa ?? true,
+                child: Image.asset(
+                  widget.enabled ?? true
+                      ? 'assets/images/btn_jian_nor.png'
+                      : 'assets/images/2.0x/btn_jian_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
             SizedBox(
@@ -244,13 +285,16 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled ?? true
-                    ? 'assets/images/btn_jia_nor.png'
-                    : 'assets/images/2.0x/btn_jia_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible: widget.isVisJa ?? true,
+                child: Image.asset(
+                  widget.enabled ?? true
+                      ? 'assets/images/btn_jia_nor.png'
+                      : 'assets/images/2.0x/btn_jia_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
             // TextButton(

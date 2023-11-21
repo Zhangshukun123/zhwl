@@ -5,6 +5,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/entity/ultrasonic_sound.dart';
@@ -20,6 +21,8 @@ class SetValue extends StatefulWidget {
   bool? isInt = true;
   bool? isEventBus = true;
   bool? isViImg = true;
+  bool? isClock = false;
+  bool? isAnimate = false;
   String? assets;
   String? title;
   String? unit;
@@ -27,7 +30,7 @@ class SetValue extends StatefulWidget {
   double? minValue;
   double? maxValue;
   int? indexType;
-  int? IntFixed=1;
+  int? IntFixed = 1;
   double? appreciation = 1;
   TreatmentType? type;
   ValueListener? valueListener;
@@ -36,9 +39,11 @@ class SetValue extends StatefulWidget {
     Key? key,
     required this.enabled,
     this.assets,
+    this.isClock,
     this.title,
     this.unit,
     this.type,
+    this.isAnimate,
     this.IntFixed,
     this.indexType,
     this.initialValue,
@@ -76,16 +81,6 @@ class _SetValueState extends State<SetValue> {
         widget.valueListener!(value);
         setState(() {});
       });
-
-      // eventBus.on<Infrared>().listen((event) {
-      //   //光疗强度 低功率 。
-      //   value = 1;
-      //   if (!mounted) {
-      //     return;
-      //   }
-      //   widget.valueListener!(value);
-      //   setState(() {});
-      // });
     }
 
     eventBus.on<SetValueState>().listen((event) {
@@ -99,7 +94,8 @@ class _SetValueState extends State<SetValue> {
       setState(() {});
     });
 
-    if(widget.indexType==1){  // 超声声强
+    if (widget.indexType == 1) {
+      // 超声声强
       eventBus.on<UltrasonicSound>().listen((event) {
         value = event.value ?? 0;
         if (!mounted) {
@@ -108,7 +104,17 @@ class _SetValueState extends State<SetValue> {
         setState(() {});
       });
     }
-
+    eventBus.on<RunTime>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
   }
 
   @override
@@ -123,12 +129,20 @@ class _SetValueState extends State<SetValue> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
-                    fit: BoxFit.fitWidth,
-                    width: 24.w,
-                    height: 24.h,
-                  ),
+
+                  (widget.isClock ?? false)
+                      ? Lottie.asset('assets/lottie/clock.json',
+                          repeat: true,
+                          animate: widget.isAnimate,
+                          width: 24.w,
+              height: 24.h,
+                          fit: BoxFit.fitWidth)
+                      : Image.asset(
+                          widget.assets ??
+                              'assets/images/2.0x/icon_shijian.png',
+                          fit: BoxFit.fitWidth,
+                          width: 15.w,
+                        ),
                   SizedBox(
                     width: 5.w,
                   ),
@@ -192,6 +206,7 @@ class _SetValueState extends State<SetValue> {
                   ),
                 ),
               ),
+<<<<<<< HEAD
               SizedBox(
                 width: 5.w,
               ),
@@ -210,6 +225,34 @@ class _SetValueState extends State<SetValue> {
                       widget.isInt ?? true
                           ? value.toInt().toString()
                           : value.toStringAsFixed(widget.IntFixed??1),
+=======
+            ),
+            SizedBox(
+              width: 5.w,
+            ),
+            Container(
+              width: 120.w,
+              height: 55.h,
+              decoration: const BoxDecoration(
+                  color: Color(0xFFF0FAFE),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.isInt ?? true
+                        ? value.toInt().toString()
+                        : value.toStringAsFixed(widget.IntFixed ?? 1),
+                    style: TextStyle(
+                        color: const Color(0xFF333333), fontSize: 20.sp),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
+                    child: Text(
+                      widget.unit ?? "",
+>>>>>>> 58687d5bee63787aa4ace021fc8dc40c98895f5b
                       style: TextStyle(
                           color: const Color(0xFF333333), fontSize: 24.sp),
                     ),
@@ -252,6 +295,7 @@ class _SetValueState extends State<SetValue> {
                       }
                     });
                   });
+<<<<<<< HEAD
                 },
                 onTapUp: (e) {
                   if (timer != null) {
@@ -273,6 +317,29 @@ class _SetValueState extends State<SetValue> {
                     width: 35.w,
                     height: 35.h,
                   ),
+=======
+                });
+              },
+              onTapUp: (e) {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              onTapCancel: () {
+                if (timer != null) {
+                  timer.cancel();
+                }
+              },
+              child: Visibility(
+                visible: widget.isViImg ?? true,
+                child: Image.asset(
+                  widget.enabled
+                      ? 'assets/images/btn_jia_nor.png'
+                      : 'assets/images/2.0x/btn_jia_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+>>>>>>> 58687d5bee63787aa4ace021fc8dc40c98895f5b
                 ),
               ),
             ],

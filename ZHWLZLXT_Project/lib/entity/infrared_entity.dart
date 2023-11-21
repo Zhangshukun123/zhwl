@@ -41,7 +41,7 @@ class InfraredEntity {
 
   void init() {
     time = "20";
-    power = "0";
+    power = "1";
     pattern = Globalization.continuous.tr;
   }
 

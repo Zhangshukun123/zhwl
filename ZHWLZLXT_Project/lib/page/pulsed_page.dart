@@ -16,6 +16,7 @@ import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -101,17 +102,18 @@ class _PulsedPageState extends State<PulsedPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
-        //计时结束
-        //结束治疗
+        pulsed?.init();
         pulsed?.start(false, false);
         this.startSelected = false;
-        pulsed?.init();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        pulsed?.start(startSelected, switchSelected);
         _countdownTime = _countdownTime - 1;
+        pulsed?.time = _countdownTime.toString();
+        RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
+        eventBus.fire(runTime);
+        pulsed?.start(startSelected, switchSelected);
       }
     }
 
@@ -187,8 +189,11 @@ class _PulsedPageState extends State<PulsedPage>
                             type: TreatmentType.pulsed,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
+                            isClock: true,
+                            isAnimate: startSelected,
                             initialValue: double.tryParse(pulsed?.time ?? '12'),
                             maxValue: 99,
+                            indexType: 1002,
                             minValue: 1,
                             unit: 'min',
                             valueListener: (value) {

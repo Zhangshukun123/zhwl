@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -14,8 +15,12 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 
+import '../Controller/serial_msg.dart';
+import '../Controller/serial_port.dart';
 import '../Controller/ultrasonic_controller.dart';
+import '../entity/port_data.dart';
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
 import '../widget/details_dialog.dart';
@@ -36,6 +41,7 @@ class _InfraredPageState extends State<InfraredPage>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   bool thirdStartSelected = false;
   bool switchSelected = true;
+  bool isScram = false;
 
   //定义四个页面
   late TabController _tabController;
@@ -83,6 +89,8 @@ class _InfraredPageState extends State<InfraredPage>
     //     infraredEntity?.user = event.user;
     //   }
     // });
+    SerialMsg.platform.setMethodCallHandler(flutterMethod);
+    checkInfrared();
   }
 
   void save(int userId) {
@@ -96,6 +104,9 @@ class _InfraredPageState extends State<InfraredPage>
     super.dispose();
     if (_timer != null) {
       _timer?.cancel();
+    }
+    if (_timerCheck != null) {
+      _timerCheck?.cancel();
     }
   }
 
@@ -113,20 +124,59 @@ class _InfraredPageState extends State<InfraredPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         //计时结束
-        //结束治疗
+        infraredEntity?.init();
         infraredEntity?.start(false);
         this.startSelected = false;
-        infraredEntity?.init();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        infraredEntity?.start(startSelected);
         _countdownTime = _countdownTime - 1;
+        infraredEntity?.time = _countdownTime.toString();
+        RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
+        eventBus.fire(runTime);
+        infraredEntity?.start(startSelected);
       }
     }
 
     _timer = Timer.periodic(oneSec, callback);
+  }
+
+  Timer? _timerCheck;
+
+  void checkInfrared() {
+    _timerCheck = Timer.periodic(const Duration(seconds: 1), (timer) {
+      String data = BYTE00_RW.B02; // 00
+      data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    01
+      data = "$data 00"; //BYte02 通道 02
+      data = "$data 00"; // 03
+      data = "$data 00"; // 04
+      data = "$data 00"; // 05
+      data = "$data 00"; // 06
+      data = "$data 00"; // 07
+      data = "$data 00"; // 08
+      data = "$data 00"; // 09
+      data = "$data 00"; // 10
+      SerialPort().send(data);
+    });
+  }
+
+  Future<dynamic> flutterMethod(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'onPortDataReceived':
+        String value = methodCall.arguments;
+        if (value.length > 10) {
+          if (value.substring(4, 6) == '02') {
+            if (value.substring(18, 20) == "00") {
+              isScram = true;
+            }
+            if (value.substring(18, 20) == "01") {
+              isScram = false;
+            }
+          }
+        }
+        break;
+    }
   }
 
   @override
@@ -158,9 +208,12 @@ class _InfraredPageState extends State<InfraredPage>
                           type: TreatmentType.infrared,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
+                          isClock: true,
+                          isAnimate: startSelected,
                           initialValue:
                               double.tryParse(infraredEntity?.time ?? '12'),
                           maxValue: 99,
+                          indexType: 1003,
                           minValue: 0,
                           unit: 'min',
                           valueListener: (value) {
@@ -238,10 +291,12 @@ class _InfraredPageState extends State<InfraredPage>
                               ),
                               PopupMenuBtn(
                                 index: 2,
-                                patternStr: infraredEntity?.pattern ?? Globalization.continuous.tr,
+                                patternStr: infraredEntity?.pattern ??
+                                    Globalization.continuous.tr,
                                 enabled: !startSelected,
                                 popupListener: (value) {
-                                  isDGW = (value != Globalization.continuous.tr);
+                                  isDGW =
+                                      (value != Globalization.continuous.tr);
                                   if (isDGW) {
                                     eventBus.fire(Infrared());
                                   }
@@ -280,11 +335,12 @@ class _InfraredPageState extends State<InfraredPage>
                                 margin: EdgeInsets.only(top: 30.h),
                                 height: 100.h,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                      'assets/images/2.0x/icon_jiting.png',
+                                      isScram
+                                          ? 'assets/images/2.0x/icon_jiting.png'
+                                          : 'assets/images/2.0x/icon_zhengchang.png',
                                       fit: BoxFit.fitHeight,
                                       height: 100.h,
                                     ),
@@ -294,9 +350,13 @@ class _InfraredPageState extends State<InfraredPage>
                               Container(
                                 margin: EdgeInsets.only(top: 10.h),
                                 child: Text(
-                                  Globalization.currEmStSt.tr,
+                                  isScram
+                                      ? Globalization.currEmStSt.tr
+                                      : "当前正常状态",
                                   style: TextStyle(
-                                      color: const Color(0xFFFD5F1F),
+                                      color: isScram
+                                          ? const Color(0xFFFD5F1F)
+                                          : Colors.black,
                                       fontSize: 18.sp),
                                 ),
                               ),
@@ -360,15 +420,22 @@ class _InfraredPageState extends State<InfraredPage>
                                   width: 120.w,
                                   height: 55.h,
                                   decoration: BoxDecoration(
-                                      color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                      color: startSelected
+                                          ? const Color(0xFF00C290)
+                                          : const Color(0xFF00A8E7),
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(10.w),
                                       )),
                                   child: TextButton(
                                     onPressed: () {
+                                      if (isScram) {
+                                        Fluttertoast.showToast(
+                                            msg: '光疗设备处于急停状态');
+                                        return;
+                                      }
                                       // thirdStartSelected = !thirdStartSelected;
-                                      startSelected = infraredEntity?.start(
-                                              !startSelected) ??
+                                      startSelected = infraredEntity
+                                              ?.start(!startSelected) ??
                                           false;
                                       if (!startSelected) {
                                         infraredEntity?.init();
@@ -383,8 +450,7 @@ class _InfraredPageState extends State<InfraredPage>
                                         //点击开始治疗
                                         double? tmp = double.tryParse(
                                             infraredEntity?.time ?? '1');
-                                        _countdownTime =
-                                            ((tmp?.toInt())!);
+                                        _countdownTime = ((tmp?.toInt())!);
 
                                         startCountdownTimer(startSelected);
                                       });
@@ -397,11 +463,27 @@ class _InfraredPageState extends State<InfraredPage>
                                     //   fit: BoxFit.fitWidth,
                                     // ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                        SizedBox(width: 8.w,),
-                                        Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                        Image.asset(
+                                          'assets/images/2.0x/icon_kaishi.png',
+                                          fit: BoxFit.fitWidth,
+                                          width: 18.w,
+                                          height: 18.h,
+                                        ),
+                                        SizedBox(
+                                          width: 8.w,
+                                        ),
+                                        Text(
+                                          startSelected
+                                              ? Globalization.stop.tr
+                                              : Globalization.start.tr,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ],
                                     ),
                                   ),
