@@ -56,7 +56,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   Timer? _timer;
   int _countdownTime = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -76,7 +75,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     _tabController.addListener(() {});
 
     dialog?.setTabController(_tabController);
-
 
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
@@ -177,15 +175,18 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
-        ultrasonic?.start(false);
         ultrasonic?.init();
+        ultrasonic?.start(false);
         this.startSelected = false;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        ultrasonic?.start(startSelected);
         _countdownTime = _countdownTime - 1;
+        ultrasonic?.time = _countdownTime.toString();
+        RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
+        eventBus.fire(runTime);
+        ultrasonic?.start(startSelected);
       }
     }
 
@@ -248,7 +249,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 ),
                                 PopupMenuBtn(
                                   index: 0,
-                                  patternStr: ultrasonic?.pattern ?? Globalization.intermittentOne.tr,
+                                  patternStr: ultrasonic?.pattern ??
+                                      Globalization.intermittentOne.tr,
                                   enabled: true,
                                   popupListener: (value) {
                                     ultrasonic?.pattern = value;
@@ -268,6 +270,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                       double.tryParse(ultrasonic?.time ?? '1'),
                                   minValue: 1,
                                   maxValue: 30,
+                                  indexType: 1001,
                                   unit: 'min',
                                   valueListener: (value) {
                                     ultrasonic?.time = value.toString();
@@ -304,10 +307,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 if (ultrasonicController
                                         .ultrasonic.frequency.value ==
                                     1) {
-                                  ultrasonic?.soundIntensity = (value / 4).toStringAsFixed(2);
+                                  ultrasonic?.soundIntensity =
+                                      (value / 4).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 4)));
                                 } else {
-                                  ultrasonic?.soundIntensity = (value / 2).toStringAsFixed(2);
+                                  ultrasonic?.soundIntensity =
+                                      (value / 2).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
@@ -334,8 +339,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
                                   unit: 'W/cm2',
                                   valueListener: (value) {
-                                    ultrasonic?.soundIntensity = value.toStringAsFixed(2);
-
+                                    ultrasonic?.soundIntensity =
+                                        value.toStringAsFixed(2);
                                   },
                                 )),
                           ],
@@ -469,7 +474,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                   startSelected);
                                             });
                                           },
-                                           // child: Image.asset(
+                                          // child: Image.asset(
                                           //   startSelected
                                           //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
                                           //       : 'assets/images/btn_kaishi_nor.png',

@@ -27,7 +27,7 @@ class SetValue extends StatefulWidget {
   double? minValue;
   double? maxValue;
   int? indexType;
-  int? IntFixed=1;
+  int? IntFixed = 1;
   double? appreciation = 1;
   TreatmentType? type;
   ValueListener? valueListener;
@@ -76,16 +76,6 @@ class _SetValueState extends State<SetValue> {
         widget.valueListener!(value);
         setState(() {});
       });
-
-      // eventBus.on<Infrared>().listen((event) {
-      //   //光疗强度 低功率 。
-      //   value = 1;
-      //   if (!mounted) {
-      //     return;
-      //   }
-      //   widget.valueListener!(value);
-      //   setState(() {});
-      // });
     }
 
     eventBus.on<SetValueState>().listen((event) {
@@ -99,7 +89,8 @@ class _SetValueState extends State<SetValue> {
       setState(() {});
     });
 
-    if(widget.indexType==1){  // 超声声强
+    if (widget.indexType == 1) {
+      // 超声声强
       eventBus.on<UltrasonicSound>().listen((event) {
         value = event.value ?? 0;
         if (!mounted) {
@@ -108,7 +99,17 @@ class _SetValueState extends State<SetValue> {
         setState(() {});
       });
     }
-
+    eventBus.on<RunTime>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
   }
 
   @override
@@ -206,7 +207,7 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.isInt ?? true
                         ? value.toInt().toString()
-                        : value.toStringAsFixed(widget.IntFixed??1),
+                        : value.toStringAsFixed(widget.IntFixed ?? 1),
                     style: TextStyle(
                         color: const Color(0xFF333333), fontSize: 20.sp),
                   ),
@@ -261,7 +262,7 @@ class _SetValueState extends State<SetValue> {
                 }
               },
               child: Visibility(
-                visible:  widget.isViImg ?? true,
+                visible: widget.isViImg ?? true,
                 child: Image.asset(
                   widget.enabled
                       ? 'assets/images/btn_jia_nor.png'

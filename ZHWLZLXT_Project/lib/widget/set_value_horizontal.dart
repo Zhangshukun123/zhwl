@@ -9,6 +9,7 @@ import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/treatment_type.dart';
 
@@ -19,7 +20,7 @@ class SetValueHorizontal extends StatefulWidget {
   String? title;
   String? assets;
   bool? enabled = true;
-
+  bool? isVisJa = true;
   bool? isInt = true;
   double? initialValue;
   String? unit;
@@ -44,6 +45,7 @@ class SetValueHorizontal extends StatefulWidget {
     this.valueListener,
     this.minValue,
     this.maxValue,
+    this.isVisJa,
     this.type,
     this.unit,
   }) : super(key: key);
@@ -75,13 +77,13 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       setState(() {});
     });
 
-    if (widget.indexType == 12||widget.indexType == 13) {
+    if (widget.indexType == 12 || widget.indexType == 13) {
       // 中频 时间
       eventBus.on<SetValueEntity>().listen((event) {
-        if(widget.indexType == 12 && (event.value ?? 0) > 0){
+        if (widget.indexType == 12 && (event.value ?? 0) > 0) {
           value = event.value ?? 0;
         }
-        if(widget.indexType == 13&& (event.power ?? 0) > 0){
+        if (widget.indexType == 13 && (event.power ?? 0) > 0) {
           value = event.power ?? 0;
         }
         if (!mounted) {
@@ -90,6 +92,31 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
         setState(() {});
       });
     }
+
+    eventBus.on<RunTime>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
+
+    eventBus.on<MC>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      if (widget.indexType != event.intType) {
+        return;
+      }
+      value = event.value ?? 0;
+      widget.valueListener!(value);
+      setState(() {});
+    });
+
   }
 
   @override
@@ -163,13 +190,16 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled ?? true
-                    ? 'assets/images/btn_jian_nor.png'
-                    : 'assets/images/2.0x/btn_jian_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible: widget.isVisJa ?? true,
+                child: Image.asset(
+                  widget.enabled ?? true
+                      ? 'assets/images/btn_jian_nor.png'
+                      : 'assets/images/2.0x/btn_jian_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
             SizedBox(
@@ -244,13 +274,16 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   timer.cancel();
                 }
               },
-              child: Image.asset(
-                widget.enabled ?? true
-                    ? 'assets/images/btn_jia_nor.png'
-                    : 'assets/images/2.0x/btn_jia_disabled.png',
-                fit: BoxFit.fitWidth,
-                width: 34.w,
-                height: 34.h,
+              child: Visibility(
+                visible: widget.isVisJa ?? true,
+                child: Image.asset(
+                  widget.enabled ?? true
+                      ? 'assets/images/btn_jia_nor.png'
+                      : 'assets/images/2.0x/btn_jia_disabled.png',
+                  fit: BoxFit.fitWidth,
+                  width: 34.w,
+                  height: 34.h,
+                ),
               ),
             ),
             // TextButton(

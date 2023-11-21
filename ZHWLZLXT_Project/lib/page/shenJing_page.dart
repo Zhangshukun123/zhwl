@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
@@ -90,15 +91,23 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         _timer1?.cancel();
         //计时结束
         //结束治疗
+        neuromuscular?.setARestValue();
         neuromuscular?.start1(false);
         yiStartSelected = false;
-        neuromuscular?.setARestValue();
         setState(() {
+          Future.delayed(
+              const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(
+                TreatmentType.neuromuscular));
+          });
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        neuromuscular?.start1(yiStartSelected);
         _countdownTime1 = _countdownTime1 - 1;
+        neuromuscular?.timeA = _countdownTime1.toString();
+        RunTime runTime = RunTime(_countdownTime1.toDouble(), 2004);
+        eventBus.fire(runTime);
+        neuromuscular?.start1(yiStartSelected);
       }
     }
     _timer1 = Timer.periodic(oneSec, callback);
@@ -119,16 +128,25 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         _timer2?.cancel();
         //计时结束
         //结束治疗
+        neuromuscular?.setBRestValue();
         neuromuscular?.start2(false);
         erStartSelected = false;
-        neuromuscular?.setBRestValue();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
+          Future.delayed(
+              const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(
+                TreatmentType.neuromuscular));
+          });
         });
       } else {
+
+        _countdownTime2 = _countdownTime2 - 1;
+        neuromuscular?.timeB = _countdownTime2.toString();
+        RunTime runTime = RunTime(_countdownTime2.toDouble(), 2005);
+        eventBus.fire(runTime);
         neuromuscular
             ?.start2(erStartSelected);
-        _countdownTime2 = _countdownTime2 - 1;
       }
     }
 
@@ -210,6 +228,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(neuromuscular?.timeA ?? '1'),
                           minValue: 1,
+                          indexType: 2004,
                           maxValue: 30,
                           unit: 'min',
                           valueListener: (value) {
@@ -269,6 +288,8 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 yiStartSelected =
                                     neuromuscular?.start1(!yiStartSelected) ??
                                     false;
+                                electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+                                eventBus.fire(Notify());
                                 if (!yiStartSelected) {
                                   neuromuscular?.setARestValue();
                                   Future.delayed(const Duration(milliseconds: 500), () {
@@ -311,7 +332,6 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                 margin: EdgeInsets.only(top: 9.h),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                     children: [
                       Container(
                           decoration: BoxDecoration(
@@ -368,6 +388,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           initialValue: double.tryParse(neuromuscular?.timeB ?? '1'),
                           maxValue: 30,
+                          indexType: 2005,
                           minValue: 1,
                           unit: 'min',
                           valueListener: (value) {
@@ -427,6 +448,8 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                 erStartSelected = neuromuscular
                                     ?.start2(!erStartSelected) ??
                                     false;
+                                electrotherapyIsRunIng = erStartSelected||yiStartSelected;
+                                eventBus.fire(Notify());
                                 if (!erStartSelected) {
                                   neuromuscular?.setBRestValue();
                                   Future.delayed(const Duration(milliseconds: 500), () {

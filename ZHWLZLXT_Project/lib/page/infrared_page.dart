@@ -16,6 +16,7 @@ import 'package:zhwlzlxt_project/page/user_head_view.dart';
 
 import '../Controller/ultrasonic_controller.dart';
 import '../entity/set_value_state.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
 import '../widget/details_dialog.dart';
@@ -114,15 +115,18 @@ class _InfraredPageState extends State<InfraredPage>
         _timer?.cancel();
         //计时结束
         //结束治疗
+        infraredEntity?.init();
         infraredEntity?.start(false);
         this.startSelected = false;
-        infraredEntity?.init();
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
       } else {
-        infraredEntity?.start(startSelected);
         _countdownTime = _countdownTime - 1;
+        infraredEntity?.time = _countdownTime.toString();
+        RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
+        eventBus.fire(runTime);
+        infraredEntity?.start(startSelected);
       }
     }
 
@@ -161,6 +165,7 @@ class _InfraredPageState extends State<InfraredPage>
                           initialValue:
                               double.tryParse(infraredEntity?.time ?? '12'),
                           maxValue: 99,
+                          indexType: 1003,
                           minValue: 0,
                           unit: 'min',
                           valueListener: (value) {

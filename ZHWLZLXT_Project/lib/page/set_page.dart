@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:zhwlzlxt_project/entity/ultrasonic_sound.dart';
+import 'package:zhwlzlxt_project/utils/event_bus.dart';
+
 // import 'package:screen_brightness/screen_brightness.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/widget/switch_value.dart';
@@ -18,12 +22,11 @@ class SetPage extends StatefulWidget {
 }
 
 class _SetPageState extends State<SetPage> {
-  bool languageBtnSelected = true;
+  bool languageBtnSelected = false;
   bool blueBtnSelected = true;
-  double sliderValue = 50;
-  int textValue = 50;
+  double sliderValue = 100;
+  int textValue = 100;
   String sliderText = "还没操作";
-
 
   void updateSlider(value, text) {
     sliderValue = value;
@@ -36,6 +39,9 @@ class _SetPageState extends State<SetPage> {
   void initState() {
     super.initState();
     languageBtnSelected = SpUtils.getBool(Globalization.languageSelected)!;
+    sliderValue = SpUtils.getDouble('sliderValue', defaultValue: 100)!;
+    textValue = sliderValue.round();
+    setBrightness(sliderValue / 100);
   }
 
   @override
@@ -61,51 +67,70 @@ class _SetPageState extends State<SetPage> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 180.w),
-                    child:
-                    Row(
+                    child: Row(
                       children: [
                         Text(
                           Globalization.language.tr,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                        SizedBox(width: 14.w,),
-                        HomeSwitchButton(onString: "中文", offString: "EN", pressed: languageBtnSelected, onTap: (obj){
-                          languageBtnSelected = !languageBtnSelected;
-                          SpUtils.setBool(Globalization.languageSelected, languageBtnSelected);
-                          if(languageBtnSelected){
-                            var locale = const Locale('zh', 'CN');
-                            Get.updateLocale(locale);
-                          }else{
-                            var locale = const Locale('en', 'US');
-                            Get.updateLocale(locale);
-                          }
-                          debugPrint('当前的语言为: ${Get.locale?.countryCode == "CN"}');
-                          setState(() {
-                            print(obj);
-                          });
-                        }),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 200.w),
-                    child:
-                    Row(
-                      children: [
-                        Text(
-                          Globalization.bluetooth.tr,
-                          style: TextStyle(fontSize: 18.sp,color: const Color(0xFF999999)),),
-                        SizedBox(width: 14.w,),
+                          style: TextStyle(
+                              fontSize: 18.sp, color: const Color(0xFF999999)),
+                        ),
+                        SizedBox(
+                          width: 14.w,
+                        ),
                         HomeSwitchButton(
-                            onString: Globalization.open.tr,
-                            offString: Globalization.close.tr,
-                            pressed: blueBtnSelected,
-                            onTap: (obj){
+                            onString: "中文",
+                            offString: "EN",
+                            pressed: Get.locale?.countryCode == "CN",
+                            onTap: (obj) {
+                              languageBtnSelected = !languageBtnSelected;
+                              SpUtils.setBool(Globalization.languageSelected,
+                                  languageBtnSelected);
+                              if (languageBtnSelected) {
+                                var locale = const Locale('zh', 'CN');
+                                Get.updateLocale(locale);
+                              } else {
+                                var locale = const Locale('en', 'US');
+                                Get.updateLocale(locale);
+                              }
+                              debugPrint(
+                                  '当前的语言为: ${Get.locale?.countryCode == "CN"}');
+                              Language l = Language(Get.locale?.countryCode == "CN"?1:2);
+                              eventBus.fire(l);
+
                               setState(() {
-                                blueBtnSelected = !blueBtnSelected;
                                 print(obj);
                               });
                             }),
                       ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: false,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 200.w),
+                      child: Row(
+                        children: [
+                          Text(
+                            Globalization.bluetooth.tr,
+                            style: TextStyle(
+                                fontSize: 18.sp,
+                                color: const Color(0xFF999999)),
+                          ),
+                          SizedBox(
+                            width: 14.w,
+                          ),
+                          HomeSwitchButton(
+                              onString: Globalization.open.tr,
+                              offString: Globalization.close.tr,
+                              pressed: blueBtnSelected,
+                              onTap: (obj) {
+                                setState(() {
+                                  blueBtnSelected = !blueBtnSelected;
+                                  print(obj);
+                                });
+                              }),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -139,8 +164,9 @@ class _SetPageState extends State<SetPage> {
                           onChanged: (value) {
                             sliderValue = value;
                             setState(() {});
-                            // setBrightness(value);
+                            setBrightness(value / 100);
                             // print("onChanged : $value");
+                            updateSlider(value, "onChangeEnd : $value");
                           },
                           //刚开始点击
                           onChangeStart: (value) {
@@ -151,6 +177,7 @@ class _SetPageState extends State<SetPage> {
                           onChangeEnd: (value) {
                             print("onChangeEnd : $value");
                             updateSlider(value, "onChangeEnd : $value");
+                            SpUtils.setDouble('sliderValue', value);
                           },
                         ),
                       )
@@ -165,15 +192,12 @@ class _SetPageState extends State<SetPage> {
     );
   }
 
-
-  // Future<void> setBrightness(double brightness) async {
-  //   try {
-  //     await ScreenBrightness().setScreenBrightness(brightness);
-  //   } catch (e) {
-  //     print(e);
-  //     throw 'Failed to set brightness';
-  //   }
-  // }
-
-
+  Future<void> setBrightness(double brightness) async {
+    try {
+      await ScreenBrightness().setScreenBrightness(brightness);
+    } catch (e) {
+      print(e);
+      throw 'Failed to set brightness';
+    }
+  }
 }

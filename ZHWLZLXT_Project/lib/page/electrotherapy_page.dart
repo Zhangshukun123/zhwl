@@ -12,6 +12,7 @@ import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
 import '../Controller/treatment_controller.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../widget/custom_tabIndicator.dart';
 import '../widget/details_dialog.dart';
 
@@ -26,9 +27,7 @@ class ElectrotherapyPage extends StatefulWidget {
 
 class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  List tabs = [
-    Globalization.spasm.tr, Globalization.tens.tr, Globalization.muscle.tr, Globalization.medium.tr
-  ];
+  List tabs = [];
 
   //定义四个页面
   List<Widget> pageViewList = [
@@ -45,17 +44,41 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
 
   UserHeadView? view;
 
-
   final TreatmentController controller = Get.find();
 
   @override
   void initState() {
     super.initState();
+
+    tabs = [
+      Globalization.spasm.tr,
+      Globalization.tens.tr,
+      Globalization.muscle.tr,
+      Globalization.medium.tr
+    ];
+
+    eventBus.on<Language>().listen((event) {
+      tabs = [
+        Globalization.spasm.tr,
+        Globalization.tens.tr,
+        Globalization.muscle.tr,
+        Globalization.medium.tr
+      ];
+      setState(() {});
+    });
+    int index = 0;
+
     type = TreatmentType.spasm;
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
-      dialog = DetailsDialog(index: _tabController.index + 4);
+      if (electrotherapyIsRunIng ?? false) {
+        _tabController.index = index;
 
+        return;
+      }
+
+      dialog = DetailsDialog(index: _tabController.index + 4);
+      index = _tabController.index;
       if (_tabController.index == 0) {
         type = TreatmentType.spasm;
       }
@@ -70,7 +93,8 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       }
       // controller.treatmentType.value = type;
       // controller.setUserForType(type);
-      _diaController = TabController(length: dialog?.tabs.length ?? 0, vsync: this);
+      _diaController =
+          TabController(length: dialog?.tabs.length ?? 0, vsync: this);
       dialog?.setTabController(_diaController);
       eventBus.fire(type);
     });
@@ -83,6 +107,16 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     _diaController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     dialog?.setTabController(_diaController);
+
+
+
+    eventBus.on<Notify>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
+
   }
 
   @override
@@ -90,6 +124,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
+
     return Scaffold(
       backgroundColor: const Color(0xFFF0FAFE),
       body: SafeArea(
@@ -169,7 +204,11 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                   ),
                   Expanded(
                       child: TabBarView(
-                          controller: _tabController, children: pageViewList))
+                          physics: (electrotherapyIsRunIng ?? false)
+                              ? const NeverScrollableScrollPhysics()
+                              : const AlwaysScrollableScrollPhysics(),
+                          controller: _tabController,
+                          children: pageViewList))
                 ],
               ),
             ),
