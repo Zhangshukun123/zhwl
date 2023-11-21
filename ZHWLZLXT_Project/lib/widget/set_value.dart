@@ -5,6 +5,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/entity/ultrasonic_sound.dart';
@@ -20,6 +21,8 @@ class SetValue extends StatefulWidget {
   bool? isInt = true;
   bool? isEventBus = true;
   bool? isViImg = true;
+  bool? isClock = false;
+  bool? isAnimate = false;
   String? assets;
   String? title;
   String? unit;
@@ -36,9 +39,11 @@ class SetValue extends StatefulWidget {
     Key? key,
     required this.enabled,
     this.assets,
+    this.isClock,
     this.title,
     this.unit,
     this.type,
+    this.isAnimate,
     this.IntFixed,
     this.indexType,
     this.initialValue,
@@ -124,11 +129,18 @@ class _SetValueState extends State<SetValue> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
-                    fit: BoxFit.fitWidth,
-                    width: 15.w,
-                  ),
+                  (widget.isClock ?? false)
+                      ? Lottie.asset('assets/lottie/clock.json',
+                          repeat: true,
+                          animate: widget.isAnimate,
+                          width: 18.w,
+                          fit: BoxFit.fitWidth)
+                      : Image.asset(
+                          widget.assets ??
+                              'assets/images/2.0x/icon_shijian.png',
+                          fit: BoxFit.fitWidth,
+                          width: 15.w,
+                        ),
                   SizedBox(
                     width: 5.w,
                   ),

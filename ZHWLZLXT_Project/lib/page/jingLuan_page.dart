@@ -125,6 +125,8 @@ class _JingLuanPageState extends State<JingLuanPage>
                     type: TreatmentType.spasm,
                     title: Globalization.time.tr,
                     assets: 'assets/images/2.0x/icon_shijian.png',
+                    isClock: true,
+                    isAnimate: startSelected,
                     initialValue: double.tryParse(spastic?.time ?? '1'),
                     maxValue: 30,
                     minValue: 1,

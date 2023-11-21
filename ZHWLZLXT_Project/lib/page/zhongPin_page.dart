@@ -251,6 +251,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           title: Globalization.time.tr,
                           indexType: aliveAuto ? 12 : 2008,
                           assets: 'assets/images/2.0x/icon_shijian.png',
+                          isClock: true,
+                          isAnimate: aliveAuto?electrotherapyIsRunIng:yiStartSelected,
                           initialValue:
                               double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
@@ -455,6 +457,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           title: Globalization.time.tr,
                           indexType: aliveAuto ? 12 : 2009,
                           assets: 'assets/images/2.0x/icon_shijian.png',
+                          isClock: true,
+                          isAnimate: aliveAuto?electrotherapyIsRunIng:erStartSelected,
                           initialValue:
                               double.tryParse(midFrequency?.timeB ?? '1'),
                           maxValue: 30,

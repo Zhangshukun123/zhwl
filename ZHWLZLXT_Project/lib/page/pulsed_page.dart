@@ -189,6 +189,8 @@ class _PulsedPageState extends State<PulsedPage>
                             type: TreatmentType.pulsed,
                             title: Globalization.time.tr,
                             assets: 'assets/images/2.0x/icon_shijian.png',
+                            isClock: true,
+                            isAnimate: startSelected,
                             initialValue: double.tryParse(pulsed?.time ?? '12'),
                             maxValue: 99,
                             indexType: 1002,

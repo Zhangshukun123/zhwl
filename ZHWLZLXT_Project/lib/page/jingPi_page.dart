@@ -212,6 +212,8 @@ class _JingPiPageState extends State<JingPiPage>
                             type: TreatmentType.percutaneous,
                             enabled: !yiStartSelected,
                             title: Globalization.time.tr,
+                            isClock: true,
+                            isAnimate: yiStartSelected,
                             assets: 'assets/images/2.0x/icon_shijian.png',
                             initialValue:
                                 double.tryParse(percutaneous?.timeA ?? '1'),
@@ -435,6 +437,8 @@ class _JingPiPageState extends State<JingPiPage>
                           type: TreatmentType.percutaneous,
                           title: Globalization.time.tr,
                           assets: 'assets/images/2.0x/icon_shijian.png',
+                          isClock: true,
+                          isAnimate: erStartSelected,
                           initialValue:
                               double.tryParse(percutaneous?.timeB ?? '1'),
                           maxValue: 30,

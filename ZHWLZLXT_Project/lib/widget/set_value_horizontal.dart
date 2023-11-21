@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
@@ -22,6 +23,8 @@ class SetValueHorizontal extends StatefulWidget {
   bool? enabled = true;
   bool? isVisJa = true;
   bool? isInt = true;
+  bool? isClock = false;
+  bool? isAnimate = false;
   double? initialValue;
   String? unit;
   double? appreciation = 1;
@@ -37,6 +40,8 @@ class SetValueHorizontal extends StatefulWidget {
     this.title,
     this.assets,
     this.enabled,
+    this.isClock,
+    this.isAnimate,
     this.initialValue,
     this.appreciation,
     this.isInt,
@@ -134,11 +139,17 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: TextButton(
                   onPressed: () {},
                   child: Row(children: [
-                    Image.asset(
-                      widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
+                    (widget.isClock ?? false)
+                        ? Lottie.asset('assets/lottie/clock.json',
+                        repeat: true,
+                        animate: widget.isAnimate,
+                        width: 18.w,
+                        fit: BoxFit.fitWidth)
+                        : Image.asset(
+                      widget.assets ??
+                          'assets/images/2.0x/icon_shijian.png',
                       fit: BoxFit.fitWidth,
-                      width: 16.w,
-                      height: 16.w,
+                      width: 15.w,
                     ),
                     SizedBox(
                       width: 4.w,

@@ -97,21 +97,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     Timer.periodic(const Duration(seconds: 1), (timer) {
       SerialMsg().sendHeart().then((value) => {});
     });
-
-    SerialMsg.platform.setMethodCallHandler(flutterMethod);
-  }
-
-  Future<dynamic> flutterMethod(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'onPortDataReceived':
-        // Future.delayed(const Duration(seconds: 2), () {
-        //   Fluttertoast.showToast(
-        //       msg: '返回数据=${methodCall.arguments}',
-        //       fontSize: 22,
-        //       backgroundColor: Colors.blue);
-        // });
-        break;
-    }
   }
 
   sendHeart(value) {
@@ -265,6 +250,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   enabled: !startSelected,
                                   type: TreatmentType.ultrasonic,
                                   title: Globalization.time.tr,
+                                  isClock: true,
+                                  isAnimate: startSelected,
                                   assets: 'assets/images/2.0x/icon_shijian.png',
                                   initialValue:
                                       double.tryParse(ultrasonic?.time ?? '1'),
