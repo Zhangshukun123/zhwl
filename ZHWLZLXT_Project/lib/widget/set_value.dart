@@ -129,20 +129,19 @@ class _SetValueState extends State<SetValue> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   (widget.isClock ?? false)
                       ? Lottie.asset('assets/lottie/clock.json',
-                          repeat: true,
-                          animate: widget.isAnimate,
-                          width: 24.w,
-              height: 24.h,
-                          fit: BoxFit.fitWidth)
+                      repeat: true,
+                      animate: widget.isAnimate,
+                      width: 24.w,
+                      height: 24.h,
+                      fit: BoxFit.fitWidth)
                       : Image.asset(
-                          widget.assets ??
-                              'assets/images/2.0x/icon_shijian.png',
-                          fit: BoxFit.fitWidth,
-                          width: 15.w,
-                        ),
+                    widget.assets ??
+                        'assets/images/2.0x/icon_shijian.png',
+                    fit: BoxFit.fitWidth,
+                    width: 24.w,
+                  ),
                   SizedBox(
                     width: 5.w,
                   ),
@@ -201,12 +200,11 @@ class _SetValueState extends State<SetValue> {
                         ? 'assets/images/btn_jian_nor.png'
                         : 'assets/images/2.0x/btn_jian_disabled.png',
                     fit: BoxFit.fitWidth,
-                    width: 35.w,
-                    height: 35.h,
+                    width: 34.w,
+                    height: 34.h,
                   ),
                 ),
               ),
-<<<<<<< HEAD
               SizedBox(
                 width: 5.w,
               ),
@@ -224,37 +222,9 @@ class _SetValueState extends State<SetValue> {
                     Text(
                       widget.isInt ?? true
                           ? value.toInt().toString()
-                          : value.toStringAsFixed(widget.IntFixed??1),
-=======
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Container(
-              width: 120.w,
-              height: 55.h,
-              decoration: const BoxDecoration(
-                  color: Color(0xFFF0FAFE),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.isInt ?? true
-                        ? value.toInt().toString()
-                        : value.toStringAsFixed(widget.IntFixed ?? 1),
-                    style: TextStyle(
-                        color: const Color(0xFF333333), fontSize: 20.sp),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
-                    child: Text(
-                      widget.unit ?? "",
->>>>>>> 58687d5bee63787aa4ace021fc8dc40c98895f5b
+                          : value.toStringAsFixed(widget.IntFixed ?? 1),
                       style: TextStyle(
-                          color: const Color(0xFF333333), fontSize: 24.sp),
+                          color: const Color(0xFF333333), fontSize: 20.sp),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
@@ -295,7 +265,6 @@ class _SetValueState extends State<SetValue> {
                       }
                     });
                   });
-<<<<<<< HEAD
                 },
                 onTapUp: (e) {
                   if (timer != null) {
@@ -308,38 +277,15 @@ class _SetValueState extends State<SetValue> {
                   }
                 },
                 child: Visibility(
-                  visible:  widget.isViImg ?? true,
+                  visible: widget.isViImg ?? true,
                   child: Image.asset(
                     widget.enabled
                         ? 'assets/images/btn_jia_nor.png'
                         : 'assets/images/2.0x/btn_jia_disabled.png',
                     fit: BoxFit.fitWidth,
-                    width: 35.w,
-                    height: 35.h,
+                    width: 34.w,
+                    height: 34.h,
                   ),
-=======
-                });
-              },
-              onTapUp: (e) {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              onTapCancel: () {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              child: Visibility(
-                visible: widget.isViImg ?? true,
-                child: Image.asset(
-                  widget.enabled
-                      ? 'assets/images/btn_jia_nor.png'
-                      : 'assets/images/2.0x/btn_jia_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
->>>>>>> 58687d5bee63787aa4ace021fc8dc40c98895f5b
                 ),
               ),
             ],
