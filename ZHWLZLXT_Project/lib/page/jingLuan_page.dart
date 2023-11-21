@@ -103,7 +103,7 @@ class _JingLuanPageState extends State<JingLuanPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.only(left: 35.w, right: 35.w),
@@ -224,7 +224,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                         width: 340.w,
                         height: 100.h,
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: const Color(0xFFF0FAFE),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.black.withOpacity(0.15),

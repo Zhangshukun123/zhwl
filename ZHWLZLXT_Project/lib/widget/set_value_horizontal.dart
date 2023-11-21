@@ -179,7 +179,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               width: 120.w,
               height: 55.h,
               decoration: const BoxDecoration(
-                  color: Color(0xFFF0FAFE),
+                  color: Color(0xFFFFFFFF),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   )),

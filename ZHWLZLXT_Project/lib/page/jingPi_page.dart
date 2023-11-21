@@ -144,7 +144,7 @@ class _JingPiPageState extends State<JingPiPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Row(
           children: [
@@ -347,7 +347,7 @@ class _JingPiPageState extends State<JingPiPage>
                     children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),

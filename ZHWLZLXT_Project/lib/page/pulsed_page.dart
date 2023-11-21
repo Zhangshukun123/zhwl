@@ -128,7 +128,7 @@ class _PulsedPageState extends State<PulsedPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Column(
           children: [
@@ -208,7 +208,7 @@ class _PulsedPageState extends State<PulsedPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -237,7 +237,7 @@ class _PulsedPageState extends State<PulsedPage>
                                           Globalization.vibration.tr,
                                           style: TextStyle(
                                               color: const Color(0xFF999999),
-                                              fontSize: 18.sp),
+                                              fontSize: 24.sp),
                                         ),
                                       ],
                                     )),
@@ -266,7 +266,7 @@ class _PulsedPageState extends State<PulsedPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),

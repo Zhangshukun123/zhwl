@@ -116,8 +116,8 @@ class _SetValueState extends State<SetValue> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: 29.h),
-          width: (Get.locale?.countryCode == "CN") ? 80.w : 150.w,
+          margin: EdgeInsets.only(top: 10.h),
+          width: (Get.locale?.countryCode == "CN") ? 180.w : 220.w,
           child: TextButton(
               onPressed: () {},
               child: Row(
@@ -126,7 +126,8 @@ class _SetValueState extends State<SetValue> {
                   Image.asset(
                     widget.assets ?? 'assets/images/2.0x/icon_shijian.png',
                     fit: BoxFit.fitWidth,
-                    width: 15.w,
+                    width: 24.w,
+                    height: 24.h,
                   ),
                   SizedBox(
                     width: 5.w,
@@ -134,28 +135,18 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.title ?? '时间',
                     style: TextStyle(
-                        fontSize: 16.sp, color: const Color(0xFF999999)),
+                        fontSize: 24.sp, color: const Color(0xFF999999)),
                   ),
                 ],
               )),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                if (widget.enabled) {
-                  if (value == 0) return;
-                  value = (value - appreciation);
-                  if (value <= (widget.minValue ?? 0)) {
-                    value = (widget.minValue ?? 0);
-                  }
-                  widget.valueListener!(value);
-                  setState(() {});
-                }
-              },
-              onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
+        Container(
+          margin: EdgeInsets.only(top: 10.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
                   if (widget.enabled) {
                     if (value == 0) return;
                     value = (value - appreciation);
@@ -165,114 +156,127 @@ class _SetValueState extends State<SetValue> {
                     widget.valueListener!(value);
                     setState(() {});
                   }
-                });
-              },
-              onTapUp: (e) {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              onTapCancel: () {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              child: Visibility(
-                visible: widget.isViImg ?? true,
-                child: Image.asset(
-                  widget.enabled
-                      ? 'assets/images/btn_jian_nor.png'
-                      : 'assets/images/2.0x/btn_jian_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Container(
-              width: 120.w,
-              height: 55.h,
-              decoration: const BoxDecoration(
-                  color: Color(0xFFF0FAFE),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.isInt ?? true
-                        ? value.toInt().toString()
-                        : value.toStringAsFixed(widget.IntFixed??1),
-                    style: TextStyle(
-                        color: const Color(0xFF333333), fontSize: 20.sp),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
-                    child: Text(
-                      widget.unit ?? "",
-                      style: TextStyle(
-                          color: const Color(0xFF999999), fontSize: 12.sp),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            GestureDetector(
-              onTap: () {
-                if (widget.enabled) {
-                  value = value + appreciation;
-                  if (value > (widget.maxValue ?? 999999)) {
-                    value = (widget.maxValue ?? 999999);
-                  }
-                  widget.valueListener!(value);
-                  setState(() {});
-                }
-              },
-              onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
-                  setState(() {
-                    // todo  长按点击事件
+                },
+                onTapDown: (e) {
+                  timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
                     if (widget.enabled) {
-                      value = value + appreciation;
-                      if (value > (widget.maxValue ?? 999999)) {
-                        value = (widget.maxValue ?? 999999);
+                      if (value == 0) return;
+                      value = (value - appreciation);
+                      if (value <= (widget.minValue ?? 0)) {
+                        value = (widget.minValue ?? 0);
                       }
                       widget.valueListener!(value);
                       setState(() {});
                     }
                   });
-                });
-              },
-              onTapUp: (e) {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              onTapCancel: () {
-                if (timer != null) {
-                  timer.cancel();
-                }
-              },
-              child: Visibility(
-                visible:  widget.isViImg ?? true,
-                child: Image.asset(
-                  widget.enabled
-                      ? 'assets/images/btn_jia_nor.png'
-                      : 'assets/images/2.0x/btn_jia_disabled.png',
-                  fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
+                },
+                onTapUp: (e) {
+                  if (timer != null) {
+                    timer.cancel();
+                  }
+                },
+                onTapCancel: () {
+                  if (timer != null) {
+                    timer.cancel();
+                  }
+                },
+                child: Visibility(
+                  visible: widget.isViImg ?? true,
+                  child: Image.asset(
+                    widget.enabled
+                        ? 'assets/images/btn_jian_nor.png'
+                        : 'assets/images/2.0x/btn_jian_disabled.png',
+                    fit: BoxFit.fitWidth,
+                    width: 35.w,
+                    height: 35.h,
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 5.w,
+              ),
+              Container(
+                width: 180.w,
+                height: 60.h,
+                decoration: const BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.isInt ?? true
+                          ? value.toInt().toString()
+                          : value.toStringAsFixed(widget.IntFixed??1),
+                      style: TextStyle(
+                          color: const Color(0xFF333333), fontSize: 24.sp),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
+                      child: Text(
+                        widget.unit ?? "",
+                        style: TextStyle(
+                            color: const Color(0xFF999999), fontSize: 12.sp),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 5.w,
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (widget.enabled) {
+                    value = value + appreciation;
+                    if (value > (widget.maxValue ?? 999999)) {
+                      value = (widget.maxValue ?? 999999);
+                    }
+                    widget.valueListener!(value);
+                    setState(() {});
+                  }
+                },
+                onTapDown: (e) {
+                  timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
+                    setState(() {
+                      // todo  长按点击事件
+                      if (widget.enabled) {
+                        value = value + appreciation;
+                        if (value > (widget.maxValue ?? 999999)) {
+                          value = (widget.maxValue ?? 999999);
+                        }
+                        widget.valueListener!(value);
+                        setState(() {});
+                      }
+                    });
+                  });
+                },
+                onTapUp: (e) {
+                  if (timer != null) {
+                    timer.cancel();
+                  }
+                },
+                onTapCancel: () {
+                  if (timer != null) {
+                    timer.cancel();
+                  }
+                },
+                child: Visibility(
+                  visible:  widget.isViImg ?? true,
+                  child: Image.asset(
+                    widget.enabled
+                        ? 'assets/images/btn_jia_nor.png'
+                        : 'assets/images/2.0x/btn_jia_disabled.png',
+                    fit: BoxFit.fitWidth,
+                    width: 35.w,
+                    height: 35.h,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

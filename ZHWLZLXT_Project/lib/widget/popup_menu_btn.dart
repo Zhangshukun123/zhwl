@@ -52,12 +52,12 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0xFFF0FAFE),
+          color: const Color(0xFFFFFFFF),
           borderRadius: BorderRadius.all(
             Radius.circular(10.w),
           )),
       width: 230.w,
-      height: 55.h,
+      height: 60.h,
       child: Container(
         constraints: const BoxConstraints(maxHeight: 100),
         child: PopupMenuButton(
@@ -82,7 +82,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                             color: widget.enabled!
                                 ? const Color(0xFF333333)
                                 : Colors.grey,
-                            fontSize: 17.sp,
+                            fontSize: 24.sp,
                             fontWeight: FontWeight.w600),
                       ),
                       Container(
@@ -90,7 +90,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                             ? Text(
                                 widget.unit!,
                                 style: TextStyle(
-                                    fontSize: 10.sp, color: Colors.black),
+                                    fontSize: 12.sp, color: Colors.black),
                               )
                             : const Text(''),
                       ),

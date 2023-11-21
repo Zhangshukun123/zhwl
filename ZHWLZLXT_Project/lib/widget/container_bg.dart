@@ -16,7 +16,7 @@ class ContainerBg extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xFFF0FAFE),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.15),
