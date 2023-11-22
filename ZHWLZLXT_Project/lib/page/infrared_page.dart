@@ -165,13 +165,18 @@ class _InfraredPageState extends State<InfraredPage>
     switch (methodCall.method) {
       case 'onPortDataReceived':
         String value = methodCall.arguments;
-        if (value.length > 10) {
+        Fluttertoast.showToast(
+            msg: value, fontSize: 22, backgroundColor: Colors.blue);
+        if (value.length > 20) {
           if (value.substring(4, 6) == '02') {
             if (value.substring(18, 20) == "00") {
-              isScram = true;
+              isScram = false;
+              setState(() {});
             }
             if (value.substring(18, 20) == "01") {
-              isScram = false;
+              isScram = true;
+              startSelected = false;
+              setState(() {});
             }
           }
         }

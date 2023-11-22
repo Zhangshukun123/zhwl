@@ -158,7 +158,6 @@ class _SetValueState extends State<SetValue> {
             GestureDetector(
               onTap: () {
                 if (widget.enabled) {
-                  if (value == 0) return;
                   value = (value - appreciation);
                   if (value <= (widget.minValue ?? 0)) {
                     value = (widget.minValue ?? 0);
@@ -170,7 +169,6 @@ class _SetValueState extends State<SetValue> {
               onTapDown: (e) {
                 timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
                   if (widget.enabled) {
-                    if (value == 0) return;
                     value = (value - appreciation);
                     if (value <= (widget.minValue ?? 0)) {
                       value = (widget.minValue ?? 0);
@@ -193,7 +191,7 @@ class _SetValueState extends State<SetValue> {
               child: Visibility(
                 visible: widget.isViImg ?? true,
                 child: Image.asset(
-                  widget.enabled
+                  widget.enabled && !(value == (widget.minValue ?? 0))
                       ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
@@ -276,7 +274,7 @@ class _SetValueState extends State<SetValue> {
               child: Visibility(
                 visible: widget.isViImg ?? true,
                 child: Image.asset(
-                  widget.enabled
+                  widget.enabled && !(value == (widget.maxValue ?? 0))
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,
