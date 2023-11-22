@@ -122,8 +122,8 @@ class _SetValueState extends State<SetValue> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: 29.h),
-          width: (Get.locale?.countryCode == "CN") ? 80.w : 150.w,
+          margin: EdgeInsets.only(top: 10.h),
+          width: (Get.locale?.countryCode == "CN") ? 180.w : 220.w,
           child: TextButton(
               onPressed: () {},
               child: Row(
@@ -133,13 +133,14 @@ class _SetValueState extends State<SetValue> {
                       ? Lottie.asset('assets/lottie/clock.json',
                           repeat: true,
                           animate: widget.isAnimate,
-                          width: 18.w,
+                          width: 24.w,
+                          height: 24.h,
                           fit: BoxFit.fitWidth)
                       : Image.asset(
                           widget.assets ??
                               'assets/images/2.0x/icon_shijian.png',
                           fit: BoxFit.fitWidth,
-                          width: 15.w,
+                          width: 24.w,
                         ),
                   SizedBox(
                     width: 5.w,
@@ -147,7 +148,7 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.title ?? '时间',
                     style: TextStyle(
-                        fontSize: 16.sp, color: const Color(0xFF999999)),
+                        fontSize: 24.sp, color: const Color(0xFF999999)),
                   ),
                 ],
               )),
@@ -204,10 +205,10 @@ class _SetValueState extends State<SetValue> {
               width: 5.w,
             ),
             Container(
-              width: 120.w,
-              height: 55.h,
+              width: 180.w,
+              height: 60.h,
               decoration: const BoxDecoration(
-                  color: Color(0xFFF0FAFE),
+                  color: Color(0xFFFFFFFF),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   )),
@@ -274,7 +275,7 @@ class _SetValueState extends State<SetValue> {
               child: Visibility(
                 visible: widget.isViImg ?? true,
                 child: Image.asset(
-                  widget.enabled && !(value == (widget.maxValue ?? 0))
+                  widget.enabled && !(value == widget.maxValue)
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,

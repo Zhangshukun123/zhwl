@@ -185,7 +185,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Column(
           children: [
@@ -206,8 +206,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 15.h),
-                                  width: 80.w,
+                                  margin: EdgeInsets.only(top: 15.h,bottom: 10.h),
+                                  width: 120.w,
                                   child: TextButton(
                                       onPressed: () {},
                                       child: Row(
@@ -217,8 +217,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Image.asset(
                                             'assets/images/2.0x/icon_moshi.png',
                                             fit: BoxFit.fitWidth,
-                                            width: 16.w,
-                                            height: 16.h,
+                                            width: 24.w,
+                                            height: 24.h,
                                           ),
                                           SizedBox(
                                             width: 5.w,
@@ -226,7 +226,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Text(
                                             Globalization.mode.tr,
                                             style: TextStyle(
-                                                fontSize: 16.sp,
+                                                fontSize: 24.sp,
                                                 color: const Color(0xFF999999)),
                                           ),
                                         ],
@@ -341,10 +341,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 29.h),
+                                  margin: EdgeInsets.only(top: 15.h,bottom: 10.h),
                                   width: (Get.locale?.countryCode == "CN")
-                                      ? 70.w
-                                      : 130.w,
+                                      ? 100.w
+                                      : 180.w,
                                   child: TextButton(
                                       onPressed: () {},
                                       child: Row(
@@ -354,8 +354,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Image.asset(
                                             'assets/images/2.0x/icon_pinlv.png',
                                             fit: BoxFit.fitWidth,
-                                            width: 16.w,
-                                            height: 16.h,
+                                            width: 24.w,
+                                            height: 24.h,
                                           ),
                                           SizedBox(
                                             width: 5.w,
@@ -363,7 +363,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Text(
                                             Globalization.frequency.tr,
                                             style: TextStyle(
-                                                fontSize: 16.sp,
+                                                fontSize: 24.sp,
                                                 color: const Color(0xFF999999)),
                                           ),
                                         ],

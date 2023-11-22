@@ -190,7 +190,7 @@ class _InfraredPageState extends State<InfraredPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFF0FAFE),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: SafeArea(
         child: Column(
           children: [
@@ -249,7 +249,7 @@ class _InfraredPageState extends State<InfraredPage>
                           )),
                       Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color:const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -323,7 +323,7 @@ class _InfraredPageState extends State<InfraredPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -371,7 +371,7 @@ class _InfraredPageState extends State<InfraredPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
