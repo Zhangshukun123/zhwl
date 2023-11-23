@@ -105,6 +105,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -133,6 +134,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -166,6 +168,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -195,6 +198,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -267,6 +271,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -296,6 +301,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -329,6 +335,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -357,6 +364,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
