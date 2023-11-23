@@ -12,6 +12,8 @@ class Globalization {
   static const String time = "Time";//时间
   static const String power = "Power";//功率
   static const String soundIntensity = "Sound Intensity";//声强
+  static const String pPower = "Power";//输出功率
+  static const String pSoundIntensity = "Sound Intensity";//有效声强
   static const String frequency = "Frequency";//频率
   static const String start = "Start";//开始
   static const String stop = "Stop";//停止
