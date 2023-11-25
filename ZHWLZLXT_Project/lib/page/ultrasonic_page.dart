@@ -274,13 +274,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: SetValue(
                               enabled: startSelected,
                               type: TreatmentType.ultrasonic,
-                              title: Globalization.power.tr,
+                              title: Globalization.pPower.tr,
                               isEventBus: true,
                               assets: 'assets/images/2.0x/icon_gonglv.png',
                               initialValue:
                                   double.tryParse(ultrasonic?.power ?? '0'),
                               appreciation: 0.6,
-                              unit: 'w',
+                              unit: 'W',
                               // ignore: unrelated_type_equality_checks
                               maxValue: ultrasonicController
                                           .ultrasonic.frequency.value ==
@@ -318,13 +318,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   type: TreatmentType.ultrasonic,
                                   isEventBus: true,
                                   IntFixed: 2,
-                                  title: Globalization.soundIntensity.tr,
+                                  title: Globalization. pSoundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
                                   initialValue: double.tryParse(
                                       ultrasonic?.soundIntensity ?? '0.0'),
                                   // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
-                                  unit: 'W/cm2',
+                                  unit: 'W/cm²',
                                   valueListener: (value) {
                                     ultrasonic?.soundIntensity =
                                         value.toStringAsFixed(2);

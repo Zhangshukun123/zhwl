@@ -1,6 +1,7 @@
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -105,6 +106,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -127,12 +129,19 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
+                          inputFormatters: [
+                            // FilteringTextInputFormatter.digitsOnly,//数字，只能是整数
+                            LengthLimitingTextInputFormatter(15), //限制长度
+                            // FilteringTextInputFormatter.allow(RegExp("[0-9.]")),//数字包括小数
+                            //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),//只允许输入字母
+                          ],
                         ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -166,6 +175,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -195,6 +205,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -267,6 +278,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -296,6 +308,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -329,6 +342,7 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -357,6 +371,7 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
+                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
