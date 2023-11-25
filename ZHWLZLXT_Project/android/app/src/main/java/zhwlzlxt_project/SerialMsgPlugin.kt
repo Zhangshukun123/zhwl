@@ -74,6 +74,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 serialPortHelper.setReceived(this)
                 serialPortHelper.open()
             }
+
             "heard" -> {
 //                if (serialPortHelper.count > 30) {
 //                    result.success("101")
@@ -81,28 +82,45 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 //                    result.success("102")
 //                }
             }
+
             "sendData" -> {
                 // 这里的 packageName 是在 Flutter 中定义的 com.allensu
                 sendData = call.arguments<String>()
-                Log.i("sendData", "onMethodCall: "+ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)))
+                hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
             }
 
         }
     }
 
+
+    var hexData: String = "";
+
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        Log.i("TAG", "onPortDataReceived: $bRec")
+
+
 
         handler.post {
-            toFlutter.invokeMethod("onPortDataReceived", bRec, object : MethodChannel.Result {
+            toFlutter.invokeMethod("onSendComplete", bRec, object : MethodChannel.Result {
                 override fun success(o: Any?) {}
                 override fun error(s: String, s1: String?, o: Any?) {}
                 override fun notImplemented() {}
             })
         }
+
+//        if (bRec.contains(hexData)){
+//
+//        }else{
+//            handler.post {
+//                toFlutter.invokeMethod("onPortDataReceived", bRec, object : MethodChannel.Result {
+//                    override fun success(o: Any?) {}
+//                    override fun error(s: String, s1: String?, o: Any?) {}
+//                    override fun notImplemented() {}
+//                })
+//            }
+//        }
     }
 
     override fun onStartError() {

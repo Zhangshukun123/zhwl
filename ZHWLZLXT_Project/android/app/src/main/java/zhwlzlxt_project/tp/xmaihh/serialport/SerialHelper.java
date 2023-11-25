@@ -17,6 +17,7 @@ import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean;
 import zhwlzlxt_project.tp.xmaihh.serialport.stick.AbsStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.stick.BaseStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.stick.SpecifiedStickPackageHelper;
+import zhwlzlxt_project.tp.xmaihh.serialport.stick.StaticLenStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil;
 
 public abstract class SerialHelper {
@@ -308,7 +309,8 @@ public abstract class SerialHelper {
     protected abstract void onStartError();
 
     //    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("AB BA".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+//    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(14);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;

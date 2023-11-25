@@ -79,22 +79,21 @@ class InfraredEntity {
     // }
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
-    String data = BYTE00_RW.B01; // 00
-    data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    01
-    data = "$data 00"; //BYte02 通道 02
+    String data = BYTE00_RW.B01; // 02
+    data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    03
+    data = "$data 00"; //BYte02 通道 04
 
     if (isStart) {
-      // byte03 通道启停 03
+      // byte03 通道启停 05
       data = "$data ${BYTE03_STOP.B01}";
     } else {
       data = "$data ${BYTE03_STOP.B02}";
     }
 
-    //byte04 光疗 04
+    //byte04 光疗 06
     if (TextUtil.isEmpty(pattern)) {
       pattern = BYTE04_PT.B_T_01;
     }
-
     if (pattern == BYTE04_PT.B_T_01) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
@@ -148,7 +147,6 @@ class InfraredEntity {
         data = "$data 0$patternTmps4";
       }
     }
-
     if (pattern == BYTE04_PT.B_T_05) {
       // data = "$data ${BYTE04_PT.B04}";
       //转成double类型数据
@@ -163,11 +161,11 @@ class InfraredEntity {
       }
     }
 
-    //byte05 光疗工作时间
+    //byte07 光疗工作时间
     if (TextUtil.isEmpty(time)) {
       time = '1';
     }
-    // data = "$data $time"; // 05
+    // data = "$data $time"; // 07
     // data = "$data ${(double.tryParse(time!))?.toInt()}";
     //转成double类型数据
     var timeValue = double.tryParse(time!);
@@ -183,7 +181,7 @@ class InfraredEntity {
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
-    // data = "$data $power"; // 06
+    // data = "$data $power"; // 08
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
     var powerValue = double.tryParse(power!);
@@ -199,11 +197,11 @@ class InfraredEntity {
       data = "$data 0$powerTmps";
     }
 
-    data = "$data 00"; //07
+    data = "$data 00"; //09
 
-    data = "$data 00"; // 08
-    data = "$data 00"; // 09
     data = "$data 00"; // 10
+    data = "$data 00"; // 11
+    data = "$data 00"; // 12
 
 
     if (user != null && user?.userId != 0){

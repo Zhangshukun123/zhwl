@@ -163,19 +163,19 @@ class _InfraredPageState extends State<InfraredPage>
 
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     switch (methodCall.method) {
-      case 'onPortDataReceived':
+      case 'onSendComplete':
         String value = methodCall.arguments;
         Fluttertoast.showToast(
             msg: value, fontSize: 22, backgroundColor: Colors.blue);
         if (value.length > 20) {
           if (value.substring(4, 6) == '02') {
-            if (value.substring(18, 20) == "00") {
-              isScram = false;
-              setState(() {});
-            }
+            // if (value.substring(18, 20) == "00") {
+            //   isScram = false;
+            //   setState(() {});
+            // }
             if (value.substring(18, 20) == "01") {
-              isScram = true;
-              startSelected = false;
+              isScram = !isScram;
+              startSelected = isScram ? false : true;
               setState(() {});
             }
           }
@@ -249,7 +249,7 @@ class _InfraredPageState extends State<InfraredPage>
                           )),
                       Container(
                           decoration: BoxDecoration(
-                              color:const Color(0xFFF0FAFE),
+                              color: const Color(0xFFF0FAFE),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
