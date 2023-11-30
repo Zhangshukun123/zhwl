@@ -29,7 +29,7 @@ class _AttentionPageState extends State<AttentionPage> {
             child:
             Text(
               textString(widget.index),
-              style: const TextStyle(fontSize: 18,color: Color(0xFF999999)),
+              style: const TextStyle(fontSize: 22,color: Color(0xFF999999)),
             ),
 
           ),
@@ -48,7 +48,7 @@ class _AttentionPageState extends State<AttentionPage> {
           "5.耦合剂的选用标准：所购买的耦合剂要符合YY0299-2016标准。\n"
           "6.使用中偶有局部皮肤发红、发痒，停用后可自行消失。\n"
           "7.对耦合剂组成成分过敏者慎用，过敏体质者，可先在手腕试用，待15分钟以后皮肤无红痒肿胀等异常现象，即可使用。\n"
-          "8.治疗时，强度应遵循由小到大的原则，循序渐进，强度以患者耐受力为准。";
+          "8.治疗时，强度应遵循由小到大的原则，循序渐进，功率以患者耐受力为准。";
     }
     if(index == 2){
       return '1.开机前必须检查各处连接是否良好，接口处不能松动、滑脱，上电后，用脉冲磁模块显示默认设置状态，应根据实际需要设定各参数。\n'
