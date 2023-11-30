@@ -44,7 +44,8 @@ class _AddPageState extends State<AddPage> {
   int sex = 1;
 
   late FocusNode focusNode = FocusNode();
-
+  var regexNotNull = "[\\s]";
+  var regexOnlyNumber = "[0-9]";
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class _AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF9F9F9),
@@ -131,7 +133,7 @@ class _AddPageState extends State<AddPage> {
                           ),
                           inputFormatters: [
                             // FilteringTextInputFormatter.digitsOnly,//数字，只能是整数
-                            LengthLimitingTextInputFormatter(15), //限制长度
+                            LengthLimitingTextInputFormatter(8), //限制长度8位，推荐年月日+2 位数字组合
                             // FilteringTextInputFormatter.allow(RegExp("[0-9.]")),//数字包括小数
                             //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),//只允许输入字母
                           ],
@@ -164,6 +166,9 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(4), //限制长度4位
+                          ],
                         ),
                       ),
                     ],
@@ -175,7 +180,8 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      SizedBox(width: 10.w,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -199,13 +205,17 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(2), //限制长度4位
+                          ],
                         ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      SizedBox(width: 10.w,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -292,7 +302,10 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: telController,
-                          keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(11),
+                          ],
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
@@ -308,7 +321,8 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      SizedBox(width: 10.w,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -331,6 +345,9 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(18),
+                          ],
                         ),
                       ),
                     ],
@@ -342,7 +359,8 @@ class _AddPageState extends State<AddPage> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      SizedBox(width: 10.w,),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -371,7 +389,8 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      SizedBox(width: 10.w,),
                       SizedBox(
                           width: 52.w,
                           child: Text(

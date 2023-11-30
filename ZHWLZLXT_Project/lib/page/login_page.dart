@@ -221,42 +221,42 @@ class LoginPageState extends State<LoginPage> {
                                         SizedBox(
                                           height: 20.h,
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(right: 48.w),
-                                          child: //自定义button
-                                              TextButton(
-                                                  onPressed: () {
-                                                    setSelected = !setSelected;
-                                                    setState(() {
-                                                      //刷新状态
-                                                    });
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Image.asset(
-                                                        setSelected
-                                                            ? 'assets/images/2.0x/icon_btn_sel.png'
-                                                            : 'assets/images/2.0x/icon_rem_nor.png',
-                                                        height: 18.h,
-                                                        fit: BoxFit.fitHeight,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 3.w,
-                                                      ),
-                                                      Text(
-                                                        Globalization
-                                                            .rememberPassword
-                                                            .tr,
-                                                        style: TextStyle(
-                                                            color: const Color(
-                                                                0xFF999999),
-                                                            fontSize: 18.sp),
-                                                      )
-                                                    ],
-                                                  )),
-                                        ),
+                                        // Container(
+                                        //   margin: EdgeInsets.only(right: 48.w),
+                                        //   child: //自定义button
+                                        //       TextButton(
+                                        //           onPressed: () {
+                                        //             setSelected = !setSelected;
+                                        //             setState(() {
+                                        //               //刷新状态
+                                        //             });
+                                        //           },
+                                        //           child: Row(
+                                        //             mainAxisAlignment:
+                                        //                 MainAxisAlignment.end,
+                                        //             children: [
+                                        //               Image.asset(
+                                        //                 setSelected
+                                        //                     ? 'assets/images/2.0x/icon_btn_sel.png'
+                                        //                     : 'assets/images/2.0x/icon_rem_nor.png',
+                                        //                 height: 18.h,
+                                        //                 fit: BoxFit.fitHeight,
+                                        //               ),
+                                        //               SizedBox(
+                                        //                 width: 3.w,
+                                        //               ),
+                                        //               Text(
+                                        //                 Globalization
+                                        //                     .rememberPassword
+                                        //                     .tr,
+                                        //                 style: TextStyle(
+                                        //                     color: const Color(
+                                        //                         0xFF999999),
+                                        //                     fontSize: 18.sp),
+                                        //               )
+                                        //             ],
+                                        //           )),
+                                        // ),
                                       ],
                                     ),
                                     Container(
