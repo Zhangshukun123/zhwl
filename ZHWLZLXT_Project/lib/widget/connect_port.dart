@@ -38,24 +38,6 @@ class ConnectPort extends Dialog {
                         color: Colors.black),
                   )),
               Expanded(child: Center(child: Obx(() => ObsTxt()))),
-              // InkWell(
-              //   onTap: () {
-              //     Get.back();
-              //     restConnect?.call(true);
-              //   },
-              //   child: Container(
-              //     decoration: const BoxDecoration(
-              //       borderRadius: BorderRadius.all(Radius.circular(10)),
-              //       color: Colors.blue,
-              //     ),
-              //     padding: const EdgeInsets.only(
-              //         left: 20, top: 8, bottom: 8, right: 20),
-              //     child: const Text(
-              //       '直接连接',
-              //       style: TextStyle(fontSize: 22, color: Colors.white),
-              //     ),
-              //   ),
-              // ),
               const SizedBox(
                 height: 20,
               ),

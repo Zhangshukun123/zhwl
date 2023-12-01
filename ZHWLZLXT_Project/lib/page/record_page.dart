@@ -33,7 +33,7 @@ class _RecordPageState extends State<RecordPage> {
   List<Record> records = [];
   List<Record> recordsList = [];
 
-  String startTime = '开始时间';
+  String startTimeDate = '开始时间';
   String endTimeDate = '结束时间';
   var excel = Excel.createExcel();
 
@@ -52,6 +52,7 @@ class _RecordPageState extends State<RecordPage> {
 
     searchController.addListener(() {
       if (TextUtil.isEmpty(searchController.text)) {
+        recordsList.clear();
         recordsList.addAll(records.reversed.toList());
       } else {
         recordsList.clear();
@@ -147,7 +148,7 @@ class _RecordPageState extends State<RecordPage> {
                               height: 14.h,
                             ),
                             Text(
-                              ' $startTime - $endTimeDate',
+                              ' $startTimeDate - $endTimeDate',
                               style: TextStyle(
                                   color: const Color(0xFF999999),
                                   fontSize: 16.sp),
@@ -470,18 +471,29 @@ class _RecordPageState extends State<RecordPage> {
               }
               DateTime endTime = DateTime(
                   listDate[1]!.year, listDate[1]!.month, listDate[1]!.day + 1);
+
+
+              DateTime startTime = DateTime(
+                  listDate[0]!.year, listDate[0]!.month, listDate[0]!.day);
+
               List<Record> rdsList = [];
+
+              print('-----------------------${listDate[0]!}');
+
+
               for (var element in recordsList) {
                 var dateCur = DateTime.parse(element.dataTime!);
-                if (!dateCur.isBefore(listDate[0]!) &&
-                    !dateCur.isAfter(endTime)) {
+                if (!dateCur.isBefore(startTime) && !dateCur.isAfter(endTime)) {
                   rdsList.add(element);
                 }
               }
+
+
+
               if (rdsList.isNotEmpty) {
                 recordsList.clear();
                 recordsList.addAll(rdsList);
-                startTime = formatDate(listDate[0]!, [yy, '-', mm, '-', dd]);
+                startTimeDate = formatDate(listDate[0]!, [yy, '-', mm, '-', dd]);
                 endTimeDate = formatDate(listDate[1]!, [yy, '-', mm, '-', dd]);
                 setState(() {});
               } else {

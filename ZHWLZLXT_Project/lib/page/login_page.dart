@@ -32,6 +32,10 @@ class LoginPageState extends State<LoginPage> {
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
+
+    acController.text = 'admin';
+    pwdController.text = '123456';
+
     if (setSelected) {
 
 

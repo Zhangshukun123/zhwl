@@ -16,6 +16,7 @@ import 'package:zhwlzlxt_project/widget/delete_dialog.dart';
 import '../Controller/treatment_controller.dart';
 import '../dataResource/user_sql_dao.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 
 class UserEvent {
   User? user;
@@ -377,11 +378,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 20,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             controller: numController,
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding:
                                                   EdgeInsets.only(left: 10.w),
                                               border: InputBorder.none,
@@ -414,11 +417,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 5,
                                             controller: nameController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding:
                                                   EdgeInsets.only(left: 10.w),
                                               border: InputBorder.none,
@@ -456,11 +461,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 3,
                                             controller: ageController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               border: InputBorder.none,
                                               contentPadding:
                                                   EdgeInsets.only(left: 10.w),
@@ -579,11 +586,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 20,
                                             controller: telController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding:
                                                   EdgeInsets.only(left: 10.w),
                                               border: InputBorder.none,
@@ -616,11 +625,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 30,
                                             controller: cerController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding: EdgeInsets.only(
                                                   left: 10.w, top: 5.h),
                                               border: InputBorder.none,
@@ -658,11 +669,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 2,
                                             controller: zhuController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding: EdgeInsets.only(
                                                   left: 10.w, top: 5.h),
                                               border: InputBorder.none,
@@ -695,11 +708,13 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
+                                            maxLength: 20,
                                             controller: bedController,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
                                             decoration: InputDecoration(
+                                              counterText: '',
                                               contentPadding: EdgeInsets.only(
                                                   left: 10.w, top: 5.h),
                                               border: InputBorder.none,
@@ -818,6 +833,14 @@ class _ControlPageState extends State<ControlPage> {
                                                   zhuController.text; //住院号
                                               user?.bedNumber =
                                                   bedController.text; //床号
+
+
+                                              RegExp mobile = RegExp(r"1[0-9]\d{9}$");
+                                              if (!mobile.hasMatch(telController.text)) {
+                                                showToastMsg(msg: "电话号码格式不正确");
+                                                return;
+                                              }
+
                                               UserSqlDao.instance()
                                                   .updateData(user: user!);
                                               isEdit = true;

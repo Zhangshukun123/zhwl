@@ -9,6 +9,7 @@
     <application
         android:label="zhwlzlxt_project"
         android:name="${applicationName}"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name="zhwlzlxt_project.MainActivity"

@@ -80,10 +80,7 @@ class UserSqlDao {
     if (type != 1) {
       str = "更新失败";
     }
-    Fluttertoast.showToast(
-      msg: str
-        ,fontSize: 22,backgroundColor: Colors.blue
-    );
+    showToastMsg(msg: str);
     return type;
   }
 
@@ -94,12 +91,12 @@ class UserSqlDao {
     var sq = await sqlUtils.queryListByHelper(
       tableName: SqlConfig.tableUse,
       selects: [
-        UserTableField.userName,
+        UserTableField.userNub,
         UserTableField.userId,
-        UserTableField.age
+        UserTableField.phone
       ],
-      whereStr: '${UserTableField.userName} = ? and ${UserTableField.age} = ? ',
-      whereArgs: [user.userName, user.age],
+      whereStr: '${UserTableField.userNub} = ? or ${UserTableField.phone} = ? ',
+      whereArgs: [user.userNub, user.phone],
     );
 
     bool yorn = false;

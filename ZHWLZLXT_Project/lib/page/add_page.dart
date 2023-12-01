@@ -51,7 +51,6 @@ class _AddPageState extends State<AddPage> {
   void initState() {
     super.initState();
     focusNode.requestFocus();
-
   }
 
   @override
@@ -66,7 +65,7 @@ class _AddPageState extends State<AddPage> {
     ScreenUtil.init(context, designSize: const Size(960, 600));
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         toolbarHeight: 45.h,
@@ -100,15 +99,22 @@ class _AddPageState extends State<AddPage> {
         child: Container(
           color: Colors.white,
           margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: ListView(
             children: [
+              SizedBox(
+                height: 55.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      Image.asset(
+                        'assets/images/2.0x/icon_bitian.png',
+                        width: 10.w,
+                        height: 10.h,
+                        fit: BoxFit.fitWidth,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -121,10 +127,12 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                          maxLength: 20,
                           controller: numController,
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
+                            counterText: '',
                             border: const OutlineInputBorder(),
                             hintText: '请输入编号',
                             hintStyle: TextStyle(
@@ -133,7 +141,8 @@ class _AddPageState extends State<AddPage> {
                           ),
                           inputFormatters: [
                             // FilteringTextInputFormatter.digitsOnly,//数字，只能是整数
-                            LengthLimitingTextInputFormatter(8), //限制长度8位，推荐年月日+2 位数字组合
+                            LengthLimitingTextInputFormatter(8),
+                            //限制长度8位，推荐年月日+2 位数字组合
                             // FilteringTextInputFormatter.allow(RegExp("[0-9.]")),//数字包括小数
                             //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),//只允许输入字母
                           ],
@@ -143,7 +152,12 @@ class _AddPageState extends State<AddPage> {
                   ),
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      Image.asset(
+                        'assets/images/2.0x/icon_bitian.png',
+                        width: 10.w,
+                        height: 10.h,
+                        fit: BoxFit.fitWidth,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -156,6 +170,9 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(5)
+                          ],
                           controller: nameController,
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
@@ -166,14 +183,14 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(4), //限制长度4位
-                          ],
                         ),
                       ),
                     ],
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 55.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -181,7 +198,9 @@ class _AddPageState extends State<AddPage> {
                   Row(
                     children: [
                       // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -194,6 +213,9 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(3)
+                          ],
                           controller: ageController,
                           keyboardType: TextInputType.number,
                           style: TextStyle(
@@ -205,9 +227,6 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(2), //限制长度4位
-                          ],
                         ),
                       ),
                     ],
@@ -215,7 +234,9 @@ class _AddPageState extends State<AddPage> {
                   Row(
                     children: [
                       // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -283,12 +304,20 @@ class _AddPageState extends State<AddPage> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 55.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
+                      Image.asset(
+                        'assets/images/2.0x/icon_bitian.png',
+                        width: 10.w,
+                        height: 10.h,
+                        fit: BoxFit.fitWidth,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -301,14 +330,13 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                         maxLength: 20,
                           controller: telController,
                           keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(11),
-                          ],
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
+                            counterText: '',
                             border: const OutlineInputBorder(),
                             hintText: '请输入电话',
                             hintStyle: TextStyle(
@@ -322,7 +350,9 @@ class _AddPageState extends State<AddPage> {
                   Row(
                     children: [
                       // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -335,6 +365,9 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(18)
+                          ],
                           controller: cerController,
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
@@ -345,14 +378,14 @@ class _AddPageState extends State<AddPage> {
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
                           ),
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(18),
-                          ],
                         ),
                       ),
                     ],
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 55.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -360,7 +393,9 @@ class _AddPageState extends State<AddPage> {
                   Row(
                     children: [
                       // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -373,10 +408,12 @@ class _AddPageState extends State<AddPage> {
                         width: 250.w,
                         height: 43.h,
                         child: TextField(
+                          maxLength: 50,
                           controller: zhuController,
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
+                            counterText: '',
                             border: const OutlineInputBorder(),
                             hintText: '请输入住院号',
                             hintStyle: TextStyle(
@@ -390,7 +427,9 @@ class _AddPageState extends State<AddPage> {
                   Row(
                     children: [
                       // Image.asset('assets/images/2.0x/icon_bitian.png',width: 10.w,height: 10.h,fit: BoxFit.fitWidth,),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       SizedBox(
                           width: 52.w,
                           child: Text(
@@ -404,9 +443,14 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           controller: bedController,
+                          maxLength: 50,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(50)
+                          ],
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
+                            counterText: '',
                             border: const OutlineInputBorder(),
                             hintText: '请输入床号',
                             hintStyle: TextStyle(
@@ -418,6 +462,9 @@ class _AddPageState extends State<AddPage> {
                     ],
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 55.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -467,6 +514,16 @@ class _AddPageState extends State<AddPage> {
                           showToastMsg(msg: "请输入用户年龄");
                           return;
                         }
+                        if (TextUtil.isEmpty(telController.text)) {
+                          showToastMsg(msg: "请输入用户电话");
+                          return;
+                        }
+                        RegExp mobile = RegExp(r"1[0-9]\d{9}$");
+                        if (!mobile.hasMatch(telController.text)) {
+                          showToastMsg(msg: "电话号码格式不正确");
+                          return;
+                        }
+
                         User user = User();
                         user.userNub = numController.text; //编号
                         user.userName = nameController.text;
@@ -477,10 +534,13 @@ class _AddPageState extends State<AddPage> {
                         user.idCard = cerController.text; //证件
                         user.ad = zhuController.text; //住院号
                         user.bedNumber = bedController.text; //床号
-                        UserSqlDao.instance().addData(user: user).then(
-                            (value) => {if (value) eventBus.fire(User())});
+                        UserSqlDao.instance().addData(user: user).then((value) {
+                          if (value) {
+                            eventBus.fire(User());
+                            Get.back();
+                          }
+                        });
                         // ignore: avoid_print
-                        Get.back();
 
                         // print('AAAAAAA$');
                       },
