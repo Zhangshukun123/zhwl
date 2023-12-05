@@ -477,19 +477,12 @@ class _RecordPageState extends State<RecordPage> {
                   listDate[0]!.year, listDate[0]!.month, listDate[0]!.day);
 
               List<Record> rdsList = [];
-
-              print('-----------------------${listDate[0]!}');
-
-
               for (var element in recordsList) {
                 var dateCur = DateTime.parse(element.dataTime!);
                 if (!dateCur.isBefore(startTime) && !dateCur.isAfter(endTime)) {
                   rdsList.add(element);
                 }
               }
-
-
-
               if (rdsList.isNotEmpty) {
                 recordsList.clear();
                 recordsList.addAll(rdsList);

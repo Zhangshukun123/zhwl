@@ -165,14 +165,8 @@ class _InfraredPageState extends State<InfraredPage>
     switch (methodCall.method) {
       case 'onSendComplete':
         String value = methodCall.arguments;
-        Fluttertoast.showToast(
-            msg: value, fontSize: 22, backgroundColor: Colors.blue);
         if (value.length > 20) {
           if (value.substring(4, 6) == '02') {
-            // if (value.substring(18, 20) == "00") {
-            //   isScram = false;
-            //   setState(() {});
-            // }
             if (value.substring(18, 20) == "01") {
               isScram = !isScram;
               startSelected = isScram ? false : true;

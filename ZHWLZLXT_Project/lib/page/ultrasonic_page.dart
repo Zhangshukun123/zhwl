@@ -6,13 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
-import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
@@ -24,6 +22,7 @@ import 'package:zhwlzlxt_project/widget/set_value.dart';
 import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../entity/ultrasonic_sound.dart';
+import '../utils/utils.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
 import 'control_page.dart';
@@ -97,6 +96,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     Timer.periodic(const Duration(seconds: 1), (timer) {
       SerialMsg().sendHeart().then((value) => {});
     });
+  }
+
+  Future<dynamic> flutterMethod(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'onSendComplete':
+        String value = methodCall.arguments;
+        Uint8List list = toUnitList(value);
+        print("--------------------${list[3]}");
+
+
+        if (value.length > 20) {
+          if (value.substring(4, 6) == '02') {}
+        }
+        break;
+    }
   }
 
   sendHeart(value) {
@@ -206,7 +220,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 15.h,bottom: 10.h),
+                                  margin:
+                                      EdgeInsets.only(top: 15.h, bottom: 10.h),
                                   width: 120.w,
                                   child: TextButton(
                                       onPressed: () {},
@@ -318,7 +333,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   type: TreatmentType.ultrasonic,
                                   isEventBus: true,
                                   IntFixed: 2,
-                                  title: Globalization. pSoundIntensity.tr,
+                                  title: Globalization.pSoundIntensity.tr,
                                   assets:
                                       'assets/images/2.0x/icon_shengqiang.png',
                                   initialValue: double.tryParse(
@@ -341,7 +356,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                 child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 15.h,bottom: 10.h),
+                                  margin:
+                                      EdgeInsets.only(top: 15.h, bottom: 10.h),
                                   width: (Get.locale?.countryCode == "CN")
                                       ? 100.w
                                       : 180.w,
