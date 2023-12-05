@@ -13,6 +13,7 @@ import 'package:zhwlzlxt_project/widget/switch_value.dart';
 
 import '../base/globalization.dart';
 import '../utils/sp_utils.dart';
+import '../widget/setting_dialog.dart';
 
 class SetPage extends StatefulWidget {
   const SetPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _SetPageState extends State<SetPage> {
   double sliderValue = 100;
   int textValue = 100;
   String sliderText = "还没操作";
+  SettingDialog? dialog;
 
   void updateSlider(value, text) {
     sliderValue = value;
@@ -42,6 +44,7 @@ class _SetPageState extends State<SetPage> {
     sliderValue = SpUtils.getDouble('sliderValue', defaultValue: 100)!;
     textValue = sliderValue.round();
     setBrightness(sliderValue / 100);
+    dialog = SettingDialog();
   }
 
   @override
@@ -104,35 +107,67 @@ class _SetPageState extends State<SetPage> {
                       ],
                     ),
                   ),
-                  Visibility(
-                    visible: false,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 200.w),
-                      child: Row(
-                        children: [
-                          Text(
-                            Globalization.bluetooth.tr,
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color: const Color(0xFF999999)),
+                  Container(
+                    margin: EdgeInsets.only(left: 200.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          Globalization.setting.tr,
+                          style: TextStyle(
+                              fontSize: 18.sp, color: const Color(0xFF999999)),
+                        ),
+                        SizedBox(
+                          width: 14.w,
+                        ),
+                        Container(
+                          width: 150.w,
+                          height: 43.h,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF00A8E7),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.w),
+                            ),
                           ),
-                          SizedBox(
-                            width: 14.w,
+                          child: TextButton(
+                              onPressed: (){
+                                dialog?.showSettingDialog(context);
+                              },
+                              child:Text(Globalization.factory.tr,
+                                style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),)
                           ),
-                          HomeSwitchButton(
-                              onString: Globalization.open.tr,
-                              offString: Globalization.close.tr,
-                              pressed: blueBtnSelected,
-                              onTap: (obj) {
-                                setState(() {
-                                  blueBtnSelected = !blueBtnSelected;
-                                  print(obj);
-                                });
-                              }),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
+                  // Visibility(
+                  //   visible: false,
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(left: 200.w),
+                  //     child: Row(
+                  //       children: [
+                  //         Text(
+                  //           Globalization.bluetooth.tr,
+                  //           style: TextStyle(
+                  //               fontSize: 18.sp,
+                  //               color: const Color(0xFF999999)),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 14.w,
+                  //         ),
+                  //         HomeSwitchButton(
+                  //             onString: Globalization.open.tr,
+                  //             offString: Globalization.close.tr,
+                  //             pressed: blueBtnSelected,
+                  //             onTap: (obj) {
+                  //               setState(() {
+                  //                 blueBtnSelected = !blueBtnSelected;
+                  //                 print(obj);
+                  //               });
+                  //             }),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               Row(
