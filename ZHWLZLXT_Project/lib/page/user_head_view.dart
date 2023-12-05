@@ -13,8 +13,10 @@ import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 import 'package:zhwlzlxt_project/page/set_page.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../Controller/treatment_controller.dart';
+import '../base/run_state_page.dart';
 import '../entity/shenJing_entity.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../entity/user_entity.dart';
@@ -84,27 +86,63 @@ class _UserHeadViewState extends State<UserHeadView>
             constraints: BoxConstraints(maxWidth: 350.w),
             child: Row(
               children: [
-                Expanded(
-                  child: Text(
-                    user?.userName ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: const Color(0xFF999999), fontSize: 18.sp),
-                  ),
+                user == null
+                    ? const Center()
+                    : Text(
+                        "用户：",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: const Color(0xFF999999), fontSize: 16.sp),
+                      ),
+                Text(
+                  user?.userName ?? "",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: const Color(0xFF333333), fontSize: 18.sp),
+                ),
+                const SizedBox(
+                  width: 20,
                 ),
                 Expanded(
-                  child: Text(
-                    user?.phone ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: const Color(0xFF999999), fontSize: 18.sp),
+                  child: Row(
+                    children: [
+                      Text(
+                        user?.phone ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: const Color(0xFF333333), fontSize: 18.sp),
+                      ),
+                      Column(
+                        children: [
+                          user == null
+                              ? const Center()
+                              : InkWell(
+                                  onTap: () {
+                                    user = null;
+                                    setState(() {});
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/icon_cancel.png',
+                                    fit: BoxFit.fitWidth,
+                                    width: 15.w,
+                                    height: 15.h,
+                                  ),
+                                ),
+                          const SizedBox(
+                            height: 15,
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
+
           const Expanded(child: SizedBox()),
           Row(
             children: [
@@ -118,6 +156,10 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
+                    if (cureState ?? false) {
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -159,7 +201,10 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    debugPrint('点击设置');
+                    if (cureState ?? false) {
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -1,0 +1,1 @@
+bool? cureState = false;

@@ -70,7 +70,6 @@ class Pulsed {
 
   User? user;
 
-
   bool start(bool isStart, bool isOpen) {
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0 ||
@@ -151,17 +150,16 @@ class Pulsed {
     data = "$data 00"; // 10
 
     if (!isOpen) {
-      zdEndTime = DateTime.now();
-
-      zdStartTime ??= DateTime.now();
-
-      Duration diff = zdEndTime!.difference(zdStartTime!);
-      zdTime = diff.inMinutes + zdTime;
+      if (zdStartTime != null) {
+        zdEndTime = DateTime.now();
+        Duration diff = zdEndTime!.difference(zdStartTime!);
+        zdTime = diff.inMinutes + zdTime;
+      }
     } else {
       zdStartTime = DateTime.now();
     }
 
-    if (user != null && user?.userId != 0){
+    if (user != null && user?.userId != 0) {
       if (!isStart) {
         endTime = DateTime.now();
         String min = '';
@@ -171,6 +169,7 @@ class Pulsed {
         } else {
           min = '${diff.inMinutes}';
         }
+
         // 存储信息 结束
         Record record = Record(
           userId: user?.userId,
@@ -184,11 +183,11 @@ class Pulsed {
           zdTime: zdTime.toString(),
         );
         RecordSqlDao.instance().addData(record: record);
+        zdTime = 0;
       } else {
         startTime = DateTime.now();
       }
     }
-
 
     SerialPort().send(data);
     return isStart;

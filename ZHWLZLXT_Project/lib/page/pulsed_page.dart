@@ -15,6 +15,7 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
+import '../base/run_state_page.dart';
 import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
@@ -102,9 +103,16 @@ class _PulsedPageState extends State<PulsedPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
-        pulsed?.init();
         pulsed?.start(false, false);
+        pulsed?.init();
+        Future.delayed(
+            const Duration(milliseconds: 500),
+                () {
+              eventBus.fire(SetValueState(
+                  TreatmentType.pulsed));
+            });
         this.startSelected = false;
+        cureState = startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -337,6 +345,7 @@ class _PulsedPageState extends State<PulsedPage>
                                       startSelected = pulsed?.start(
                                               !startSelected, switchSelected) ??
                                           false;
+                                      cureState = startSelected;
                                       if (!startSelected) {
                                         pulsed?.init();
                                         Future.delayed(

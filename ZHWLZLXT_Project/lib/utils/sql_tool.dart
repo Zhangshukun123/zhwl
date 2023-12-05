@@ -120,6 +120,7 @@ queryRecordUserId({
       RecordField.widthB,
       RecordField.delayTime,
       RecordField.circle,
+      RecordField.strengthGrade,
       RecordField.strengthGradeA,
       RecordField.strengthGradeB,
       RecordField.actionTime

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -20,6 +20,7 @@ import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
 
 import '../Controller/treatment_controller.dart';
+import '../base/run_state_page.dart';
 import '../entity/ultrasonic_entity.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/utils.dart';
@@ -105,7 +106,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         Uint8List list = toUnitList(value);
         print("--------------------${list[3]}");
 
-
         if (value.length > 20) {
           if (value.substring(4, 6) == '02') {}
         }
@@ -170,13 +170,18 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(minutes: 1);
+    const oneSec = Duration(seconds: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
-        ultrasonic?.init();
         ultrasonic?.start(false);
+        ultrasonic?.init();
+        ultrasonicController.ultrasonic.frequency.value = 1;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+        });
         this.startSelected = false;
+        cureState = startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -261,22 +266,84 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                             )),
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
-                                child: SetValue(
-                                  enabled: !startSelected,
-                                  type: TreatmentType.ultrasonic,
-                                  title: Globalization.time.tr,
-                                  isClock: true,
-                                  isAnimate: startSelected,
-                                  assets: 'assets/images/2.0x/icon_shijian.png',
-                                  initialValue:
-                                      double.tryParse(ultrasonic?.time ?? '1'),
-                                  minValue: 1,
-                                  maxValue: 30,
-                                  indexType: 1001,
-                                  unit: 'min',
-                                  valueListener: (value) {
-                                    ultrasonic?.time = value.toString();
-                                  },
+                                padding: EdgeInsets.only(top: 40.h),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '1',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 26.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Text(
+                                              'MHz',
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        const Text(
+                                          '频率',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xff666666)),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/icon_line.png',
+                                          fit: BoxFit.fill,
+                                          width: 30.w,
+                                          height: 30.h,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          '链接正常',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xff666666)),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/123.gif',
+                                          fit: BoxFit.fill,
+                                          width: 30.w,
+                                          height: 30.h,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          '温度正常',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xff666666)),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 )),
                           ],
                         )),
@@ -353,52 +420,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                         child: Row(
                           children: [
                             ContainerBg(
-                                child: Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(top: 15.h, bottom: 10.h),
-                                  width: (Get.locale?.countryCode == "CN")
-                                      ? 100.w
-                                      : 180.w,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/2.0x/icon_pinlv.png',
-                                            fit: BoxFit.fitWidth,
-                                            width: 24.w,
-                                            height: 24.h,
-                                          ),
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          Text(
-                                            Globalization.frequency.tr,
-                                            style: TextStyle(
-                                                fontSize: 24.sp,
-                                                color: const Color(0xFF999999)),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                PopupMenuBtn(
-                                  index: 1,
-                                  unit: 'MHz',
-                                  offset: Offset(0, -80.h),
-                                  patternStr: ultrasonic?.frequency ?? '1',
-                                  enabled: !startSelected,
-                                  popupListener: (value) {
-                                    // debugPrint(value);
-                                    setState(() {});
-                                    ultrasonic?.frequency = value;
-                                    // save();
-                                  },
-                                )
-                              ],
+                                child: SetValue(
+                              enabled: !startSelected,
+                              type: TreatmentType.ultrasonic,
+                              title: Globalization.time.tr,
+                              isClock: true,
+                              isAnimate: startSelected,
+                              assets: 'assets/images/2.0x/icon_shijian.png',
+                              initialValue:
+                                  double.tryParse(ultrasonic?.time ?? '1'),
+                              minValue: 1,
+                              maxValue: 30,
+                              indexType: 1001,
+                              unit: 'min',
+                              valueListener: (value) {
+                                ultrasonic?.time = value.toString();
+                              },
                             )),
                             ContainerBg(
                                 margin: EdgeInsets.only(left: 30.w),
@@ -457,6 +494,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             startSelected = ultrasonic
                                                     ?.start(!startSelected) ??
                                                 false;
+
+                                            cureState = startSelected;
+
                                             if (!startSelected) {
                                               ultrasonic?.init();
                                               ultrasonicController.ultrasonic
