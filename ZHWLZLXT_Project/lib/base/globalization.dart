@@ -66,6 +66,9 @@ class Globalization {
   static const String slow = "Slow Intermittent";// 慢速断续输出
   static const String complete = "Complete denervation";// 完全失神经
   static const String partial = "Partial denervation";// 部分失神经
+  static const String factory = "FactorySettings";// 出厂设置
+  static const String sweep = "SweepFrequency";// 扫频
+  static const String output = "OutputPower";// 输出功率
 
 //Intensity
 

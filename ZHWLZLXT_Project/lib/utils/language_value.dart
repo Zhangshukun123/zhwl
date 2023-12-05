@@ -72,7 +72,9 @@ class LanguageValue extends Translations {
           Globalization.slow:"Slow Intermittent",
           Globalization.complete:"Complete denervation",
           Globalization.partial:"Partial denervation",
-
+          Globalization.factory:"FactorySettings",
+          Globalization.sweep:"SweepFrequency",
+          Globalization.output:"OutputPower",
         },
         "zh_CN": {
           Globalization.login: "登录",
@@ -141,8 +143,9 @@ class LanguageValue extends Translations {
           Globalization.slow:"慢速断续输出",
           Globalization.complete:"完全失神经",
           Globalization.partial:"部分失神经",
-
-
+          Globalization.factory:"出厂设置",
+          Globalization.sweep:"扫频",
+          Globalization.output:"输出功率",
         }
       };
 }
