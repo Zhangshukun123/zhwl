@@ -18,6 +18,7 @@ import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import '../Controller/serial_msg.dart';
 import '../Controller/serial_port.dart';
 import '../Controller/ultrasonic_controller.dart';
+import '../base/run_state_page.dart';
 import '../entity/port_data.dart';
 import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
@@ -124,9 +125,17 @@ class _InfraredPageState extends State<InfraredPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         //计时结束
-        infraredEntity?.init();
+
         infraredEntity?.start(false);
+        infraredEntity?.init();
+        Future.delayed(
+            const Duration(milliseconds: 500),
+                () {
+              eventBus.fire(SetValueState(
+                  TreatmentType.infrared));
+            });
         this.startSelected = false;
+        cureState = startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -213,7 +222,7 @@ class _InfraredPageState extends State<InfraredPage>
                               double.tryParse(infraredEntity?.time ?? '12'),
                           maxValue: 99,
                           indexType: 1003,
-                          minValue: 0,
+                          minValue: 1,
                           unit: 'min',
                           valueListener: (value) {
                             infraredEntity?.time = value.toString();
@@ -436,6 +445,7 @@ class _InfraredPageState extends State<InfraredPage>
                                       startSelected = infraredEntity
                                               ?.start(!startSelected) ??
                                           false;
+                                      cureState = startSelected;
                                       if (!startSelected) {
                                         infraredEntity?.init();
                                         Future.delayed(

@@ -176,12 +176,15 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         _timer?.cancel();
         ultrasonic?.start(false);
         ultrasonic?.init();
-        ultrasonicController.ultrasonic.frequency.value = 1;
-        Future.delayed(const Duration(milliseconds: 500), () {
-          eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+        ultrasonicController.ultrasonic
+            .frequency.value = 1;
+        Future.delayed(
+            const Duration(
+                milliseconds: 500), () {
+          eventBus.fire(SetValueState(
+              TreatmentType.ultrasonic));
         });
         this.startSelected = false;
-        cureState = startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -326,12 +329,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                     ),
                                     Column(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/123.gif',
-                                          fit: BoxFit.fill,
-                                          width: 30.w,
-                                          height: 30.h,
-                                        ),
+                                        Lottie.asset('assets/lottie/Animatio.json',
+                                            repeat: true,
+                                            width: 30.w,
+                                            height: 30.h,
+                                            fit: BoxFit.fitWidth),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -494,6 +496,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             startSelected = ultrasonic
                                                     ?.start(!startSelected) ??
                                                 false;
+
 
                                             cureState = startSelected;
 

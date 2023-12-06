@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +87,7 @@ class _UserHeadViewState extends State<UserHeadView>
             constraints: BoxConstraints(maxWidth: 350.w),
             child: Row(
               children: [
-                user == null
+                (user == null||TextUtil.isEmpty(user?.phone))
                     ? const Center()
                     : Text(
                         "用户：",
@@ -117,9 +118,7 @@ class _UserHeadViewState extends State<UserHeadView>
                       ),
                       Column(
                         children: [
-                          user == null
-                              ? const Center()
-                              : InkWell(
+                          (user == null||TextUtil.isEmpty(user?.phone)) ? const Center() : InkWell(
                                   onTap: () {
                                     user = null;
                                     setState(() {});
