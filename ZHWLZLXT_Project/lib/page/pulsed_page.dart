@@ -112,7 +112,7 @@ class _PulsedPageState extends State<PulsedPage>
                   TreatmentType.pulsed));
             });
         this.startSelected = false;
-        cureState = startSelected;
+        MccCureState = this.startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -345,7 +345,7 @@ class _PulsedPageState extends State<PulsedPage>
                                       startSelected = pulsed?.start(
                                               !startSelected, switchSelected) ??
                                           false;
-                                      cureState = startSelected;
+                                      MccCureState = startSelected;
                                       if (!startSelected) {
                                         pulsed?.init();
                                         Future.delayed(

@@ -132,7 +132,7 @@ class _InfraredPageState extends State<InfraredPage>
           eventBus.fire(SetValueState(TreatmentType.infrared));
         });
         this.startSelected = false;
-        cureState = this.startSelected;
+        HwpzgCureState = this.startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -449,7 +449,7 @@ class _InfraredPageState extends State<InfraredPage>
                                       startSelected = infraredEntity
                                               ?.start(!startSelected) ??
                                           false;
-                                      cureState = startSelected;
+                                      HwpzgCureState = startSelected;
                                       if (!startSelected) {
                                         infraredEntity?.init();
                                         Future.delayed(

@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
+import '../base/run_state_page.dart';
 import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
@@ -95,6 +96,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         neuromuscular?.start1(false);
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+        SjjrCureState = yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(
               const Duration(milliseconds: 500), () {
@@ -133,6 +135,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         neuromuscular?.start2(false);
         erStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+        SjjrCureState = yiStartSelected || erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
           Future.delayed(
@@ -294,6 +297,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                     false;
                                 electrotherapyIsRunIng = yiStartSelected||erStartSelected;
                                 eventBus.fire(Notify());
+                                SjjrCureState = yiStartSelected || erStartSelected;
                                 if (!yiStartSelected) {
                                   neuromuscular?.setARestValue();
                                   Future.delayed(const Duration(milliseconds: 500), () {
@@ -456,6 +460,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
                                     false;
                                 electrotherapyIsRunIng = erStartSelected||yiStartSelected;
                                 eventBus.fire(Notify());
+                                SjjrCureState = yiStartSelected || erStartSelected;
                                 if (!erStartSelected) {
                                   neuromuscular?.setBRestValue();
                                   Future.delayed(const Duration(milliseconds: 500), () {
