@@ -175,10 +175,8 @@ class _JingLuanPageState extends State<JingLuanPage>
                     initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
                     appreciation: 0.1,
                     indexType: 10086,
-                    maxValue: double.tryParse(spastic?.circle ?? '1')! < 1.5
-                        ? double.tryParse(spastic?.circle ?? '1')
-                        : 1.5,
-                    minValue: 0.1,
+                    maxValue: (double.tryParse(spastic?.circle ?? '1')! - 0.1),
+                    minValue:  0.1,
                     unit: 's',
                     valueListener: (value) {
                       spastic?.delayTime = value.toString();
@@ -204,9 +202,8 @@ class _JingLuanPageState extends State<JingLuanPage>
                       unit: 's',
                       valueListener: (value) {
                         spastic?.circle = value.toString();
-                        if (double.tryParse(spastic?.delayTime ?? '0.1')! >
-                            double.tryParse(spastic?.circle ?? '1')!) {
-                          MC mc = MC(value, 10086);
+                        if (double.tryParse(spastic?.delayTime ?? '0.1')! > (double.tryParse(spastic?.circle ?? '1')!-0.1)) {
+                          MC mc = MC(double.tryParse(spastic?.circle ?? '1')!-0.1, 10086);
                           eventBus.fire(mc);
                         }
                         setState(() {});

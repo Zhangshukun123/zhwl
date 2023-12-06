@@ -168,7 +168,7 @@ class _SetValueState extends State<SetValue> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   if (widget.enabled) {
                     value = (value - appreciation);
                     if (value <= (widget.minValue ?? 0)) {
@@ -248,9 +248,8 @@ class _SetValueState extends State<SetValue> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   setState(() {
-                    // todo  长按点击事件
                     if (widget.enabled) {
                       value = value + appreciation;
                       if (value > (widget.maxValue ?? 999999)) {

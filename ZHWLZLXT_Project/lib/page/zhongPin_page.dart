@@ -96,6 +96,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init();
         midFrequency?.start1(false);
         yiStartSelected = false;
+        electrotherapyIsRunIng =
+            yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
@@ -133,6 +135,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init2();
         midFrequency?.start2(false);
         erStartSelected = false;
+        electrotherapyIsRunIng =
+            yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));

@@ -97,8 +97,14 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.init();
         percutaneous?.start1(false);
         yiStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
+          Future.delayed(
+              const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(
+                TreatmentType.percutaneous));
+          });
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
@@ -129,6 +135,7 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.initB();
         percutaneous?.start2(false);
         erStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
           Future.delayed(
@@ -161,198 +168,196 @@ class _JingPiPageState extends State<JingPiPage>
             Expanded(
               flex: 1,
               child: Container(
-                child: Container(
-                    height: 487.h,
-                    margin: EdgeInsets.only(top: 9.h),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ContainerBg(
-                            width: 340.w,
-                            height: 70.h,
+                  height: 487.h,
+                  margin: EdgeInsets.only(top: 9.h),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ContainerBg(
+                          width: 340.w,
+                          height: 70.h,
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.w),
+                                child: TextButton(
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                            'assets/images/2.0x/icon_moshi.png',
+                                            fit: BoxFit.fitWidth,
+                                            width: 15.w),
+                                        SizedBox(
+                                          width: 4.w,
+                                        ),
+                                        Text(
+                                          Globalization.mode.tr,
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: const Color(0xFF999999)),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                              PopupMenuBtn(
+                                index: 3,
+                                patternStr: percutaneous?.patternA ??
+                                    Globalization.continuous.tr,
+                                enabled: !yiStartSelected,
+                                popupListener: (value) {
+                                  percutaneous?.patternA = value;
+                                },
+                              ),
+                            ],
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          type: TreatmentType.percutaneous,
+                          enabled: !yiStartSelected,
+                          title: Globalization.time.tr,
+                          isClock: true,
+                          isAnimate: yiStartSelected,
+                          assets: 'assets/images/2.0x/icon_shijian.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.timeA ?? '1'),
+                          minValue: 1,
+                          indexType: 2002,
+                          maxValue: 30,
+                          unit: 'min',
+                          valueListener: (value) {
+                            percutaneous?.timeA = value.toString();
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.intensity.tr,
+                          assets: 'assets/images/2.0x/icon_qiangdu.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.powerA ?? '1'),
+                          maxValue: 99,
+                          minValue: 0,
+                          valueListener: (value) {
+                            percutaneous?.powerA = value.toString();
+                            percutaneous?.start1(true);
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: !yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.frequency.tr,
+                          assets: 'assets/images/2.0x/icon_pinlv.png',
+                          initialValue: double.tryParse(
+                              percutaneous?.frequencyA ?? '2'),
+                          minValue: 2,
+                          maxValue: 160,
+                          unit: 'Hz',
+                          valueListener: (value) {
+                            percutaneous?.frequencyA = value.toString();
+                          },
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: !yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.pulseWidth.tr,
+                          assets: 'assets/images/2.0x/icon_maikuan.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.pulseA ?? '60'),
+                          minValue: 60,
+                          maxValue: 520,
+                          appreciation: 10,
+                          unit: 'μs',
+                          valueListener: (value) {
+                            percutaneous?.pulseA = value.toString();
+                          },
+                        ),
+                      ),
+                      Container(
+                        child: Container(
+                          width: 120.w,
+                          height: 45.h,
+                          margin: EdgeInsets.only(top: 10.h),
+                          decoration: BoxDecoration(
+                              color: yiStartSelected
+                                  ? const Color(0xFF00C290)
+                                  : const Color(0xFF00A8E7),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.w),
+                              )),
+                          child: TextButton(
+                            onPressed: () {
+                              yiStartSelected =
+                                  percutaneous?.start1(!yiStartSelected) ??
+                                      false;
+                              electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+                              eventBus.fire(Notify());
+                              if (!yiStartSelected) {
+                                percutaneous?.init();
+                                Future.delayed(
+                                    const Duration(milliseconds: 500), () {
+                                  eventBus.fire(SetValueState(
+                                      TreatmentType.percutaneous));
+                                });
+                              }
+                              setState(() {
+                                //点击开始治疗
+                                double? tmp = double.tryParse(
+                                    percutaneous?.timeA ?? '1');
+                                _countdownTime1 = ((tmp?.toInt())!);
+                                startCountdownTimer1(yiStartSelected);
+                              });
+                            },
+                            // child: Image.asset(
+                            //   yiStartSelected
+                            //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                            //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                            //   fit: BoxFit.cover,
+                            //   width: 120.w,
+                            //   height: 45.h,
+                            // )
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(left: 20.w),
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                              'assets/images/2.0x/icon_moshi.png',
-                                              fit: BoxFit.fitWidth,
-                                              width: 15.w),
-                                          SizedBox(
-                                            width: 4.w,
-                                          ),
-                                          Text(
-                                            Globalization.mode.tr,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF999999)),
-                                          ),
-                                        ],
-                                      )),
+                                Image.asset(
+                                  'assets/images/2.0x/icon_kaishi.png',
+                                  fit: BoxFit.fitWidth,
+                                  width: 18.w,
+                                  height: 18.h,
                                 ),
-                                PopupMenuBtn(
-                                  index: 3,
-                                  patternStr: percutaneous?.patternA ??
-                                      Globalization.continuous.tr,
-                                  enabled: !yiStartSelected,
-                                  popupListener: (value) {
-                                    percutaneous?.patternA = value;
-                                  },
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Text(
+                                  yiStartSelected
+                                      ? Globalization.stop.tr
+                                      : Globalization.start.tr,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ],
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            type: TreatmentType.percutaneous,
-                            enabled: !yiStartSelected,
-                            title: Globalization.time.tr,
-                            isClock: true,
-                            isAnimate: yiStartSelected,
-                            assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.timeA ?? '1'),
-                            minValue: 1,
-                            indexType: 2002,
-                            maxValue: 30,
-                            unit: 'min',
-                            valueListener: (value) {
-                              percutaneous?.timeA = value.toString();
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.intensity.tr,
-                            assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.powerA ?? '1'),
-                            maxValue: 99,
-                            minValue: 0,
-                            valueListener: (value) {
-                              percutaneous?.powerA = value.toString();
-                              percutaneous?.start1(true);
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: !yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.frequency.tr,
-                            assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: double.tryParse(
-                                percutaneous?.frequencyA ?? '2'),
-                            minValue: 2,
-                            maxValue: 160,
-                            unit: 'Hz',
-                            valueListener: (value) {
-                              percutaneous?.frequencyA = value.toString();
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: !yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.pulseWidth.tr,
-                            assets: 'assets/images/2.0x/icon_maikuan.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.pulseA ?? '60'),
-                            minValue: 60,
-                            maxValue: 520,
-                            appreciation: 10,
-                            unit: 'μs',
-                            valueListener: (value) {
-                              percutaneous?.pulseA = value.toString();
-                            },
-                          ),
-                        ),
-                        Container(
-                          child: Container(
-                            width: 120.w,
-                            height: 45.h,
-                            margin: EdgeInsets.only(top: 10.h),
-                            decoration: BoxDecoration(
-                                color: yiStartSelected
-                                    ? const Color(0xFF00C290)
-                                    : const Color(0xFF00A8E7),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10.w),
-                                )),
-                            child: TextButton(
-                              onPressed: () {
-                                yiStartSelected =
-                                    percutaneous?.start1(!yiStartSelected) ??
-                                        false;
-                                electrotherapyIsRunIng = yiStartSelected||erStartSelected;
-                                eventBus.fire(Notify());
-                                if (!yiStartSelected) {
-                                  percutaneous?.init();
-                                  Future.delayed(
-                                      const Duration(milliseconds: 500), () {
-                                    eventBus.fire(SetValueState(
-                                        TreatmentType.percutaneous));
-                                  });
-                                }
-                                setState(() {
-                                  //点击开始治疗
-                                  double? tmp = double.tryParse(
-                                      percutaneous?.timeA ?? '1');
-                                  _countdownTime1 = ((tmp?.toInt())!);
-                                  startCountdownTimer1(yiStartSelected);
-                                });
-                              },
-                              // child: Image.asset(
-                              //   yiStartSelected
-                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                              //   fit: BoxFit.cover,
-                              //   width: 120.w,
-                              //   height: 45.h,
-                              // )
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/2.0x/icon_kaishi.png',
-                                    fit: BoxFit.fitWidth,
-                                    width: 18.w,
-                                    height: 18.h,
-                                  ),
-                                  SizedBox(
-                                    width: 8.w,
-                                  ),
-                                  Text(
-                                    yiStartSelected
-                                        ? Globalization.stop.tr
-                                        : Globalization.start.tr,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
                             ),
                           ),
                         ),
-                      ],
-                    )),
-              ),
+                      ),
+                    ],
+                  )),
             ),
             Container(
                 width: 1,

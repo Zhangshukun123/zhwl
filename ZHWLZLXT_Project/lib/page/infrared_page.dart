@@ -128,14 +128,11 @@ class _InfraredPageState extends State<InfraredPage>
 
         infraredEntity?.start(false);
         infraredEntity?.init();
-        Future.delayed(
-            const Duration(milliseconds: 500),
-                () {
-              eventBus.fire(SetValueState(
-                  TreatmentType.infrared));
-            });
+        Future.delayed(const Duration(milliseconds: 500), () {
+          eventBus.fire(SetValueState(TreatmentType.infrared));
+        });
         this.startSelected = false;
-        cureState = startSelected;
+        cureState = this.startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -242,7 +239,8 @@ class _InfraredPageState extends State<InfraredPage>
                             initialValue:
                                 double.tryParse(infraredEntity?.power ?? '1'),
                             maxValue: 8,
-                            minValue: 0,
+                            indexType: 10098,
+                            minValue: isDGW ? 2 : 1,
                             isInt: true,
                             appreciation: 1,
                             valueListener: (value) {
@@ -307,6 +305,12 @@ class _InfraredPageState extends State<InfraredPage>
                                       (value != Globalization.continuous.tr);
                                   if (isDGW) {
                                     eventBus.fire(Infrared());
+                                    eventBus.fire(RunTime(2, 10098));
+                                    infraredEntity?.power = '2';
+                                  }else{
+                                    eventBus.fire(Infrared());
+                                    eventBus.fire(RunTime(1, 10098));
+                                    infraredEntity?.power = '1';
                                   }
                                   infraredEntity?.pattern = value;
                                   setState(() {});

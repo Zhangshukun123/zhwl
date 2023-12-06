@@ -121,7 +121,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       widget.valueListener!(value);
       setState(() {});
     });
-
   }
 
   @override
@@ -141,16 +140,16 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   child: Row(children: [
                     (widget.isClock ?? false)
                         ? Lottie.asset('assets/lottie/clock.json',
-                        repeat: true,
-                        animate: widget.isAnimate,
-                        width: 18.w,
-                        fit: BoxFit.fitWidth)
+                            repeat: true,
+                            animate: widget.isAnimate,
+                            width: 18.w,
+                            fit: BoxFit.fitWidth)
                         : Image.asset(
-                      widget.assets ??
-                          'assets/images/2.0x/icon_shijian.png',
-                      fit: BoxFit.fitWidth,
-                      width: 15.w,
-                    ),
+                            widget.assets ??
+                                'assets/images/2.0x/icon_shijian.png',
+                            fit: BoxFit.fitWidth,
+                            width: 15.w,
+                          ),
                     SizedBox(
                       width: 4.w,
                     ),
@@ -167,7 +166,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             GestureDetector(
               onTap: () {
                 if (widget.enabled ?? false) {
-                  if (value == 0) return;
                   value = (value - appreciation);
                   if (value <= (widget.minValue ?? 0)) {
                     value = (widget.minValue ?? 0);
@@ -177,10 +175,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   setState(() {
                     if (widget.enabled ?? false) {
-                      if (value == 0) return;
                       value = (value - appreciation);
                       if (value <= (widget.minValue ?? 0)) {
                         value = (widget.minValue ?? 0);
@@ -204,7 +201,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: Visibility(
                 visible: widget.isVisJa ?? true,
                 child: Image.asset(
-                  widget.enabled ?? true
+                  widget.enabled==true && (value != widget.minValue)
                       ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
@@ -254,20 +251,18 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   value = value + appreciation;
                   if (value > (widget.maxValue ?? 999999)) {
                     value = (widget.maxValue ?? 999999);
-                    widget.valueListener!(value);
                   }
                   widget.valueListener!(value);
                   setState(() {});
                 }
               },
               onTapDown: (e) {
-                timer = Timer.periodic(const Duration(milliseconds: 100), (e) {
+                timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   setState(() {
                     if (widget.enabled ?? false) {
                       value = value + appreciation;
                       if (value > (widget.maxValue ?? 999999)) {
                         value = (widget.maxValue ?? 999999);
-                        widget.valueListener!(value);
                       }
                       widget.valueListener!(value);
                       setState(() {});
@@ -288,7 +283,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: Visibility(
                 visible: widget.isVisJa ?? true,
                 child: Image.asset(
-                  widget.enabled ?? true
+                  widget.enabled==true && (value != widget.maxValue)
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,

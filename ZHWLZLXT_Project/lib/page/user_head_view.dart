@@ -155,7 +155,8 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if (cureState ?? false) {
+                    print("-----------------$cureState");
+                    if ((cureState ?? false) && widget.type==TreatmentType.infrared) {
                       showToastMsg(msg: '治疗过程中禁止操作');
                       return;
                     }

@@ -94,6 +94,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         neuromuscular?.setARestValue();
         neuromuscular?.start1(false);
         yiStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
         setState(() {
           Future.delayed(
               const Duration(milliseconds: 500), () {
@@ -131,6 +132,7 @@ class _ShenJingPageState extends State<ShenJingPage> with AutomaticKeepAliveClie
         neuromuscular?.setBRestValue();
         neuromuscular?.start2(false);
         erStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
           Future.delayed(
