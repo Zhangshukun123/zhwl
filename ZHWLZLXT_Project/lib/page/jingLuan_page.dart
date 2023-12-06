@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/base/run_state_page.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
 
 import '../entity/set_value_state.dart';
@@ -88,6 +89,7 @@ class _JingLuanPageState extends State<JingLuanPage>
         spastic?.init();
         spastic?.start(false);
         this.startSelected = false;
+        JljCureState = this.startSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.spasm));
@@ -274,6 +276,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                                       spastic?.start(!startSelected) ?? false;
                                   electrotherapyIsRunIng = startSelected;
                                   eventBus.fire(Notify());
+                                  JljCureState = startSelected;
                                   if (!startSelected) {
                                     spastic?.init();
                                     Future.delayed(

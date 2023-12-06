@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/base/run_state_page.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
 
 import '../entity/jingPi_entity.dart';
@@ -97,6 +98,7 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.init();
         percutaneous?.start1(false);
         yiStartSelected = false;
+        JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -129,6 +131,7 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.initB();
         percutaneous?.start2(false);
         erStartSelected = false;
+        JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
           Future.delayed(
@@ -300,6 +303,7 @@ class _JingPiPageState extends State<JingPiPage>
                                         false;
                                 electrotherapyIsRunIng = yiStartSelected||erStartSelected;
                                 eventBus.fire(Notify());
+                                JpsjCureState = yiStartSelected||erStartSelected;
                                 if (!yiStartSelected) {
                                   percutaneous?.init();
                                   Future.delayed(
@@ -524,6 +528,7 @@ class _JingPiPageState extends State<JingPiPage>
                                       false;
                               electrotherapyIsRunIng = erStartSelected||yiStartSelected;
                               eventBus.fire(Notify());
+                              JpsjCureState = erStartSelected||yiStartSelected;
                               if (!erStartSelected) {
                                 percutaneous?.initB();
                                 Future.delayed(

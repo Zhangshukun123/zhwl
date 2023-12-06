@@ -185,6 +185,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               TreatmentType.ultrasonic));
         });
         this.startSelected = false;
+        cureState = this.startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });

@@ -155,7 +155,31 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if (cureState ?? false) {
+                    if ((cureState ?? false) && widget.type == TreatmentType.ultrasonic) {
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((MccCureState ?? false) && widget.type == TreatmentType.pulsed){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((HwpzgCureState ?? false) && widget.type == TreatmentType.infrared){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((JljCureState ?? false) && widget.type == TreatmentType.spasm){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((JpsjCureState ?? false) && widget.type == TreatmentType.percutaneous){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((SjjrCureState ?? false) && widget.type == TreatmentType.neuromuscular){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((ZpgrdCureState ?? false) && widget.type == TreatmentType.frequency){
                       showToastMsg(msg: '治疗过程中禁止操作');
                       return;
                     }
@@ -200,7 +224,31 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if (cureState ?? false) {
+                    if ((cureState ?? false) && widget.type == TreatmentType.ultrasonic) {
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((MccCureState ?? false) && widget.type == TreatmentType.pulsed){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((HwpzgCureState ?? false) && widget.type == TreatmentType.infrared){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((JljCureState ?? false) && widget.type == TreatmentType.spasm){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((JpsjCureState ?? false) && widget.type == TreatmentType.percutaneous){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((SjjrCureState ?? false) && widget.type == TreatmentType.neuromuscular){
+                      showToastMsg(msg: '治疗过程中禁止操作');
+                      return;
+                    }
+                    if ((ZpgrdCureState ?? false) && widget.type == TreatmentType.frequency){
                       showToastMsg(msg: '治疗过程中禁止操作');
                       return;
                     }

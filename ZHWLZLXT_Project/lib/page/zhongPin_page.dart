@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/base/run_state_page.dart';
 import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
@@ -96,6 +97,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init();
         midFrequency?.start1(false);
         yiStartSelected = false;
+        ZpgrdCureState = yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
@@ -133,6 +135,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init2();
         midFrequency?.start2(false);
         erStartSelected = false;
+        ZpgrdCureState = yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
@@ -310,6 +313,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                             electrotherapyIsRunIng =
                                 yiStartSelected || erStartSelected;
                             eventBus.fire(Notify());
+                            ZpgrdCureState = yiStartSelected || erStartSelected;
                             if (!yiStartSelected) {
                               midFrequency?.init();
                               if (aliveAuto) {
@@ -520,6 +524,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               electrotherapyIsRunIng =
                                   yiStartSelected || erStartSelected;
                               eventBus.fire(Notify());
+                              ZpgrdCureState = yiStartSelected || erStartSelected;
                               if (!erStartSelected) {
                                 midFrequency?.init2();
                                 Future.delayed(
