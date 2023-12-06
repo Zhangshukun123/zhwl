@@ -480,7 +480,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 60.w,
+                                        width: 40.w,
                                         child: Text(
                                           Globalization.gender.tr,
                                           style: TextStyle(
