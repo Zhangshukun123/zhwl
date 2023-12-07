@@ -269,7 +269,7 @@ class _InfraredPageState extends State<InfraredPage>
                               Container(
                                 margin: EdgeInsets.only(top: 29.h),
                                 width: (Get.locale?.countryCode == "CN")
-                                    ? 70.w
+                                    ? 90.w
                                     : 100.w,
                                 child: TextButton(
                                     onPressed: () {},
@@ -289,7 +289,7 @@ class _InfraredPageState extends State<InfraredPage>
                                         Text(
                                           Globalization.mode.tr,
                                           style: TextStyle(
-                                              fontSize: 16.sp,
+                                              fontSize: 24.sp,
                                               color: const Color(0xFF999999)),
                                         ),
                                       ],

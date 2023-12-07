@@ -63,8 +63,8 @@ class _FunctionPageState extends State<FunctionPage> {
                     child: Image.asset(
                       'assets/images/2.0x/function_logo.png',
                       fit: BoxFit.fitWidth,
-                      width: 88.5.w,
-                      height: 29.5.h,
+                      width: 140.w,
+                      height: 39.5.h,
                     )),
                 Expanded(
                   child: Column(

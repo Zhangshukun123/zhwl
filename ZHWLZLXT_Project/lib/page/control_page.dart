@@ -272,7 +272,7 @@ class _ControlPageState extends State<ControlPage> {
                                     color: const Color(0xFF333333)),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: '请输入手机号',
+                                  hintText: '请输入电话',
                                   hintStyle: TextStyle(
                                       color: const Color(0xFFaaaaaa),
                                       fontSize: 13.sp),

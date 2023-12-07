@@ -97,7 +97,7 @@ class LoginPageState extends State<LoginPage> {
                             Expanded(
                               child: Container(
                                 transform:
-                                    Matrix4.translationValues(0, -30.h, 0),
+                                    Matrix4.translationValues(0, -10.h, 0),
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

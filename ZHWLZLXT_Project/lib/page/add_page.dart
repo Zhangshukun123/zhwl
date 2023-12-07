@@ -510,10 +510,10 @@ class _AddPageState extends State<AddPage> {
                           showToastMsg(msg: "请输入用户姓名");
                           return;
                         }
-                        if (TextUtil.isEmpty(ageController.text)) {
-                          showToastMsg(msg: "请输入用户年龄");
-                          return;
-                        }
+                        // if (TextUtil.isEmpty(ageController.text)) {
+                        //   showToastMsg(msg: "请输入用户年龄");
+                        //   return;
+                        // }
                         if (TextUtil.isEmpty(telController.text)) {
                           showToastMsg(msg: "请输入用户电话");
                           return;
@@ -528,7 +528,12 @@ class _AddPageState extends State<AddPage> {
                         user.userNub = numController.text; //编号
                         user.userName = nameController.text;
                         user.sex = sex;
-                        user.age = int.parse(ageController.text); //年龄
+                        if(ageController.text.isEmpty){
+                          user.age = 0;
+                        }
+                        else{
+                          user.age = int.parse(ageController.text); //年龄
+                        }
                         user.sex = sex; //性别
                         user.phone = telController.text; //电话
                         user.idCard = cerController.text; //证件
