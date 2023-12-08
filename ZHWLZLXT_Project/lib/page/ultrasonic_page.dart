@@ -170,7 +170,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
@@ -480,81 +480,91 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             ],
                                           )),
                                     ),
-                                    Center(
-                                      child: Container(
-                                        width: 120.w,
-                                        height: 55.h,
-                                        decoration: BoxDecoration(
-                                            color: startSelected
-                                                ? const Color(0xFF00C290)
-                                                : const Color(0xFF00A8E7),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10.w),
-                                            )),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            // startSelected = !startSelected;
-                                            startSelected = ultrasonic
-                                                    ?.start(!startSelected) ??
-                                                false;
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Visibility(
+                                            visible: startSelected,
+                                            maintainState: false,
+                                            maintainAnimation: false,
+                                            maintainSize: false,
+                                            child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,)
+                                        ),
+                                        Container(
+                                          width: 120.w,
+                                          height: 55.h,
+                                          decoration: BoxDecoration(
+                                              color: startSelected
+                                                  ? const Color(0xFF00C290)
+                                                  : const Color(0xFF00A8E7),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.w),
+                                              )),
+                                          child: TextButton(
+                                            onPressed: () {
+                                              // startSelected = !startSelected;
+                                              startSelected = ultrasonic
+                                                      ?.start(!startSelected) ??
+                                                  false;
 
 
-                                            cureState = startSelected;
+                                              cureState = startSelected;
 
-                                            if (!startSelected) {
-                                              ultrasonic?.init();
-                                              ultrasonicController.ultrasonic
-                                                  .frequency.value = 1;
-                                              Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 500), () {
-                                                eventBus.fire(SetValueState(
-                                                    TreatmentType.ultrasonic));
+                                              if (!startSelected) {
+                                                ultrasonic?.init();
+                                                ultrasonicController.ultrasonic
+                                                    .frequency.value = 1;
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 500), () {
+                                                  eventBus.fire(SetValueState(
+                                                      TreatmentType.ultrasonic));
+                                                });
+                                              }
+                                              setState(() {
+                                                double? tmp = double.tryParse(
+                                                    ultrasonic?.time ?? '1');
+                                                _countdownTime =
+                                                    ((tmp?.toInt())!);
+                                                startCountdownTimer(
+                                                    startSelected);
                                               });
-                                            }
-                                            setState(() {
-                                              double? tmp = double.tryParse(
-                                                  ultrasonic?.time ?? '1');
-                                              _countdownTime =
-                                                  ((tmp?.toInt())!);
-                                              startCountdownTimer(
-                                                  startSelected);
-                                            });
-                                          },
-                                          // child: Image.asset(
-                                          //   startSelected
-                                          //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                          //       : 'assets/images/btn_kaishi_nor.png',
-                                          //   width: 100.w,
-                                          //   fit: BoxFit.fitWidth,
-                                          // ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/2.0x/icon_kaishi.png',
-                                                fit: BoxFit.fitWidth,
-                                                width: 18.w,
-                                                height: 18.h,
-                                              ),
-                                              SizedBox(
-                                                width: 8.w,
-                                              ),
-                                              Text(
-                                                startSelected
-                                                    ? Globalization.stop.tr
-                                                    : Globalization.start.tr,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18.sp,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ],
+                                            },
+                                            // child: Image.asset(
+                                            //   startSelected
+                                            //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                            //       : 'assets/images/btn_kaishi_nor.png',
+                                            //   width: 100.w,
+                                            //   fit: BoxFit.fitWidth,
+                                            // ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/2.0x/icon_kaishi.png',
+                                                  fit: BoxFit.fitWidth,
+                                                  width: 18.w,
+                                                  height: 18.h,
+                                                ),
+                                                SizedBox(
+                                                  width: 8.w,
+                                                ),
+                                                Text(
+                                                  startSelected
+                                                      ? Globalization.stop.tr
+                                                      : Globalization.start.tr,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 )),

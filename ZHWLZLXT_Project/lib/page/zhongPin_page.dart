@@ -299,81 +299,95 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           },
                         ),
                       ),
-                      Container(
-                        width: 120.w,
-                        height: 45.h,
-                        margin: EdgeInsets.only(top: 10.h),
-                        decoration: BoxDecoration(
-                            color: yiStartSelected
-                                ? const Color(0xFF00C290)
-                                : const Color(0xFF00A8E7),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.w),
-                            )),
-                        child: TextButton(
-                          onPressed: () {
-                            yiStartSelected =
-                                midFrequency?.start1(!yiStartSelected) ?? false;
-                            electrotherapyIsRunIng =
-                                yiStartSelected || erStartSelected;
-                            eventBus.fire(Notify());
-                            ZpgrdCureState = yiStartSelected || erStartSelected;
-                            if (!yiStartSelected) {
-                              midFrequency?.init();
-                              if (aliveAuto) {
-                                erStartSelected = yiStartSelected;
-                                midFrequency?.init2();
-                                aliveAuto = false;
-                              }
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () {
-                                eventBus.fire(
-                                    SetValueState(TreatmentType.frequency));
-                              });
-                            }
-                            if (aliveAuto) {
-                              erStartSelected = yiStartSelected;
-                            }
-                            setState(() {
-                              //点击开始治疗
-                              double? tmp =
-                                  double.tryParse(midFrequency?.timeA ?? '1');
-                              _countdownTime1 = ((tmp?.toInt())!);
-                              startCountdownTimer1(yiStartSelected);
-                            });
-                          },
-                          // child: Image.asset(
-                          //   yiStartSelected
-                          //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                          //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                          //   fit: BoxFit.cover,
-                          //   width: 120.w,
-                          //   height: 45.h,
-                          // )
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/2.0x/icon_kaishi.png',
-                                fit: BoxFit.fitWidth,
-                                width: 18.w,
-                                height: 18.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                yiStartSelected
-                                    ? Globalization.stop.tr
-                                    : Globalization.start.tr,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Visibility(
+                              visible: yiStartSelected,
+                              maintainState: false,
+                              maintainAnimation: false,
+                              maintainSize: false,
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
                           ),
-                        ),
+                          Container(
+                            width: 120.w,
+                            height: 45.h,
+                            margin: EdgeInsets.only(top: 10.h),
+                            decoration: BoxDecoration(
+                                color: yiStartSelected
+                                    ? const Color(0xFF00C290)
+                                    : const Color(0xFF00A8E7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.w),
+                                )),
+                            child: TextButton(
+                              onPressed: () {
+                                yiStartSelected =
+                                    midFrequency?.start1(!yiStartSelected) ?? false;
+                                electrotherapyIsRunIng =
+                                    yiStartSelected || erStartSelected;
+                                eventBus.fire(Notify());
+                                ZpgrdCureState = yiStartSelected || erStartSelected;
+                                if (!yiStartSelected) {
+                                  midFrequency?.init();
+                                  if (aliveAuto) {
+                                    erStartSelected = yiStartSelected;
+                                    midFrequency?.init2();
+                                    aliveAuto = false;
+                                  }
+                                  Future.delayed(const Duration(milliseconds: 500),
+                                      () {
+                                    eventBus.fire(
+                                        SetValueState(TreatmentType.frequency));
+                                  });
+                                }
+                                if (aliveAuto) {
+                                  erStartSelected = yiStartSelected;
+                                }
+                                setState(() {
+                                  //点击开始治疗
+                                  double? tmp =
+                                      double.tryParse(midFrequency?.timeA ?? '1');
+                                  _countdownTime1 = ((tmp?.toInt())!);
+                                  startCountdownTimer1(yiStartSelected);
+                                });
+                              },
+                              // child: Image.asset(
+                              //   yiStartSelected
+                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                              //   fit: BoxFit.cover,
+                              //   width: 120.w,
+                              //   height: 45.h,
+                              // )
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/2.0x/icon_kaishi.png',
+                                    fit: BoxFit.fitWidth,
+                                    width: 18.w,
+                                    height: 18.h,
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Text(
+                                    yiStartSelected
+                                        ? Globalization.stop.tr
+                                        : Globalization.start.tr,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   )),
@@ -508,101 +522,115 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           },
                         ),
                       ),
-                      Container(
-                        width: 120.w,
-                        height: 45.h,
-                        margin: EdgeInsets.only(top: 10.h),
-                        decoration: BoxDecoration(
-                            color: erStartSelected
-                                ? const Color(0xFF00C290)
-                                : const Color(0xFF00A8E7),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.w),
-                            )),
-                        child: TextButton(
-                          onPressed: () {
-                            if (!aliveAuto) {
-                              erStartSelected =
-                                  midFrequency?.start2(!erStartSelected) ??
-                                      false;
-                              electrotherapyIsRunIng =
-                                  yiStartSelected || erStartSelected;
-                              eventBus.fire(Notify());
-                              ZpgrdCureState = yiStartSelected || erStartSelected;
-                              if (!erStartSelected) {
-                                midFrequency?.init2();
-                                Future.delayed(
-                                    const Duration(milliseconds: 500), () {
-                                  eventBus.fire(
-                                      SetValueState(TreatmentType.frequency));
-                                });
-                              }
-                              setState(() {
-                                //点击开始治疗
-                                double? tmp =
-                                    double.tryParse(midFrequency?.timeB ?? '1');
-                                _countdownTime2 = ((tmp?.toInt())!);
-                                startCountdownTimer2(erStartSelected);
-                              });
-                            } else {
-                              yiStartSelected =
-                                  midFrequency?.start1(!yiStartSelected) ??
-                                      false;
-                              electrotherapyIsRunIng =
-                                  yiStartSelected || erStartSelected;
-                              eventBus.fire(Notify());
-                              if (!yiStartSelected) {
-                                midFrequency?.init();
-                                midFrequency?.init2();
-                                aliveAuto = false;
-                                Future.delayed(
-                                    const Duration(milliseconds: 500), () {
-                                  eventBus.fire(
-                                      SetValueState(TreatmentType.frequency));
-                                });
-                              }
-                              erStartSelected = yiStartSelected;
-                              setState(() {
-                                //点击开始治疗
-                                double? tmp =
-                                    double.tryParse(midFrequency?.timeA ?? '1');
-                                _countdownTime1 = ((tmp?.toInt())!);
-                                startCountdownTimer1(yiStartSelected);
-                              });
-                            }
-                          },
-                          // child: Image.asset(
-                          //   erStartSelected
-                          //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                          //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                          //   fit: BoxFit.cover,
-                          //   width: 120.w,
-                          //   height: 45.h,
-                          // )
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/2.0x/icon_kaishi.png',
-                                fit: BoxFit.fitWidth,
-                                width: 18.w,
-                                height: 18.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                erStartSelected
-                                    ? Globalization.stop.tr
-                                    : Globalization.start.tr,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Visibility(
+                              visible: erStartSelected,
+                              maintainState: false,
+                              maintainAnimation: false,
+                              maintainSize: false,
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
                           ),
-                        ),
+                          Container(
+                            width: 120.w,
+                            height: 45.h,
+                            margin: EdgeInsets.only(top: 10.h),
+                            decoration: BoxDecoration(
+                                color: erStartSelected
+                                    ? const Color(0xFF00C290)
+                                    : const Color(0xFF00A8E7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.w),
+                                )),
+                            child: TextButton(
+                              onPressed: () {
+                                if (!aliveAuto) {
+                                  erStartSelected =
+                                      midFrequency?.start2(!erStartSelected) ??
+                                          false;
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+                                  ZpgrdCureState = yiStartSelected || erStartSelected;
+                                  if (!erStartSelected) {
+                                    midFrequency?.init2();
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(
+                                          SetValueState(TreatmentType.frequency));
+                                    });
+                                  }
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp =
+                                        double.tryParse(midFrequency?.timeB ?? '1');
+                                    _countdownTime2 = ((tmp?.toInt())!);
+                                    startCountdownTimer2(erStartSelected);
+                                  });
+                                } else {
+                                  yiStartSelected =
+                                      midFrequency?.start1(!yiStartSelected) ??
+                                          false;
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+                                  if (!yiStartSelected) {
+                                    midFrequency?.init();
+                                    midFrequency?.init2();
+                                    aliveAuto = false;
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(
+                                          SetValueState(TreatmentType.frequency));
+                                    });
+                                  }
+                                  erStartSelected = yiStartSelected;
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp =
+                                        double.tryParse(midFrequency?.timeA ?? '1');
+                                    _countdownTime1 = ((tmp?.toInt())!);
+                                    startCountdownTimer1(yiStartSelected);
+                                  });
+                                }
+                              },
+                              // child: Image.asset(
+                              //   erStartSelected
+                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                              //   fit: BoxFit.cover,
+                              //   width: 120.w,
+                              //   height: 45.h,
+                              // )
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/2.0x/icon_kaishi.png',
+                                    fit: BoxFit.fitWidth,
+                                    width: 18.w,
+                                    height: 18.h,
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Text(
+                                    erStartSelected
+                                        ? Globalization.stop.tr
+                                        : Globalization.start.tr,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   )),

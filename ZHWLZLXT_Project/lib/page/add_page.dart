@@ -67,33 +67,76 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFF9F9F9),
+      // appBar: AppBar(
+      //   toolbarHeight: 45.h,
+      //   leading: InkWell(
+      //     onTap: () async {
+      //       focusNode.unfocus();
+      //       // ignore: use_build_context_synchronously
+      //       Navigator.pop(context);
+      //     },
+      //     child: Row(
+      //       children: [
+      //         const SizedBox(
+      //           width: 25,
+      //         ),
+      //         Image.asset(
+      //           'assets/images/ic_nav_back_white.png',
+      //           width: 15.w,
+      //           height: 15.h,
+      //           fit: BoxFit.fitWidth,
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      //   leadingWidth: 40.w,
+      //   title: Text(
+      //     Globalization.addUser.tr,
+      //     style: TextStyle(fontSize: 15.sp, color: Colors.white),
+      //   ),
+      // ),
       appBar: AppBar(
-        toolbarHeight: 45.h,
-        leading: InkWell(
-          onTap: () async {
-            focusNode.unfocus();
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context);
-          },
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 25,
+        automaticallyImplyLeading : false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 80.w,
+              height: 30.h,
+              decoration: BoxDecoration(
+                  color: const Color(0xFF19B1E9),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.w),
+                  )
               ),
-              Image.asset(
-                'assets/images/ic_nav_back_white.png',
-                width: 15.w,
-                height: 15.h,
-                fit: BoxFit.fitWidth,
+              child: InkWell(
+                onTap: (){
+                  focusNode.unfocus();
+                  Navigator.of(context).pop();
+                },
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 10.w,),
+                    Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
+                    Text(
+                      '返回',
+                      style: TextStyle(fontSize: 18.sp),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: Center(
+                  child: Text(Globalization.addUser.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
+              ),
+            )
+          ],
         ),
-        leadingWidth: 40.w,
-        title: Text(
-          Globalization.addUser.tr,
-          style: TextStyle(fontSize: 15.sp, color: Colors.white),
-        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Container(

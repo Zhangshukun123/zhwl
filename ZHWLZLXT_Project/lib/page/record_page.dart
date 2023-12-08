@@ -14,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
 
+import '../base/globalization.dart';
 import '../entity/record_entity.dart';
 
 // ignore: must_be_immutable
@@ -85,11 +86,53 @@ class _RecordPageState extends State<RecordPage> {
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7F9),
+      // appBar: AppBar(
+      //   title: Text(
+      //     '治疗记录',
+      //     style: TextStyle(fontSize: 18.sp, color: Colors.white),
+      //   ),
+      // ),
       appBar: AppBar(
-        title: Text(
-          '治疗记录',
-          style: TextStyle(fontSize: 18.sp, color: Colors.white),
+        automaticallyImplyLeading : false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 80.w,
+              height: 30.h,
+              decoration: BoxDecoration(
+                  color: const Color(0xFF19B1E9),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.w),
+                  )
+              ),
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 10.w,),
+                    Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
+                    Text(
+                      '返回',
+                      style: TextStyle(fontSize: 18.sp),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Center(
+                  child: Text(Globalization.treatmentRecords.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
+              ),
+            )
+          ],
         ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
