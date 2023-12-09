@@ -54,14 +54,10 @@ class _JingLuanPageState extends State<JingLuanPage>
     //   if (event.type == TreatmentType.spasm) {
     //     spastic?.userId = event.user?.userId;
     //     spastic?.user = event.user;
-    //     save(event.user?.userId ?? -1);
     //   }
     // });
   }
 
-  void save(int userId) {
-    SpUtils.set(SpasticField.SpasticKey, userId);
-  }
 
   @override
   void dispose() {
@@ -90,6 +86,8 @@ class _JingLuanPageState extends State<JingLuanPage>
         spastic?.start(false);
         this.startSelected = false;
         JljCureState = this.startSelected;
+        electrotherapyIsRunIng = startSelected;
+        eventBus.fire(Notify());
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.spasm));
@@ -98,6 +96,26 @@ class _JingLuanPageState extends State<JingLuanPage>
         });
       } else {
         _countdownTime = _countdownTime - 1;
+        if (_countdownTime < 1) {
+          _timer?.cancel();
+          //计时结束
+          //结束治疗
+          spastic?.init();
+          spastic?.start(false);
+          this.startSelected = false;
+          electrotherapyIsRunIng = startSelected;
+          JljCureState = this.startSelected;
+          eventBus.fire(Notify());
+          setState(() {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.spasm));
+            });
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
+
         spastic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 2001);
         eventBus.fire(runTime);

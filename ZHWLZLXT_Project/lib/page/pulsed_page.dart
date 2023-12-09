@@ -118,6 +118,26 @@ class _PulsedPageState extends State<PulsedPage>
         });
       } else {
         _countdownTime = _countdownTime - 1;
+        if (_countdownTime < 1) {
+          _timer?.cancel();
+          pulsed?.start(false, false);
+          pulsed?.init();
+          Future.delayed(
+              const Duration(milliseconds: 500),
+                  () {
+                eventBus.fire(SetValueState(
+                    TreatmentType.pulsed));
+              });
+          this.startSelected = false;
+          MccCureState = this.startSelected;
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
+
+
         pulsed?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
         eventBus.fire(runTime);

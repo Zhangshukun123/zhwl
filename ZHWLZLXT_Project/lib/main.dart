@@ -53,6 +53,7 @@ initThirdParty() async {
     milliseconds: 1500,
   );
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return GestureDetector(
           child: GetMaterialApp(
+            navigatorKey: navigatorKey,
             initialRoute: RouterPageId.login,
             translations: LanguageValue(),
             locale: languageSelected

@@ -308,9 +308,9 @@ public abstract class SerialHelper {
 
     protected abstract void onStartError();
 
-    //    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("AB BA".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
+//        private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("ABBA".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
 //    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(14);  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;

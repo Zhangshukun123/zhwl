@@ -91,7 +91,7 @@ class _InfraredPageState extends State<InfraredPage>
     //   }
     // });
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
-    checkInfrared();
+    // checkInfrared();
   }
 
   void save(int userId) {
@@ -138,6 +138,25 @@ class _InfraredPageState extends State<InfraredPage>
         });
       } else {
         _countdownTime = _countdownTime - 1;
+
+        if (_countdownTime < 1) {
+          _timer?.cancel();
+          //计时结束
+          infraredEntity?.start(false);
+          infraredEntity?.init();
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.infrared));
+          });
+          this.startSelected = false;
+          HwpzgCureState = this.startSelected;
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
+
+
         infraredEntity?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
         eventBus.fire(runTime);
@@ -167,6 +186,7 @@ class _InfraredPageState extends State<InfraredPage>
     });
   }
 
+  // 急停状态
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     switch (methodCall.method) {
       case 'onSendComplete':
@@ -174,8 +194,18 @@ class _InfraredPageState extends State<InfraredPage>
         if (value.length > 20) {
           if (value.substring(4, 6) == '02') {
             if (value.substring(18, 20) == "01") {
-              isScram = !isScram;
-              startSelected = isScram ? false : true;
+              isScram = true;
+              startSelected = false;
+              infraredEntity?.start(false);
+              infraredEntity?.init();
+              Future.delayed(const Duration(milliseconds: 500), () {
+                eventBus.fire(SetValueState(TreatmentType.infrared));
+              });
+              HwpzgCureState = startSelected;
+              setState(() {
+              });
+            }else{
+              isScram = false;
               setState(() {});
             }
           }

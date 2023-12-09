@@ -97,9 +97,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init();
         midFrequency?.start1(false);
         yiStartSelected = false;
-        electrotherapyIsRunIng =
-            yiStartSelected || erStartSelected;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
+        eventBus.fire(Notify());
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
@@ -108,6 +108,23 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
+        if (_countdownTime1 < 1) {
+          _timer1?.cancel();
+          midFrequency?.init();
+          midFrequency?.start1(false);
+          yiStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          ZpgrdCureState = yiStartSelected || erStartSelected;
+          eventBus.fire(Notify());
+          setState(() {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.frequency));
+            });
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
         midFrequency?.timeA = _countdownTime1.toString();
         RunTime runTime =
             RunTime(_countdownTime1.toDouble(), aliveAuto ? 12 : 2008);
@@ -137,8 +154,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         midFrequency?.init2();
         midFrequency?.start2(false);
         erStartSelected = false;
-        electrotherapyIsRunIng =
-            yiStartSelected || erStartSelected;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
@@ -148,6 +164,29 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         });
       } else {
         _countdownTime2 = _countdownTime2 - 1;
+
+        if (_countdownTime2 < 1) {
+          _timer2?.cancel();
+          midFrequency?.init2();
+          if (aliveAuto){
+            midFrequency?.init();
+            midFrequency?.start1(false);
+          }else{
+            midFrequency?.start2(false);
+          }
+
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          ZpgrdCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.frequency));
+            });
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
         RunTime runTime =
             RunTime(_countdownTime2.toDouble(), aliveAuto ? 12 : 2009);
         eventBus.fire(runTime);
@@ -259,7 +298,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           indexType: aliveAuto ? 12 : 2008,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           isClock: true,
-                          isAnimate: aliveAuto?electrotherapyIsRunIng:yiStartSelected,
+                          isAnimate: aliveAuto
+                              ? electrotherapyIsRunIng
+                              : yiStartSelected,
                           initialValue:
                               double.tryParse(midFrequency?.timeA ?? '1'),
                           minValue: 1,
@@ -324,6 +365,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 erStartSelected = yiStartSelected;
                                 midFrequency?.init2();
                                 aliveAuto = false;
+                                electrotherapyIsRunIng =
+                                    yiStartSelected || erStartSelected;
                               }
                               Future.delayed(const Duration(milliseconds: 500),
                                   () {
@@ -466,7 +509,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           indexType: aliveAuto ? 12 : 2009,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           isClock: true,
-                          isAnimate: aliveAuto?electrotherapyIsRunIng:erStartSelected,
+                          isAnimate: aliveAuto
+                              ? electrotherapyIsRunIng
+                              : erStartSelected,
                           initialValue:
                               double.tryParse(midFrequency?.timeB ?? '1'),
                           maxValue: 30,
@@ -475,7 +520,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           valueListener: (value) {
                             midFrequency?.timeB = value.toString();
                             if (aliveAuto) {
-                              midFrequency?.powerA = value.toString();
+                              midFrequency?.timeA = value.toString();
                               eventBus.fire(
                                   SetValueEntity(value: value, power: -1));
                             }
@@ -528,7 +573,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               electrotherapyIsRunIng =
                                   yiStartSelected || erStartSelected;
                               eventBus.fire(Notify());
-                              ZpgrdCureState = yiStartSelected || erStartSelected;
+                              ZpgrdCureState =
+                                  yiStartSelected || erStartSelected;
                               if (!erStartSelected) {
                                 midFrequency?.init2();
                                 Future.delayed(

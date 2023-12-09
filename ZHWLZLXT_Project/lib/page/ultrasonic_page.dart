@@ -12,6 +12,7 @@ import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
+import 'package:zhwlzlxt_project/utils/dialog_utils.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
@@ -54,6 +55,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   //计时器
   Timer? _timer;
+  String? prowText = '1';
+  String? unline = '链接异常';
+  String? wdText = '温度正常';
+  bool onLine = false;
+  bool wdOnline = true;
   int _countdownTime = 0;
 
   @override
@@ -90,25 +96,77 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     //     ultrasonic?.user = event.user;
     //   }
     // });
-
-    Future.delayed(Duration.zero, () {
-      SerialMsg().startPort();
-    });
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      SerialMsg().sendHeart().then((value) => {});
-    });
+    SerialMsg.platform.setMethodCallHandler(flutterMethod);
+    DialogUtil.alert(
+        title: "", message: "检查到温度异常", okLabel: "确定");
   }
 
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     switch (methodCall.method) {
-      case 'onSendComplete':
+      case 'UltrasonicState03':
         String value = methodCall.arguments;
         Uint8List list = toUnitList(value);
-        print("--------------------${list[3]}");
-
-        if (value.length > 20) {
-          if (value.substring(4, 6) == '02') {}
+        if (list[4] == 16) {
+          if (list[12] == 1) {
+            wdText = '温度异常';
+            wdOnline = false;
+            ultrasonic?.start(false);
+            ultrasonic?.init();
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+            });
+            startSelected = false;
+            cureState = startSelected;
+            DialogUtil.alert(
+                title: "", message: "检查到温度异常", okLabel: "确定");
+          } else {
+            wdText = '温度正常';
+            wdOnline = true;
+          }
+        } else if (list[11] == 1) {
+          ultrasonicController.ultrasonic.frequency.value = 1;
+          prowText = '1';
+          onLine = true;
+          unline = "链接正常";
+        } else {
+          unline = "链接异常";
+          onLine = false;
         }
+
+        setState(() {});
+        break;
+      case 'UltrasonicState04':
+        String value = methodCall.arguments;
+        Uint8List list = toUnitList(value);
+
+        if (list[4] == 16) {
+          if (list[12] == 1) {
+            wdText = '温度异常';
+            wdOnline = false;
+            ultrasonic?.start(false);
+            ultrasonic?.init();
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+            });
+            startSelected = false;
+            cureState = startSelected;
+            DialogUtil.alert(
+                title: "", message: "检查到温度异常", okLabel: "确定");
+          } else {
+            wdText = '温度正常';
+            wdOnline = true;
+          }
+        } else if (list[11] == 1) {
+          ultrasonicController.ultrasonic.frequency.value = 2;
+          prowText = '3';
+          onLine = true;
+          unline = "链接正常";
+        } else {
+          unline = "链接异常";
+          onLine = false;
+        }
+
+        setState(() {});
         break;
     }
   }
@@ -170,19 +228,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       _timer?.cancel();
       return;
     }
-    const oneSec = Duration(seconds: 1);
+    const oneSec = Duration(minutes: 1);
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
         ultrasonic?.start(false);
         ultrasonic?.init();
-        ultrasonicController.ultrasonic
-            .frequency.value = 1;
-        Future.delayed(
-            const Duration(
-                milliseconds: 500), () {
-          eventBus.fire(SetValueState(
-              TreatmentType.ultrasonic));
+        Future.delayed(const Duration(milliseconds: 500), () {
+          eventBus.fire(SetValueState(TreatmentType.ultrasonic));
         });
         this.startSelected = false;
         cureState = this.startSelected;
@@ -191,6 +244,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         });
       } else {
         _countdownTime = _countdownTime - 1;
+
+        if (_countdownTime < 1) {
+          _timer?.cancel();
+          ultrasonic?.start(false);
+          ultrasonic?.init();
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+          });
+          this.startSelected = false;
+          cureState = this.startSelected;
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+          });
+          return;
+        }
+
         ultrasonic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
         eventBus.fire(runTime);
@@ -284,7 +353,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '1',
+                                              prowText ?? '1',
                                               style: TextStyle(
                                                   color: Colors.red,
                                                   fontSize: 26.sp,
@@ -299,50 +368,55 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           ],
                                         ),
                                         const SizedBox(
-                                          height: 8,
+                                          height: 22,
                                         ),
-                                        const Text(
+                                        Text(
                                           '频率',
                                           style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xff666666)),
+                                              fontSize: 16.sp,
+                                              color: const Color(0xff666666)),
                                         ),
                                       ],
                                     ),
                                     Column(
                                       children: [
                                         Image.asset(
-                                          'assets/images/icon_line.png',
+                                          onLine
+                                              ? 'assets/images/icon_line.png'
+                                              : 'assets/images/icon_un_line.png',
                                           fit: BoxFit.fill,
                                           width: 30.w,
                                           height: 30.h,
                                         ),
                                         const SizedBox(
-                                          height: 10,
+                                          height: 22,
                                         ),
-                                        const Text(
-                                          '链接正常',
+                                        Text(
+                                          unline ?? '链接异常',
                                           style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xff666666)),
+                                              fontSize: 16.sp,
+                                              color: const Color(0xff666666)),
                                         ),
                                       ],
                                     ),
                                     Column(
                                       children: [
-                                        Lottie.asset('assets/lottie/Animatio.json',
-                                            repeat: true,
-                                            width: 30.w,
-                                            height: 30.h,
-                                            fit: BoxFit.fitWidth),
-                                        const SizedBox(
-                                          height: 10,
+                                        Image.asset(
+                                          wdOnline
+                                              ? 'assets/images/icon_wd_online.gif'
+                                              : 'assets/images/icon_wd_unline.gif',
+                                          fit: BoxFit.fitWidth,
+                                          width: 40.w,
+                                          height: 40.h,
                                         ),
-                                        const Text(
-                                          '温度正常',
+                                        // const SizedBox(
+                                        //   height: 10,
+                                        // ),
+                                        Text(
+                                          wdText ?? '温度正常',
                                           style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xff666666)),
+                                              fontSize: 16.sp,
+                                              color: const Color(0xff666666)),
                                         ),
                                       ],
                                     )
@@ -493,11 +567,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             )),
                                         child: TextButton(
                                           onPressed: () {
+                                            if (!onLine) {
+                                              Fluttertoast.showToast(
+                                                  msg: "链接异常");
+                                              return;
+                                            }
+
                                             // startSelected = !startSelected;
                                             startSelected = ultrasonic
                                                     ?.start(!startSelected) ??
                                                 false;
-
 
                                             cureState = startSelected;
 

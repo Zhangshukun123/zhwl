@@ -62,8 +62,8 @@ class BYTE04_PT {
 
   //经皮神经
   static const String S_J_01 = "连续";
-  static const String S_J_02 = "快速断续输出";
-  static const String S_J_03 = "慢速断续输出";
+  static const String S_J_02 = "慢速断续输出";
+  static const String S_J_03 = "快速断续输出";
 
 
   //神经肌肉

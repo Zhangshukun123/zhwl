@@ -3,17 +3,15 @@ package zhwlzlxt_project
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import zhwlzlxt_project.tp.xmaihh.serialport.SerialPortHelper
 import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean
-import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil.ByteArrToHex
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util
-import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util.getCRC
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
@@ -52,6 +50,31 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         timer?.schedule(object : TimerTask() {
             override fun run() {
                 serialPortHelper.count++
+                if (serialPortHelper.count > 10) {
+                    handler.post {
+                        toFlutter.invokeMethod(
+                            "onHeartFail",
+                            serialPortHelper.count,
+                            object : MethodChannel.Result {
+                                override fun success(o: Any?) {}
+                                override fun error(s: String, s1: String?, o: Any?) {}
+                                override fun notImplemented() {}
+                            })
+                    }
+                } else {
+                    handler.post {
+                        toFlutter.invokeMethod(
+                            "onHeart",
+                            serialPortHelper.count,
+                            object : MethodChannel.Result {
+                                override fun success(o: Any?) {}
+                                override fun error(s: String, s1: String?, o: Any?) {}
+                                override fun notImplemented() {}
+                            })
+                    }
+                }
+
+
             }
         }, 1000, 500)
 
@@ -76,11 +99,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
 
             "heard" -> {
-//                if (serialPortHelper.count > 30) {
-//                    result.success("101")
-//                } else {
-//                    result.success("102")
-//                }
+                serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
             }
 
             "sendData" -> {
@@ -100,33 +119,63 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
 
-
-
-        handler.post {
-            toFlutter.invokeMethod("onSendComplete", bRec, object : MethodChannel.Result {
-                override fun success(o: Any?) {}
-                override fun error(s: String, s1: String?, o: Any?) {}
-                override fun notImplemented() {}
-            })
-        }
-
-//        if (bRec.contains(hexData)){
-//
-//        }else{
+//        if (toUnsignedInt(paramComBean.bRec[2])==1){
 //            handler.post {
-//                toFlutter.invokeMethod("onPortDataReceived", bRec, object : MethodChannel.Result {
+//                toFlutter.invokeMethod("onHeart", serialPortHelper.count, object : MethodChannel.Result {
 //                    override fun success(o: Any?) {}
 //                    override fun error(s: String, s1: String?, o: Any?) {}
 //                    override fun notImplemented() {}
 //                })
 //            }
 //        }
+
+
+        when (toUnsignedInt(paramComBean.bRec[3])) {
+            1 -> {
+//                val bRec = ByteArrToHex(paramComBean.bRec)
+                handler.post {
+                    toFlutter.invokeMethod("onSendComplete", bRec, object : MethodChannel.Result {
+                        override fun success(o: Any?) {}
+                        override fun error(s: String, s1: String?, o: Any?) {}
+                        override fun notImplemented() {}
+                    })
+                }
+            }
+
+            3 -> {//超声1M
+                handler.post {
+                    toFlutter.invokeMethod(
+                        "UltrasonicState03",
+                        bRec,
+                        object : MethodChannel.Result {
+                            override fun success(o: Any?) {}
+                            override fun error(s: String, s1: String?, o: Any?) {}
+                            override fun notImplemented() {}
+                        })
+                }
+            }
+
+            4 -> {//超声3M
+                handler.post {
+                    toFlutter.invokeMethod(
+                        "UltrasonicState04",
+                        bRec,
+                        object : MethodChannel.Result {
+                            override fun success(o: Any?) {}
+                            override fun error(s: String, s1: String?, o: Any?) {}
+                            override fun notImplemented() {}
+                        })
+                }
+            }
+        }
     }
 
     override fun onStartError() {
 //        result.success("201")
     }
 
-
+    fun toUnsignedInt(x: Byte): Int {
+        return x.toInt() and 0xff
+    }
 }
 

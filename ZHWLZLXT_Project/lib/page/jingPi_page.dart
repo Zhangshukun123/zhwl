@@ -100,6 +100,7 @@ class _JingPiPageState extends State<JingPiPage>
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected||erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
+        eventBus.fire(Notify());
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
           Future.delayed(
@@ -110,6 +111,26 @@ class _JingPiPageState extends State<JingPiPage>
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
+        if (_countdownTime1 < 1) {
+          _timer1?.cancel();
+          percutaneous?.init();
+          percutaneous?.start1(false);
+          yiStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+          JpsjCureState = yiStartSelected || erStartSelected;
+          eventBus.fire(Notify());
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+            Future.delayed(
+                const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(
+                  TreatmentType.percutaneous));
+            });
+          });
+          return;
+        }
+
+
         percutaneous?.timeA = _countdownTime1.toString();
         RunTime runTime = RunTime(_countdownTime1.toDouble(), 2002);
         eventBus.fire(runTime);
@@ -133,7 +154,6 @@ class _JingPiPageState extends State<JingPiPage>
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
-        //结束治疗
         percutaneous?.initB();
         percutaneous?.start2(false);
         erStartSelected = false;
@@ -149,6 +169,25 @@ class _JingPiPageState extends State<JingPiPage>
         });
       } else {
         _countdownTime2 = _countdownTime2 - 1;
+        if (_countdownTime2 < 1) {
+          _timer2?.cancel();
+          percutaneous?.initB();
+          percutaneous?.start2(false);
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+          JpsjCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            Fluttertoast.showToast(msg: '治疗结束!');
+            Future.delayed(
+                const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(
+                  TreatmentType.percutaneous));
+            });
+          });
+          return;
+        }
+
+
         percutaneous?.timeB = _countdownTime2.toString();
         RunTime runTime = RunTime(_countdownTime2.toDouble(), 2003);
         eventBus.fire(runTime);
