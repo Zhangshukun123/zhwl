@@ -34,7 +34,10 @@ class Pulsed {
     this.frequency,
   });
 
-  init() {
+  init(bool isSave) {
+    if(isSave){
+      save();
+    }
     time = '20';
     power = '0';
     frequency = '20';
@@ -68,7 +71,16 @@ class Pulsed {
 
   User? user;
 
+  String? settIngTime;
+  bool? isStart;
+
   bool start(bool isStart, bool isOpen) {
+    this.isStart = isStart;
+    if (isStart) {
+      settIngTime = time;
+      startTime = DateTime.now();
+    }
+
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0 ||
     //     controller.user.value.userId == null) {
@@ -146,19 +158,27 @@ class Pulsed {
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
-
     if (!isOpen) {
       if (zdStartTime != null) {
         zdEndTime = DateTime.now();
         Duration diff = zdEndTime!.difference(zdStartTime!);
-        zdTime = diff.inMinutes + zdTime;
+        if (diff.inMinutes >= 1) {
+          zdTime = diff.inMinutes + zdTime;
+        }
       }
     } else {
       zdStartTime = DateTime.now();
+      zdTime=1;
     }
 
+    SerialPort().send(data);
+    return isStart;
+  }
+
+  void save() {
+    print("--------${(user != null && user?.userId != 0)}");
+    print("--------${isStart}");
     if (user != null && user?.userId != 0) {
-      if (!isStart) {
         endTime = DateTime.now();
         String min = '';
         Duration diff = endTime!.difference(startTime!);
@@ -167,13 +187,12 @@ class Pulsed {
         } else {
           min = '${diff.inMinutes}';
         }
-
         // 存储信息 结束
         Record record = Record(
           userId: user?.userId,
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: time,
+          utilityTime: settIngTime,
           recordType: Globalization.pulse.tr,
           strengthGrade: power,
           actionTime: min,
@@ -182,12 +201,6 @@ class Pulsed {
         );
         RecordSqlDao.instance().addData(record: record);
         zdTime = 0;
-      } else {
-        startTime = DateTime.now();
-      }
     }
-
-    SerialPort().send(data);
-    return isStart;
   }
 }

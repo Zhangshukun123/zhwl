@@ -27,6 +27,7 @@ class User {
   String? userNub;
   int? sex;
   String? phone;
+  bool? isCure;
   String? idCard;
   String? ad; // 住院号
   String? bedNumber; //床号

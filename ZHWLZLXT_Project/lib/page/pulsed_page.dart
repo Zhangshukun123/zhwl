@@ -52,7 +52,7 @@ class _PulsedPageState extends State<PulsedPage>
     dialog = DetailsDialog(
         index: 2); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     pulsed = Pulsed();
-    pulsed?.init();
+    pulsed?.init(false);
     // pulsed = Pulsed();
 
     _tabController =
@@ -103,8 +103,8 @@ class _PulsedPageState extends State<PulsedPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
+        pulsed?.init(true);
         pulsed?.start(false, false);
-        pulsed?.init();
         Future.delayed(
             const Duration(milliseconds: 500),
                 () {
@@ -120,8 +120,8 @@ class _PulsedPageState extends State<PulsedPage>
         _countdownTime = _countdownTime - 1;
         if (_countdownTime < 1) {
           _timer?.cancel();
+          pulsed?.init(true);
           pulsed?.start(false, false);
-          pulsed?.init();
           Future.delayed(
               const Duration(milliseconds: 500),
                   () {
@@ -371,14 +371,12 @@ class _PulsedPageState extends State<PulsedPage>
                                     child: TextButton(
                                       onPressed: () {
                                         if(startSelected){
+                                          pulsed?.init(true);
                                           switchSelected = false;
                                         }
-                                        startSelected = pulsed?.start(
-                                                !startSelected, switchSelected) ??
-                                            false;
+                                        startSelected = pulsed?.start(!startSelected, switchSelected) ?? false;
                                         MccCureState = startSelected;
                                         if (!startSelected) {
-                                          pulsed?.init();
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
                                               () {

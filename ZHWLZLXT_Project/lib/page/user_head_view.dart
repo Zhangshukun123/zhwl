@@ -45,19 +45,6 @@ class _UserHeadViewState extends State<UserHeadView>
   @override
   void initState() {
     super.initState();
-
-    // eventBus.on<UserEvent>().listen((event) {
-    //   if (!mounted) {
-    //     return;
-    //   }
-    //   if (event.type == widget.type) {
-    //     user = event.user;
-    //
-    //     controller.user.value = event.user!;
-    //     setState(() {});
-    //   }
-    // });
-    // user = controller.user.value;
     user = userMap[widget.type];
     setState(() {});
     eventBus.on<TreatmentType>().listen((event) {
@@ -79,7 +66,7 @@ class _UserHeadViewState extends State<UserHeadView>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      padding: EdgeInsets.only(top: 25.5.h, left: 39.5.w, right: 40.w),
+      padding: EdgeInsets.only(top: 20.h, left: 39.5.w, right: 40.w),
       child: Row(
         children: [
           // Obx(() => ),
@@ -87,7 +74,7 @@ class _UserHeadViewState extends State<UserHeadView>
             constraints: BoxConstraints(maxWidth: 350.w),
             child: Row(
               children: [
-                (user == null||TextUtil.isEmpty(user?.phone))
+                (user == null || TextUtil.isEmpty(user?.phone))
                     ? const Center()
                     : Text(
                         "用户：",
@@ -118,8 +105,14 @@ class _UserHeadViewState extends State<UserHeadView>
                       ),
                       Column(
                         children: [
-                          (user == null||TextUtil.isEmpty(user?.phone)) ? const Center() : InkWell(
+                          (user == null || TextUtil.isEmpty(user?.phone))
+                              ? const Center()
+                              : InkWell(
                                   onTap: () {
+                                    if(checkCure(widget.type)){
+                                      return;
+                                    }
+                                    userMap.remove(widget.type);
                                     user = null;
                                     setState(() {});
                                   },
@@ -155,32 +148,7 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if ((cureState ?? false) && widget.type == TreatmentType.ultrasonic) {
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((MccCureState ?? false) && widget.type == TreatmentType.pulsed){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((HwpzgCureState ?? false) && widget.type == TreatmentType.infrared){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((JljCureState ?? false) && widget.type == TreatmentType.spasm){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((JpsjCureState ?? false) && widget.type == TreatmentType.percutaneous){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((SjjrCureState ?? false) && widget.type == TreatmentType.neuromuscular){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((ZpgrdCureState ?? false) && widget.type == TreatmentType.frequency){
-                      showToastMsg(msg: '治疗过程中禁止操作');
+                    if(checkCure(widget.type)){
                       return;
                     }
                     Navigator.push(
@@ -224,32 +192,8 @@ class _UserHeadViewState extends State<UserHeadView>
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if ((cureState ?? false) && widget.type == TreatmentType.ultrasonic) {
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((MccCureState ?? false) && widget.type == TreatmentType.pulsed){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((HwpzgCureState ?? false) && widget.type == TreatmentType.infrared){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((JljCureState ?? false) && widget.type == TreatmentType.spasm){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((JpsjCureState ?? false) && widget.type == TreatmentType.percutaneous){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((SjjrCureState ?? false) && widget.type == TreatmentType.neuromuscular){
-                      showToastMsg(msg: '治疗过程中禁止操作');
-                      return;
-                    }
-                    if ((ZpgrdCureState ?? false) && widget.type == TreatmentType.frequency){
-                      showToastMsg(msg: '治疗过程中禁止操作');
+
+                    if(checkCure(widget.type)){
                       return;
                     }
                     Navigator.push(
@@ -287,6 +231,8 @@ class _UserHeadViewState extends State<UserHeadView>
       ),
     );
   }
+
+
 
   @override
   bool get wantKeepAlive => true;

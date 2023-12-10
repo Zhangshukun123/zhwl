@@ -58,7 +58,7 @@ class _RecordPageState extends State<RecordPage> {
       } else {
         recordsList.clear();
         for (var element in records) {
-          if (searchController.text.startsWith(element.recordType.toString())) {
+          if (element.recordType.toString().startsWith(searchController.text)) {
             recordsList.add(element);
           }
         }

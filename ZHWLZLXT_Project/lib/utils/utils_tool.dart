@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 /// 显示toast msg
 /// 传content 后,如果没传ontap 会调用返回上一个界面的方法
@@ -19,23 +20,28 @@ void showToastMsg({
   BuildContext? context,
   Function()? ontap,
 }) {
-  EasyLoading.instance.loadingStyle = EasyLoadingStyle.dark;
-  if (type == 1) {
-    EasyLoading.showToast(msg);
-  } else if (type == 2) {
-    EasyLoading.showSuccess(msg);
-  } else if (type == 3) {
-    EasyLoading.showError(msg);
-  }
-  if (ontap != null || context != null) {
-    Future.delayed(EasyLoading.instance.displayDuration).then(
-      (value) {
-        if (ontap != null) {
-          ontap();
-        } else {
-          Navigator.of(context!).pop();
-        }
-      },
-    );
-  }
+  // EasyLoading.instance.loadingStyle = EasyLoadingStyle.dark;
+  // if (type == 1) {
+  //   EasyLoading.showToast(msg);
+  // } else if (type == 2) {
+  //   EasyLoading.showSuccess(msg);
+  // } else if (type == 3) {
+  //   EasyLoading.showError(msg);
+  // }
+  // if (ontap != null || context != null) {
+  //   Future.delayed(EasyLoading.instance.displayDuration).then(
+  //     (value) {
+  //       if (ontap != null) {
+  //         ontap();
+  //       } else {
+  //         Navigator.of(context!).pop();
+  //       }
+  //     },
+  //   );
+  // }
+
+
+  Fluttertoast.showToast(msg: msg,fontSize: 16);
+
+
 }

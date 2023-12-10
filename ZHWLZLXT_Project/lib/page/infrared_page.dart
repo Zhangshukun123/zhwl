@@ -126,13 +126,14 @@ class _InfraredPageState extends State<InfraredPage>
         _timer?.cancel();
         //计时结束
 
-        infraredEntity?.start(false);
         infraredEntity?.init();
+        infraredEntity?.start(false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.infrared));
         });
         this.startSelected = false;
         HwpzgCureState = this.startSelected;
+        infraredEntity?.user?.isCure = this.startSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
         });
@@ -149,6 +150,7 @@ class _InfraredPageState extends State<InfraredPage>
           });
           this.startSelected = false;
           HwpzgCureState = this.startSelected;
+          infraredEntity?.user?.isCure = this.startSelected;
           setState(() {
             Fluttertoast.showToast(msg: '治疗结束!');
           });
@@ -169,22 +171,7 @@ class _InfraredPageState extends State<InfraredPage>
 
   Timer? _timerCheck;
 
-  void checkInfrared() {
-    _timerCheck = Timer.periodic(const Duration(seconds: 1), (timer) {
-      String data = BYTE00_RW.B02; // 00
-      data = "$data ${BYTE01_MD.B01}"; // byt01 功能模块    01
-      data = "$data 00"; //BYte02 通道 02
-      data = "$data 00"; // 03
-      data = "$data 00"; // 04
-      data = "$data 00"; // 05
-      data = "$data 00"; // 06
-      data = "$data 00"; // 07
-      data = "$data 00"; // 08
-      data = "$data 00"; // 09
-      data = "$data 00"; // 10
-      SerialPort().send(data);
-    });
-  }
+
 
   // 急停状态
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
@@ -202,6 +189,7 @@ class _InfraredPageState extends State<InfraredPage>
                 eventBus.fire(SetValueState(TreatmentType.infrared));
               });
               HwpzgCureState = startSelected;
+              infraredEntity?.user?.isCure = false;
               setState(() {
               });
             }else{
@@ -486,20 +474,19 @@ class _InfraredPageState extends State<InfraredPage>
                                               msg: '光疗设备处于急停状态');
                                           return;
                                         }
-                                        // thirdStartSelected = !thirdStartSelected;
-                                        startSelected = infraredEntity
-                                                ?.start(!startSelected) ??
-                                            false;
-                                        HwpzgCureState = startSelected;
                                         if (!startSelected) {
                                           infraredEntity?.init();
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
-                                              () {
-                                            eventBus.fire(SetValueState(
-                                                TreatmentType.infrared));
-                                          });
+                                                  () {
+                                                eventBus.fire(SetValueState(
+                                                    TreatmentType.infrared));
+                                              });
                                         }
+                                        // thirdStartSelected = !thirdStartSelected;
+                                        startSelected = infraredEntity?.start(!startSelected) ?? false;
+                                        HwpzgCureState = startSelected;
+                                        infraredEntity?.user?.isCure = startSelected;
                                         setState(() {
                                           //点击开始治疗
                                           double? tmp = double.tryParse(

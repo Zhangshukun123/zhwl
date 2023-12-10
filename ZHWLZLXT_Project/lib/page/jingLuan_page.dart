@@ -195,7 +195,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                     initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
                     appreciation: 0.1,
                     indexType: 10086,
-                    maxValue: (double.tryParse(spastic?.circle ?? '1')! - 0.1),
+                    maxValue: (double.tryParse(spastic?.circle ?? '1')! - 0.1)>1.5?1.5:(double.tryParse(spastic?.circle ?? '1')! - 0.1),
                     minValue:  0.1,
                     unit: 's',
                     valueListener: (value) {

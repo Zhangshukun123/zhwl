@@ -862,6 +862,7 @@ class _ControlPageState extends State<ControlPage> {
                                               isEdit = true;
                                               setState(() {});
                                             } else {
+                                              user?.isCure = true;
                                               userMap[widget.type!] = user!;
                                               eventBus.fire(UserEvent(
                                                   user: user,
@@ -950,6 +951,18 @@ class _ControlPageState extends State<ControlPage> {
           ),
           InkWell(
               onTap: () {
+                bool isCureChoose = false;
+                userMap.forEach((key, value) {
+                  if(value.userId==user?.userId){
+                    isCureChoose = true;
+                    showToastMsg(msg: '用户治疗选中状态，请取消后删除');
+                    return;
+                  }
+                });
+               if(isCureChoose){
+                  showToastMsg(msg: '用户治疗选中状态，请取消后删除');
+                  return;
+                }
                 dialog = DeleteDialog(suer: () async {
                   var suc = await UserSqlDao.instance()
                       .delectData(userId: user!.userId!);

@@ -141,7 +141,7 @@ class Record {
       infos.add('声强：${soundIntensity}w/c㎡');
     }
     if (!TextUtil.isEmpty(frequency)) {
-      infos.add('频率：${frequency}MHz');
+      infos.add('频率：$frequency次/min');
     }
     if (!TextUtil.isEmpty(width)) {
       infos.add('脉宽：${width}ms');
@@ -196,7 +196,7 @@ class Record {
       mapData['声强'] = '${soundIntensity}w/c㎡';
     }
     if (!TextUtil.isEmpty(frequency)) {
-      mapData['频率'] = '${frequency}MHz';
+      mapData['频率'] = '$frequency次/min';
     }
     if (!TextUtil.isEmpty(width)) {
       mapData['脉宽'] = '${width}ms';
