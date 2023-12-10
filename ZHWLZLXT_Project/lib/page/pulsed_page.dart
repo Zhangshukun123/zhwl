@@ -347,60 +347,72 @@ class _PulsedPageState extends State<PulsedPage>
                                       ],
                                     )),
                               ),
-                              Center(
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 50.5.h),
-                                  width: 120.w,
-                                  height: 55.h,
-                                  decoration: BoxDecoration(
-                                      color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10.w),
-                                      )),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      if(startSelected){
-                                        switchSelected = false;
-                                      }
-                                      startSelected = pulsed?.start(
-                                              !startSelected, switchSelected) ??
-                                          false;
-                                      MccCureState = startSelected;
-                                      if (!startSelected) {
-                                        pulsed?.init();
-                                        Future.delayed(
-                                            const Duration(milliseconds: 500),
-                                            () {
-                                          eventBus.fire(SetValueState(
-                                              TreatmentType.pulsed));
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Visibility(
+                                      visible: startSelected,
+                                      maintainState: false,
+                                      maintainAnimation: false,
+                                      maintainSize: false,
+                                      child: Container(
+                                          margin: EdgeInsets.only(top: 50.5.h),
+                                          child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 50.5.h),
+                                    width: 120.w,
+                                    height: 55.h,
+                                    decoration: BoxDecoration(
+                                        color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10.w),
+                                        )),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        if(startSelected){
+                                          switchSelected = false;
+                                        }
+                                        startSelected = pulsed?.start(
+                                                !startSelected, switchSelected) ??
+                                            false;
+                                        MccCureState = startSelected;
+                                        if (!startSelected) {
+                                          pulsed?.init();
+                                          Future.delayed(
+                                              const Duration(milliseconds: 500),
+                                              () {
+                                            eventBus.fire(SetValueState(
+                                                TreatmentType.pulsed));
+                                          });
+                                        }
+                                        setState(() {
+                                          //点击开始治疗
+                                          double? tmp = double.tryParse(
+                                              pulsed?.time ?? '1');
+                                          _countdownTime =
+                                              ((tmp?.toInt())!);
+                                          startCountdownTimer(startSelected);
                                         });
-                                      }
-                                      setState(() {
-                                        //点击开始治疗
-                                        double? tmp = double.tryParse(
-                                            pulsed?.time ?? '1');
-                                        _countdownTime =
-                                            ((tmp?.toInt())!);
-                                        startCountdownTimer(startSelected);
-                                      });
-                                    },
-                                    // child: Image.asset(
-                                    //   startSelected
-                                    //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                    //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                    //   width: 100.w,
-                                    //   fit: BoxFit.fitWidth,
-                                    // ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                        SizedBox(width: 8.w,),
-                                        Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
-                                      ],
+                                      },
+                                      // child: Image.asset(
+                                      //   startSelected
+                                      //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                      //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                                      //   width: 100.w,
+                                      //   fit: BoxFit.fitWidth,
+                                      // ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                          SizedBox(width: 8.w,),
+                                          Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ],
                           )),

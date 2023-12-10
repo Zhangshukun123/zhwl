@@ -275,6 +275,13 @@ class _JingLuanPageState extends State<JingLuanPage>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Visibility(
+                                visible: startSelected,
+                                maintainState: false,
+                                maintainAnimation: false,
+                                maintainSize: false,
+                                child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,)
+                            ),
                             Container(
                               width: 120.w,
                               height: 55.h,

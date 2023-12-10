@@ -149,30 +149,46 @@ class _ControlPageState extends State<ControlPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
-        toolbarHeight: 45.h,
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 25,
+        automaticallyImplyLeading : false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 80.w,
+              height: 30.h,
+              decoration: BoxDecoration(
+                  color: const Color(0xFF19B1E9),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.w),
+                  )
               ),
-              Image.asset(
-                'assets/images/ic_nav_back_white.png',
-                width: 15.w,
-                height: 15.h,
-                fit: BoxFit.fitWidth,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 10.w,),
+                    Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
+                    Text(
+                      '返回',
+                      style: TextStyle(fontSize: 18.sp),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: Center(
+                  child: Text(Globalization.userManagement.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
+              ),
+            )
+          ],
         ),
-        leadingWidth: 40.w,
-        title: Text(
-          Globalization.userManagement.tr,
-          style: TextStyle(fontSize: 15.sp, color: Colors.white),
-        ),
+        centerTitle: true,
         actions: <Widget>[
           InkWell(
             onTap: () {
@@ -272,7 +288,7 @@ class _ControlPageState extends State<ControlPage> {
                                     color: const Color(0xFF333333)),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: '请输入手机号',
+                                  hintText: '请输入电话',
                                   hintStyle: TextStyle(
                                       color: const Color(0xFFaaaaaa),
                                       fontSize: 13.sp),

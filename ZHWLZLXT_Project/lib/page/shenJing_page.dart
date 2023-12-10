@@ -323,70 +323,60 @@ class _ShenJingPageState extends State<ShenJingPage>
                           },
                         ),
                       ),
-                      Container(
-                        child: Container(
-                          width: 120.w,
-                          height: 45.h,
-                          margin: EdgeInsets.only(top: 10.h),
-                          decoration: BoxDecoration(
-                              color: yiStartSelected
-                                  ? const Color(0xFF00C290)
-                                  : const Color(0xFF00A8E7),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.w),
-                              )),
-                          child: TextButton(
-                            onPressed: () {
-                              yiStartSelected =
-                                  neuromuscular?.start1(!yiStartSelected) ??
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Visibility(
+                              visible: yiStartSelected,
+                              maintainState: false,
+                              maintainAnimation: false,
+                              maintainSize: false,
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
+                          ),
+                          Container(
+                            width: 120.w,
+                            height: 45.h,
+                            margin: EdgeInsets.only(top: 10.h),
+                            decoration: BoxDecoration(
+                                color: yiStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.w),
+                                )),
+                            child: TextButton(
+                                onPressed: (){
+                                  yiStartSelected =
+                                      neuromuscular?.start1(!yiStartSelected) ??
                                       false;
-                              electrotherapyIsRunIng =
-                                  yiStartSelected || erStartSelected;
-                              eventBus.fire(Notify());
-                              SjjrCureState =
-                                  yiStartSelected || erStartSelected;
-                              if (!yiStartSelected) {
-                                neuromuscular?.setARestValue();
-                                Future.delayed(
-                                    const Duration(milliseconds: 500), () {
-                                  eventBus.fire(SetValueState(
-                                      TreatmentType.neuromuscular));
-                                });
-                              }
-                              setState(() {
-                                //点击开始治疗
-                                double? tmp = double.tryParse(
-                                    neuromuscular?.timeA ?? '1');
-                                _countdownTime1 = ((tmp?.toInt())!);
-                                startCountdownTimer1(yiStartSelected);
-                              });
-                            },
-                            // child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/2.0x/icon_kaishi.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 18.w,
-                                  height: 18.h,
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                Text(
-                                  yiStartSelected
-                                      ? Globalization.stop.tr
-                                      : Globalization.start.tr,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
+                                  electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+                                  eventBus.fire(Notify());
+                                  SjjrCureState = yiStartSelected || erStartSelected;
+                                  if (!yiStartSelected) {
+                                    neuromuscular?.setARestValue();
+                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+                                    });
+                                  }
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp = double.tryParse(neuromuscular?.timeA ?? '1');
+                                    _countdownTime1 = ((tmp?.toInt())!);
+                                    startCountdownTimer1(yiStartSelected);
+                                  });
+                                },
+                                // child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                  SizedBox(width: 8.w,),
+                                  Text(yiStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   )),
@@ -519,70 +509,60 @@ class _ShenJingPageState extends State<ShenJingPage>
                           },
                         ),
                       ),
-                      Container(
-                        child: Container(
-                          width: 120.w,
-                          height: 45.h,
-                          margin: EdgeInsets.only(top: 10.h),
-                          decoration: BoxDecoration(
-                              color: erStartSelected
-                                  ? const Color(0xFF00C290)
-                                  : const Color(0xFF00A8E7),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.w),
-                              )),
-                          child: TextButton(
-                            onPressed: () {
-                              erStartSelected =
-                                  neuromuscular?.start2(!erStartSelected) ??
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Visibility(
+                              visible: erStartSelected,
+                              maintainState: false,
+                              maintainAnimation: false,
+                              maintainSize: false,
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 10.h),
+                                  child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
+                          ),
+                          Container(
+                            width: 120.w,
+                            height: 45.h,
+                            margin: EdgeInsets.only(top: 10.h),
+                            decoration: BoxDecoration(
+                                color: erStartSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.w),
+                                )),
+                            child: TextButton(
+                                onPressed: (){
+                                  erStartSelected = neuromuscular
+                                      ?.start2(!erStartSelected) ??
                                       false;
-                              electrotherapyIsRunIng =
-                                  erStartSelected || yiStartSelected;
-                              eventBus.fire(Notify());
-                              SjjrCureState =
-                                  yiStartSelected || erStartSelected;
-                              if (!erStartSelected) {
-                                neuromuscular?.setBRestValue();
-                                Future.delayed(
-                                    const Duration(milliseconds: 500), () {
-                                  eventBus.fire(SetValueState(
-                                      TreatmentType.neuromuscular));
-                                });
-                              }
-                              setState(() {
-                                //点击开始治疗
-                                double? tmp = double.tryParse(
-                                    neuromuscular?.timeB ?? '1');
-                                _countdownTime2 = ((tmp?.toInt())!);
-                                startCountdownTimer2(erStartSelected);
-                              });
-                            },
-                            // child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/2.0x/icon_kaishi.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 18.w,
-                                  height: 18.h,
-                                ),
-                                SizedBox(
-                                  width: 8.w,
-                                ),
-                                Text(
-                                  erStartSelected
-                                      ? Globalization.stop.tr
-                                      : Globalization.start.tr,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
+                                  electrotherapyIsRunIng = erStartSelected||yiStartSelected;
+                                  eventBus.fire(Notify());
+                                  SjjrCureState = yiStartSelected || erStartSelected;
+                                  if (!erStartSelected) {
+                                    neuromuscular?.setBRestValue();
+                                    Future.delayed(const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+                                    });
+                                  }
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp = double.tryParse(neuromuscular?.timeB ?? '1');
+                                    _countdownTime2 = ((tmp?.toInt())!);
+                                    startCountdownTimer2(erStartSelected);
+                                  });
+                                },
+                                // child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
+                                  SizedBox(width: 8.w,),
+                                  Text(erStartSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   )),
