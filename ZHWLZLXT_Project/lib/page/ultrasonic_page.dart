@@ -97,8 +97,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     //   }
     // });
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
-    DialogUtil.alert(
-        title: "", message: "检查到温度异常", okLabel: "确定");
+    // DialogUtil.alert(
+    //     title: "", message: "检查到温度异常", okLabel: "确定");
   }
 
   Future<dynamic> flutterMethod(MethodCall methodCall) async {

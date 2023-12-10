@@ -16,7 +16,7 @@ import java.util.TimerTask
 class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
     private var sendData: String? = null
-    val tl = "AB BA 01 00 00 00 00 00 00 00 00 00 00";
+    val tl = "AB BA 91 00 00 00 00 00 00 00 00 00 00";
 //        val tl = "AB BA 06 01 00 00 01 CD DC";
 
     lateinit var heard: ByteArray
@@ -119,6 +119,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
 
+        Log.i("ByteArrToHex", "onPortDataReceived: "+bRec)
 //        if (toUnsignedInt(paramComBean.bRec[2])==1){
 //            handler.post {
 //                toFlutter.invokeMethod("onHeart", serialPortHelper.count, object : MethodChannel.Result {
