@@ -19,6 +19,7 @@ class SqlUtils {
     required String tableName,
     required Map<String, dynamic> paramters,
   }) async {
+    print('---paramters------$paramters');
     return await db!.insert(
       tableName,
       paramters,

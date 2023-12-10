@@ -48,7 +48,11 @@ class Spastic {
     this.powerB,
   });
 
-  void init() {
+  void init(bool isSave) {
+    if (isSave) {
+      save();
+    }
+
     time = "20";
     circle = "1";
     widthA = "0.1";
@@ -89,9 +93,10 @@ class Spastic {
 
   User? user;
 
-
   bool start(bool isStart) {
-
+    if (isStart) {
+      startTime = DateTime.now();
+    }
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
@@ -211,39 +216,42 @@ class Spastic {
       data = "$data 0$timeTmps";
     }
 
-    if (user != null && user?.userId != 0){
-      if (!isStart) {
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: time,
-          recordType: '痉挛肌治疗',
-          actionTime: min,
-          circle: circle,
-          widthA: widthA,
-          widthB: widthB,
-          delayTime: delayTime,
-          strengthGradeA: powerA,
-          strengthGradeB: powerB,
-        );
-        RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
-    }
-
-
     SerialPort().send(data);
     return isStart;
+  }
+
+  void save() {
+    if (user != null && user?.userId != 0) {
+      if (!TextUtil.isEmpty(widthA)) {
+        widthA = double.parse(widthA!).toStringAsFixed(1);
+      }
+      if (!TextUtil.isEmpty(widthB)) {
+        widthB = double.parse(widthB!).toStringAsFixed(1);
+      }
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: time,
+        recordType: '痉挛肌治疗',
+        actionTime: min,
+        circle: circle,
+        widthA: widthA,
+        widthB: widthB,
+        delayTime: delayTime,
+        strengthGradeA: powerA,
+        strengthGradeB: powerB,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    }
   }
 }

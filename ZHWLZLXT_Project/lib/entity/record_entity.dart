@@ -15,7 +15,7 @@ class RecordField {
   static String utilityTime = "utilityTime"; // 时长
   static String actionTime = "actionTime"; // 使用时间
   static String zdTime = "zdTime"; // 震动打开时间
-  static String width = "width"; // 脉宽
+  static String width = "widthC"; // 脉宽
   static String widthA = "widthA"; // 脉宽A
   static String widthB = "widthB"; // 脉宽B
   static String delayTime = "delayTime"; // 延时时间
@@ -140,9 +140,12 @@ class Record {
     if (!TextUtil.isEmpty(soundIntensity)) {
       infos.add('声强：${soundIntensity}w/c㎡');
     }
-    if (!TextUtil.isEmpty(frequency)) {
-      infos.add('频率：$frequency次/min');
+    if (!TextUtil.isEmpty(frequency)&&frequency!.endsWith('次/min')) {
+      infos.add('频率：$frequency');
+    }else if (!TextUtil.isEmpty(frequency)) {
+      infos.add('频率：${frequency}Hz');
     }
+
     if (!TextUtil.isEmpty(width)) {
       infos.add('脉宽：${width}ms');
     }
@@ -195,8 +198,10 @@ class Record {
     if (!TextUtil.isEmpty(soundIntensity)) {
       mapData['声强'] = '${soundIntensity}w/c㎡';
     }
-    if (!TextUtil.isEmpty(frequency)) {
-      mapData['频率'] = '$frequency次/min';
+    if (!TextUtil.isEmpty(frequency)&&frequency!.endsWith('次/min')) {
+      mapData['频率'] = '$frequency';
+    }else if (!TextUtil.isEmpty(frequency)) {
+      mapData['频率'] = '${frequency}Hz';
     }
     if (!TextUtil.isEmpty(width)) {
       mapData['脉宽'] = '${width}ms';

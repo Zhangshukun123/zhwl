@@ -63,7 +63,7 @@ class _InfraredPageState extends State<InfraredPage>
     dialog = DetailsDialog(
         index: 3); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     infraredEntity = InfraredEntity();
-    infraredEntity?.init();
+    infraredEntity?.init(false);
     isDGW = (infraredEntity?.pattern != "连续");
 
     // infraredEntity = InfraredEntity();
@@ -80,7 +80,7 @@ class _InfraredPageState extends State<InfraredPage>
       if (!mounted) {
         return;
       }
-      infraredEntity?.user = userMap[TreatmentType.ultrasonic];
+      infraredEntity?.user = userMap[TreatmentType.infrared];
     });
 
     // eventBus.on<UserEvent>().listen((event) {
@@ -126,7 +126,7 @@ class _InfraredPageState extends State<InfraredPage>
         _timer?.cancel();
         //计时结束
 
-        infraredEntity?.init();
+        infraredEntity?.init(true);
         infraredEntity?.start(false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.infrared));
@@ -143,8 +143,8 @@ class _InfraredPageState extends State<InfraredPage>
         if (_countdownTime < 1) {
           _timer?.cancel();
           //计时结束
+          infraredEntity?.init(true);
           infraredEntity?.start(false);
-          infraredEntity?.init();
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.infrared));
           });
@@ -183,8 +183,8 @@ class _InfraredPageState extends State<InfraredPage>
             if (value.substring(18, 20) == "01") {
               isScram = true;
               startSelected = false;
+              infraredEntity?.init(true);
               infraredEntity?.start(false);
-              infraredEntity?.init();
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.infrared));
               });
@@ -474,8 +474,9 @@ class _InfraredPageState extends State<InfraredPage>
                                               msg: '光疗设备处于急停状态');
                                           return;
                                         }
+                                        startSelected = !startSelected;
                                         if (!startSelected) {
-                                          infraredEntity?.init();
+                                          infraredEntity?.init(true);
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
                                                   () {
@@ -484,7 +485,7 @@ class _InfraredPageState extends State<InfraredPage>
                                               });
                                         }
                                         // thirdStartSelected = !thirdStartSelected;
-                                        startSelected = infraredEntity?.start(!startSelected) ?? false;
+                                        infraredEntity?.start(startSelected);
                                         HwpzgCureState = startSelected;
                                         infraredEntity?.user?.isCure = startSelected;
                                         setState(() {

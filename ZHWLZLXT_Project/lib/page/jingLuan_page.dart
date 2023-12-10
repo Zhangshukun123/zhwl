@@ -41,13 +41,13 @@ class _JingLuanPageState extends State<JingLuanPage>
   void initState() {
     super.initState();
     spastic = Spastic();
-    spastic?.init();
+    spastic?.init(false);
 
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
         return;
       }
-      spastic?.user = userMap[TreatmentType.ultrasonic];
+      spastic?.user = userMap[TreatmentType.spasm];
     });
 
     // eventBus.on<UserEvent>().listen((event) {
@@ -57,7 +57,6 @@ class _JingLuanPageState extends State<JingLuanPage>
     //   }
     // });
   }
-
 
   @override
   void dispose() {
@@ -82,7 +81,7 @@ class _JingLuanPageState extends State<JingLuanPage>
         _timer?.cancel();
         //计时结束
         //结束治疗
-        spastic?.init();
+        spastic?.init(true);
         spastic?.start(false);
         this.startSelected = false;
         JljCureState = this.startSelected;
@@ -100,7 +99,7 @@ class _JingLuanPageState extends State<JingLuanPage>
           _timer?.cancel();
           //计时结束
           //结束治疗
-          spastic?.init();
+          spastic?.init(true);
           spastic?.start(false);
           this.startSelected = false;
           electrotherapyIsRunIng = startSelected;
@@ -114,7 +113,6 @@ class _JingLuanPageState extends State<JingLuanPage>
           });
           return;
         }
-
 
         spastic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 2001);
@@ -195,8 +193,11 @@ class _JingLuanPageState extends State<JingLuanPage>
                     initialValue: double.tryParse(spastic?.delayTime ?? '0.1'),
                     appreciation: 0.1,
                     indexType: 10086,
-                    maxValue: (double.tryParse(spastic?.circle ?? '1')! - 0.1)>1.5?1.5:(double.tryParse(spastic?.circle ?? '1')! - 0.1),
-                    minValue:  0.1,
+                    maxValue:
+                        (double.tryParse(spastic?.circle ?? '1')! - 0.1) > 1.5
+                            ? 1.5
+                            : (double.tryParse(spastic?.circle ?? '1')! - 0.1),
+                    minValue: 0.1,
                     unit: 's',
                     valueListener: (value) {
                       spastic?.delayTime = value.toString();
@@ -222,8 +223,11 @@ class _JingLuanPageState extends State<JingLuanPage>
                       unit: 's',
                       valueListener: (value) {
                         spastic?.circle = value.toString();
-                        if (double.tryParse(spastic?.delayTime ?? '0.1')! > (double.tryParse(spastic?.circle ?? '1')!-0.1)) {
-                          MC mc = MC(double.tryParse(spastic?.circle ?? '1')!-0.1, 10086);
+                        if (double.tryParse(spastic?.delayTime ?? '0.1')! >
+                            (double.tryParse(spastic?.circle ?? '1')! - 0.1)) {
+                          MC mc = MC(
+                              double.tryParse(spastic?.circle ?? '1')! - 0.1,
+                              10086);
                           eventBus.fire(mc);
                         }
                         setState(() {});
@@ -280,8 +284,12 @@ class _JingLuanPageState extends State<JingLuanPage>
                                 maintainState: false,
                                 maintainAnimation: false,
                                 maintainSize: false,
-                                child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,)
-                            ),
+                                child: Image.asset(
+                                  'assets/images/2.0x/gif_recording.gif',
+                                  width: 34.w,
+                                  height: 34.h,
+                                  fit: BoxFit.fitWidth,
+                                )),
                             Container(
                               width: 120.w,
                               height: 55.h,
@@ -294,35 +302,30 @@ class _JingLuanPageState extends State<JingLuanPage>
                                   )),
                               child: TextButton(
                                 onPressed: () {
-                                  startSelected =
-                                      spastic?.start(!startSelected) ?? false;
-                                  electrotherapyIsRunIng = startSelected;
-                                  eventBus.fire(Notify());
-                                  JljCureState = startSelected;
+                                  startSelected = !startSelected;
                                   if (!startSelected) {
-                                    spastic?.init();
+                                    spastic?.init(true);
                                     Future.delayed(
                                         const Duration(milliseconds: 500), () {
                                       eventBus.fire(
                                           SetValueState(TreatmentType.spasm));
                                     });
                                   }
+                                  spastic?.start(startSelected);
+                                  electrotherapyIsRunIng = startSelected;
+                                  JljCureState = startSelected;
+                                  eventBus.fire(Notify());
                                   setState(() {
                                     //点击开始治疗
                                     double? tmp =
-                                        double.tryParse(spastic?.time ?? '1');
+                                    double.tryParse(spastic?.time ?? '1');
                                     _countdownTime = ((tmp?.toInt())!);
-                                    startCountdownTimer(startSelected);
                                   });
+                                  startCountdownTimer(startSelected);
                                 },
-                                // child: Image.asset(
-                                //   startSelected
-                                //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                //       : 'assets/images/btn_kaishi_nor.png',
-                                //   fit: BoxFit.fill,
-                                //   width: 120.w,
-                                //   height: 55.h,
-                                // ),
+
+
+
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

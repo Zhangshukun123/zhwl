@@ -39,7 +39,11 @@ class InfraredEntity {
     this.isStart,
   });
 
-  void init() {
+  void init(bool isSave) {
+
+    if(isSave){
+      save();
+    }
     time = "20";
     power = "1";
     pattern = Globalization.continuous.tr;
@@ -77,6 +81,11 @@ class InfraredEntity {
     //       msg: '请选择用户', fontSize: 22, backgroundColor: Colors.blue);
     //   return false;
     // }
+
+    if(isStart){
+      startTime = DateTime.now();
+    }
+
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 02
@@ -202,10 +211,14 @@ class InfraredEntity {
     data = "$data 00"; // 10
     data = "$data 00"; // 11
     data = "$data 00"; // 12
+    SerialPort().send(data);
+    return isStart;
+  }
 
 
+  void save(){
+    print('---------save------${(user != null && user?.userId != 0)}');
     if (user != null && user?.userId != 0){
-      if (!isStart) {
         endTime = DateTime.now();
         String min = '';
         Duration diff = endTime!.difference(startTime!);
@@ -226,14 +239,8 @@ class InfraredEntity {
           actionTime: min,
         );
         RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
     }
-
-
-
-    SerialPort().send(data);
-    return isStart;
   }
+
+
 }

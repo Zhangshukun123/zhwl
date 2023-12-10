@@ -64,6 +64,8 @@ class Neuromuscular {
 
 
   void setARestValue(){
+    save1();
+
     patternA = Globalization.complete.tr;
     timeA = "20";
     powerA = "0";
@@ -71,6 +73,7 @@ class Neuromuscular {
   }
 
   void setBRestValue(){
+    save2();
     patternB = Globalization.complete.tr;
     timeB = "20";
     powerB = "0";
@@ -113,6 +116,9 @@ class Neuromuscular {
   User? user;
   bool start1(bool isStart) {
 
+    if(isStart){
+      startTime = DateTime.now();
+    }
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
@@ -203,8 +209,11 @@ class Neuromuscular {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
+    SerialPort().send(data);
+    return isStart;
+  }
+  void save1(){
     if (user != null && user?.userId != 0){
-      if (!isStart) {
         endTime = DateTime.now();
         String min = '';
         Duration diff = endTime!.difference(startTime!);
@@ -226,22 +235,22 @@ class Neuromuscular {
           frequency: frequencyA,
         );
         RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
     }
-
-
-
-    SerialPort().send(data);
-    return isStart;
   }
+
+
+
 
   DateTime? startTime2;
   DateTime? endTime2;
 
 
   bool start2(bool isStart) {
+
+    if(isStart){
+      startTime2 = DateTime.now();
+    }
+
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0||controller.user.value.userId == null) {
     //   Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
@@ -335,8 +344,15 @@ class Neuromuscular {
     data = "$data 00";  // byte08  08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+
+  void save2(){
     if (user != null && user?.userId != 0){
-      if (!isStart) {
         endTime2 = DateTime.now();
         String min = '';
         Duration diff = endTime2!.difference(startTime2!);
@@ -358,16 +374,7 @@ class Neuromuscular {
           frequency: frequencyB,
         );
         RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime2 = DateTime.now();
-      }
     }
-
-
-
-
-    SerialPort().send(data);
-    return isStart;
   }
 
 

@@ -76,6 +76,7 @@ class _RecordPageState extends State<RecordPage> {
     for (var map in value) {
       records.add(Record.fromMap(map));
     }
+    print("-----------${records[records.length-1].toMap().toString()}");
     recordsList.addAll(records.reversed.toList());
     setState(() {});
   }

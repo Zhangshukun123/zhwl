@@ -176,8 +176,7 @@ class Pulsed {
   }
 
   void save() {
-    print("--------${(user != null && user?.userId != 0)}");
-    print("--------${isStart}");
+
     if (user != null && user?.userId != 0) {
         endTime = DateTime.now();
         String min = '';
@@ -196,7 +195,7 @@ class Pulsed {
           recordType: Globalization.pulse.tr,
           strengthGrade: power,
           actionTime: min,
-          frequency: frequency,
+          frequency: '$frequency次/min',
           zdTime: zdTime.toString(),
         );
         RecordSqlDao.instance().addData(record: record);

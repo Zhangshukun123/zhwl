@@ -43,13 +43,21 @@ class MidFrequency {
     this.powerB,
   });
 
-  void init() {
+  void init(isSave) {
+    if(isSave){
+      save1();
+    }
     patternA = "1";
     timeA = "20";
     powerA = "0";
   }
 
-  void init2() {
+  void init2(isSave) {
+
+    if(isSave){
+      save2();
+    }
+
     patternB = "1";
     timeB = "20";
     powerB = "0";
@@ -85,6 +93,9 @@ class MidFrequency {
   DateTime? endTime;
   User? user;
   bool start1(bool isStart) {
+    if(isStart){
+      startTime = DateTime.now();
+    }
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0||controller.user.value.userId == null) {
     //   Fluttertoast.showToast(
@@ -156,8 +167,13 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+  void save1(){
     if (user != null && user?.userId != 0){
-      if (!isStart) {
         endTime = DateTime.now();
         String min = '';
         Duration diff = endTime!.difference(startTime!);
@@ -178,23 +194,20 @@ class MidFrequency {
           strengthGrade: powerA,
         );
         RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
     }
-
-
-
-
-    SerialPort().send(data);
-    return isStart;
   }
+
 
 
   DateTime? startTime2;
   DateTime? endTime2;
 
   bool start2(bool isStart) {
+
+    if(isStart){
+      startTime2 = DateTime.now();
+    }
+
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0||controller.user.value.userId == null) {
     //   Fluttertoast.showToast(
@@ -265,8 +278,17 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
+
+
+
+    SerialPort().send(data);
+    return isStart;
+  }
+
+
+
+  void save2(){
     if (user != null && user?.userId != 0){
-      if (!isStart) {
         endTime2 = DateTime.now();
         String min = '';
         Duration diff = endTime2!.difference(startTime2!);
@@ -287,14 +309,8 @@ class MidFrequency {
           strengthGrade: powerB,
         );
         RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime2 = DateTime.now();
-      }
 
     }
-
-
-    SerialPort().send(data);
-    return isStart;
   }
+
 }

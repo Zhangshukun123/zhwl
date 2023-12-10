@@ -46,8 +46,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
   void initState() {
     super.initState();
     midFrequency = MidFrequency();
-    midFrequency?.init();
-    midFrequency?.init2();
+    midFrequency?.init(false);
+    midFrequency?.init2(false);
 
     // eventBus.on<UserEvent>().listen((event) {
     //   if (event.type == TreatmentType.frequency) {
@@ -60,7 +60,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
       if (!mounted) {
         return;
       }
-      midFrequency?.user = userMap[TreatmentType.ultrasonic];
+      midFrequency?.user = userMap[TreatmentType.frequency];
     });
   }
 
@@ -94,7 +94,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         _timer1?.cancel();
         //计时结束
         //结束治疗
-        midFrequency?.init();
+        midFrequency?.init(true);
         midFrequency?.start1(false);
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
@@ -110,7 +110,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         _countdownTime1 = _countdownTime1 - 1;
         if (_countdownTime1 < 1) {
           _timer1?.cancel();
-          midFrequency?.init();
+          midFrequency?.init(true);
           midFrequency?.start1(false);
           yiStartSelected = false;
           electrotherapyIsRunIng = yiStartSelected || erStartSelected;
@@ -149,10 +149,13 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
-        //计时结束
-        //结束治疗
-        midFrequency?.init2();
-        midFrequency?.start2(false);
+        midFrequency?.init2(true);
+        if (aliveAuto) {
+          midFrequency?.init(true);
+          midFrequency?.start1(false);
+        } else {
+          midFrequency?.start2(false);
+        }
         erStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
@@ -167,9 +170,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
 
         if (_countdownTime2 < 1) {
           _timer2?.cancel();
-          midFrequency?.init2();
+          midFrequency?.init2(true);
           if (aliveAuto) {
-            midFrequency?.init();
+            midFrequency?.init(true);
             midFrequency?.start1(false);
           } else {
             midFrequency?.start2(false);
@@ -369,19 +372,12 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 )),
                             child: TextButton(
                               onPressed: () {
-                                yiStartSelected =
-                                    midFrequency?.start1(!yiStartSelected) ??
-                                        false;
-                                electrotherapyIsRunIng =
-                                    yiStartSelected || erStartSelected;
-                                eventBus.fire(Notify());
-                                ZpgrdCureState =
-                                    yiStartSelected || erStartSelected;
+                                yiStartSelected = !yiStartSelected;
                                 if (!yiStartSelected) {
-                                  midFrequency?.init();
+                                  midFrequency?.init(true);
                                   if (aliveAuto) {
                                     erStartSelected = yiStartSelected;
-                                    midFrequency?.init2();
+                                    midFrequency?.init2(true);
                                     aliveAuto = false;
                                     electrotherapyIsRunIng =
                                         yiStartSelected || erStartSelected;
@@ -392,6 +388,13 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                         SetValueState(TreatmentType.frequency));
                                   });
                                 }
+                                midFrequency?.start1(yiStartSelected);
+                                electrotherapyIsRunIng =
+                                    yiStartSelected || erStartSelected;
+                                eventBus.fire(Notify());
+                                ZpgrdCureState =
+                                    yiStartSelected || erStartSelected;
+
                                 if (aliveAuto) {
                                   erStartSelected = yiStartSelected;
                                 }
@@ -603,22 +606,23 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                             child: TextButton(
                               onPressed: () {
                                 if (!aliveAuto) {
-                                  erStartSelected =
-                                      midFrequency?.start2(!erStartSelected) ??
-                                          false;
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
-                                  ZpgrdCureState =
-                                      yiStartSelected || erStartSelected;
+                                  erStartSelected = !erStartSelected;
+
                                   if (!erStartSelected) {
-                                    midFrequency?.init2();
+                                    midFrequency?.init2(true);
                                     Future.delayed(
                                         const Duration(milliseconds: 500), () {
                                       eventBus.fire(SetValueState(
                                           TreatmentType.frequency));
                                     });
                                   }
+                                  midFrequency?.start2(!erStartSelected);
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+                                  ZpgrdCureState =
+                                      yiStartSelected || erStartSelected;
+
                                   setState(() {
                                     //点击开始治疗
                                     double? tmp = double.tryParse(
@@ -627,15 +631,11 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     startCountdownTimer2(erStartSelected);
                                   });
                                 } else {
-                                  yiStartSelected =
-                                      midFrequency?.start1(!yiStartSelected) ??
-                                          false;
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
+                                  yiStartSelected = !yiStartSelected;
+
                                   if (!yiStartSelected) {
-                                    midFrequency?.init();
-                                    midFrequency?.init2();
+                                    midFrequency?.init(true);
+                                    midFrequency?.init2(true);
                                     aliveAuto = false;
                                     Future.delayed(
                                         const Duration(milliseconds: 500), () {
@@ -643,6 +643,11 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                           TreatmentType.frequency));
                                     });
                                   }
+                                  midFrequency?.start1(yiStartSelected);
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+
                                   erStartSelected = yiStartSelected;
                                   setState(() {
                                     //点击开始治疗

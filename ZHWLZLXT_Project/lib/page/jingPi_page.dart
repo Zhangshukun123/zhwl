@@ -46,22 +46,14 @@ class _JingPiPageState extends State<JingPiPage>
   void initState() {
     super.initState();
     percutaneous = Percutaneous();
-    percutaneous?.init();
-    percutaneous?.initB();
-
-    // eventBus.on<UserEvent>().listen((event) {
-    //   if (event.type == TreatmentType.percutaneous) {
-    //     percutaneous?.userId = event.user?.userId;
-    //     percutaneous?.user = event.user;
-    //     save(event.user?.userId ?? -1);
-    //   }
-    // });
+    percutaneous?.init(false);
+    percutaneous?.initB(false);
 
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
         return;
       }
-      percutaneous?.user = userMap[TreatmentType.ultrasonic];
+      percutaneous?.user = userMap[TreatmentType.percutaneous];
     });
   }
 
@@ -95,41 +87,36 @@ class _JingPiPageState extends State<JingPiPage>
         _timer1?.cancel();
         //计时结束
         //结束治疗
-        percutaneous?.init();
+        percutaneous?.init(true);
         percutaneous?.start1(false);
         yiStartSelected = false;
-        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
         eventBus.fire(Notify());
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
-          Future.delayed(
-              const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(
-                TreatmentType.percutaneous));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
         if (_countdownTime1 < 1) {
           _timer1?.cancel();
-          percutaneous?.init();
+          percutaneous?.init(true);
           percutaneous?.start1(false);
           yiStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           JpsjCureState = yiStartSelected || erStartSelected;
           eventBus.fire(Notify());
           setState(() {
             Fluttertoast.showToast(msg: '治疗结束!');
-            Future.delayed(
-                const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(
-                  TreatmentType.percutaneous));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.percutaneous));
             });
           });
           return;
         }
-
 
         percutaneous?.timeA = _countdownTime1.toString();
         RunTime runTime = RunTime(_countdownTime1.toDouble(), 2002);
@@ -154,39 +141,34 @@ class _JingPiPageState extends State<JingPiPage>
     callback(timer) {
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
-        percutaneous?.initB();
+        percutaneous?.initB(true);
         percutaneous?.start2(false);
         erStartSelected = false;
-        electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
           Fluttertoast.showToast(msg: '治疗结束!');
-          Future.delayed(
-              const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(
-                TreatmentType.percutaneous));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
         });
       } else {
         _countdownTime2 = _countdownTime2 - 1;
         if (_countdownTime2 < 1) {
           _timer2?.cancel();
-          percutaneous?.initB();
+          percutaneous?.initB(true);
           percutaneous?.start2(false);
           erStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected||erStartSelected;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           JpsjCureState = yiStartSelected || erStartSelected;
           setState(() {
             Fluttertoast.showToast(msg: '治疗结束!');
-            Future.delayed(
-                const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(
-                  TreatmentType.percutaneous));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.percutaneous));
             });
           });
           return;
         }
-
 
         percutaneous?.timeB = _countdownTime2.toString();
         RunTime runTime = RunTime(_countdownTime2.toDouble(), 2003);
@@ -252,166 +234,173 @@ class _JingPiPageState extends State<JingPiPage>
                                 },
                               ),
                             ],
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            type: TreatmentType.percutaneous,
-                            enabled: !yiStartSelected,
-                            title: Globalization.time.tr,
-                            isClock: true,
-                            isAnimate: yiStartSelected,
-                            assets: 'assets/images/2.0x/icon_shijian.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.timeA ?? '1'),
-                            minValue: 1,
-                            indexType: 2002,
-                            maxValue: 30,
-                            unit: 'min',
-                            valueListener: (value) {
-                              percutaneous?.timeA = value.toString();
-                            },
-                          ),
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          type: TreatmentType.percutaneous,
+                          enabled: !yiStartSelected,
+                          title: Globalization.time.tr,
+                          isClock: true,
+                          isAnimate: yiStartSelected,
+                          assets: 'assets/images/2.0x/icon_shijian.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.timeA ?? '1'),
+                          minValue: 1,
+                          indexType: 2002,
+                          maxValue: 30,
+                          unit: 'min',
+                          valueListener: (value) {
+                            percutaneous?.timeA = value.toString();
+                          },
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.intensity.tr,
-                            assets: 'assets/images/2.0x/icon_qiangdu.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.powerA ?? '1'),
-                            maxValue: 99,
-                            minValue: 0,
-                            valueListener: (value) {
-                              percutaneous?.powerA = value.toString();
-                              percutaneous?.start1(true);
-                            },
-                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.intensity.tr,
+                          assets: 'assets/images/2.0x/icon_qiangdu.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.powerA ?? '1'),
+                          maxValue: 99,
+                          minValue: 0,
+                          valueListener: (value) {
+                            percutaneous?.powerA = value.toString();
+                            percutaneous?.start1(true);
+                          },
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: !yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.frequency.tr,
-                            assets: 'assets/images/2.0x/icon_pinlv.png',
-                            initialValue: double.tryParse(
-                                percutaneous?.frequencyA ?? '2'),
-                            minValue: 2,
-                            maxValue: 160,
-                            unit: 'Hz',
-                            valueListener: (value) {
-                              percutaneous?.frequencyA = value.toString();
-                            },
-                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: !yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.frequency.tr,
+                          assets: 'assets/images/2.0x/icon_pinlv.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.frequencyA ?? '2'),
+                          minValue: 2,
+                          maxValue: 160,
+                          unit: 'Hz',
+                          valueListener: (value) {
+                            percutaneous?.frequencyA = value.toString();
+                          },
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 11.h),
-                          child: SetValueHorizontal(
-                            height: 70.h,
-                            enabled: !yiStartSelected,
-                            type: TreatmentType.percutaneous,
-                            title: Globalization.pulseWidth.tr,
-                            assets: 'assets/images/2.0x/icon_maikuan.png',
-                            initialValue:
-                                double.tryParse(percutaneous?.pulseA ?? '60'),
-                            minValue: 60,
-                            maxValue: 520,
-                            appreciation: 10,
-                            unit: 'μs',
-                            valueListener: (value) {
-                              percutaneous?.pulseA = value.toString();
-                            },
-                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 11.h),
+                        child: SetValueHorizontal(
+                          height: 70.h,
+                          enabled: !yiStartSelected,
+                          type: TreatmentType.percutaneous,
+                          title: Globalization.pulseWidth.tr,
+                          assets: 'assets/images/2.0x/icon_maikuan.png',
+                          initialValue:
+                              double.tryParse(percutaneous?.pulseA ?? '60'),
+                          minValue: 60,
+                          maxValue: 520,
+                          appreciation: 10,
+                          unit: 'μs',
+                          valueListener: (value) {
+                            percutaneous?.pulseA = value.toString();
+                          },
                         ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Visibility(
-                                  visible: yiStartSelected,
-                                  maintainState: false,
-                                  maintainAnimation: false,
-                                  maintainSize: false,
-                                  child: Container(
-                                      margin: EdgeInsets.only(top: 10.h),
-                                      child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
-                              ),
-                              Container(
-                                width: 120.w,
-                                height: 45.h,
-                                margin: EdgeInsets.only(top: 10.h),
-                                decoration: BoxDecoration(
-                                    color: yiStartSelected
-                                        ? const Color(0xFF00C290)
-                                        : const Color(0xFF00A8E7),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10.w),
-                                    )),
-                                child: TextButton(
-                                  onPressed: () {
-                                    yiStartSelected =
-                                        percutaneous?.start1(!yiStartSelected) ??
-                                            false;
-                                    electrotherapyIsRunIng = yiStartSelected||erStartSelected;
-                                    eventBus.fire(Notify());
-                                    JpsjCureState = yiStartSelected||erStartSelected;
-                                    if (!yiStartSelected) {
-                                      percutaneous?.init();
-                                      Future.delayed(
-                                          const Duration(milliseconds: 500), () {
-                                        eventBus.fire(SetValueState(
-                                            TreatmentType.percutaneous));
-                                      });
-                                    }
-                                    setState(() {
-                                      //点击开始治疗
-                                      double? tmp = double.tryParse(
-                                          percutaneous?.timeA ?? '1');
-                                      _countdownTime1 = ((tmp?.toInt())!);
-                                      startCountdownTimer1(yiStartSelected);
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Visibility(
+                                visible: yiStartSelected,
+                                maintainState: false,
+                                maintainAnimation: false,
+                                maintainSize: false,
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 10.h),
+                                    child: Image.asset(
+                                      'assets/images/2.0x/gif_recording.gif',
+                                      width: 34.w,
+                                      height: 34.h,
+                                      fit: BoxFit.fitWidth,
+                                    ))),
+                            Container(
+                              width: 120.w,
+                              height: 45.h,
+                              margin: EdgeInsets.only(top: 10.h),
+                              decoration: BoxDecoration(
+                                  color: yiStartSelected
+                                      ? const Color(0xFF00C290)
+                                      : const Color(0xFF00A8E7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10.w),
+                                  )),
+                              child: TextButton(
+                                onPressed: () {
+                                  yiStartSelected = !yiStartSelected;
+
+                                  if (!yiStartSelected) {
+                                    percutaneous?.init(true);
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(
+                                          TreatmentType.percutaneous));
                                     });
-                                  },
-                                  // child: Image.asset(
-                                  //   yiStartSelected
-                                  //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                  //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                  //   fit: BoxFit.cover,
-                                  //   width: 120.w,
-                                  //   height: 45.h,
-                                  // )
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/2.0x/icon_kaishi.png',
-                                        fit: BoxFit.fitWidth,
-                                        width: 18.w,
-                                        height: 18.h,
-                                      ),
-                                      SizedBox(
-                                        width: 8.w,
-                                      ),
-                                      Text(
-                                        yiStartSelected
-                                            ? Globalization.stop.tr
-                                            : Globalization.start.tr,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
+                                  }
+                                  percutaneous?.start1(yiStartSelected);
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+                                  JpsjCureState =
+                                      yiStartSelected || erStartSelected;
+
+                                  setState(() {
+                                    //点击开始治疗
+                                    double? tmp = double.tryParse(
+                                        percutaneous?.timeA ?? '1');
+                                    _countdownTime1 = ((tmp?.toInt())!);
+                                    startCountdownTimer1(yiStartSelected);
+                                  });
+                                },
+                                // child: Image.asset(
+                                //   yiStartSelected
+                                //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
+                                //       : 'assets/images/2.0x/btn_kaishi_nor.png',
+                                //   fit: BoxFit.cover,
+                                //   width: 120.w,
+                                //   height: 45.h,
+                                // )
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/2.0x/icon_kaishi.png',
+                                      fit: BoxFit.fitWidth,
+                                      width: 18.w,
+                                      height: 18.h,
+                                    ),
+                                    SizedBox(
+                                      width: 8.w,
+                                    ),
+                                    Text(
+                                      yiStartSelected
+                                          ? Globalization.stop.tr
+                                          : Globalization.start.tr,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
                               ),
+                            ),
+                          ],
                         ),
-                            ],
-                          ),
                       ),
                     ],
                   )),
@@ -521,7 +510,7 @@ class _JingPiPageState extends State<JingPiPage>
                           title: Globalization.intensity.tr,
                           assets: 'assets/images/2.0x/icon_qiangdu.png',
                           initialValue:
-                          double.tryParse(percutaneous?.powerB ?? '0'),
+                              double.tryParse(percutaneous?.powerB ?? '0'),
                           maxValue: 99,
                           minValue: 0,
                           valueListener: (value) {
@@ -577,8 +566,12 @@ class _JingPiPageState extends State<JingPiPage>
                               maintainSize: false,
                               child: Container(
                                   margin: EdgeInsets.only(top: 10.h),
-                                  child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
-                          ),
+                                  child: Image.asset(
+                                    'assets/images/2.0x/gif_recording.gif',
+                                    width: 34.w,
+                                    height: 34.h,
+                                    fit: BoxFit.fitWidth,
+                                  ))),
                           Container(
                             child: Container(
                               width: 120.w,
@@ -593,14 +586,10 @@ class _JingPiPageState extends State<JingPiPage>
                                   )),
                               child: TextButton(
                                 onPressed: () {
-                                  erStartSelected =
-                                      percutaneous?.start2(!erStartSelected) ??
-                                          false;
-                                  electrotherapyIsRunIng = erStartSelected||yiStartSelected;
-                                  eventBus.fire(Notify());
-                                  JpsjCureState = erStartSelected||yiStartSelected;
+                                  erStartSelected =!erStartSelected;
+
                                   if (!erStartSelected) {
-                                    percutaneous?.initB();
+                                    percutaneous?.initB(true);
                                     Future.delayed(
                                         const Duration(milliseconds: 500), () {
                                       eventBus.fire(SetValueState(
@@ -608,22 +597,22 @@ class _JingPiPageState extends State<JingPiPage>
                                     });
                                   }
 
+                                      percutaneous?.start2(erStartSelected);
+                                  electrotherapyIsRunIng =
+                                      erStartSelected || yiStartSelected;
+                                  eventBus.fire(Notify());
+                                  JpsjCureState =
+                                      erStartSelected || yiStartSelected;
+
+
                                   setState(() {
                                     //点击开始治疗
-                                    double? tmp =
-                                        double.tryParse(percutaneous?.timeB ?? '1');
+                                    double? tmp = double.tryParse(
+                                        percutaneous?.timeB ?? '1');
                                     _countdownTime2 = ((tmp?.toInt())!);
                                     startCountdownTimer2(erStartSelected);
                                   });
                                 },
-                                // child: Image.asset(
-                                //   erStartSelected
-                                //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                //   fit: BoxFit.cover,
-                                //   width: 120.w,
-                                //   height: 43.h,
-                                // )
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

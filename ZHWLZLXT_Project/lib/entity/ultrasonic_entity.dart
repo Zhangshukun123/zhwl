@@ -45,7 +45,11 @@ class Ultrasonic {
     this.frequency,
   });
 
-  init() {
+  init(bool isSave) {
+
+    if(isSave){
+      save();
+    }
     pattern = Globalization.intermittentOne.tr;
     time = '20';
     power = '0';
@@ -82,6 +86,11 @@ class Ultrasonic {
   User? user;
 
   bool start(bool isStart) {
+
+    if(isStart){
+      startTime = DateTime.now();
+    }
+
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
 
@@ -223,36 +232,38 @@ class Ultrasonic {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    if (user != null && user?.userId != 0) {
-      if (!isStart) {
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: time,
-          pattern: pattern,
-          recordType: Globalization.ultrasound.tr,
-          power: power,
-          soundIntensity: soundIntensity,
-          actionTime: min,
-          frequency: frequency,
-        );
-        RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
-    }
+
 
     SerialPort().send(data);
     return isStart;
   }
+
+
+  void save(){
+    if (user != null && user?.userId != 0) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: time,
+        pattern: pattern,
+        recordType: Globalization.ultrasound.tr,
+        power: power,
+        soundIntensity: soundIntensity,
+        actionTime: min,
+        frequency: frequency,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    }
+  }
+
 }

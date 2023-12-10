@@ -61,7 +61,6 @@ class _PulsedPageState extends State<PulsedPage>
 
     dialog?.setTabController(_tabController);
 
-
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
         return;
@@ -105,12 +104,9 @@ class _PulsedPageState extends State<PulsedPage>
         _timer?.cancel();
         pulsed?.init(true);
         pulsed?.start(false, false);
-        Future.delayed(
-            const Duration(milliseconds: 500),
-                () {
-              eventBus.fire(SetValueState(
-                  TreatmentType.pulsed));
-            });
+        Future.delayed(const Duration(milliseconds: 500), () {
+          eventBus.fire(SetValueState(TreatmentType.pulsed));
+        });
         this.startSelected = false;
         MccCureState = this.startSelected;
         setState(() {
@@ -122,12 +118,9 @@ class _PulsedPageState extends State<PulsedPage>
           _timer?.cancel();
           pulsed?.init(true);
           pulsed?.start(false, false);
-          Future.delayed(
-              const Duration(milliseconds: 500),
-                  () {
-                eventBus.fire(SetValueState(
-                    TreatmentType.pulsed));
-              });
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.pulsed));
+          });
           this.startSelected = false;
           MccCureState = this.startSelected;
           setState(() {
@@ -135,8 +128,6 @@ class _PulsedPageState extends State<PulsedPage>
           });
           return;
         }
-
-
 
         pulsed?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
@@ -286,10 +277,11 @@ class _PulsedPageState extends State<PulsedPage>
                                         activeColor: const Color(0xFF00A8E7),
                                         trackColor: const Color(0xFFF9F9F9),
                                         onChanged: (value) {
-                                          if(startSelected){
+                                          if (startSelected) {
                                             switchSelected = !switchSelected;
                                             setState(() {});
-                                            pulsed?.start(startSelected, switchSelected);
+                                            pulsed?.start(
+                                                startSelected, switchSelected);
                                           }
                                         }),
                                   )),
@@ -357,26 +349,29 @@ class _PulsedPageState extends State<PulsedPage>
                                       maintainSize: false,
                                       child: Container(
                                           margin: EdgeInsets.only(top: 50.5.h),
-                                          child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
-                                  ),
+                                          child: Image.asset(
+                                            'assets/images/2.0x/gif_recording.gif',
+                                            width: 34.w,
+                                            height: 34.h,
+                                            fit: BoxFit.fitWidth,
+                                          ))),
                                   Container(
                                     margin: EdgeInsets.only(top: 50.5.h),
                                     width: 120.w,
                                     height: 55.h,
                                     decoration: BoxDecoration(
-                                        color: startSelected ? const Color(0xFF00C290) : const Color(0xFF00A8E7),
+                                        color: startSelected
+                                            ? const Color(0xFF00C290)
+                                            : const Color(0xFF00A8E7),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(10.w),
                                         )),
                                     child: TextButton(
                                       onPressed: () {
-                                        if(startSelected){
+                                        startSelected = !startSelected;
+                                        if (!startSelected) {
                                           pulsed?.init(true);
                                           switchSelected = false;
-                                        }
-                                        startSelected = pulsed?.start(!startSelected, switchSelected) ?? false;
-                                        MccCureState = startSelected;
-                                        if (!startSelected) {
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
                                               () {
@@ -384,12 +379,14 @@ class _PulsedPageState extends State<PulsedPage>
                                                 TreatmentType.pulsed));
                                           });
                                         }
+                                        pulsed?.start(
+                                            startSelected, switchSelected);
+                                        MccCureState = startSelected;
                                         setState(() {
                                           //点击开始治疗
                                           double? tmp = double.tryParse(
                                               pulsed?.time ?? '1');
-                                          _countdownTime =
-                                              ((tmp?.toInt())!);
+                                          _countdownTime = ((tmp?.toInt())!);
                                           startCountdownTimer(startSelected);
                                         });
                                       },
@@ -401,11 +398,27 @@ class _PulsedPageState extends State<PulsedPage>
                                       //   fit: BoxFit.fitWidth,
                                       // ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Image.asset('assets/images/2.0x/icon_kaishi.png',fit: BoxFit.fitWidth,width: 18.w,height: 18.h,),
-                                          SizedBox(width: 8.w,),
-                                          Text(startSelected ? Globalization.stop.tr : Globalization.start.tr,style: TextStyle(color: Colors.white,fontSize: 18.sp,fontWeight: FontWeight.w600),),
+                                          Image.asset(
+                                            'assets/images/2.0x/icon_kaishi.png',
+                                            fit: BoxFit.fitWidth,
+                                            width: 18.w,
+                                            height: 18.h,
+                                          ),
+                                          SizedBox(
+                                            width: 8.w,
+                                          ),
+                                          Text(
+                                            startSelected
+                                                ? Globalization.stop.tr
+                                                : Globalization.start.tr,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
                                         ],
                                       ),
                                     ),

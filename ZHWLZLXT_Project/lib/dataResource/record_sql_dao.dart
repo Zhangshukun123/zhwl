@@ -17,28 +17,8 @@ class RecordSqlDao {
   /// 新增数据
   addData({required Record record}) async {
     SqlUtils sqlUtils = SqlUtils();
-    await sqlUtils.open();
-
-    Map<String, Object?> par = record.toMap();
-    await sqlUtils.open();
-    var yorn = await insertRecordData(sqlUtils: sqlUtils, record: record);
-
+    await insertRecordData(sqlUtils: sqlUtils, record: record);
     await sqlUtils.close();
-
-    String str;
-
-    if (!yorn) {
-      str = "添加失败";
-    } else {
-      str = "添加成功";
-    }
-
-    // showToastMsg(
-    //     msg: str,
-    //     ontap: () {
-    //       if (yorn) {
-    //       }
-    //     });
   }
 
 

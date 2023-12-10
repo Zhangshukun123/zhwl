@@ -69,13 +69,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
 
     ultrasonic = Ultrasonic();
-    ultrasonic?.init();
-
-    // if (TextUtil.isEmpty(SpUtils.getString(UltrasonicField.UltrasonicKey))) {
-    // } else {
-    //   ultrasonic = Ultrasonic.fromJson(
-    //       SpUtils.getString(UltrasonicField.UltrasonicKey)!);
-    // }
+    ultrasonic?.init(false);
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
@@ -110,8 +104,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           if (list[12] == 1) {
             wdText = '温度异常';
             wdOnline = false;
+            ultrasonic?.init(true);
             ultrasonic?.start(false);
-            ultrasonic?.init();
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.ultrasonic));
             });
@@ -142,8 +136,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           if (list[12] == 1) {
             wdText = '温度异常';
             wdOnline = false;
+            ultrasonic?.init(true);
             ultrasonic?.start(false);
-            ultrasonic?.init();
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.ultrasonic));
             });
@@ -230,8 +224,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     callback(timer) {
       if (_countdownTime < 1) {
         _timer?.cancel();
+        ultrasonic?.init(true);
         ultrasonic?.start(false);
-        ultrasonic?.init();
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.ultrasonic));
         });
@@ -245,8 +239,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
         if (_countdownTime < 1) {
           _timer?.cancel();
+          ultrasonic?.init(true);
           ultrasonic?.start(false);
-          ultrasonic?.init();
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.ultrasonic));
           });
@@ -585,12 +579,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                     msg: "链接异常");
                                                 return;
                                               }
-                                              startSelected = ultrasonic
-                                                      ?.start(!startSelected) ??
-                                                  false;
-                                              cureState = startSelected;
+                                              startSelected = !startSelected;
                                               if (!startSelected) {
-                                                ultrasonic?.init();
+                                                ultrasonic?.init(true);
                                                 ultrasonicController.ultrasonic
                                                     .frequency.value = 1;
                                                 Future.delayed(
@@ -601,6 +592,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
+                                               ultrasonic
+                                                      ?.start(!startSelected);
+                                              cureState = startSelected;
+
                                               setState(() {
                                                 double? tmp = double.tryParse(
                                                     ultrasonic?.time ?? '1');

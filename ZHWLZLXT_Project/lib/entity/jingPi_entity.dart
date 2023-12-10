@@ -57,7 +57,10 @@ class Percutaneous {
     this.pulseB,
   });
 
-  void init() {
+  void init(bool isSave) {
+    if (isSave) {
+      save1();
+    }
     patternA = Globalization.continuous.tr;
     timeA = "20";
     powerA = "0";
@@ -65,7 +68,10 @@ class Percutaneous {
     pulseA = "60";
   }
 
-  void initB() {
+  void initB(bool isSave) {
+    if (isSave) {
+      save2();
+    }
     patternB = Globalization.continuous.tr;
     timeB = "20";
     powerB = "0";
@@ -111,6 +117,10 @@ class Percutaneous {
   User? user;
 
   bool start1(bool isStart) {
+    if (isStart) {
+      startTime = DateTime.now();
+    }
+
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
     data = "$data ${BYTE01_MD.B06}"; // byt01 功能模块    01
@@ -221,43 +231,48 @@ class Percutaneous {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    if (user != null && user?.userId != 0) {
-      if (!isStart) {
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          pattern: patternA,
-          utilityTime: timeA,
-          recordType: '经皮神经电刺激',
-          actionTime: min,
-          strengthGrade: powerA,
-          frequency: frequencyA,
-          width: pulseA,
-        );
-        RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime = DateTime.now();
-      }
-    }
-
     SerialPort().send(data);
     return isStart;
+  }
+
+  void save1() {
+    print("-----------save----$pulseA");
+    if (user != null && user?.userId != 0) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        pattern: patternA,
+        utilityTime: timeA,
+        width: pulseA,
+        recordType: '经皮神经电刺激',
+        actionTime: min,
+        strengthGrade: powerA,
+        frequency: frequencyA,
+      );
+
+      print("---pulseA-------${record.toMap().toString()}");
+      RecordSqlDao.instance().addData(record: record);
+    }
   }
 
   DateTime? startTime2;
   DateTime? endTime2;
 
   bool start2(bool isStart) {
+    if (isStart) {
+      startTime2 = DateTime.now();
+    }
+
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
     data = "$data ${BYTE01_MD.B06}"; // byt01 功能模块    01
@@ -369,38 +384,34 @@ class Percutaneous {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    if (user != null && user?.userId != 0){
-      if (!isStart) {
-        endTime2 = DateTime.now();
-        String min = '';
-        Duration diff = endTime2!.difference(startTime2!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          pattern: patternB,
-          utilityTime: timeB,
-          recordType: '经皮神经电刺激',
-          actionTime: min,
-          strengthGrade: powerB,
-          frequency: frequencyB,
-          width: pulseB,
-        );
-        RecordSqlDao.instance().addData(record: record);
-      } else {
-        startTime2 = DateTime.now();
-      }
-    }
-
-
-
     SerialPort().send(data);
     return isStart;
+  }
+
+  void save2() {
+    if (user != null && user?.userId != 0) {
+      endTime2 = DateTime.now();
+      String min = '';
+      Duration diff = endTime2!.difference(startTime2!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        pattern: patternB,
+        utilityTime: timeB,
+        recordType: '经皮神经电刺激',
+        actionTime: min,
+        strengthGrade: powerB,
+        frequency: frequencyB,
+        width: pulseB,
+      );
+      RecordSqlDao.instance().addData(record: record);
+    }
   }
 }

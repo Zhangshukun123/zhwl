@@ -110,6 +110,7 @@ queryRecordUserId({
     selects: [
       RecordField.recordType,
       RecordField.pattern,
+      RecordField.userId,
       RecordField.power,
       RecordField.soundIntensity,
       RecordField.frequency,
@@ -117,6 +118,7 @@ queryRecordUserId({
       RecordField.utilityTime,
       RecordField.zdTime,
       RecordField.widthA,
+      RecordField.width,
       RecordField.widthB,
       RecordField.delayTime,
       RecordField.circle,
