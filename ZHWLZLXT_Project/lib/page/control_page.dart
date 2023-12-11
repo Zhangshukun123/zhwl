@@ -146,7 +146,7 @@ class _ControlPageState extends State<ControlPage> {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         automaticallyImplyLeading : false,
@@ -156,7 +156,7 @@ class _ControlPageState extends State<ControlPage> {
           children: <Widget>[
             Container(
               width: 80.w,
-              height: 30.h,
+              height: 25.h,
               decoration: BoxDecoration(
                   color: const Color(0xFF19B1E9),
                   borderRadius: BorderRadius.all(
@@ -199,7 +199,7 @@ class _ControlPageState extends State<ControlPage> {
                       builder: (BuildContext context) => const AddPage()));
             },
             child: Container(
-              margin: const EdgeInsets.only(top: 13.0, right: 20, bottom: 10),
+              margin: const EdgeInsets.only(top: 3.0, right: 20, bottom:3),
               padding: const EdgeInsets.all(5),
               // color: Color(0xFF19B1E9),
               decoration: BoxDecoration(
@@ -365,8 +365,8 @@ class _ControlPageState extends State<ControlPage> {
                           "当前没有用户，添加用户吧~",
                           style: TextStyle(fontSize: 15.sp),
                         ))
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      : ListView(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -450,6 +450,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ],
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 55.h,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -576,6 +579,9 @@ class _ControlPageState extends State<ControlPage> {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 55.h,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -659,6 +665,9 @@ class _ControlPageState extends State<ControlPage> {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 55.h,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -741,6 +750,9 @@ class _ControlPageState extends State<ControlPage> {
                                   ],
                                 ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 55.h,
                             ),
                             Container(
                               margin: EdgeInsets.only(bottom: 40.h),

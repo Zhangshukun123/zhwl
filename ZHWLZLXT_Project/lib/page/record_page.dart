@@ -101,7 +101,7 @@ class _RecordPageState extends State<RecordPage> {
           children: <Widget>[
             Container(
               width: 80.w,
-              height: 30.h,
+              height: 25.h,
               decoration: BoxDecoration(
                   color: const Color(0xFF19B1E9),
                   borderRadius: BorderRadius.all(
