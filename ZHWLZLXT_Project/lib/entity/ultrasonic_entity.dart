@@ -54,7 +54,7 @@ class Ultrasonic {
     time = '20';
     power = '0';
     soundIntensity = '0.0';
-    frequency = '1';
+    // frequency = '1';
   }
 
   factory Ultrasonic.fromJson(String str) =>
