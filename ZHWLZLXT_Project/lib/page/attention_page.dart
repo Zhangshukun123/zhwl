@@ -29,7 +29,7 @@ class _AttentionPageState extends State<AttentionPage> {
             child:
             Text(
               textString(widget.index),
-              style: const TextStyle(fontSize: 22,color: Color(0xFF999999)),
+              style: const TextStyle(fontSize: 28,color: Color(0xFF999999)),
             ),
 
           ),

@@ -133,14 +133,14 @@ class _SetValueState extends State<SetValue> {
                       ? Lottie.asset('assets/lottie/clock.json',
                           repeat: true,
                           animate: widget.isAnimate,
-                          width: 24.w,
-                          height: 24.h,
+                          width: 22.w,
+                          height: 22.h,
                           fit: BoxFit.fitWidth)
                       : Image.asset(
                           widget.assets ??
                               'assets/images/2.0x/icon_shijian.png',
                           fit: BoxFit.fitWidth,
-                          width: 24.w,
+                          width: 22.w,
                         ),
                   SizedBox(
                     width: 5.w,
@@ -148,7 +148,7 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.title ?? '时间',
                     style: TextStyle(
-                        fontSize: 24.sp, color: const Color(0xFF999999)),
+                        fontSize: 22.sp, color: const Color(0xFF999999)),
                   ),
                 ],
               )),

@@ -82,7 +82,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                             color: widget.enabled!
                                 ? const Color(0xFF333333)
                                 : Colors.grey,
-                            fontSize: 24.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w600),
                       ),
                       Container(

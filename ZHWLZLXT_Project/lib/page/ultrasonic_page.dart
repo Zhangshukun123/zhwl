@@ -16,6 +16,7 @@ import 'package:zhwlzlxt_project/utils/dialog_utils.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 import 'package:zhwlzlxt_project/widget/connect_port.dart';
 import 'package:zhwlzlxt_project/widget/details_dialog.dart';
 import 'package:zhwlzlxt_project/widget/set_value.dart';
@@ -67,7 +68,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     super.initState();
     dialog = DetailsDialog(
         index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-
     ultrasonic = Ultrasonic();
     ultrasonic?.init(false);
     _tabController =
@@ -117,6 +117,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             wdOnline = true;
           }
         } else if (list[11] == 1) {
+          ultrasonic?.frequency = "1";
           ultrasonicController.ultrasonic.frequency.value = 1;
           prowText = '1';
           onLine = true;
@@ -150,6 +151,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           }
         } else if (list[11] == 1) {
           ultrasonicController.ultrasonic.frequency.value = 2;
+          ultrasonic?.frequency = "3";
           prowText = '3';
           onLine = true;
           unline = "链接正常";
@@ -232,7 +234,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         this.startSelected = false;
         cureState = this.startSelected;
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: "治疗结束");
         });
       } else {
         _countdownTime = _countdownTime - 1;
@@ -247,7 +249,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           this.startSelected = false;
           cureState = this.startSelected;
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: "治疗结束");
           });
           return;
         }
@@ -302,8 +304,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Image.asset(
                                             'assets/images/2.0x/icon_moshi.png',
                                             fit: BoxFit.fitWidth,
-                                            width: 24.w,
-                                            height: 24.h,
+                                            width: 22.w,
+                                            height: 22.h,
                                           ),
                                           SizedBox(
                                             width: 5.w,
@@ -311,7 +313,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Text(
                                             Globalization.mode.tr,
                                             style: TextStyle(
-                                                fontSize: 24.sp,
+                                                fontSize: 22.sp,
                                                 color: const Color(0xFF999999)),
                                           ),
                                         ],
@@ -575,8 +577,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                             onPressed: () {
                                               // startSelected = !startSelected;
                                               if (!onLine) {
-                                                Fluttertoast.showToast(
-                                                    msg: "链接异常");
+                                                showToastMsg(msg: "链接异常");
                                                 return;
                                               }
                                               startSelected = !startSelected;
@@ -592,8 +593,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
-                                               ultrasonic
-                                                      ?.start(!startSelected);
+                                              ultrasonic?.start(!startSelected);
                                               cureState = startSelected;
 
                                               setState(() {
