@@ -147,107 +147,103 @@ class _ControlPageState extends State<ControlPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFF9F9F9),
-
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 40.h),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 80.w,
-                height: 30.h,
-                decoration: BoxDecoration(
-                    color: const Color(0xFF19B1E9),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.w),
-                    )),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        'assets/images/2.0x/btn_fanhui.png',
-                        width: 14.w,
-                        height: 14.h,
-                        fit: BoxFit.fitWidth,
-                      ),
-                      Text(
-                        '返回',
-                        style: TextStyle(fontSize: 18.sp),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Center(
-                    child: Text(
-                  Globalization.userManagement.tr,
-                  style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                )),
-              )
-            ],
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            InkWell(
-              onTap: () {
-                debugPrint('点击新增用户');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const AddPage()));
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 13.0, right: 20, bottom: 10),
-                padding: const EdgeInsets.all(5),
-                // color: Color(0xFF19B1E9),
-                decoration: BoxDecoration(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 80.w,
+              height: 25.h,
+              decoration: BoxDecoration(
                   color: const Color(0xFF19B1E9),
-                  border: Border.all(
-                    color: const Color(0xFF19B1E9),
-                    width: 0.5.w,
-                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.w),
-                  ),
-                ),
+                  )),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     SizedBox(
                       width: 10.w,
                     ),
                     Image.asset(
-                      'assets/images/2.0x/icon_xinzeng.png',
+                      'assets/images/2.0x/btn_fanhui.png',
                       width: 14.w,
+                      height: 14.h,
                       fit: BoxFit.fitWidth,
                     ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
                     Text(
-                      Globalization.newUsers.tr,
-                      style: TextStyle(color: Colors.white, fontSize: 12.sp),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
+                      '返回',
+                      style: TextStyle(fontSize: 18.sp),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
                   ],
                 ),
               ),
             ),
+            Expanded(
+              child: Center(
+                  child: Text(
+                Globalization.userManagement.tr,
+                style: TextStyle(fontSize: 18.sp, color: Colors.white),
+              )),
+            )
           ],
-        )
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          InkWell(
+            onTap: () {
+              debugPrint('点击新增用户');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const AddPage()));
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 3.0, right: 20, bottom: 3),
+              padding: const EdgeInsets.all(5),
+              // color: Color(0xFF19B1E9),
+              decoration: BoxDecoration(
+                color: const Color(0xFF19B1E9),
+                border: Border.all(
+                  color: const Color(0xFF19B1E9),
+                  width: 0.5.w,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.w),
+                ),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    'assets/images/2.0x/icon_xinzeng.png',
+                    width: 14.w,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text(
+                    Globalization.newUsers.tr,
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(
