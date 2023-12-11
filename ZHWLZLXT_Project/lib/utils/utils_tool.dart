@@ -41,7 +41,7 @@ void showToastMsg({
   // }
 
 
-  Fluttertoast.showToast(msg: msg,fontSize: 16);
+  Fluttertoast.showToast(msg: msg,fontSize: 30,backgroundColor: const Color(0x7f000000));
 
 
 }
