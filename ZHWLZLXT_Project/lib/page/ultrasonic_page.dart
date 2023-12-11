@@ -253,11 +253,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           });
           return;
         }
-
         ultrasonic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
         eventBus.fire(runTime);
-        ultrasonic?.start(startSelected);
+        ultrasonic?.start(this.startSelected);
       }
     }
 
@@ -435,9 +434,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               appreciation: 0.6,
                               unit: 'W',
                               // ignore: unrelated_type_equality_checks
-                              maxValue: ultrasonicController
-                                          .ultrasonic.frequency.value ==
-                                      1
+                              maxValue: prowText == "1"
                                   ? 7.2
                                   : 3,
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
@@ -593,7 +590,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
-                                              ultrasonic?.start(!startSelected);
+                                              ultrasonic?.start(startSelected);
                                               cureState = startSelected;
 
                                               setState(() {
