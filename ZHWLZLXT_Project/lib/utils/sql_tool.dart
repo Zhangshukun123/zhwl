@@ -113,6 +113,7 @@ queryRecordUserId({
       RecordField.userId,
       RecordField.power,
       RecordField.soundIntensity,
+      RecordField.prescription,
       RecordField.frequency,
       RecordField.dataTime,
       RecordField.utilityTime,
