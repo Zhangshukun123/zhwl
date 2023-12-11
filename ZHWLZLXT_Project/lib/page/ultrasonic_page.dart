@@ -117,6 +117,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             wdOnline = true;
           }
         } else if (list[11] == 1) {
+          ultrasonic?.frequency = "1";
           ultrasonicController.ultrasonic.frequency.value = 1;
           prowText = '1';
           onLine = true;
@@ -150,6 +151,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           }
         } else if (list[11] == 1) {
           ultrasonicController.ultrasonic.frequency.value = 2;
+          ultrasonic?.frequency = "3";
           prowText = '3';
           onLine = true;
           unline = "链接正常";
@@ -302,8 +304,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Image.asset(
                                             'assets/images/2.0x/icon_moshi.png',
                                             fit: BoxFit.fitWidth,
-                                            width: 24.w,
-                                            height: 24.h,
+                                            width: 22.w,
+                                            height: 22.h,
                                           ),
                                           SizedBox(
                                             width: 5.w,
@@ -311,7 +313,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           Text(
                                             Globalization.mode.tr,
                                             style: TextStyle(
-                                                fontSize: 24.sp,
+                                                fontSize: 22.sp,
                                                 color: const Color(0xFF999999)),
                                           ),
                                         ],

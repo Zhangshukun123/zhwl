@@ -24,12 +24,12 @@ class _OperatePageState extends State<OperatePage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(top: 10.h,left: 26.w,right: 26.w,bottom: 70.h),
+          margin: EdgeInsets.only(top: 10.h,left: 26.w,right: 26.w,bottom: 20.h),
           child:  SingleChildScrollView(
             child:
             Text(
               textString(widget.index),
-                style: const TextStyle(fontSize: 22,color: Color(0xFF999999)),
+                style: const TextStyle(fontSize: 28,color: Color(0xFF999999)),
             ),
 
           ),

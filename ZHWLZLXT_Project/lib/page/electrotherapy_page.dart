@@ -142,7 +142,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                       Expanded(
                         child: Center(
                           child: SizedBox(
-                            height: 55.h,
+                            height: 120,
                             // color:Colors.black,
                             child: Cum.TabBar(
                               indicatorColor: const Color(0xFF00A8E7),
@@ -151,15 +151,15 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                               // 标签 Tab 是否可滑动
                               labelColor: const Color(0xFF00A8E7),
                               //标签 Tab 内容颜色
-                              labelStyle: TextStyle(
-                                  fontSize: 18.sp, fontWeight: FontWeight.w600),
+                              labelStyle: const TextStyle(
+                                  fontSize: 35, fontWeight: FontWeight.w600,color: Colors.black),
                               //// 标签 Tab 内容样式
                               indicatorSize: Cum.TabBarIndicatorSize.label,
                               indicator: const CustomTabIndicator(
                                   width: 60,
                                   borderSide: BorderSide(
                                       width: 5.0, color: Color(0xFF00A8E7))),
-                              unselectedLabelStyle: TextStyle(fontSize: 17.sp),
+                              unselectedLabelStyle: const TextStyle(fontSize: 30),
                               //未选中标签样式
                               unselectedLabelColor: const Color(0xFF666666),
                               //未选中标签 Tab 颜色

@@ -83,12 +83,10 @@ class DetailsDialog {
                     )),
                 SizedBox(
                     width: 700.w,
-                    height: 350.h,
                     child: Column(
                       children: [
                         SizedBox(
-                          width: 700.w,
-                          height: 80.h,
+                          height: 120,
                           child: Center(
                             child: TabBar(
                               indicatorColor: const Color(0xFF00A8E7),
@@ -99,11 +97,11 @@ class DetailsDialog {
                               // 标签 Tab 是否可滑动
                               labelColor: const Color(0xFF00A8E7),
                               //标签 Tab 内容颜色
-                              labelStyle: TextStyle(fontSize: 20.sp),
+                              labelStyle: const TextStyle(fontSize: 30),
                               //// 标签 Tab 内容样式
                               indicatorWeight: 4.0,
                               //指示器宽度
-                              unselectedLabelStyle: TextStyle(fontSize: 17.sp),
+                              unselectedLabelStyle: const TextStyle(fontSize: 28),
                               //未选中标签样式
                               unselectedLabelColor: const Color(0xFF666666),
                               //未选中标签 Tab 颜色
@@ -114,7 +112,7 @@ class DetailsDialog {
                         ),
                         SizedBox(
                           width: 700.w,
-                          height: 270.h,
+                          height: 280.h,
                           child: TabBarView(
                               controller: tabController,
                               children: pageViewList!),
