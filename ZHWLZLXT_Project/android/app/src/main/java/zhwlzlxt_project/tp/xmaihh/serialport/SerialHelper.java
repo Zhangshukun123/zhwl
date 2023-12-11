@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android_serialport_api.SerialPort;
 import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean;
@@ -19,6 +21,7 @@ import zhwlzlxt_project.tp.xmaihh.serialport.stick.BaseStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.stick.SpecifiedStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.stick.StaticLenStickPackageHelper;
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil;
+import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util;
 
 public abstract class SerialHelper {
     private SerialPort mSerialPort;
@@ -306,11 +309,16 @@ public abstract class SerialHelper {
 
     protected abstract void onDataReceived(ComBean paramComBean);
 
+
+
     protected abstract void onStartError();
 
-//        private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("ABBA".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
-//    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
+
+
+
+//    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+//    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;

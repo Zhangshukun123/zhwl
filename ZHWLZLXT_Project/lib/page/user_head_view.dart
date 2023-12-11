@@ -66,7 +66,7 @@ class _UserHeadViewState extends State<UserHeadView>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      padding: EdgeInsets.only(top: 20.h, left: 39.5.w, right: 40.w),
+      padding: EdgeInsets.only(top: 15.h, left: 39.5.w, right: 40.w),
       child: Row(
         children: [
           // Obx(() => ),

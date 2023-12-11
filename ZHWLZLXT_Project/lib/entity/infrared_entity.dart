@@ -194,9 +194,6 @@ class InfraredEntity {
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
     var powerValue = double.tryParse(power!);
-    if (!isStart) {
-      powerValue = 0;
-    }
     //转成16进制数据
     var powerTmps = powerValue?.toInt().toRadixString(16);
     //以16进制数据发送

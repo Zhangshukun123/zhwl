@@ -263,7 +263,9 @@ class _InfraredPageState extends State<InfraredPage>
                             appreciation: 1,
                             valueListener: (value) {
                               infraredEntity?.power = value.toString();
-                              infraredEntity?.start(true);
+                              if(startSelected){
+                                infraredEntity?.start(startSelected);
+                              }
                             },
                           )),
                       Container(

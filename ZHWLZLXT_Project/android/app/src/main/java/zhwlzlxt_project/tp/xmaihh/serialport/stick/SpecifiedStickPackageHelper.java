@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import zhwlzlxt_project.tp.xmaihh.serialport.SerialHelper;
+import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util;
 
 /**
  * 特定字符的粘包处理,首尾各一个Byte[],不可以同时为空，如果其中一个为空，那么以不为空的作为分割标记
@@ -21,9 +22,16 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
     private int headLen, tailLen;
 
     public SpecifiedStickPackageHelper(byte[] head, byte[] tail) {
+//        List<String> headlist = new ArrayList<>();
+//        headlist.add("AB");
+//        headlist.add("BA");
+        head = Crc16Util.getDataNoCrc("AB");
+
+        Log.i("TAG", "SpecifiedStickPackageHelper: "+ Arrays.toString(head));
+
         this.head = head;
         this.tail = tail;
-        if (head == null || tail == null) {
+        if (tail == null) {
             throw new IllegalStateException(" head or tail ==null");
         }
         if (head.length == 0 && tail.length == 0) {
@@ -64,41 +72,41 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
         int startIndex = -1;
         byte[] result = null;
         boolean isFindStart = false, isFindEnd = false;
-        Log.i("SerialHelper", "run: len11111" );
-            while ((len = is.read()) != -1) {
-                temp = (byte) len;
-                bytes.add(temp);
-                Byte[] byteArray = bytes.toArray(new Byte[]{});
-                if (headLen == 0 || tailLen == 0) {//只有头或尾标记
-                    if (endWith(byteArray, head) || endWith(byteArray, tail)) {
-                        if (startIndex == -1) {
-                            startIndex = bytes.size() - headLen;
-                        } else {//找到了
+        Log.i("SerialHelper", "run: len11111");
+        while ((len = is.read()) != -1) {
+            temp = (byte) len;
+            bytes.add(temp);
+            Byte[] byteArray = bytes.toArray(new Byte[]{});
+            if (headLen == 0 || tailLen == 0) {//只有头或尾标记
+                if (endWith(byteArray, head) || endWith(byteArray, tail)) {
+                    if (startIndex == -1) {
+                        startIndex = bytes.size() - headLen;
+                    } else {//找到了
+                        result = getRangeBytes(bytes, startIndex, bytes.size());
+                        break;
+                    }
+                }
+            } else {
+                if (!isFindStart) {
+                    if (endWith(byteArray, head)) {
+                        startIndex = bytes.size() - headLen;
+                        isFindStart = true;
+                    }
+                } else if (!isFindEnd) {
+                    if (endWith(byteArray, tail)) {
+                        if (startIndex + headLen <= bytes.size() - tailLen) {
+                            isFindEnd = true;
                             result = getRangeBytes(bytes, startIndex, bytes.size());
                             break;
                         }
                     }
-                } else {
-                    if (!isFindStart) {
-                        if (endWith(byteArray, head)) {
-                            startIndex = bytes.size() - headLen;
-                            isFindStart = true;
-                        }
-                    } else if (!isFindEnd) {
-                        if (endWith(byteArray, tail)) {
-                            if (startIndex + headLen <= bytes.size() - tailLen) {
-                                isFindEnd = true;
-                                result = getRangeBytes(bytes, startIndex, bytes.size());
-                                break;
-                            }
-                        }
-                    }
-
                 }
+
             }
-            if (len == -1) {
-                return null;
-            }
+        }
+        if (len == -1) {
+            return null;
+        }
         return result;
     }
 }

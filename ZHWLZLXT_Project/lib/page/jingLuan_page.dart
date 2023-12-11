@@ -85,7 +85,7 @@ class _JingLuanPageState extends State<JingLuanPage>
         spastic?.start(false);
         this.startSelected = false;
         JljCureState = this.startSelected;
-        electrotherapyIsRunIng = startSelected;
+        electrotherapyIsRunIng = this.startSelected;
         eventBus.fire(Notify());
         setState(() {
           Future.delayed(const Duration(milliseconds: 500), () {
@@ -102,7 +102,7 @@ class _JingLuanPageState extends State<JingLuanPage>
           spastic?.init(true);
           spastic?.start(false);
           this.startSelected = false;
-          electrotherapyIsRunIng = startSelected;
+          electrotherapyIsRunIng = this.startSelected;
           JljCureState = this.startSelected;
           eventBus.fire(Notify());
           setState(() {

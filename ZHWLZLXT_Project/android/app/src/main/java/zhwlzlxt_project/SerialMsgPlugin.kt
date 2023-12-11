@@ -118,19 +118,11 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
+        val split = bRec.split("ABBA")
+        if (split.size > 2) {
 
-        Log.i("ByteArrToHex", "onPortDataReceived: "+bRec)
-//        if (toUnsignedInt(paramComBean.bRec[2])==1){
-//            handler.post {
-//                toFlutter.invokeMethod("onHeart", serialPortHelper.count, object : MethodChannel.Result {
-//                    override fun success(o: Any?) {}
-//                    override fun error(s: String, s1: String?, o: Any?) {}
-//                    override fun notImplemented() {}
-//                })
-//            }
-//        }
-
-
+        }
+        Log.i("ByteArrToHex", "onPortDataReceived: " + bRec)
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {
 //                val bRec = ByteArrToHex(paramComBean.bRec)

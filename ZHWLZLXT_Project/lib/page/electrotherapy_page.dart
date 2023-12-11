@@ -142,7 +142,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                       Expanded(
                         child: Center(
                           child: SizedBox(
-                            height: 50.h,
+                            height: 55.h,
                             // color:Colors.black,
                             child: Cum.TabBar(
                               indicatorColor: const Color(0xFF00A8E7),

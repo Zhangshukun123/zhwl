@@ -96,6 +96,12 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         //结束治疗
         midFrequency?.init(true);
         midFrequency?.start1(false);
+
+        if(aliveAuto){
+          midFrequency?.init2(false);
+          erStartSelected = false;
+        }
+
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
@@ -113,6 +119,10 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           midFrequency?.init(true);
           midFrequency?.start1(false);
           yiStartSelected = false;
+          if(aliveAuto){
+            midFrequency?.init2(false);
+            erStartSelected = false;
+          }
           electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           ZpgrdCureState = yiStartSelected || erStartSelected;
           eventBus.fire(Notify());
