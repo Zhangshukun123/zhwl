@@ -137,12 +137,18 @@ class Record {
     if (!TextUtil.isEmpty(strengthGrade)) {
       infos.add('强度：$strengthGrade');
     }
+    if (!TextUtil.isEmpty(strengthGradeA)) {
+      infos.add('强度A：$strengthGradeA');
+    }
+    if (!TextUtil.isEmpty(strengthGradeB)) {
+      infos.add('强度B：$strengthGradeB');
+    }
     if (!TextUtil.isEmpty(soundIntensity)) {
       infos.add('声强：${soundIntensity}w/c㎡');
     }
-    if (!TextUtil.isEmpty(frequency)&&frequency!.endsWith('次/min')) {
+    if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
       infos.add('频率：$frequency');
-    }else if (!TextUtil.isEmpty(frequency)) {
+    } else if (!TextUtil.isEmpty(frequency)) {
       infos.add('频率：${frequency}Hz');
     }
 
@@ -195,12 +201,18 @@ class Record {
     if (!TextUtil.isEmpty(strengthGrade)) {
       mapData['强度'] = strengthGrade!;
     }
+    if (!TextUtil.isEmpty(strengthGradeA)) {
+      mapData['强度A'] = strengthGradeA!;
+    }
+    if (!TextUtil.isEmpty(strengthGradeB)) {
+      mapData['强度B'] = strengthGradeB!;
+    }
     if (!TextUtil.isEmpty(soundIntensity)) {
       mapData['声强'] = '${soundIntensity}w/c㎡';
     }
-    if (!TextUtil.isEmpty(frequency)&&frequency!.endsWith('次/min')) {
+    if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
       mapData['频率'] = '$frequency';
-    }else if (!TextUtil.isEmpty(frequency)) {
+    } else if (!TextUtil.isEmpty(frequency)) {
       mapData['频率'] = '${frequency}Hz';
     }
     if (!TextUtil.isEmpty(width)) {
@@ -225,7 +237,7 @@ class Record {
       mapData['震动打开时间'] = '${zdTime}min';
     }
     if (!TextUtil.isEmpty(dataTime)) {
-      mapData['时间'] = '$dataTime';
+      mapData['记录时间'] = '$dataTime';
     }
     return mapData;
   }

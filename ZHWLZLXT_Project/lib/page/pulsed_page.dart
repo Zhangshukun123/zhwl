@@ -103,7 +103,8 @@ class _PulsedPageState extends State<PulsedPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         pulsed?.init(true);
-        pulsed?.start(false, false);
+        switchSelected = false;
+        pulsed?.start(false, false,false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.pulsed));
         });
@@ -117,7 +118,7 @@ class _PulsedPageState extends State<PulsedPage>
         if (_countdownTime < 1) {
           _timer?.cancel();
           pulsed?.init(true);
-          pulsed?.start(false, false);
+          pulsed?.start(false, false,false);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.pulsed));
           });
@@ -132,7 +133,7 @@ class _PulsedPageState extends State<PulsedPage>
         pulsed?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
         eventBus.fire(runTime);
-        pulsed?.start(startSelected, switchSelected);
+        pulsed?.start(startSelected, switchSelected,false);
       }
     }
 
@@ -177,7 +178,7 @@ class _PulsedPageState extends State<PulsedPage>
                             minValue: 0,
                             valueListener: (value) {
                               pulsed?.power = value.toString();
-                              pulsed?.start(true, switchSelected);
+                              pulsed?.start(true, switchSelected,false);
                             },
                           )),
                       ContainerBg(
@@ -281,7 +282,7 @@ class _PulsedPageState extends State<PulsedPage>
                                             switchSelected = !switchSelected;
                                             setState(() {});
                                             pulsed?.start(
-                                                startSelected, switchSelected);
+                                                startSelected, switchSelected,false);
                                           }
                                         }),
                                   )),
@@ -380,7 +381,7 @@ class _PulsedPageState extends State<PulsedPage>
                                           });
                                         }
                                         pulsed?.start(
-                                            startSelected, switchSelected);
+                                            startSelected, switchSelected,startSelected);
                                         MccCureState = startSelected;
                                         setState(() {
                                           //点击开始治疗

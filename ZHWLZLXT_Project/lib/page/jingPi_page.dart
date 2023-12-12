@@ -88,7 +88,7 @@ class _JingPiPageState extends State<JingPiPage>
         //计时结束
         //结束治疗
         percutaneous?.init(true);
-        percutaneous?.start1(false);
+        percutaneous?.start1(false,false);
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
@@ -104,7 +104,7 @@ class _JingPiPageState extends State<JingPiPage>
         if (_countdownTime1 < 1) {
           _timer1?.cancel();
           percutaneous?.init(true);
-          percutaneous?.start1(false);
+          percutaneous?.start1(false,false);
           yiStartSelected = false;
           electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           JpsjCureState = yiStartSelected || erStartSelected;
@@ -121,7 +121,7 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.timeA = _countdownTime1.toString();
         RunTime runTime = RunTime(_countdownTime1.toDouble(), 2002);
         eventBus.fire(runTime);
-        percutaneous?.start1(yiStartSelected);
+        percutaneous?.start1(yiStartSelected,false);
       }
     }
 
@@ -142,7 +142,7 @@ class _JingPiPageState extends State<JingPiPage>
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
         percutaneous?.initB(true);
-        percutaneous?.start2(false);
+        percutaneous?.start2(false,false);
         erStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
@@ -157,7 +157,7 @@ class _JingPiPageState extends State<JingPiPage>
         if (_countdownTime2 < 1) {
           _timer2?.cancel();
           percutaneous?.initB(true);
-          percutaneous?.start2(false);
+          percutaneous?.start2(false,false);
           erStartSelected = false;
           electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           JpsjCureState = yiStartSelected || erStartSelected;
@@ -173,7 +173,7 @@ class _JingPiPageState extends State<JingPiPage>
         percutaneous?.timeB = _countdownTime2.toString();
         RunTime runTime = RunTime(_countdownTime2.toDouble(), 2003);
         eventBus.fire(runTime);
-        percutaneous?.start2(erStartSelected);
+        percutaneous?.start2(erStartSelected,false);
       }
     }
 
@@ -270,7 +270,7 @@ class _JingPiPageState extends State<JingPiPage>
                           minValue: 0,
                           valueListener: (value) {
                             percutaneous?.powerA = value.toString();
-                            percutaneous?.start1(true);
+                            percutaneous?.start1(true,false);
                           },
                         ),
                       ),
@@ -342,7 +342,6 @@ class _JingPiPageState extends State<JingPiPage>
                               child: TextButton(
                                 onPressed: () {
                                   yiStartSelected = !yiStartSelected;
-
                                   if (!yiStartSelected) {
                                     percutaneous?.init(true);
                                     Future.delayed(
@@ -351,7 +350,7 @@ class _JingPiPageState extends State<JingPiPage>
                                           TreatmentType.percutaneous));
                                     });
                                   }
-                                  percutaneous?.start1(yiStartSelected);
+                                  percutaneous?.start1(yiStartSelected,yiStartSelected);
                                   electrotherapyIsRunIng =
                                       yiStartSelected || erStartSelected;
                                   eventBus.fire(Notify());
@@ -515,7 +514,7 @@ class _JingPiPageState extends State<JingPiPage>
                           minValue: 0,
                           valueListener: (value) {
                             percutaneous?.powerB = value.toString();
-                            percutaneous?.start2(true);
+                            percutaneous?.start2(true,false);
                           },
                         ),
                       ),
@@ -597,7 +596,7 @@ class _JingPiPageState extends State<JingPiPage>
                                     });
                                   }
 
-                                      percutaneous?.start2(erStartSelected);
+                                      percutaneous?.start2(erStartSelected,erStartSelected);
                                   electrotherapyIsRunIng =
                                       erStartSelected || yiStartSelected;
                                   eventBus.fire(Notify());

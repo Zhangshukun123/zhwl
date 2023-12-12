@@ -92,8 +92,10 @@ class MidFrequency {
   DateTime? startTime;
   DateTime? endTime;
   User? user;
-  bool start1(bool isStart) {
-    if(isStart){
+  String? settingTimeA;
+  bool start1(bool isStart,isOpenStart) {
+    if(isStart&&isOpenStart){
+      settingTimeA = timeA;
       startTime = DateTime.now();
     }
     // final TreatmentController controller = Get.find();
@@ -188,7 +190,7 @@ class MidFrequency {
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
           prescription: patternA,
-          utilityTime: timeA,
+          utilityTime: settingTimeA,
           recordType: '中频/干扰电治疗',
           actionTime: min,
           strengthGrade: powerA,
@@ -201,10 +203,11 @@ class MidFrequency {
 
   DateTime? startTime2;
   DateTime? endTime2;
+  String? settingTimeB;
+  bool start2(bool isStart,{ isOpenStart}) {
 
-  bool start2(bool isStart) {
-
-    if(isStart){
+    if(isStart&&isOpenStart){
+      settingTimeB=timeB;
       startTime2 = DateTime.now();
     }
 
@@ -303,7 +306,7 @@ class MidFrequency {
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
           prescription: patternB,
-          utilityTime: timeB,
+          utilityTime: settingTimeB,
           recordType: '中频/干扰电治疗',
           actionTime: min,
           strengthGrade: powerB,

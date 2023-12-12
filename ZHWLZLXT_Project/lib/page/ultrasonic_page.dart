@@ -105,7 +105,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             wdText = '温度异常';
             wdOnline = false;
             ultrasonic?.init(true);
-            ultrasonic?.start(false);
+            ultrasonic?.start(false,false);
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.ultrasonic));
             });
@@ -138,7 +138,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             wdText = '温度异常';
             wdOnline = false;
             ultrasonic?.init(true);
-            ultrasonic?.start(false);
+            ultrasonic?.start(false,false);
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.ultrasonic));
             });
@@ -227,7 +227,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         ultrasonic?.init(true);
-        ultrasonic?.start(false);
+        ultrasonic?.start(false,false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.ultrasonic));
         });
@@ -242,7 +242,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         if (_countdownTime < 1) {
           _timer?.cancel();
           ultrasonic?.init(true);
-          ultrasonic?.start(false);
+          ultrasonic?.start(false,false);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.ultrasonic));
           });
@@ -256,7 +256,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         ultrasonic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
         eventBus.fire(runTime);
-        ultrasonic?.start(this.startSelected);
+        ultrasonic?.start(this.startSelected,false);
       }
     }
 
@@ -453,7 +453,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
-                                  ultrasonic?.start(startSelected);
+                                  ultrasonic?.start(startSelected,false);
                                 }
                                 // cPower.add(value.toString());
                               },
@@ -590,7 +590,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
-                                              ultrasonic?.start(startSelected);
+                                              ultrasonic?.start(startSelected,startSelected);
                                               cureState = startSelected;
 
                                               setState(() {

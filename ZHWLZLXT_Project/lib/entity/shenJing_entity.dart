@@ -37,6 +37,7 @@ class Neuromuscular {
   String? timeB;
   String? powerB;
   String? frequencyB;
+  String? settingTime;
 
 
   Neuromuscular({
@@ -114,9 +115,10 @@ class Neuromuscular {
   DateTime? startTime;
   DateTime? endTime;
   User? user;
-  bool start1(bool isStart) {
+  bool start1(bool isStart,bool isOpenStart) {
 
-    if(isStart){
+    if(isStart&&isOpenStart){
+      settingTime = timeA;
       startTime = DateTime.now();
     }
 
@@ -228,7 +230,7 @@ class Neuromuscular {
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
           pattern: patternA,
-          utilityTime: timeA,
+          utilityTime: settingTime,
           recordType: '神经肌肉电刺激',
           actionTime: min,
           strengthGrade: powerA,
@@ -243,19 +245,13 @@ class Neuromuscular {
 
   DateTime? startTime2;
   DateTime? endTime2;
+String? settingTimeB;
 
-
-  bool start2(bool isStart) {
-
-    if(isStart){
+  bool start2(bool isStart,bool isOpenStart) {
+    if(isStart&&isOpenStart){
+      settingTimeB = timeB;
       startTime2 = DateTime.now();
     }
-
-    // final TreatmentController controller = Get.find();
-    // if (controller.user.value.userId == 0||controller.user.value.userId == null) {
-    //   Fluttertoast.showToast(msg: '请选择用户',fontSize: 22,backgroundColor: Colors.blue);
-    //   return false;
-    // }
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01;
@@ -367,7 +363,7 @@ class Neuromuscular {
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
           pattern: patternB,
-          utilityTime: timeB,
+          utilityTime: settingTimeB,
           recordType: '神经肌肉电刺激',
           actionTime: min,
           strengthGrade: powerB,

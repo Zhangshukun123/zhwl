@@ -35,7 +35,7 @@ class Pulsed {
   });
 
   init(bool isSave) {
-    if(isSave){
+    if (isSave) {
       save();
     }
     time = '20';
@@ -74,9 +74,9 @@ class Pulsed {
   String? settIngTime;
   bool? isStart;
 
-  bool start(bool isStart, bool isOpen) {
+  bool start(bool isStart, bool isOpen, bool isStartOpen) {
     this.isStart = isStart;
-    if (isStart) {
+    if (isStart && isStartOpen) {
       settIngTime = time;
       startTime = DateTime.now();
     }
@@ -168,7 +168,7 @@ class Pulsed {
       }
     } else {
       zdStartTime = DateTime.now();
-      zdTime=1;
+      zdTime = 1;
     }
 
     SerialPort().send(data);
@@ -176,30 +176,29 @@ class Pulsed {
   }
 
   void save() {
-
     if (user != null && user?.userId != 0) {
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: settIngTime,
-          recordType: Globalization.pulse.tr,
-          strengthGrade: power,
-          actionTime: min,
-          frequency: '$frequency次/min',
-          zdTime: zdTime.toString(),
-        );
-        RecordSqlDao.instance().addData(record: record);
-        zdTime = 0;
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: settIngTime,
+        recordType: Globalization.pulse.tr,
+        strengthGrade: power,
+        actionTime: min,
+        frequency: '$frequency次/min',
+        zdTime: zdTime.toString(),
+      );
+      RecordSqlDao.instance().addData(record: record);
+      zdTime = 0;
     }
   }
 }

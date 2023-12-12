@@ -35,6 +35,7 @@ class Ultrasonic {
   String? power = '0.0';
   String? soundIntensity = '0.0';
   String? frequency = '1';
+  String? setTime = '1';
 
   Ultrasonic({
     this.userId,
@@ -85,9 +86,10 @@ class Ultrasonic {
 
   User? user;
 
-  bool start(bool isStart) {
+  bool start(bool isStart,isOpenStart) {
 
-    if(isStart){
+    if(isStart&&isOpenStart){
+      setTime = time;
       startTime = DateTime.now();
     }
 
@@ -254,7 +256,7 @@ class Ultrasonic {
         userId: user?.userId,
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-        utilityTime: time,
+        utilityTime: setTime,
         pattern: pattern,
         recordType: Globalization.ultrasound.tr,
         power: power,

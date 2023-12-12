@@ -82,7 +82,7 @@ class _JingLuanPageState extends State<JingLuanPage>
         //计时结束
         //结束治疗
         spastic?.init(true);
-        spastic?.start(false);
+        spastic?.start(false,false);
         this.startSelected = false;
         JljCureState = this.startSelected;
         electrotherapyIsRunIng = this.startSelected;
@@ -100,7 +100,7 @@ class _JingLuanPageState extends State<JingLuanPage>
           //计时结束
           //结束治疗
           spastic?.init(true);
-          spastic?.start(false);
+          spastic?.start(false,false);
           this.startSelected = false;
           electrotherapyIsRunIng = this.startSelected;
           JljCureState = this.startSelected;
@@ -117,7 +117,7 @@ class _JingLuanPageState extends State<JingLuanPage>
         spastic?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 2001);
         eventBus.fire(runTime);
-        spastic?.start(startSelected);
+        spastic?.start(this.startSelected,false);
       }
     }
 
@@ -244,7 +244,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerA = value.toString();
-                        spastic?.start(true);
+                        spastic?.start(true,false);
                       },
                     ),
                     SetValueHorizontal(
@@ -258,7 +258,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerB = value.toString();
-                        spastic?.start(true);
+                        spastic?.start(true,false);
                       },
                     ),
                     Container(
@@ -311,7 +311,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                                           SetValueState(TreatmentType.spasm));
                                     });
                                   }
-                                  spastic?.start(startSelected);
+                                  spastic?.start(startSelected,startSelected);
                                   electrotherapyIsRunIng = startSelected;
                                   JljCureState = startSelected;
                                   eventBus.fire(Notify());

@@ -587,15 +587,19 @@ class _RecordPageState extends State<RecordPage> {
         Map<String, String> mapVa = element.getListTitle();
         mapVa.forEach((key, value) {
           if (!mapKey.contains(key)) {
-            if (mapKey.isNotEmpty && mapKey[mapKey.length - 1] == "时间") {
-              mapKey.removeAt(mapKey.length - 1);
-            }
+            // if (mapKey.isNotEmpty && mapKey[mapKey.length - 1] == "时间") {
+            //   mapKey.removeAt(mapKey.length - 1);
+            // }
             mapKey.add(key);
-            mapKey.add('时间');
+            // mapKey.add('时间');
           }
         });
       }
     }
+    if(mapKey.contains("记录时间")){
+      mapKey.remove("记录时间");
+    }
+    mapKey.add("记录时间");
     int kI = 1;
     for (var element in mapKey) {
       sheetObject.cell(CellIndex.indexByString('${k[kI]}1')).value = element;

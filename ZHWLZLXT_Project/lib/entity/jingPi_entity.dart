@@ -42,6 +42,8 @@ class Percutaneous {
   String? powerB;
   String? frequencyB;
   String? pulseB;
+  String? settingTime;
+  String? settingTimeB;
 
   Percutaneous({
     this.userId,
@@ -116,8 +118,9 @@ class Percutaneous {
   DateTime? endTime;
   User? user;
 
-  bool start1(bool isStart) {
-    if (isStart) {
+  bool start1(bool isStart,bool isOpenStart) {
+    if (isStart&&isOpenStart) {
+      settingTime = timeA;
       startTime = DateTime.now();
     }
 
@@ -252,7 +255,7 @@ class Percutaneous {
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
         pattern: patternA,
-        utilityTime: timeA,
+        utilityTime: settingTime,
         width: pulseA,
         recordType: '经皮神经电刺激',
         actionTime: min,
@@ -268,8 +271,9 @@ class Percutaneous {
   DateTime? startTime2;
   DateTime? endTime2;
 
-  bool start2(bool isStart) {
-    if (isStart) {
+  bool start2(bool isStart,bool isOpenStart) {
+    if (isStart&&isOpenStart) {
+      settingTimeB = timeB;
       startTime2 = DateTime.now();
     }
 
@@ -404,7 +408,7 @@ class Percutaneous {
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
         pattern: patternB,
-        utilityTime: timeB,
+        utilityTime: settingTimeB,
         recordType: '经皮神经电刺激',
         actionTime: min,
         strengthGrade: powerB,

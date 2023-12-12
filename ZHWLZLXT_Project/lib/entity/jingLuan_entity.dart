@@ -36,6 +36,7 @@ class Spastic {
   String? delayTime;
   String? powerA;
   String? powerB;
+  String? settingTime;
 
   Spastic({
     this.userId,
@@ -93,8 +94,9 @@ class Spastic {
 
   User? user;
 
-  bool start(bool isStart) {
-    if (isStart) {
+  bool start(bool isStart, bool isOpenStart) {
+    if (isStart && isOpenStart) {
+      settingTime = time;
       startTime = DateTime.now();
     }
 
@@ -228,6 +230,9 @@ class Spastic {
       if (!TextUtil.isEmpty(widthB)) {
         widthB = double.parse(widthB!).toStringAsFixed(1);
       }
+      if (!TextUtil.isEmpty(circle)) {
+        circle = double.parse(circle!).toStringAsFixed(1);
+      }
       endTime = DateTime.now();
       String min = '';
       Duration diff = endTime!.difference(startTime!);
@@ -241,7 +246,7 @@ class Spastic {
         userId: user?.userId,
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-        utilityTime: time,
+        utilityTime: settingTime,
         recordType: '痉挛肌治疗',
         actionTime: min,
         circle: circle,

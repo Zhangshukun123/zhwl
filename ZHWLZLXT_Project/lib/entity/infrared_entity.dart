@@ -38,7 +38,7 @@ class InfraredEntity {
     this.pattern,
     this.isStart,
   });
-
+  String? settingTime;
   void init(bool isSave) {
 
     if(isSave){
@@ -72,7 +72,7 @@ class InfraredEntity {
   DateTime? endTime;
   User? user;
 
-  bool start(bool isStart) {
+  bool start(bool isStart,bool isOpenStart) {
     // final TreatmentController controller = Get.find();
     // print('--------------${controller.user.value.userId}');
     // if (controller.user.value.userId == 0 ||
@@ -82,7 +82,8 @@ class InfraredEntity {
     //   return false;
     // }
 
-    if(isStart){
+    if(isStart&&isOpenStart){
+      settingTime = time;
       startTime = DateTime.now();
     }
 
@@ -229,7 +230,7 @@ class InfraredEntity {
           userId: user?.userId,
           dataTime: formatDate(DateTime.now(),
               [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: time,
+          utilityTime: settingTime,
           pattern: pattern,
           recordType: Globalization.infrared.tr,
           strengthGrade: power,

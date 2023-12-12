@@ -127,7 +127,7 @@ class _InfraredPageState extends State<InfraredPage>
         //计时结束
 
         infraredEntity?.init(true);
-        infraredEntity?.start(false);
+        infraredEntity?.start(false,false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.infrared));
         });
@@ -144,7 +144,7 @@ class _InfraredPageState extends State<InfraredPage>
           _timer?.cancel();
           //计时结束
           infraredEntity?.init(true);
-          infraredEntity?.start(false);
+          infraredEntity?.start(false,false);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.infrared));
           });
@@ -162,7 +162,7 @@ class _InfraredPageState extends State<InfraredPage>
         infraredEntity?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
         eventBus.fire(runTime);
-        infraredEntity?.start(startSelected);
+        infraredEntity?.start(startSelected,false);
       }
     }
 
@@ -184,7 +184,7 @@ class _InfraredPageState extends State<InfraredPage>
               isScram = true;
               startSelected = false;
               infraredEntity?.init(true);
-              infraredEntity?.start(false);
+              infraredEntity?.start(false,false);
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.infrared));
               });
@@ -264,7 +264,7 @@ class _InfraredPageState extends State<InfraredPage>
                             valueListener: (value) {
                               infraredEntity?.power = value.toString();
                               if(startSelected){
-                                infraredEntity?.start(startSelected);
+                                infraredEntity?.start(startSelected,false);
                               }
                             },
                           )),
@@ -487,7 +487,7 @@ class _InfraredPageState extends State<InfraredPage>
                                               });
                                         }
                                         // thirdStartSelected = !thirdStartSelected;
-                                        infraredEntity?.start(startSelected);
+                                        infraredEntity?.start(startSelected,startSelected);
                                         HwpzgCureState = startSelected;
                                         infraredEntity?.user?.isCure = startSelected;
                                         setState(() {
