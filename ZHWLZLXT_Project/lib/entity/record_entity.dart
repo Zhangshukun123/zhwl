@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:get/get.dart';
+
+import '../base/globalization.dart';
 
 class RecordField {
   static String recordId = "recordId"; // ID
@@ -123,55 +126,55 @@ class Record {
   List<String>? getInfoList() {
     List<String> infos = [];
     if (!TextUtil.isEmpty(pattern)) {
-      infos.add('模式：$pattern');
+      infos.add('${Globalization.mode.tr}：$pattern');
     }
     if (!TextUtil.isEmpty(prescription)) {
-      infos.add('处方：$prescription');
+      infos.add('${Globalization.recipe.tr}：$prescription');
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      infos.add('设定时间：${utilityTime}min');
+      infos.add('${Globalization.setTime.tr}：${utilityTime}min');
     }
     if (!TextUtil.isEmpty(power)) {
-      infos.add('功率：${power}w');
+      infos.add('${Globalization.power.tr}：${power}w');
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      infos.add('强度：$strengthGrade');
+      infos.add('${Globalization.intensity.tr}：$strengthGrade');
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      infos.add('强度A：$strengthGradeA');
+      infos.add('${Globalization.intensityA.tr}：$strengthGradeA');
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      infos.add('强度B：$strengthGradeB');
+      infos.add('${Globalization.intensityB.tr}：$strengthGradeB');
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
-      infos.add('声强：${soundIntensity}w/c㎡');
+      infos.add('${Globalization.soundIntensity.tr}：${soundIntensity}w/c㎡');
     }
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
-      infos.add('频率：$frequency');
+      infos.add('${Globalization.frequency.tr}：$frequency');
     } else if (!TextUtil.isEmpty(frequency)) {
-      infos.add('频率：${frequency}Hz');
+      infos.add('${Globalization.frequency.tr}：${frequency}Hz');
     }
 
     if (!TextUtil.isEmpty(width)) {
-      infos.add('脉宽：${width}ms');
+      infos.add('${Globalization.pulseWidth.tr}：${width}ms');
     }
     if (!TextUtil.isEmpty(widthA)) {
-      infos.add('脉宽A：${widthA}ms');
+      infos.add('${Globalization.pulseWidthA.tr}：${widthA}ms');
     }
     if (!TextUtil.isEmpty(widthB)) {
-      infos.add('脉宽B：${widthB}ms');
+      infos.add('${Globalization.pulseWidthB.tr}：${widthB}ms');
     }
     if (!TextUtil.isEmpty(delayTime)) {
-      infos.add('延时时间：${delayTime}s');
+      infos.add('${Globalization.delayTime.tr}：${delayTime}s');
     }
     if (!TextUtil.isEmpty(circle)) {
-      infos.add('脉冲周期：${circle}s');
+      infos.add('${Globalization.pulsePeriod.tr}：${circle}s');
     }
     if (!TextUtil.isEmpty(actionTime)) {
-      infos.add('治疗时长：${actionTime}min');
+      infos.add('${Globalization.cureTime.tr}：${actionTime}min');
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      infos.add('震动打开时间：${zdTime}min');
+      infos.add('${Globalization.openTime.tr}：${zdTime}min');
     }
     return infos;
   }
@@ -184,60 +187,60 @@ class Record {
   Map<String, String> getListTitle() {
     Map<String, String> mapData = {};
     if (!TextUtil.isEmpty(recordType)) {
-      mapData['治疗方式'] = recordType!;
+      mapData[Globalization.therapyMethod.tr] = recordType!;
     }
     if (!TextUtil.isEmpty(pattern)) {
-      mapData['模式'] = pattern!;
+      mapData[Globalization.mode.tr] = pattern!;
     }
     if (!TextUtil.isEmpty(prescription)) {
-      mapData['处方'] = prescription!;
+      mapData[Globalization.recipe.tr] = prescription!;
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      mapData['设定时间'] = '${utilityTime}min';
+      mapData[Globalization.setTime.tr] = '${utilityTime}min';
     }
     if (!TextUtil.isEmpty(power)) {
-      mapData['功率'] = '${power}w';
+      mapData[Globalization.power.tr] = '${power}w';
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      mapData['强度'] = strengthGrade!;
+      mapData[Globalization.intensity.tr] = strengthGrade!;
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      mapData['强度A'] = strengthGradeA!;
+      mapData[Globalization.intensityA.tr] = strengthGradeA!;
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      mapData['强度B'] = strengthGradeB!;
+      mapData[Globalization.intensityB.tr] = strengthGradeB!;
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
-      mapData['声强'] = '${soundIntensity}w/c㎡';
+      mapData[Globalization.soundIntensity.tr] = '${soundIntensity}w/c㎡';
     }
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
-      mapData['频率'] = '$frequency';
+      mapData[Globalization.frequency.tr] = '$frequency';
     } else if (!TextUtil.isEmpty(frequency)) {
-      mapData['频率'] = '${frequency}Hz';
+      mapData[Globalization.frequency.tr] = '${frequency}Hz';
     }
     if (!TextUtil.isEmpty(width)) {
-      mapData['脉宽'] = '${width}ms';
+      mapData[Globalization.pulseWidth.tr] = '${width}ms';
     }
     if (!TextUtil.isEmpty(widthA)) {
-      mapData['脉宽A'] = '${widthA}ms';
+      mapData[Globalization.pulseWidthA.tr] = '${widthA}ms';
     }
     if (!TextUtil.isEmpty(widthB)) {
-      mapData['脉宽B'] = '${widthB}ms';
+      mapData[Globalization.pulseWidthB.tr] = '${widthB}ms';
     }
     if (!TextUtil.isEmpty(delayTime)) {
-      mapData['延时时间'] = '${delayTime}s';
+      mapData[Globalization.delayTime.tr] = '${delayTime}s';
     }
     if (!TextUtil.isEmpty(circle)) {
-      mapData['脉冲周期'] = '${circle}s';
+      mapData[Globalization.pulsePeriod.tr] = '${circle}s';
     }
     if (!TextUtil.isEmpty(actionTime)) {
-      mapData['治疗时长'] = '${actionTime}min';
+      mapData[Globalization.cureTime.tr] = '${actionTime}min';
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      mapData['震动打开时间'] = '${zdTime}min';
+      mapData[Globalization.openTime.tr] = '${zdTime}min';
     }
     if (!TextUtil.isEmpty(dataTime)) {
-      mapData['记录时间'] = '$dataTime';
+      mapData[Globalization.RecordTime.tr] = '$dataTime';
     }
     return mapData;
   }

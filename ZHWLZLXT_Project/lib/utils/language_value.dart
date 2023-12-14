@@ -117,6 +117,9 @@ class LanguageValue extends Translations {
           Globalization.intensityB: "强度(B)",
           Globalization.pulseWidth: "脉宽",
           Globalization.recipe: "处方",
+          Globalization.setTime: "设定时间",
+          Globalization.cureTime: "治疗时长",
+          Globalization.openTime: "震动打开时间",
           Globalization.ultrasound: "超声疗法",
           Globalization.pulse: "脉冲磁疗法",
           Globalization.infrared: "红外偏振光治疗",
@@ -125,6 +128,9 @@ class LanguageValue extends Translations {
           Globalization.tens: "经皮神经电刺激",
           Globalization.muscle: "神经肌肉电刺激",
           Globalization.medium: "中频/干扰电治疗",
+          Globalization.hint_007: "请输入电话",
+          Globalization.man: "男",
+          Globalization.nv: "女",
           Globalization.name: "姓名",
           Globalization.tel: "电话",
           Globalization.no: "编号",
@@ -157,8 +163,63 @@ class LanguageValue extends Translations {
           Globalization.factory: "出厂设置",
           Globalization.sweep: "扫频",
           Globalization.output: "输出功率",
-          Globalization.detailsSix:
-          '1.将电极片与电疗输出接口妥善连接。\n'
+          Globalization.back: "返回",
+          Globalization.startTimeDate: "开始时间",
+          Globalization.endTimeDate: "结束时间",
+          Globalization.hint_001: "获取用户信息错误，请退出重新登录！",
+          Globalization.hint_002: "请输入治疗方式",
+          Globalization.hint_003: "导出成功，导出文件",
+          Globalization.hint_004: "获取权限失败，请打开内部存储权限",
+          Globalization.hint_005: "请选择时间段",
+          Globalization.hint_006: "未找到数据",
+          Globalization.hint_007: "请输入电话",
+          Globalization.hint_008: "更新成功",
+          Globalization.hint_009: "更新失败",
+          Globalization.ExportMonth: "导出当月",
+          Globalization.ExportYear: "导出当年",
+          Globalization.ExportAll: "全部导出",
+          Globalization.therapyMethod: "治疗方式",
+          Globalization.derivedRecord: "导出记录",
+          Globalization.RecordTime: "记录时间",
+          Globalization.date: "日期",
+          Globalization.AttentionFour:
+              '1.电极片放置在人体上以后，不要操作治疗系统的电源开关，否则可能会产生瞬间电击感。治疗前，必须先打开电源开关，再把电极片放置在人体上，治疗结束后，必须先把电极片从患者身上取下来，再关闭电源开关。\n'
+                  '2.治疗时，强度应遵循由小到大的原则，循序渐进，强度以患者耐受力为准。若出现停电，请及时关闭电源开关，并摘除患者身上电极片。\n'
+                  '3.自粘电极片只能本人使用，不能与他人共用，避免交叉感染；与使用者接触的其它电极片，在治疗前后，应先用清水清洗后再使用医用棉球酿75%的医用酒精对电极片导电面进行擦试消毒后使用。\n'
+                  '4.电极片使用时应与皮肤紧密、均匀接触。\n'
+                  // '5.首次进行干扰电治疗使用吸附电极时，应先点击操作界面上的“水瓶”按钮进行排水操作，等15s后停止排水方可进行治疗。\n'
+                  // '6.吸附压力大小应适度，长时间大的负压可能导致吸附电极处皮肤出现红紫乃至于出现水泡的现象，因此在吸附电极放置完毕后应将压力大小调至保证吸附电极不脱落情况下的最小值，避免发生上述情况。\n'
+                  '5．靠近胸部使用电极片会增加心脏纤顿的危险，治疗时避免靠近胸部的刺激。',
+          Globalization.AttentionThree:
+              '1.必须避免使用易燃麻醉剂或氧化性气体如氧化亚氮（N₂O）和氧气（O₂）等；某些材料如棉毛物，在富含氧气时会被设备产生的高温点燃；用于清洗、消毒的溶剂和可燃溶液应在使用红外偏振光模块前使其挥发；避免内部气体点燃的危险。\n'
+                  '2.在使用过程中，要注意辐射距离应大于1cm；应避免眼或生殖器受到直射或散射辐射的照射，严禁直视辐射窗口。\n'
+                  '3.在治疗过程中，患者产生任何不适或出现意外情况时，请按急停开关，均应立即停止治疗。',
+          Globalization.AttentionTwo:
+              '1.开机前必须检查各处连接是否良好，接口处不能松动、滑脱，上电后，用脉冲磁模块显示默认设置状态，应根据实际需要设定各参数。\n'
+                  '2.治疗时，患者产生任何不适或出现意外情况时（如对磁场敏感者可能产生头晕、呕吐等晕磁现象），均应立即停止治疗。\n'
+                  '3.请使用该模块标配的治疗磁垫，不得随意更换为其它厂商提供的部件或材料，否则有可能因与该模块不匹配，造成输出值不稳定降低安全度，影响治疗效果或损坏该模块。\n'
+                  '4.治疗垫不可以在重叠放置时通电，也不能重叠、重压、折弯放置。\n'
+                  '5.请不要接近有手表、手饰等金属制品以及有磁性的物品。\n'
+                  '6.治疗时，患者产生任何不适或出现意外情况时，均应立即停止治疗。',
+          Globalization.detailsSeven: '中频/干扰电模块包括中频、干扰电两种治疗模式。\n'
+              '处方1～50是中频治疗处方，在中频治疗模式下有通道一、通道二两个治疗通道，互不干扰；\n'
+              '处方51～60是干扰电治疗处方，在干扰电治疗模式下两个通道同时工作。\n'
+              '中频操作说明：\n'
+              '1.将电极片与中频输出接口妥善连接。\n'
+              '2.处方选择范围1～50。\n'
+              '3.治疗时间已在处方内，不需要设置。\n'
+              '4.点击开始按钮，可以调节强度（0～99可调，步进为1），请慢速调节强度，在调节的过程中，不断询问患者的感受。\n'
+              '5.当设定治疗时间结束或手动停止输出，输出停止。\n'
+              '6.“+、-”键的图标为灰色表示不可选。\n'
+              '提示：中频治疗有两个不同的治疗通道，通道一、通道二可以单独进行治疗，也可以司时进行治疗。上述操作步骤以通道一为例。\n'
+              '干扰电操作说明：\n'
+              '1.干扰电输出，需要使用四个干扰电极片。\n'
+              '2.处方选择范围51～60。\n'
+              '3.治疗时间已在处方内，不需要设置。\n'
+              '4.点击开始按钮，可以调节强度（0～99可调，步进为1），请慢速调节输出强度，如果是负压吸附治疗调节吸附压力，在调节的过程中不断询问患者的感受。\n'
+              '5.当设定治疗时间结束或手动停止输出，输出停止。\n'
+              '6.“+、-”键的图标为灰色表示不可选。',
+          Globalization.detailsSix: '1.将电极片与电疗输出接口妥善连接。\n'
               '2.设置相关参数：模式、时间和频率；\n'
               '2.1模式：通过调节选择完全失神经和部分失神经；\n'
               '2.2频率：\n'
@@ -170,8 +231,7 @@ class LanguageValue extends Translations {
               '5.当设定治疗时间结束或手动停止输出，输出停止。\n'
               '6.“+、-”键的图标为灰色表示不可选。\n'
               '提示：神经肌肉电刺激治疗有两个不同的治疗通道，通道一、通道二可以单独进行治疗，也可以同时进行治疗。上述操作步骤以通道一为例。',
-          Globalization.detailsFive:
-          '1.将电极片与电疗输出接口妥善连接。\n'
+          Globalization.detailsFive: '1.将电极片与电疗输出接口妥善连接。\n'
               '2.设置相关参数：模式、时间、频率和脉宽；\n'
               '2.1模式：通过调节选择连续、慢速断续输出或快速断续输出模式；\n'
               '2.2频率：2Hz～160Hz可调，步进1Hz；\n'

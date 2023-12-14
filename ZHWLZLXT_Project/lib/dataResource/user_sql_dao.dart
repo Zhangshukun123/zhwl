@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
+import '../base/globalization.dart';
 import '../cofig/sql_config.dart';
 import '../utils/sql_tool.dart';
 import '../utils/sql_utils.dart';
@@ -36,7 +38,6 @@ class UserSqlDao {
     return map;
   }
 
-
   queryUserForUserId({
     required int userId,
   }) async {
@@ -45,8 +46,6 @@ class UserSqlDao {
     sqlUtils.close();
     return map;
   }
-
-
 
   queryIUser({
     required String key,
@@ -76,9 +75,9 @@ class UserSqlDao {
         whereStr: '${UserTableField.userId} = ?',
         whereArgs: [user.userId]);
     await sqlUtils.close();
-    String str = "更新成功";
+    String str = Globalization.hint_008.tr;
     if (type != 1) {
-      str = "更新失败";
+      str = Globalization.hint_009.tr;
     }
     showToastMsg(msg: str);
     return type;

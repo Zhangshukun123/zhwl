@@ -86,6 +86,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
+      unline = Globalization.unlink.tr;
+      wdText = Globalization.temperatureNormals.tr;
       setState(() {});
     });
 
@@ -114,7 +116,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           }
         } else if (list[11] == 1) {
           ultrasonic?.frequency = "1";
-          ultrasonicController.ultrasonic.frequency.value = 1;
           prowText = '1';
           onLine = true;
           unline =Globalization.onLine.tr;
@@ -146,7 +147,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             wdOnline = true;
           }
         } else if (list[11] == 1) {
-          ultrasonicController.ultrasonic.frequency.value = 2;
           ultrasonic?.frequency = "3";
           prowText = '3';
           onLine = true;

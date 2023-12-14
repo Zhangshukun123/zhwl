@@ -120,7 +120,7 @@ class _AddPageState extends State<AddPage> {
                     SizedBox(width: 10.w,),
                     Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
                     Text(
-                      '返回',
+                      Globalization.back.tr,
                       style: TextStyle(fontSize: 18.sp),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -312,7 +312,7 @@ class _AddPageState extends State<AddPage> {
                                   width: 5.w,
                                 ),
                                 Text(
-                                  '男',
+                                  Globalization.man.tr,
                                   style: TextStyle(
                                       color: const Color(0xFF333333),
                                       fontSize: 15.sp),
@@ -333,7 +333,7 @@ class _AddPageState extends State<AddPage> {
                                   width: 5.w,
                                 ),
                                 Text(
-                                  '女',
+                                  Globalization.nv.tr,
                                   style: TextStyle(
                                       color: const Color(0xFF333333),
                                       fontSize: 15.sp),
@@ -381,7 +381,7 @@ class _AddPageState extends State<AddPage> {
                           decoration: InputDecoration(
                             counterText: '',
                             border: const OutlineInputBorder(),
-                            hintText: '请输入电话',
+                            hintText: Globalization.hint_007.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),

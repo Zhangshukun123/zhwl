@@ -13,6 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../base/globalization.dart';
 import '../entity/record_entity.dart';
@@ -34,15 +35,15 @@ class _RecordPageState extends State<RecordPage> {
   List<Record> records = [];
   List<Record> recordsList = [];
 
-  String startTimeDate = '开始时间';
-  String endTimeDate = '结束时间';
+  String startTimeDate = Globalization.startTimeDate.tr;
+  String endTimeDate = Globalization.endTimeDate.tr;
   var excel = Excel.createExcel();
 
   @override
   void initState() {
     super.initState();
     if (widget.userId == null || widget.userId == 0) {
-      Fluttertoast.showToast(msg: '获取用户信息错误，请退出重新登录！');
+      showToastMsg(msg: Globalization.hint_001.tr);
       Get.back();
       return;
     }
@@ -76,7 +77,6 @@ class _RecordPageState extends State<RecordPage> {
     for (var map in value) {
       records.add(Record.fromMap(map));
     }
-    print("-----------${records[records.length-1].toMap().toString()}");
     recordsList.addAll(records.reversed.toList());
     setState(() {});
   }
@@ -87,14 +87,8 @@ class _RecordPageState extends State<RecordPage> {
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7F9),
-      // appBar: AppBar(
-      //   title: Text(
-      //     '治疗记录',
-      //     style: TextStyle(fontSize: 18.sp, color: Colors.white),
-      //   ),
-      // ),
       appBar: AppBar(
-        automaticallyImplyLeading : false,
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,18 +100,24 @@ class _RecordPageState extends State<RecordPage> {
                   color: const Color(0xFF19B1E9),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.w),
-                  )
-              ),
+                  )),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: Row(
                   children: <Widget>[
-                    SizedBox(width: 10.w,),
-                    Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Image.asset(
+                      'assets/images/2.0x/btn_fanhui.png',
+                      width: 14.w,
+                      height: 14.h,
+                      fit: BoxFit.fitWidth,
+                    ),
                     Text(
-                      '返回',
+                      Globalization.back.tr,
                       style: TextStyle(fontSize: 18.sp),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -128,8 +128,10 @@ class _RecordPageState extends State<RecordPage> {
             ),
             Expanded(
               child: Center(
-                  child: Text(Globalization.treatmentRecords.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
-              ),
+                  child: Text(
+                Globalization.treatmentRecords.tr,
+                style: TextStyle(fontSize: 18.sp, color: Colors.white),
+              )),
             )
           ],
         ),
@@ -161,10 +163,10 @@ class _RecordPageState extends State<RecordPage> {
                         )),
                     child: TextField(
                       controller: searchController,
-                      decoration: const InputDecoration(
-                        hintText: '请输入治疗方式',
+                      decoration: InputDecoration(
+                        hintText: Globalization.hint_002.tr,
                         border: InputBorder.none,
-                        icon: Icon(Icons.search),
+                        icon: const Icon(Icons.search),
                       ),
                       style: TextStyle(fontSize: 15.sp),
                     ),
@@ -218,7 +220,7 @@ class _RecordPageState extends State<RecordPage> {
                             var fileBytes = excel.save();
                             // var directory = await getExternalStorageDirectory();
                             String path =
-                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                "/storage/emulated/0/userRec/${widget.userName}/${formatDate(DateTime.now(), [
                                   yyyy,
                                   '-',
                                   mm,
@@ -233,15 +235,14 @@ class _RecordPageState extends State<RecordPage> {
                               ..createSync(recursive: true)
                               ..writeAsBytesSync(fileBytes!);
                             EasyLoading.dismiss();
-                            Fluttertoast.showToast(
-                                msg: '导出成功，导出文件$path',
-                                toastLength: Toast.LENGTH_LONG);
+                            showToastMsg(
+                                msg: '${Globalization.hint_003.tr}$path');
                           } else {
-                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                            showToastMsg(msg: Globalization.hint_004.tr);
                           }
                         },
                         child: Text(
-                          '导出当月',
+                          Globalization.ExportMonth.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
@@ -265,7 +266,7 @@ class _RecordPageState extends State<RecordPage> {
                             var directory = await getExternalStorageDirectory();
                             // print('-------${directory?.path}');
                             String path =
-                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                "/storage/emulated/0/userRec/${widget.userName}/${formatDate(DateTime.now(), [
                                   yyyy,
                                   '-',
                                   mm,
@@ -280,15 +281,14 @@ class _RecordPageState extends State<RecordPage> {
                               ..createSync(recursive: true)
                               ..writeAsBytesSync(fileBytes!);
                             EasyLoading.dismiss();
-                            Fluttertoast.showToast(
-                                msg: '导出成功，导出文件$path',
-                                toastLength: Toast.LENGTH_LONG);
+                            showToastMsg(
+                                msg: '${Globalization.hint_003.tr}$path');
                           } else {
-                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                            showToastMsg(msg: Globalization.hint_004.tr);
                           }
                         },
                         child: Text(
-                          '导出当年',
+                          Globalization.ExportYear.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
@@ -311,7 +311,7 @@ class _RecordPageState extends State<RecordPage> {
                             var fileBytes = excel.save();
                             // var directory = await getExternalStorageDirectory();
                             String path =
-                                "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                "/storage/emulated/0/userRec/${widget.userName}/${formatDate(DateTime.now(), [
                                   yyyy,
                                   '-',
                                   mm,
@@ -326,15 +326,14 @@ class _RecordPageState extends State<RecordPage> {
                               ..createSync(recursive: true)
                               ..writeAsBytesSync(fileBytes!);
                             EasyLoading.dismiss();
-                            Fluttertoast.showToast(
-                                msg: '导出成功，导出文件$path',
-                                toastLength: Toast.LENGTH_LONG);
+                            showToastMsg(
+                                msg: '${Globalization.hint_003.tr}$path');
                           } else {
-                            Fluttertoast.showToast(msg: '获取权限失败，请打开内部存储权限');
+                            showToastMsg(msg: Globalization.hint_004.tr);
                           }
                         },
                         child: Text(
-                          '全部导出',
+                          Globalization.ExportAll.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
@@ -376,7 +375,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 42.w),
                                         child: Text(
-                                          '治疗方式：${recordsList[i].recordType}',
+                                          '${Globalization.therapyMethod.tr}：${getType(recordsList[i].recordType ?? "")}',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -404,7 +403,7 @@ class _RecordPageState extends State<RecordPage> {
                                               var directory =
                                                   await getExternalStorageDirectory();
                                               String path =
-                                                  "/storage/emulated/0/用户记录/${widget.userName}/${formatDate(DateTime.now(), [
+                                                  "/storage/emulated/0/userRec/${widget.userName}/${formatDate(DateTime.now(), [
                                                     yyyy,
                                                     '-',
                                                     mm,
@@ -418,14 +417,13 @@ class _RecordPageState extends State<RecordPage> {
                                               File(join(path))
                                                 ..createSync(recursive: true)
                                                 ..writeAsBytesSync(fileBytes!);
-                                              Fluttertoast.showToast(
-                                                  msg: '导出成功，导出文件$path',
-                                                  toastLength:
-                                                      Toast.LENGTH_LONG);
+                                              showToastMsg(
+                                                  msg:
+                                                      '${Globalization.hint_003.tr}$path');
                                             }
                                           },
                                           child: Text(
-                                            '导出记录',
+                                            Globalization.derivedRecord.tr,
                                             style: TextStyle(
                                                 color: const Color(0xFFFFFFFF),
                                                 fontSize: 16.sp),
@@ -472,6 +470,101 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 
+  String getType(String type) {
+    String? cl = Get.locale?.languageCode;
+
+    switch (type) {
+      case "超声疗法":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "Ultrasound";
+        }
+      case "Ultrasound Therapy":
+        if (cl == "CN") {
+          return "超声疗法";
+        } else {
+          return type;
+        }
+      case "脉冲磁疗法":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "Pulse Magnetic";
+        }
+      case "Pulse Magnetic Therapy":
+        if (cl == "CN") {
+          return "脉冲磁疗法";
+        } else {
+          return type;
+        }
+
+      case "红外偏振光治疗":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "Infrared Polarized Light";
+        }
+      case "Infrared Polarized Light Therapy":
+        if (cl == "CN") {
+          return "红外偏振光治疗";
+        } else {
+          return type;
+        }
+      case "痉挛肌治疗":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "SpasmMuscle";
+        }
+      case "SpasmMuscleTherapy":
+        if (cl == "CN") {
+          return "痉挛肌治疗";
+        } else {
+          return type;
+        }
+
+      case "经皮神经电刺激":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "TENS";
+        }
+      case "TENS":
+        if (cl == "CN") {
+          return "经皮神经电刺激";
+        } else {
+          return type;
+        }
+
+      case "神经肌肉电刺激":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "MuscleStimulator";
+        }
+      case "MuscleStimulator":
+        if (cl == "CN") {
+          return "神经肌肉电刺激";
+        } else {
+          return type;
+        }
+      case "中频/干扰电治疗":
+        if (cl == "CN") {
+          return type;
+        } else {
+          return "MediumFrequency/InterferentialCurrent";
+        }
+      case "MediumFrequency/InterferentialCurrentTherapy":
+        if (cl == "CN") {
+          return "中频/干扰电治疗";
+        } else {
+          return "MediumFrequency/InterferentialCurrent";
+        }
+    }
+    return "";
+  }
+
   List<String> k = [
     '0',
     'A',
@@ -497,7 +590,8 @@ class _RecordPageState extends State<RecordPage> {
           value;
       kI++;
     });
-    sheetObject.cell(CellIndex.indexByString('${k[kI]}$index')).value = '日期';
+    sheetObject.cell(CellIndex.indexByString('${k[kI]}$index')).value =
+        Globalization.date.tr;
     sheetObject.cell(CellIndex.indexByString('${k[kI]}${index + 1}')).value =
         record.dataTime;
   }
@@ -510,12 +604,11 @@ class _RecordPageState extends State<RecordPage> {
             cDateTime: (data) {
               List<DateTime?> listDate = data;
               if (listDate.length != 2) {
-                Fluttertoast.showToast(msg: '请选择时间段');
+                showToastMsg(msg: Globalization.hint_005.tr);
                 return;
               }
               DateTime endTime = DateTime(
                   listDate[1]!.year, listDate[1]!.month, listDate[1]!.day + 1);
-
 
               DateTime startTime = DateTime(
                   listDate[0]!.year, listDate[0]!.month, listDate[0]!.day);
@@ -530,11 +623,12 @@ class _RecordPageState extends State<RecordPage> {
               if (rdsList.isNotEmpty) {
                 recordsList.clear();
                 recordsList.addAll(rdsList);
-                startTimeDate = formatDate(listDate[0]!, [yy, '-', mm, '-', dd]);
+                startTimeDate =
+                    formatDate(listDate[0]!, [yy, '-', mm, '-', dd]);
                 endTimeDate = formatDate(listDate[1]!, [yy, '-', mm, '-', dd]);
                 setState(() {});
               } else {
-                Fluttertoast.showToast(msg: "未找到数据");
+                showToastMsg(msg: Globalization.hint_006.tr);
               }
             },
           );
@@ -596,10 +690,10 @@ class _RecordPageState extends State<RecordPage> {
         });
       }
     }
-    if(mapKey.contains("记录时间")){
-      mapKey.remove("记录时间");
+    if (mapKey.contains(Globalization.RecordTime.tr)) {
+      mapKey.remove(Globalization.RecordTime.tr);
     }
-    mapKey.add("记录时间");
+    mapKey.add(Globalization.RecordTime.tr);
     int kI = 1;
     for (var element in mapKey) {
       sheetObject.cell(CellIndex.indexByString('${k[kI]}1')).value = element;
