@@ -384,7 +384,7 @@ class _InfraredPageState extends State<InfraredPage>
                                 child: Text(
                                   isScram
                                       ? Globalization.currEmStSt.tr
-                                      : "当前正常状态",
+                                      : Globalization.currNorSt.tr,
                                   style: TextStyle(
                                       color: isScram
                                           ? const Color(0xFFFD5F1F)

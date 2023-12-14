@@ -27,6 +27,7 @@ class LanguageValue extends Translations {
           Globalization.intensity:"Intensity",
           Globalization.vibration:"Vibration",
           Globalization.currEmStSt:"Current Emergency Stop State",
+          Globalization.currNorSt:"Current Normal State",
           Globalization.pulseWidthA:"Pulse Width(A)",
           Globalization.pulseWidthB:"Pulse Width(B)",
           Globalization.delayTime:"Delay Time",
@@ -75,6 +76,11 @@ class LanguageValue extends Translations {
           Globalization.factory:"FactorySettings",
           Globalization.sweep:"SweepFrequency",
           Globalization.output:"OutputPower",
+          Globalization.operate:"OperatingInstruction",
+          Globalization.attention:"Precautions",
+          Globalization.back:"Back",
+          Globalization.link:"AbnormalLink",
+          Globalization.temper:"NormalTemperature",
         },
         "zh_CN": {
           Globalization.login: "登录",
@@ -98,6 +104,7 @@ class LanguageValue extends Translations {
           Globalization.intensity:"强度",
           Globalization.vibration:"振动",
           Globalization.currEmStSt:"当前急停状态",
+          Globalization.currNorSt:"当前正常状态",
           Globalization.pulseWidthA:"脉宽(A)",
           Globalization.pulseWidthB:"脉宽(B)",
           Globalization.delayTime:"延时时间",
@@ -146,6 +153,11 @@ class LanguageValue extends Translations {
           Globalization.factory:"出厂设置",
           Globalization.sweep:"扫频",
           Globalization.output:"输出功率",
+          Globalization.operate:"操作说明",
+          Globalization.attention:"注意事项",
+          Globalization.back:"返回",
+          Globalization.link:"链接异常",
+          Globalization.temper:"温度正常",
         }
       };
 }

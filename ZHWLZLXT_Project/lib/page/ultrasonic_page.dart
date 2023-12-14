@@ -364,7 +364,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           height: 22,
                                         ),
                                         Text(
-                                          '频率',
+                                          Globalization.frequency.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xff666666)),

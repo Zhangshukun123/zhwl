@@ -177,7 +177,7 @@ class _ControlPageState extends State<ControlPage> {
                       fit: BoxFit.fitWidth,
                     ),
                     Text(
-                      '返回',
+                      Globalization.back.tr,
                       style: TextStyle(fontSize: 18.sp),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

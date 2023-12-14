@@ -120,7 +120,7 @@ class _AddPageState extends State<AddPage> {
                     SizedBox(width: 10.w,),
                     Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
                     Text(
-                      '返回',
+                      Globalization.back.tr,
                       style: TextStyle(fontSize: 18.sp),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

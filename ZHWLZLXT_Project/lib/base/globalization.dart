@@ -21,6 +21,7 @@ class Globalization {
   static const String intensity = "Intensity";//强度
   static const String vibration = "Vibration";//震动
   static const String currEmStSt = "Current Emergency Stop State";//当前急停状态
+  static const String currNorSt = "Current Normal State";//当前正常状态
   static const String pulseWidthA = "Pulse Width(A)";//脉宽A
   static const String pulseWidthB = "Pulse Width(B)";//脉宽B
   static const String delayTime = "Delay Time";//延时时间
@@ -69,6 +70,11 @@ class Globalization {
   static const String factory = "FactorySettings";// 出厂设置
   static const String sweep = "SweepFrequency";// 扫频
   static const String output = "OutputPower";// 输出功率
+  static const String operate = "OperatingInstruction";// 操作说明
+  static const String attention = "Precautions";// 注意事项
+  static const String back = "Back";// 返回
+  static const String link = "AbnormalLink";// 链接异常
+  static const String temper = "NormalTemperature";// 温度正常
 
 //Intensity
 
