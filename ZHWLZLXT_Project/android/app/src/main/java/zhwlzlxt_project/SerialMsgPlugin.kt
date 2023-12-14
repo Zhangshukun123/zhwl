@@ -122,7 +122,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         if (split.size > 2) {
 
         }
-        Log.i("ByteArrToHex", "onPortDataReceived: " + bRec)
+        Log.i("ByteArrToHex", "onPortDataReceived: $bRec")
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {
 //                val bRec = ByteArrToHex(paramComBean.bRec)

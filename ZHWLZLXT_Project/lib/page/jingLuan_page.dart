@@ -16,6 +16,7 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/set_value_horizontal.dart';
 import 'control_page.dart';
 
@@ -91,7 +92,7 @@ class _JingLuanPageState extends State<JingLuanPage>
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.spasm));
           });
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime = _countdownTime - 1;
@@ -109,7 +110,7 @@ class _JingLuanPageState extends State<JingLuanPage>
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.spasm));
             });
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }

@@ -139,9 +139,9 @@ class Neuromuscular {
     }
 
     if (TextUtil.isEmpty(patternA)) {
-      patternA = BYTE04_PT.S_P_01;
+      patternA = Globalization.complete.tr;
     }
-    if (patternA == BYTE04_PT.S_P_01) {
+    if (patternA == Globalization.complete.tr) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
       var patternValue = double.tryParse(BYTE04_PT.B01);
@@ -153,7 +153,7 @@ class Neuromuscular {
         data = "$data 0$patternTmps";
       }
     }
-    if (patternA == BYTE04_PT.S_P_02) {
+    if (patternA == Globalization.partial.tr) {
       // data = "$data ${BYTE04_PT.B02}";
       var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);
@@ -269,9 +269,9 @@ String? settingTimeB;
     }
 
     if (TextUtil.isEmpty(patternB)) {
-      patternB = BYTE04_PT.S_P_01;
+      patternB = Globalization.complete.tr;
     }
-    if (patternB == BYTE04_PT.S_P_01) {
+    if (patternB == Globalization.complete.tr) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
       var patternValue = double.tryParse(BYTE04_PT.B01);
@@ -283,7 +283,7 @@ String? settingTimeB;
         data = "$data 0$patternTmps";
       }
     }
-    if (patternB == BYTE04_PT.S_P_02) {
+    if (patternB == Globalization.partial.tr) {
       // data = "$data ${BYTE04_PT.B02}";
       var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);

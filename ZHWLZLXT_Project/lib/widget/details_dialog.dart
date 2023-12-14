@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+import '../base/globalization.dart';
 import '../page/attention_page.dart';
 import '../page/operate_page.dart';
 
 class DetailsDialog {
-
   List<Widget>? pageViewList;
   int? index;
+
   DetailsDialog({
     this.index,
   });
@@ -18,12 +20,11 @@ class DetailsDialog {
   ];
   late final TabController tabController;
 
-
-
-  void setTabController(TabController tabController){
+  void setTabController(TabController tabController) {
     this.tabController = tabController;
   }
-  void setTabs(List tabs){
+
+  void setTabs(List tabs) {
     this.tabs = tabs;
   }
 
@@ -32,10 +33,17 @@ class DetailsDialog {
   // }
 
   void showCustomDialog(BuildContext context) {
-
+    tabs = [
+      Globalization.OI.tr,
+      Globalization.NeedAttention.tr,
+    ];
     pageViewList = [
-      OperatePage(index: index,),
-      AttentionPage(index: index,),
+      OperatePage(
+        index: index,
+      ),
+      AttentionPage(
+        index: index,
+      ),
     ];
 
     showDialog(
@@ -61,7 +69,7 @@ class DetailsDialog {
                         Container(
                             margin: EdgeInsets.only(left: 330.w),
                             child: Text(
-                              "详情",
+                              Globalization.details.tr,
                               style: TextStyle(
                                   color: Colors.white, fontSize: 18.sp),
                             )),
@@ -101,7 +109,8 @@ class DetailsDialog {
                               //// 标签 Tab 内容样式
                               indicatorWeight: 4.0,
                               //指示器宽度
-                              unselectedLabelStyle: const TextStyle(fontSize: 28),
+                              unselectedLabelStyle:
+                                  const TextStyle(fontSize: 28),
                               //未选中标签样式
                               unselectedLabelColor: const Color(0xFF666666),
                               //未选中标签 Tab 颜色
