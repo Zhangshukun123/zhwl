@@ -81,6 +81,9 @@ class LanguageValue extends Translations {
           Globalization.back:"Back",
           Globalization.link:"AbnormalLink",
           Globalization.temper:"NormalTemperature",
+          Globalization.please:"PleaseInputeTelNumber",
+          Globalization.man:"Man",
+          Globalization.woman:"Woman",
         },
         "zh_CN": {
           Globalization.login: "登录",
@@ -158,6 +161,9 @@ class LanguageValue extends Translations {
           Globalization.back:"返回",
           Globalization.link:"链接异常",
           Globalization.temper:"温度正常",
+          Globalization.please:"请输入电话号码",
+          Globalization.man:"男",
+          Globalization.woman:"女",
         }
       };
 }

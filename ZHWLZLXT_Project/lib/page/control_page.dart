@@ -295,7 +295,7 @@ class _ControlPageState extends State<ControlPage> {
                                     color: const Color(0xFF333333)),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: '请输入电话',
+                                  hintText: Globalization.please.tr,
                                   hintStyle: TextStyle(
                                       color: const Color(0xFFaaaaaa),
                                       fontSize: 13.sp),
@@ -527,7 +527,7 @@ class _ControlPageState extends State<ControlPage> {
                                         child: Center(
                                           child: isEdit
                                               ? Text(
-                                                  sex == 1 ? "男" : '女',
+                                                  sex == 1 ? Globalization.man.tr : Globalization.woman.tr,
                                                   style: TextStyle(
                                                       fontSize: 16.sp,
                                                       color: const Color(
@@ -549,7 +549,7 @@ class _ControlPageState extends State<ControlPage> {
                                                           width: 5.w,
                                                         ),
                                                         Text(
-                                                          '男',
+                                                          Globalization.man.tr,
                                                           style: TextStyle(
                                                               color: const Color(
                                                                   0xFF333333),
@@ -571,7 +571,7 @@ class _ControlPageState extends State<ControlPage> {
                                                           width: 5.w,
                                                         ),
                                                         Text(
-                                                          '女',
+                                                          Globalization.woman.tr,
                                                           style: TextStyle(
                                                               color: const Color(
                                                                   0xFF333333),

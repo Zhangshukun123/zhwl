@@ -75,6 +75,9 @@ class Globalization {
   static const String back = "Back";// 返回
   static const String link = "AbnormalLink";// 链接异常
   static const String temper = "NormalTemperature";// 温度正常
+  static const String please = "PleaseInputeTelNumber";// 请输入电话号码
+  static const String man = "Man";// 男
+  static const String woman = "Woman";// 女
 
 //Intensity
 
