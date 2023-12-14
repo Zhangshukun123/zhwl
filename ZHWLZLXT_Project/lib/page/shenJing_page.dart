@@ -16,6 +16,7 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
 import 'control_page.dart';
@@ -53,6 +54,10 @@ class _ShenJingPageState extends State<ShenJingPage>
         return;
       }
       neuromuscular?.user = userMap[TreatmentType.neuromuscular];
+    });
+    eventBus.on<Language>().listen((event) {
+      neuromuscular?.init();
+      setState(() {});
     });
   }
 
@@ -95,7 +100,7 @@ class _ShenJingPageState extends State<ShenJingPage>
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.neuromuscular));
           });
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
@@ -112,7 +117,7 @@ class _ShenJingPageState extends State<ShenJingPage>
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.neuromuscular));
             });
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }
@@ -149,7 +154,7 @@ class _ShenJingPageState extends State<ShenJingPage>
         eventBus.fire(Notify());
         SjjrCureState = yiStartSelected || erStartSelected;
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.neuromuscular));
           });
@@ -168,7 +173,7 @@ class _ShenJingPageState extends State<ShenJingPage>
           eventBus.fire(Notify());
           SjjrCureState = yiStartSelected || erStartSelected;
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.neuromuscular));
             });

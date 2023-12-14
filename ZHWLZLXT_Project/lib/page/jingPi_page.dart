@@ -17,6 +17,7 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
 import 'control_page.dart';
@@ -54,6 +55,11 @@ class _JingPiPageState extends State<JingPiPage>
         return;
       }
       percutaneous?.user = userMap[TreatmentType.percutaneous];
+    });
+    eventBus.on<Language>().listen((event) {
+      percutaneous?.init(false);
+      percutaneous?.initB(false);
+      setState(() {});
     });
   }
 
@@ -94,7 +100,7 @@ class _JingPiPageState extends State<JingPiPage>
         JpsjCureState = yiStartSelected || erStartSelected;
         eventBus.fire(Notify());
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
@@ -110,7 +116,7 @@ class _JingPiPageState extends State<JingPiPage>
           JpsjCureState = yiStartSelected || erStartSelected;
           eventBus.fire(Notify());
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.percutaneous));
             });
@@ -147,7 +153,7 @@ class _JingPiPageState extends State<JingPiPage>
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
@@ -162,7 +168,7 @@ class _JingPiPageState extends State<JingPiPage>
           electrotherapyIsRunIng = yiStartSelected || erStartSelected;
           JpsjCureState = yiStartSelected || erStartSelected;
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.percutaneous));
             });

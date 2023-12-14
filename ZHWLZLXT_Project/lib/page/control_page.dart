@@ -177,7 +177,7 @@ class _ControlPageState extends State<ControlPage> {
                       fit: BoxFit.fitWidth,
                     ),
                     Text(
-                      Globalization.back.tr,
+                      '返回',
                       style: TextStyle(fontSize: 18.sp),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -295,7 +295,7 @@ class _ControlPageState extends State<ControlPage> {
                                     color: const Color(0xFF333333)),
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: Globalization.please.tr,
+                                  hintText: '请输入电话',
                                   hintStyle: TextStyle(
                                       color: const Color(0xFFaaaaaa),
                                       fontSize: 13.sp),
@@ -527,7 +527,7 @@ class _ControlPageState extends State<ControlPage> {
                                         child: Center(
                                           child: isEdit
                                               ? Text(
-                                                  sex == 1 ? Globalization.man.tr : Globalization.woman.tr,
+                                                  sex == 1 ? "男" : '女',
                                                   style: TextStyle(
                                                       fontSize: 16.sp,
                                                       color: const Color(
@@ -549,7 +549,7 @@ class _ControlPageState extends State<ControlPage> {
                                                           width: 5.w,
                                                         ),
                                                         Text(
-                                                          Globalization.man.tr,
+                                                          '男',
                                                           style: TextStyle(
                                                               color: const Color(
                                                                   0xFF333333),
@@ -571,7 +571,7 @@ class _ControlPageState extends State<ControlPage> {
                                                           width: 5.w,
                                                         ),
                                                         Text(
-                                                          Globalization.woman.tr,
+                                                          '女',
                                                           style: TextStyle(
                                                               color: const Color(
                                                                   0xFF333333),

@@ -24,6 +24,7 @@ import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/details_dialog.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value.dart';
@@ -83,15 +84,12 @@ class _InfraredPageState extends State<InfraredPage>
       infraredEntity?.user = userMap[TreatmentType.infrared];
     });
 
-    // eventBus.on<UserEvent>().listen((event) {
-    //   if (event.type == TreatmentType.infrared) {
-    //     infraredEntity?.userId = event.user?.userId;
-    //     save(event.user?.userId ?? -1);
-    //     infraredEntity?.user = event.user;
-    //   }
-    // });
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
     // checkInfrared();
+    eventBus.on<Language>().listen((event) {
+      infraredEntity?.init(false);
+      setState(() {});
+    });
   }
 
   void save(int userId) {
@@ -127,7 +125,7 @@ class _InfraredPageState extends State<InfraredPage>
         //计时结束
 
         infraredEntity?.init(true);
-        infraredEntity?.start(false,false);
+        infraredEntity?.start(false, false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.infrared));
         });
@@ -135,7 +133,7 @@ class _InfraredPageState extends State<InfraredPage>
         HwpzgCureState = this.startSelected;
         infraredEntity?.user?.isCure = this.startSelected;
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime = _countdownTime - 1;
@@ -144,7 +142,7 @@ class _InfraredPageState extends State<InfraredPage>
           _timer?.cancel();
           //计时结束
           infraredEntity?.init(true);
-          infraredEntity?.start(false,false);
+          infraredEntity?.start(false, false);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.infrared));
           });
@@ -152,17 +150,15 @@ class _InfraredPageState extends State<InfraredPage>
           HwpzgCureState = this.startSelected;
           infraredEntity?.user?.isCure = this.startSelected;
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }
 
-
-
         infraredEntity?.time = _countdownTime.toString();
         RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
         eventBus.fire(runTime);
-        infraredEntity?.start(startSelected,false);
+        infraredEntity?.start(startSelected, false);
       }
     }
 
@@ -170,8 +166,6 @@ class _InfraredPageState extends State<InfraredPage>
   }
 
   Timer? _timerCheck;
-
-
 
   // 急停状态
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
@@ -184,15 +178,14 @@ class _InfraredPageState extends State<InfraredPage>
               isScram = true;
               startSelected = false;
               infraredEntity?.init(true);
-              infraredEntity?.start(false,false);
+              infraredEntity?.start(false, false);
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.infrared));
               });
               HwpzgCureState = startSelected;
               infraredEntity?.user?.isCure = false;
-              setState(() {
-              });
-            }else{
+              setState(() {});
+            } else {
               isScram = false;
               setState(() {});
             }
@@ -263,8 +256,8 @@ class _InfraredPageState extends State<InfraredPage>
                             appreciation: 1,
                             valueListener: (value) {
                               infraredEntity?.power = value.toString();
-                              if(startSelected){
-                                infraredEntity?.start(startSelected,false);
+                              if (startSelected) {
+                                infraredEntity?.start(startSelected, false);
                               }
                             },
                           )),
@@ -327,7 +320,7 @@ class _InfraredPageState extends State<InfraredPage>
                                     eventBus.fire(Infrared());
                                     eventBus.fire(RunTime(2, 10098));
                                     infraredEntity?.power = '2';
-                                  }else{
+                                  } else {
                                     eventBus.fire(Infrared());
                                     eventBus.fire(RunTime(1, 10098));
                                     infraredEntity?.power = '1';
@@ -384,7 +377,7 @@ class _InfraredPageState extends State<InfraredPage>
                                 child: Text(
                                   isScram
                                       ? Globalization.currEmStSt.tr
-                                      : Globalization.currNorSt.tr,
+                                      : Globalization.infrared_start_onLine.tr,
                                   style: TextStyle(
                                       color: isScram
                                           ? const Color(0xFFFD5F1F)
@@ -456,8 +449,12 @@ class _InfraredPageState extends State<InfraredPage>
                                       maintainSize: false,
                                       child: Container(
                                           margin: EdgeInsets.only(top: 42.5.h),
-                                          child: Image.asset('assets/images/2.0x/gif_recording.gif',width: 34.w,height: 34.h,fit: BoxFit.fitWidth,))
-                                  ),
+                                          child: Image.asset(
+                                            'assets/images/2.0x/gif_recording.gif',
+                                            width: 34.w,
+                                            height: 34.h,
+                                            fit: BoxFit.fitWidth,
+                                          ))),
                                   Container(
                                     margin: EdgeInsets.only(top: 42.5.h),
                                     width: 120.w,
@@ -481,15 +478,17 @@ class _InfraredPageState extends State<InfraredPage>
                                           infraredEntity?.init(true);
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
-                                                  () {
-                                                eventBus.fire(SetValueState(
-                                                    TreatmentType.infrared));
-                                              });
+                                              () {
+                                            eventBus.fire(SetValueState(
+                                                TreatmentType.infrared));
+                                          });
                                         }
                                         // thirdStartSelected = !thirdStartSelected;
-                                        infraredEntity?.start(startSelected,startSelected);
+                                        infraredEntity?.start(
+                                            startSelected, startSelected);
                                         HwpzgCureState = startSelected;
-                                        infraredEntity?.user?.isCure = startSelected;
+                                        infraredEntity?.user?.isCure =
+                                            startSelected;
                                         setState(() {
                                           //点击开始治疗
                                           double? tmp = double.tryParse(

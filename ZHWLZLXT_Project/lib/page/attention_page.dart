@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../base/globalization.dart';
 
 class AttentionPage extends StatefulWidget {
 
@@ -41,14 +44,7 @@ class _AttentionPageState extends State<AttentionPage> {
 
   String textString(int? index){
     if(index == 1){
-      return "1.超声波治疗必须要有足够的耦合剂涂抹在皮肤表层，以便于超声波导入人体，同时治疗头要完全接触皮肤才能保证超声波的正常传导。耦合剂过少或探头与皮肤接触不良，超声波就难以传导入人体，治疗头易发烫可能会受到损害，耦合剂不可用其他物品代替。\n"
-          "2.治疗头必须围绕“治疗部位”作往复式移动，不能固定或停留在某一部位。\n"
-          "3.极个别患者在治疗时偶有烧灼感或刺痛感，这是骨膜对超声波的“过敏”反应，停止治疗即可恢复，无任何后患。\n"
-          "4.耦合剂切勿涂抹于皮肤破损及近眼睛和嘴部等位置。\n"
-          "5.耦合剂的选用标准：所购买的耦合剂要符合YY0299-2016标准。\n"
-          "6.使用中偶有局部皮肤发红、发痒，停用后可自行消失。\n"
-          "7.对耦合剂组成成分过敏者慎用，过敏体质者，可先在手腕试用，待15分钟以后皮肤无红痒肿胀等异常现象，即可使用。\n"
-          "8.治疗时，强度应遵循由小到大的原则，循序渐进，功率以患者耐受力为准。";
+      return  Globalization.AttentionOne.tr;
     }
     if(index == 2){
       return '1.开机前必须检查各处连接是否良好，接口处不能松动、滑脱，上电后，用脉冲磁模块显示默认设置状态，应根据实际需要设定各参数。\n'

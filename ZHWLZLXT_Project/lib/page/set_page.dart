@@ -77,7 +77,7 @@ class _SetPageState extends State<SetPage> {
                       SizedBox(width: 10.w,),
                       Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
                       Text(
-                        Globalization.back.tr,
+                        '返回',
                         style: TextStyle(fontSize: 18.sp),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

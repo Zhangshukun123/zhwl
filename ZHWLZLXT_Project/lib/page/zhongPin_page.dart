@@ -16,6 +16,7 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
 import 'control_page.dart';
@@ -110,7 +111,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime1 = _countdownTime1 - 1;
@@ -130,7 +131,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.frequency));
             });
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }
@@ -173,7 +174,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime2 = _countdownTime2 - 1;
@@ -195,7 +196,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
             Future.delayed(const Duration(milliseconds: 500), () {
               eventBus.fire(SetValueState(TreatmentType.frequency));
             });
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }

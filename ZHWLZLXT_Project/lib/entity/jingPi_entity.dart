@@ -139,9 +139,9 @@ class Percutaneous {
     }
 
     if (TextUtil.isEmpty(patternA)) {
-      patternA = BYTE04_PT.S_J_01;
+      patternA = Globalization.continuous.tr;
     }
-    if (patternA == BYTE04_PT.S_J_01) {
+    if (patternA == Globalization.continuous.tr) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
       var patternValue = double.tryParse(BYTE04_PT.B01);
@@ -152,7 +152,7 @@ class Percutaneous {
         data = "$data 0$patternTmps";
       }
     }
-    if (patternA == BYTE04_PT.S_J_02) {
+    if (patternA == Globalization.fast.tr) {
       // data = "$data ${BYTE04_PT.B02}";
       var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);
@@ -162,7 +162,7 @@ class Percutaneous {
         data = "$data 0$patternTmps";
       }
     }
-    if (patternA == BYTE04_PT.S_J_03) {
+    if (patternA == Globalization.slow.tr) {
       // data = "$data ${BYTE04_PT.B03}";
       var patternValue = double.tryParse(BYTE04_PT.B03);
       var patternTmps = patternValue?.toInt().toRadixString(16);
@@ -293,9 +293,9 @@ class Percutaneous {
 
     //如果启动的通道2开始按钮
     if (TextUtil.isEmpty(patternB)) {
-      patternB = BYTE04_PT.S_J_01;
+      patternB = Globalization.continuous.tr;
     }
-    if (patternB == BYTE04_PT.S_J_01) {
+    if (patternB == Globalization.continuous.tr) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
       var patternValue = double.tryParse(BYTE04_PT.B01);
@@ -307,7 +307,7 @@ class Percutaneous {
       }
     }
 
-    if (patternB == BYTE04_PT.S_J_02) {
+    if (patternB == Globalization.fast.tr) {
       // data = "$data ${BYTE04_PT.B02}";
       var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);
@@ -317,7 +317,7 @@ class Percutaneous {
         data = "$data 0$patternTmps";
       }
     }
-    if (patternB == BYTE04_PT.S_J_03) {
+    if (patternB == Globalization.slow.tr) {
       // data = "$data ${BYTE04_PT.B03}";
       var patternValue = double.tryParse(BYTE04_PT.B03);
       var patternTmps = patternValue?.toInt().toRadixString(16);

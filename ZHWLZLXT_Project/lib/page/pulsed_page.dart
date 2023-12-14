@@ -21,6 +21,7 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
+import '../utils/utils_tool.dart';
 import '../widget/details_dialog.dart';
 import 'attention_page.dart';
 import 'control_page.dart';
@@ -111,7 +112,7 @@ class _PulsedPageState extends State<PulsedPage>
         this.startSelected = false;
         MccCureState = this.startSelected;
         setState(() {
-          Fluttertoast.showToast(msg: '治疗结束!');
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime = _countdownTime - 1;
@@ -125,7 +126,7 @@ class _PulsedPageState extends State<PulsedPage>
           this.startSelected = false;
           MccCureState = this.startSelected;
           setState(() {
-            Fluttertoast.showToast(msg: '治疗结束!');
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }

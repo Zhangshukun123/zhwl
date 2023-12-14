@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 
 import '../base/globalization.dart';
+import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 
 typedef PopupListener = void Function(String value);
@@ -46,6 +47,13 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
     pop = _getPopupMenu(context);
     value = widget.patternStr ?? '0';
     setState(() {});
+
+    eventBus.on<Language>().listen((event) {
+      pop = _getPopupMenu(context);
+      value = widget.patternStr ?? '0';
+      setState(() {});
+    });
+
   }
 
   @override
@@ -82,7 +90,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                             color: widget.enabled!
                                 ? const Color(0xFF333333)
                                 : Colors.grey,
-                            fontSize: 20.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600),
                       ),
                       Container(

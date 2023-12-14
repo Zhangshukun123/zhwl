@@ -57,8 +57,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   //计时器
   Timer? _timer;
   String? prowText = '1';
-  String? unline = '链接异常';
-  String? wdText = '温度正常';
+  String? unline = Globalization.unlink.tr;
+  String? wdText = Globalization.temperatureNormals.tr;
   bool onLine = false;
   bool wdOnline = true;
   int _countdownTime = 0;
@@ -82,17 +82,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       }
       ultrasonic?.user = userMap[TreatmentType.ultrasonic];
     });
-
-    // eventBus.on<UserEvent>().listen((event) {
-    //   if (event.type == TreatmentType.ultrasonic) {
-    //     // ultrasonic?.userId = event.user?.userId;
-    //     save(event.user?.userId ?? -1);
-    //     ultrasonic?.user = event.user;
-    //   }
-    // });
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
-    // DialogUtil.alert(
-    //     title: "", message: "检查到温度异常", okLabel: "确定");
+
+    eventBus.on<Language>().listen((event) {
+      ultrasonic?.init(false);
+      setState(() {});
+    });
+
   }
 
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
@@ -102,7 +98,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         Uint8List list = toUnitList(value);
         if (list[4] == 16) {
           if (list[12] == 1) {
-            wdText = '温度异常';
+            wdText = Globalization.temperatureAnomaly.tr;
             wdOnline = false;
             ultrasonic?.init(true);
             ultrasonic?.start(false,false);
@@ -111,9 +107,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             });
             startSelected = false;
             cureState = startSelected;
-            DialogUtil.alert(title: "", message: "检查到温度异常", okLabel: "确定");
+            DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "OK");
           } else {
-            wdText = '温度正常';
+            wdText =  Globalization.temperatureNormals.tr;
             wdOnline = true;
           }
         } else if (list[11] == 1) {
@@ -121,9 +117,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           ultrasonicController.ultrasonic.frequency.value = 1;
           prowText = '1';
           onLine = true;
-          unline = "链接正常";
+          unline =Globalization.onLine.tr;
         } else {
-          unline = "链接异常";
+          unline = Globalization.unlink.tr;
           onLine = false;
         }
 
@@ -135,7 +131,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
         if (list[4] == 16) {
           if (list[12] == 1) {
-            wdText = '温度异常';
+            wdText = Globalization.temperatureAnomaly.tr;
             wdOnline = false;
             ultrasonic?.init(true);
             ultrasonic?.start(false,false);
@@ -146,7 +142,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             cureState = startSelected;
             DialogUtil.alert(title: "", message: "检查到温度异常", okLabel: "确定");
           } else {
-            wdText = '温度正常';
+            wdText = Globalization.temperatureNormals.tr;
             wdOnline = true;
           }
         } else if (list[11] == 1) {
@@ -154,9 +150,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           ultrasonic?.frequency = "3";
           prowText = '3';
           onLine = true;
-          unline = "链接正常";
+          unline = Globalization.onLine.tr;
         } else {
-          unline = "链接异常";
+          unline =Globalization.unlink.tr;
           onLine = false;
         }
 
@@ -167,7 +163,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
-      showConnectPort('设备连接超时', "正在尝试重新连接");
+      showConnectPort(Globalization.connectionTimeout.tr, Globalization.reconnect.tr);
     }
     if (value == "102") {
       if (isShow) {
@@ -234,7 +230,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         this.startSelected = false;
         cureState = this.startSelected;
         setState(() {
-          showToastMsg(msg: "治疗结束");
+          showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
       } else {
         _countdownTime = _countdownTime - 1;
@@ -249,7 +245,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           this.startSelected = false;
           cureState = this.startSelected;
           setState(() {
-            showToastMsg(msg: "治疗结束");
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
           });
           return;
         }
@@ -364,7 +360,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           height: 22,
                                         ),
                                         Text(
-                                          Globalization.frequency.tr,
+                                          Globalization.Hz.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xff666666)),
@@ -385,7 +381,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           height: 22,
                                         ),
                                         Text(
-                                          unline ?? '链接异常',
+                                          unline ?? Globalization.unlink.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xff666666)),
@@ -406,7 +402,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         //   height: 10,
                                         // ),
                                         Text(
-                                          wdText ?? '温度正常',
+                                          wdText ?? Globalization.temperatureNormals.tr,
                                           style: TextStyle(
                                               fontSize: 16.sp,
                                               color: const Color(0xff666666)),
@@ -573,10 +569,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           child: TextButton(
                                             onPressed: () {
                                               // startSelected = !startSelected;
-                                              if (!onLine) {
-                                                showToastMsg(msg: "链接异常");
-                                                return;
-                                              }
+                                              // if (!onLine) {
+                                              //   showToastMsg(msg: "链接异常");
+                                              //   return;
+                                              // }
                                               startSelected = !startSelected;
                                               if (!startSelected) {
                                                 ultrasonic?.init(true);

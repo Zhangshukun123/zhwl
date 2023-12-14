@@ -117,10 +117,10 @@ class Ultrasonic {
     }
 
     if (TextUtil.isEmpty(pattern)) {
-      pattern = BYTE04_PT.B_T_01;
+      pattern = Globalization.continuous.tr;
     }
 
-    if (pattern == BYTE04_PT.B_T_01) {
+    if (pattern == Globalization.continuous.tr) {
       // 04
       // data = "$data ${BYTE04_PT.B01}";
       //转成double类型数据
@@ -134,7 +134,7 @@ class Ultrasonic {
         data = "$data 0$patternTmps1";
       }
     }
-    if (pattern == BYTE04_PT.B_T_02) {
+    if (pattern == Globalization.intermittentOne.tr) {
       // data = "$data ${BYTE04_PT.B02}";
       //转成double类型数据
       var patternValue2 = double.tryParse(BYTE04_PT.B02);
@@ -147,7 +147,7 @@ class Ultrasonic {
         data = "$data 0$patternTmps2";
       }
     }
-    if (pattern == BYTE04_PT.B_T_03) {
+    if (pattern == Globalization.intermittentTwo.tr) {
       // data = "$data ${BYTE04_PT.B03}";
       //转成double类型数据
       var patternValue3 = double.tryParse(BYTE04_PT.B03);
@@ -160,7 +160,7 @@ class Ultrasonic {
         data = "$data 0$patternTmps3";
       }
     }
-    if (pattern == BYTE04_PT.B_T_04) {
+    if (pattern == Globalization.intermittentThree.tr) {
       // data = "$data ${BYTE04_PT.B04}";
       //转成double类型数据
       var patternValue4 = double.tryParse(BYTE04_PT.B04);
