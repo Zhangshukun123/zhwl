@@ -43,6 +43,7 @@ class _JingLuanPageState extends State<JingLuanPage>
     super.initState();
     spastic = Spastic();
     spastic?.init(false);
+    spastic?.time = "20";
 
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
@@ -78,50 +79,29 @@ class _JingLuanPageState extends State<JingLuanPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime = _countdownTime - 1;
+      spastic?.time = _countdownTime.toString();
+      RunTime runTime = RunTime(_countdownTime.toDouble(), 2001);
+      eventBus.fire(runTime);
       if (_countdownTime < 1) {
         _timer?.cancel();
-        //计时结束
-        //结束治疗
         spastic?.init(true);
         spastic?.start(false,false);
         this.startSelected = false;
-        JljCureState = this.startSelected;
         electrotherapyIsRunIng = this.startSelected;
+        JljCureState = this.startSelected;
         eventBus.fire(Notify());
         setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), 2001));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.spasm));
           });
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime = _countdownTime - 1;
-        if (_countdownTime < 1) {
-          _timer?.cancel();
-          //计时结束
-          //结束治疗
-          spastic?.init(true);
-          spastic?.start(false,false);
-          this.startSelected = false;
-          electrotherapyIsRunIng = this.startSelected;
-          JljCureState = this.startSelected;
-          eventBus.fire(Notify());
-          setState(() {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.spasm));
-            });
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        spastic?.time = _countdownTime.toString();
-        RunTime runTime = RunTime(_countdownTime.toDouble(), 2001);
-        eventBus.fire(runTime);
-        spastic?.start(this.startSelected,false);
+        return;
       }
+      spastic?.start(this.startSelected,false);
     }
-
     _timer = Timer.periodic(oneSec, callback);
   }
 

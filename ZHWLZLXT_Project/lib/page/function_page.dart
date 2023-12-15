@@ -95,6 +95,10 @@ class _FunctionPageState extends State<FunctionPage> {
         });
   }
 
+  DateTime? _lastTime; //上次点击时间
+
+  int ocIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
@@ -109,16 +113,27 @@ class _FunctionPageState extends State<FunctionPage> {
             color: const Color(0xFF00A8E7),
             child: Column(
               children: [
-                Container(
-                    margin: EdgeInsets.only(
-                      top: 12.5.h,
-                    ),
-                    child: Image.asset(
-                      'assets/images/2.0x/function_logo.png',
-                      fit: BoxFit.fitWidth,
-                      width: 140.w,
-                      height: 39.5.h,
-                    )),
+                InkWell(
+                  onTap: () {
+                    if (_lastTime == null || DateTime.now().difference(_lastTime!) < const Duration(seconds: 5)) {
+                      ocIndex++;
+                      if (ocIndex >= 5) {
+                        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                      }
+                      _lastTime = DateTime.now();
+                    }
+                  },
+                  child: Container(
+                      margin: EdgeInsets.only(
+                        top: 12.5.h,
+                      ),
+                      child: Image.asset(
+                        'assets/images/2.0x/function_logo.png',
+                        fit: BoxFit.fitWidth,
+                        width: 140.w,
+                        height: 39.5.h,
+                      )),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -320,7 +320,7 @@ class _ControlPageState extends State<ControlPage> {
                           children: [
                             Container(
                                 margin: EdgeInsets.only(left: 41.w),
-                                width: 60.w,
+                                width: 70.w,
                                 child: Text(
                                   Globalization.name.tr,
                                   style: TextStyle(
@@ -369,7 +369,7 @@ class _ControlPageState extends State<ControlPage> {
                   child: userList.isEmpty
                       ? Center(
                           child: Text(
-                          "当前没有用户，添加用户吧~",
+                          Globalization.hint_017.tr,
                           style: TextStyle(fontSize: 15.sp),
                         ))
                       : ListView(
@@ -381,7 +381,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 60.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.no.tr,
                                           style: TextStyle(
@@ -420,7 +420,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 40.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.name.tr,
                                           style: TextStyle(
@@ -467,7 +467,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 60.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.age.tr,
                                           style: TextStyle(
@@ -506,7 +506,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 40.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.gender.tr,
                                           style: TextStyle(
@@ -597,7 +597,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 60.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.tel.tr,
                                           style: TextStyle(
@@ -636,7 +636,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 40.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.certificate.tr,
                                           style: TextStyle(
@@ -683,7 +683,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 60.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.hospitalNo.tr,
                                           style: TextStyle(
@@ -722,7 +722,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 40.w,
+                                        width: 70.w,
                                         child: Text(
                                           Globalization.bedNo.tr,
                                           style: TextStyle(
@@ -875,7 +875,9 @@ class _ControlPageState extends State<ControlPage> {
                                                   RegExp(r"1[0-9]\d{9}$");
                                               if (!mobile.hasMatch(
                                                   telController.text)) {
-                                                showToastMsg(msg: "电话号码格式不正确");
+                                                showToastMsg(
+                                                    msg: Globalization
+                                                        .hint_016.tr);
                                                 return;
                                               }
 
@@ -948,7 +950,7 @@ class _ControlPageState extends State<ControlPage> {
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 15.w),
-                      width: 60.w,
+                      width: 70.w,
                       child: Text(
                         userList[index].userName ?? "",
                         maxLines: 1,

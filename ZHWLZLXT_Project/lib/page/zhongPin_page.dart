@@ -49,7 +49,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     midFrequency = MidFrequency();
     midFrequency?.init(false);
     midFrequency?.init2(false);
-
+    midFrequency?.timeA = "20";
+    midFrequency?.timeB = "20";
     // eventBus.on<UserEvent>().listen((event) {
     //   if (event.type == TreatmentType.frequency) {
     //     midFrequency?.userId = event.user?.userId;
@@ -91,57 +92,34 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime1 = _countdownTime1 - 1;
+      midFrequency?.timeA = _countdownTime1.toString();
+      RunTime runTime =
+          RunTime(_countdownTime1.toDouble(), aliveAuto ? 12 : 2008);
+      eventBus.fire(runTime);
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
-        //计时结束
-        //结束治疗
         midFrequency?.init(true);
         midFrequency?.start1(false, false);
-
+        yiStartSelected = false;
         if (aliveAuto) {
           midFrequency?.init2(false);
           erStartSelected = false;
         }
-
-        yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
         eventBus.fire(Notify());
         setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), aliveAuto ? 12 : 2008));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime1 = _countdownTime1 - 1;
-        if (_countdownTime1 < 1) {
-          _timer1?.cancel();
-          midFrequency?.init(true);
-          midFrequency?.start1(false, false);
-          yiStartSelected = false;
-          if (aliveAuto) {
-            midFrequency?.init2(false);
-            erStartSelected = false;
-          }
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          ZpgrdCureState = yiStartSelected || erStartSelected;
-          eventBus.fire(Notify());
-          setState(() {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.frequency));
-            });
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        midFrequency?.timeA = _countdownTime1.toString();
-        RunTime runTime =
-            RunTime(_countdownTime1.toDouble(), aliveAuto ? 12 : 2008);
-        eventBus.fire(runTime);
-        midFrequency?.start1(yiStartSelected, false);
+        return;
       }
+
+      midFrequency?.start1(yiStartSelected, false);
     }
 
     _timer1 = Timer.periodic(oneSec, callback);
@@ -158,8 +136,23 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime2 = _countdownTime2 - 1;
+      if (aliveAuto) {
+        midFrequency?.timeB = _countdownTime2.toString();
+        midFrequency?.timeA = _countdownTime2.toString();
+      } else {
+        midFrequency?.timeB = _countdownTime2.toString();
+      }
+      RunTime runTime =
+          RunTime(_countdownTime2.toDouble(), aliveAuto ? 12 : 2009);
+      eventBus.fire(runTime);
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
+        if (aliveAuto) {
+          midFrequency?.start1(erStartSelected, false);
+        } else {
+          midFrequency?.start2(erStartSelected);
+        }
         midFrequency?.init2(true);
         if (aliveAuto) {
           midFrequency?.init(true);
@@ -171,47 +164,13 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
         setState(() {
+          eventBus.fire(RunTime(20, aliveAuto ? 12 : 2009));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime2 = _countdownTime2 - 1;
-
-        if (_countdownTime2 < 1) {
-          _timer2?.cancel();
-          midFrequency?.init2(true);
-          if (aliveAuto) {
-            midFrequency?.init(true);
-            midFrequency?.start1(false, false);
-          } else {
-            midFrequency?.start2(false);
-          }
-
-          erStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          ZpgrdCureState = yiStartSelected || erStartSelected;
-          setState(() {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.frequency));
-            });
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        RunTime runTime =
-            RunTime(_countdownTime2.toDouble(), aliveAuto ? 12 : 2009);
-        eventBus.fire(runTime);
-        if (aliveAuto) {
-          midFrequency?.timeB = _countdownTime2.toString();
-          midFrequency?.timeA = _countdownTime2.toString();
-          midFrequency?.start1(erStartSelected, false);
-        } else {
-          midFrequency?.timeB = _countdownTime2.toString();
-          midFrequency?.start2(erStartSelected);
-        }
+        return;
       }
     }
 
@@ -392,6 +351,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   if (aliveAuto) {
                                     erStartSelected = yiStartSelected;
                                     midFrequency?.init2(true);
+                                    midFrequency?.timeB = "20";
                                     aliveAuto = false;
                                     electrotherapyIsRunIng =
                                         yiStartSelected || erStartSelected;
@@ -652,7 +612,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   });
                                 } else {
                                   yiStartSelected = !yiStartSelected;
-
+                                  erStartSelected = !erStartSelected;
                                   if (!yiStartSelected) {
                                     midFrequency?.init(true);
                                     midFrequency?.init2(true);
@@ -665,10 +625,13 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   }
                                   midFrequency?.start1(
                                       yiStartSelected, yiStartSelected);
+                                  midFrequency?.timeB = "20";
                                   electrotherapyIsRunIng =
                                       yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
 
+                                  eventBus.fire(Notify());
+                                  ZpgrdCureState =
+                                      yiStartSelected || erStartSelected;
                                   erStartSelected = yiStartSelected;
                                   setState(() {
                                     //点击开始治疗
@@ -679,14 +642,6 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   });
                                 }
                               },
-                              // child: Image.asset(
-                              //   erStartSelected
-                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                              //   fit: BoxFit.cover,
-                              //   width: 120.w,
-                              //   height: 45.h,
-                              // )
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

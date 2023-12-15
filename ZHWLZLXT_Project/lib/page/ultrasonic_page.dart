@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -28,7 +26,6 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/utils.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
-import 'control_page.dart';
 
 class UltrasonicPage extends StatefulWidget {
   const UltrasonicPage({Key? key}) : super(key: key);
@@ -70,6 +67,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     ultrasonic = Ultrasonic();
     ultrasonic?.init(false);
+    ultrasonic?.time = "20";
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
@@ -86,8 +84,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
-      unline = Globalization.unlink.tr;
-      wdText = Globalization.temperatureNormals.tr;
+      if(onLine){
+        unline =Globalization.onLine.tr;
+      }else{
+        unline = Globalization.unlink.tr;
+      }
+      if(wdOnline){
+        wdText = Globalization.temperatureNormals.tr;
+      }else{
+        wdText = Globalization.temperatureAnomaly.tr;
+      }
       setState(() {});
     });
 
@@ -102,14 +108,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           if (list[12] == 1) {
             wdText = Globalization.temperatureAnomaly.tr;
             wdOnline = false;
-            ultrasonic?.init(true);
-            ultrasonic?.start(false,false);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-            });
-            startSelected = false;
-            cureState = startSelected;
-            DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "OK");
+            if(startSelected){
+              _timer?.cancel();
+              ultrasonic?.init(true);
+              ultrasonic?.start(false,false);
+              Future.delayed(const Duration(milliseconds: 500), () {
+                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+              });
+              startSelected = false;
+              cureState = startSelected;
+              setState(() {
+                RunTime runTime = RunTime(20, 1001);
+                eventBus.fire(runTime);
+              });
+              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+            }
           } else {
             wdText =  Globalization.temperatureNormals.tr;
             wdOnline = true;
@@ -122,8 +135,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         } else {
           unline = Globalization.unlink.tr;
           onLine = false;
+          if(startSelected){
+            _timer?.cancel();
+            ultrasonic?.init(true);
+            ultrasonic?.start(false,false);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+            });
+            startSelected = false;
+            cureState = startSelected;
+            setState(() {
+              RunTime runTime = RunTime(20, 1001);
+              eventBus.fire(runTime);
+            });
+          }
         }
-
         setState(() {});
         break;
       case 'UltrasonicState04':
@@ -134,14 +160,21 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           if (list[12] == 1) {
             wdText = Globalization.temperatureAnomaly.tr;
             wdOnline = false;
-            ultrasonic?.init(true);
-            ultrasonic?.start(false,false);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-            });
-            startSelected = false;
-            cureState = startSelected;
-            DialogUtil.alert(title: "", message: "检查到温度异常", okLabel: "确定");
+            if(startSelected){
+              _timer?.cancel();
+              ultrasonic?.init(true);
+              ultrasonic?.start(false,false);
+              Future.delayed(const Duration(milliseconds: 500), () {
+                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+              });
+              startSelected = false;
+              cureState = startSelected;
+              setState(() {
+                RunTime runTime = RunTime(20, 1001);
+                eventBus.fire(runTime);
+              });
+              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+            }
           } else {
             wdText = Globalization.temperatureNormals.tr;
             wdOnline = true;
@@ -154,6 +187,20 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         } else {
           unline =Globalization.unlink.tr;
           onLine = false;
+          if(startSelected){
+            _timer?.cancel();
+            ultrasonic?.init(true);
+            ultrasonic?.start(false,false);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+            });
+            startSelected = false;
+            cureState = startSelected;
+            setState(() {
+              RunTime runTime = RunTime(20, 1001);
+              eventBus.fire(runTime);
+            });
+          }
         }
 
         setState(() {});
@@ -220,6 +267,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime = _countdownTime - 1;
+      ultrasonic?.time = _countdownTime.toString();
+      RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
+      eventBus.fire(runTime);
       if (_countdownTime < 1) {
         _timer?.cancel();
         ultrasonic?.init(true);
@@ -230,30 +281,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         this.startSelected = false;
         cureState = this.startSelected;
         setState(() {
+          RunTime runTime = RunTime(20, 1001);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime = _countdownTime - 1;
-
-        if (_countdownTime < 1) {
-          _timer?.cancel();
-          ultrasonic?.init(true);
-          ultrasonic?.start(false,false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-          });
-          this.startSelected = false;
-          cureState = this.startSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-        ultrasonic?.time = _countdownTime.toString();
-        RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
-        eventBus.fire(runTime);
-        ultrasonic?.start(this.startSelected,false);
+        return;
       }
+      ultrasonic?.start(this.startSelected,false);
     }
 
     _timer = Timer.periodic(oneSec, callback);
@@ -318,7 +352,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   index: 0,
                                   patternStr: ultrasonic?.pattern ??
                                       Globalization.intermittentOne.tr,
-                                  enabled: true,
+                                  enabled: !startSelected,
                                   popupListener: (value) {
                                     ultrasonic?.pattern = value;
                                     // save();
@@ -568,16 +602,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               )),
                                           child: TextButton(
                                             onPressed: () {
-                                              // startSelected = !startSelected;
-                                              // if (!onLine) {
-                                              //   showToastMsg(msg: "链接异常");
-                                              //   return;
-                                              // }
+                                              if (!onLine) {
+                                                showToastMsg(msg: Globalization.unlink.tr);
+                                                return;
+                                              }
                                               startSelected = !startSelected;
                                               if (!startSelected) {
                                                 ultrasonic?.init(true);
-                                                ultrasonicController.ultrasonic
-                                                    .frequency.value = 1;
                                                 Future.delayed(
                                                     const Duration(
                                                         milliseconds: 500), () {
@@ -598,13 +629,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                     startSelected);
                                               });
                                             },
-                                            // child: Image.asset(
-                                            //   startSelected
-                                            //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                            //       : 'assets/images/btn_kaishi_nor.png',
-                                            //   width: 100.w,
-                                            //   fit: BoxFit.fitWidth,
-                                            // ),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,

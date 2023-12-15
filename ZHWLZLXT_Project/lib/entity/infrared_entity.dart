@@ -44,7 +44,6 @@ class InfraredEntity {
     if(isSave){
       save();
     }
-    time = "20";
     power = "1";
     pattern = Globalization.continuous.tr;
   }
@@ -210,6 +209,9 @@ class InfraredEntity {
     data = "$data 00"; // 11
     data = "$data 00"; // 12
     SerialPort().send(data);
+    if(!isStart){
+      time = '20';
+    }
     return isStart;
   }
 

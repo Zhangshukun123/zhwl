@@ -53,8 +53,6 @@ class Spastic {
     if (isSave) {
       save();
     }
-
-    time = "20";
     circle = "1";
     widthA = "0.1";
     widthB = "0.1";
@@ -219,6 +217,9 @@ class Spastic {
     }
 
     SerialPort().send(data);
+    if(!isStart){
+      time = '20';
+    }
     return isStart;
   }
 

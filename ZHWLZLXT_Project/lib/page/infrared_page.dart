@@ -65,6 +65,7 @@ class _InfraredPageState extends State<InfraredPage>
         index: 3); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     infraredEntity = InfraredEntity();
     infraredEntity?.init(false);
+    infraredEntity?.time = "20";
     isDGW = (infraredEntity?.pattern != "连续");
 
     // infraredEntity = InfraredEntity();
@@ -110,6 +111,25 @@ class _InfraredPageState extends State<InfraredPage>
   }
 
   void startCountdownTimer(bool startSelected) {
+    if (_countdownTime < 1) {
+      _timer?.cancel();
+      //计时结束
+      infraredEntity?.init(true);
+      infraredEntity?.start(false, false);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        eventBus.fire(SetValueState(TreatmentType.infrared));
+      });
+      this.startSelected = false;
+      HwpzgCureState = this.startSelected;
+      infraredEntity?.user?.isCure = this.startSelected;
+      setState(() {
+        RunTime runTime = RunTime(20, 1003);
+        eventBus.fire(runTime);
+        showToastMsg(msg: Globalization.endOfTreatment.tr);
+      });
+      return;
+    }
+
     if (_timer != null) {
       _timer?.cancel();
     }
@@ -120,10 +140,13 @@ class _InfraredPageState extends State<InfraredPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime = _countdownTime - 1;
+      infraredEntity?.time = _countdownTime.toString();
+      RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
+      eventBus.fire(runTime);
       if (_countdownTime < 1) {
         _timer?.cancel();
         //计时结束
-
         infraredEntity?.init(true);
         infraredEntity?.start(false, false);
         Future.delayed(const Duration(milliseconds: 500), () {
@@ -133,33 +156,13 @@ class _InfraredPageState extends State<InfraredPage>
         HwpzgCureState = this.startSelected;
         infraredEntity?.user?.isCure = this.startSelected;
         setState(() {
+          RunTime runTime = RunTime(20, 1003);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime = _countdownTime - 1;
-
-        if (_countdownTime < 1) {
-          _timer?.cancel();
-          //计时结束
-          infraredEntity?.init(true);
-          infraredEntity?.start(false, false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.infrared));
-          });
-          this.startSelected = false;
-          HwpzgCureState = this.startSelected;
-          infraredEntity?.user?.isCure = this.startSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        infraredEntity?.time = _countdownTime.toString();
-        RunTime runTime = RunTime(_countdownTime.toDouble(), 1003);
-        eventBus.fire(runTime);
-        infraredEntity?.start(startSelected, false);
+        return;
       }
+      infraredEntity?.start(startSelected, false);
     }
 
     _timer = Timer.periodic(oneSec, callback);
@@ -230,7 +233,7 @@ class _InfraredPageState extends State<InfraredPage>
                               double.tryParse(infraredEntity?.time ?? '12'),
                           maxValue: 99,
                           indexType: 1003,
-                          minValue: 1,
+                          minValue: 0,
                           unit: 'min',
                           valueListener: (value) {
                             infraredEntity?.time = value.toString();
@@ -469,9 +472,7 @@ class _InfraredPageState extends State<InfraredPage>
                                     child: TextButton(
                                       onPressed: () {
                                         if (isScram) {
-                                          Fluttertoast.showToast(
-                                              msg: '光疗设备处于急停状态');
-                                          return;
+                                          showToastMsg(msg: '光疗设备处于急停状态');
                                         }
                                         startSelected = !startSelected;
                                         if (!startSelected) {

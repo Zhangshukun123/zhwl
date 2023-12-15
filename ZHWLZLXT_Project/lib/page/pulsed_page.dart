@@ -54,6 +54,7 @@ class _PulsedPageState extends State<PulsedPage>
         index: 2); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
     pulsed = Pulsed();
     pulsed?.init(false);
+    pulsed?.time = "20";
     // pulsed = Pulsed();
 
     _tabController =
@@ -101,41 +102,27 @@ class _PulsedPageState extends State<PulsedPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime = _countdownTime - 1;
+      pulsed?.time = _countdownTime.toString();
+      RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
+      eventBus.fire(runTime);
       if (_countdownTime < 1) {
         _timer?.cancel();
         pulsed?.init(true);
-        switchSelected = false;
-        pulsed?.start(false, false,false);
+        pulsed?.start(false, false, false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.pulsed));
         });
         this.startSelected = false;
         MccCureState = this.startSelected;
         setState(() {
+          RunTime runTime = RunTime(20, 1002);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime = _countdownTime - 1;
-        if (_countdownTime < 1) {
-          _timer?.cancel();
-          pulsed?.init(true);
-          pulsed?.start(false, false,false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.pulsed));
-          });
-          this.startSelected = false;
-          MccCureState = this.startSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        pulsed?.time = _countdownTime.toString();
-        RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
-        eventBus.fire(runTime);
-        pulsed?.start(startSelected, switchSelected,false);
+        return;
       }
+      pulsed?.start(startSelected, switchSelected, false);
     }
 
     _timer = Timer.periodic(oneSec, callback);
@@ -179,7 +166,7 @@ class _PulsedPageState extends State<PulsedPage>
                             minValue: 0,
                             valueListener: (value) {
                               pulsed?.power = value.toString();
-                              pulsed?.start(true, switchSelected,false);
+                              pulsed?.start(true, switchSelected, false);
                             },
                           )),
                       ContainerBg(
@@ -282,8 +269,8 @@ class _PulsedPageState extends State<PulsedPage>
                                           if (startSelected) {
                                             switchSelected = !switchSelected;
                                             setState(() {});
-                                            pulsed?.start(
-                                                startSelected, switchSelected,false);
+                                            pulsed?.start(startSelected,
+                                                switchSelected, false);
                                           }
                                         }),
                                   )),
@@ -381,8 +368,8 @@ class _PulsedPageState extends State<PulsedPage>
                                                 TreatmentType.pulsed));
                                           });
                                         }
-                                        pulsed?.start(
-                                            startSelected, switchSelected,startSelected);
+                                        pulsed?.start(startSelected,
+                                            switchSelected, startSelected);
                                         MccCureState = startSelected;
                                         setState(() {
                                           //点击开始治疗

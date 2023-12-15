@@ -49,7 +49,8 @@ class _JingPiPageState extends State<JingPiPage>
     percutaneous = Percutaneous();
     percutaneous?.init(false);
     percutaneous?.initB(false);
-
+    percutaneous?.timeA = "20";
+    percutaneous?.timeB = "20";
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
         return;
@@ -89,10 +90,12 @@ class _JingPiPageState extends State<JingPiPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime1 = _countdownTime1 - 1;
+      percutaneous?.timeA = _countdownTime1.toString();
+      RunTime runTime = RunTime(_countdownTime1.toDouble(), 2002);
+      eventBus.fire(runTime);
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
-        //计时结束
-        //结束治疗
         percutaneous?.init(true);
         percutaneous?.start1(false,false);
         yiStartSelected = false;
@@ -100,35 +103,16 @@ class _JingPiPageState extends State<JingPiPage>
         JpsjCureState = yiStartSelected || erStartSelected;
         eventBus.fire(Notify());
         setState(() {
+          RunTime runTime = RunTime(double.tryParse('20'), 2002);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
         });
-      } else {
-        _countdownTime1 = _countdownTime1 - 1;
-        if (_countdownTime1 < 1) {
-          _timer1?.cancel();
-          percutaneous?.init(true);
-          percutaneous?.start1(false,false);
-          yiStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          JpsjCureState = yiStartSelected || erStartSelected;
-          eventBus.fire(Notify());
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.percutaneous));
-            });
-          });
-          return;
-        }
-
-        percutaneous?.timeA = _countdownTime1.toString();
-        RunTime runTime = RunTime(_countdownTime1.toDouble(), 2002);
-        eventBus.fire(runTime);
-        percutaneous?.start1(yiStartSelected,false);
+        return;
       }
+      percutaneous?.start1(yiStartSelected,false);
     }
 
     _timer1 = Timer.periodic(oneSec, callback);
@@ -145,6 +129,10 @@ class _JingPiPageState extends State<JingPiPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime2 = _countdownTime2 - 1;
+      percutaneous?.timeB = _countdownTime2.toString();
+      RunTime runTime = RunTime(_countdownTime2.toDouble(), 2003);
+      eventBus.fire(runTime);
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
         percutaneous?.initB(true);
@@ -153,41 +141,23 @@ class _JingPiPageState extends State<JingPiPage>
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
+          RunTime runTime = RunTime(double.tryParse('20'), 2002);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.percutaneous));
           });
         });
-      } else {
-        _countdownTime2 = _countdownTime2 - 1;
-        if (_countdownTime2 < 1) {
-          _timer2?.cancel();
-          percutaneous?.initB(true);
-          percutaneous?.start2(false,false);
-          erStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          JpsjCureState = yiStartSelected || erStartSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.percutaneous));
-            });
-          });
-          return;
-        }
-
-        percutaneous?.timeB = _countdownTime2.toString();
-        RunTime runTime = RunTime(_countdownTime2.toDouble(), 2003);
-        eventBus.fire(runTime);
-        percutaneous?.start2(erStartSelected,false);
+        return;
       }
+      percutaneous?.start2(erStartSelected,false);
     }
-
     _timer2 = Timer.periodic(oneSec, callback);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(

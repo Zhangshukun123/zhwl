@@ -66,9 +66,7 @@ class Neuromuscular {
 
   void setARestValue(){
     save1();
-
     patternA = Globalization.complete.tr;
-    timeA = "20";
     powerA = "0";
     frequencyA = "0.5";
   }
@@ -76,7 +74,6 @@ class Neuromuscular {
   void setBRestValue(){
     save2();
     patternB = Globalization.complete.tr;
-    timeB = "20";
     powerB = "0";
     frequencyB = "0.5";
   }
@@ -212,6 +209,9 @@ class Neuromuscular {
     data = "$data 00"; // 10
 
     SerialPort().send(data);
+    if(!isStart){
+      timeA = '20';
+    }
     return isStart;
   }
   void save1(){
@@ -342,6 +342,9 @@ String? settingTimeB;
     data = "$data 00"; // 10
 
     SerialPort().send(data);
+    if(!isStart){
+      timeB = '20';
+    }
     return isStart;
   }
 

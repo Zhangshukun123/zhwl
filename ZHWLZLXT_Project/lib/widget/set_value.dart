@@ -159,7 +159,8 @@ class _SetValueState extends State<SetValue> {
             GestureDetector(
               onTap: () {
                 if (widget.enabled) {
-                  value = (value - appreciation);
+                  value =
+                      double.parse((value - appreciation).toStringAsFixed(2));
                   if (value <= (widget.minValue ?? 0)) {
                     value = (widget.minValue ?? 0);
                   }
@@ -170,7 +171,8 @@ class _SetValueState extends State<SetValue> {
               onTapDown: (e) {
                 timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   if (widget.enabled) {
-                    value = (value - appreciation);
+                    value =
+                        double.parse((value - appreciation).toStringAsFixed(2));
                     if (value <= (widget.minValue ?? 0)) {
                       value = (widget.minValue ?? 0);
                     }
@@ -239,8 +241,9 @@ class _SetValueState extends State<SetValue> {
             GestureDetector(
               onTap: () {
                 if (widget.enabled) {
-                  value = value + appreciation;
-                  if (value > (widget.maxValue ?? 999999)) {
+                  value =
+                      double.parse((value + appreciation).toStringAsFixed(2));
+                  if (value >= (widget.maxValue ?? 999999)) {
                     value = (widget.maxValue ?? 999999);
                   }
                   widget.valueListener!(value);
@@ -251,8 +254,9 @@ class _SetValueState extends State<SetValue> {
                 timer = Timer.periodic(const Duration(milliseconds: 200), (e) {
                   setState(() {
                     if (widget.enabled) {
-                      value = value + appreciation;
-                      if (value > (widget.maxValue ?? 999999)) {
+                      value = double.parse(
+                          (value + appreciation).toStringAsFixed(2));
+                      if (value >= (widget.maxValue ?? 999999)) {
                         value = (widget.maxValue ?? 999999);
                       }
                       widget.valueListener!(value);
@@ -274,7 +278,7 @@ class _SetValueState extends State<SetValue> {
               child: Visibility(
                 visible: widget.isViImg ?? true,
                 child: Image.asset(
-                  widget.enabled && !(value == widget.maxValue)
+                  widget.enabled && (value != widget.maxValue)
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,
@@ -283,7 +287,6 @@ class _SetValueState extends State<SetValue> {
                 ),
               ),
             ),
-
           ],
         ),
       ],
