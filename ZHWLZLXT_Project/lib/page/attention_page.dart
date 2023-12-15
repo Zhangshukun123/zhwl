@@ -21,22 +21,16 @@ class AttentionPage extends StatefulWidget {
 class _AttentionPageState extends State<AttentionPage> {
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil().orientation;
-    // ScreenUtil.init(context, designSize: const Size(960, 600));
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.only(top: 10.h,left: 26.w,right: 26.w,bottom: 70.h),
-          child:  SingleChildScrollView(
-            child:
-            Text(
-              textString(widget.index),
-              style: const TextStyle(fontSize: 32,color: Color(0xFF999999)),
-            ),
-
-          ),
-        ),
+    return Container(
+      margin: EdgeInsets.only(top: 10.h, left: 26.w, right: 26.w, bottom: 20.h),
+      child: ListView(
+        padding: const EdgeInsets.all(0),
+        children: [
+          Text(
+            textString(widget.index),
+            style: const TextStyle(fontSize: 34, color: Color(0xFF999999)),
+          )
+        ],
       ),
     );
   }

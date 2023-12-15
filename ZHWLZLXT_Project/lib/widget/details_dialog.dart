@@ -121,7 +121,7 @@ class DetailsDialog {
                         ),
                         SizedBox(
                           width: 700.w,
-                          height: 280.h,
+                          height: 240.h,
                           child: TabBarView(
                               controller: tabController,
                               children: pageViewList!),

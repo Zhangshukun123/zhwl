@@ -183,6 +183,7 @@ class LanguageValue extends Translations {
           Globalization.hint_015: "请输入用户编号",
           Globalization.hint_016: "电话号码格式不正确",
           Globalization.hint_017: "当前没有用户，添加用户吧",
+          Globalization.hint_018: "账号密码错误",
           Globalization.ExportMonth: "导出当月",
           Globalization.ExportYear: "导出当年",
           Globalization.ExportAll: "全部导出",

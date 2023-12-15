@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
@@ -28,7 +26,6 @@ import '../entity/ultrasonic_sound.dart';
 import '../utils/utils.dart';
 import '../widget/container_bg.dart';
 import '../widget/popup_menu_btn.dart';
-import 'control_page.dart';
 
 class UltrasonicPage extends StatefulWidget {
   const UltrasonicPage({Key? key}) : super(key: key);
@@ -87,8 +84,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
-      unline = Globalization.unlink.tr;
-      wdText = Globalization.temperatureNormals.tr;
+      if(onLine){
+        unline =Globalization.onLine.tr;
+      }else{
+        unline = Globalization.unlink.tr;
+      }
+      if(wdOnline){
+        wdText = Globalization.temperatureNormals.tr;
+      }else{
+        wdText = Globalization.temperatureAnomaly.tr;
+      }
       setState(() {});
     });
 

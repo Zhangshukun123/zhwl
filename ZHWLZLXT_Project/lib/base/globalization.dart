@@ -107,6 +107,7 @@ class Globalization {
   static const String hint_015 = "Please enter the user number"; // 输出功率
   static const String hint_016 = "The phone number format is incorrect"; // 输出功率
   static const String hint_017 = "Currently no user, add user~"; // 输出功率
+  static const String hint_018 = "Account password error"; // 输出功率
   static const String RecordTime = "time"; // 输出功率
   static const String ExportMonth = " month"; // 输出功率
   static const String ExportYear = "year"; // 输出功率

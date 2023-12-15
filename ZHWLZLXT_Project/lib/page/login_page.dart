@@ -8,6 +8,7 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
 import 'package:zhwlzlxt_project/page/table_calender.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../base/globalization.dart';
 import '../cofig/AnpConfig.dart';
@@ -32,23 +33,15 @@ class LoginPageState extends State<LoginPage> {
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
-
-    acController.text = 'admin';
-    pwdController.text = '123456';
+    // acController.text = 'admin';
+    // pwdController.text = '123456';
 
     if (setSelected) {
-
-
-
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         acController.text = SpUtils.getString('account', defaultValue: "")!;
         pwdController.text = SpUtils.getString('password', defaultValue: "")!;
         setState(() {});
-        print(SpUtils.getString('account', defaultValue: ""));
-
-
       });
-
     }
   }
 
@@ -225,42 +218,6 @@ class LoginPageState extends State<LoginPage> {
                                         SizedBox(
                                           height: 20.h,
                                         ),
-                                        // Container(
-                                        //   margin: EdgeInsets.only(right: 48.w),
-                                        //   child: //自定义button
-                                        //       TextButton(
-                                        //           onPressed: () {
-                                        //             setSelected = !setSelected;
-                                        //             setState(() {
-                                        //               //刷新状态
-                                        //             });
-                                        //           },
-                                        //           child: Row(
-                                        //             mainAxisAlignment:
-                                        //                 MainAxisAlignment.end,
-                                        //             children: [
-                                        //               Image.asset(
-                                        //                 setSelected
-                                        //                     ? 'assets/images/2.0x/icon_btn_sel.png'
-                                        //                     : 'assets/images/2.0x/icon_rem_nor.png',
-                                        //                 height: 18.h,
-                                        //                 fit: BoxFit.fitHeight,
-                                        //               ),
-                                        //               SizedBox(
-                                        //                 width: 3.w,
-                                        //               ),
-                                        //               Text(
-                                        //                 Globalization
-                                        //                     .rememberPassword
-                                        //                     .tr,
-                                        //                 style: TextStyle(
-                                        //                     color: const Color(
-                                        //                         0xFF999999),
-                                        //                     fontSize: 18.sp),
-                                        //               )
-                                        //             ],
-                                        //           )),
-                                        // ),
                                       ],
                                     ),
                                     Container(
@@ -289,11 +246,9 @@ class LoginPageState extends State<LoginPage> {
                                                 SpUtils.setBool(
                                                     'setSelected', setSelected);
                                               }
-
                                               Get.to(const FunctionPage());
                                             } else {
-                                              Fluttertoast.showToast(
-                                                  msg: '账号密码错误');
+                                              showToastMsg(msg: Globalization.hint_018.tr);
                                             }
                                           },
                                           child: Text(
