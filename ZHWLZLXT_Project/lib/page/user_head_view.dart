@@ -77,7 +77,7 @@ class _UserHeadViewState extends State<UserHeadView>
                 (user == null || TextUtil.isEmpty(user?.phone))
                     ? const Center()
                     : Text(
-                        "用户：",
+                        "${Globalization.user.tr}:",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

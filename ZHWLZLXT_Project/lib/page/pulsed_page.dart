@@ -196,7 +196,7 @@ class _PulsedPageState extends State<PulsedPage>
                             appreciation: 10,
                             maxValue: 80,
                             minValue: 20,
-                            unit: '次/min',
+                            unit: "${Globalization.times.tr}/min",
                             valueListener: (value) {
                               pulsed?.frequency = value.toString();
                             },

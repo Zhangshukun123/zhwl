@@ -170,7 +170,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                         ),
                       ),
                       Container(
-                        width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
+                        width: (Get.locale?.countryCode == "CN") ? 88.w : 110.w,
                         // margin: EdgeInsets.only(top: 15.5.h),
                         decoration: const BoxDecoration(
                             image: DecorationImage(
@@ -197,6 +197,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                                       color: const Color(0xFF009CB4),
                                       fontSize: 18.sp),
                                 ),
+                                SizedBox(width: 5.w,),
                               ],
                             )),
                       ),

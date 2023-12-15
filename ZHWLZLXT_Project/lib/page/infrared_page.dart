@@ -456,7 +456,7 @@ class _InfraredPageState extends State<InfraredPage>
                                             fit: BoxFit.fitWidth,
                                           ))),
                                   Container(
-                                    margin: EdgeInsets.only(top: 42.5.h),
+                                    margin: EdgeInsets.only(top: 50.5.h),
                                     width: 120.w,
                                     height: 55.h,
                                     decoration: BoxDecoration(

@@ -75,6 +75,8 @@ class LanguageValue extends Translations {
           Globalization.factory: "FactorySettings",
           Globalization.sweep: "SweepFrequency",
           Globalization.output: "OutputPower",
+          Globalization.user: "User",
+          Globalization.times: "times",
         },
         "zh_CN": {
           Globalization.login: "登录",
@@ -182,6 +184,8 @@ class LanguageValue extends Translations {
           Globalization.derivedRecord: "导出记录",
           Globalization.RecordTime: "记录时间",
           Globalization.date: "日期",
+          Globalization.user: "用户",
+          Globalization.times: "次",
           Globalization.AttentionFour:
               '1.电极片放置在人体上以后，不要操作治疗系统的电源开关，否则可能会产生瞬间电击感。治疗前，必须先打开电源开关，再把电极片放置在人体上，治疗结束后，必须先把电极片从患者身上取下来，再关闭电源开关。\n'
                   '2.治疗时，强度应遵循由小到大的原则，循序渐进，强度以患者耐受力为准。若出现停电，请及时关闭电源开关，并摘除患者身上电极片。\n'
