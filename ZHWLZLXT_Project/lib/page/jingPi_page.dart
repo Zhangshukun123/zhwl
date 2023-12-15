@@ -49,7 +49,8 @@ class _JingPiPageState extends State<JingPiPage>
     percutaneous = Percutaneous();
     percutaneous?.init(false);
     percutaneous?.initB(false);
-
+    percutaneous?.timeA = "20";
+    percutaneous?.timeB = "20";
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {
         return;

@@ -322,10 +322,7 @@ public class Crc16Util {
         }
         // 高低位互换，输出符合相关工具对Modbus CRC16的运算
 //        crc = ((crc & 0xff00) >> 8) | ((crc & 0x00ff) << 8);
-
-
-        Log.i("TAG", "onMethodCall--makeCRC: "+String.format("%04X", crc));
-
+//        Log.i("TAG", "onMethodCall--makeCRC: "+String.format("%04X", crc));
         return String.format("%04X", crc);
     }
 

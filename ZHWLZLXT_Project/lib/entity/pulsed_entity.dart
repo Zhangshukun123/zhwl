@@ -38,7 +38,6 @@ class Pulsed {
     if (isSave) {
       save();
     }
-    time = '20';
     power = '0';
     frequency = '20';
   }
@@ -170,8 +169,10 @@ class Pulsed {
       zdStartTime = DateTime.now();
       zdTime = 1;
     }
-
     SerialPort().send(data);
+    if(!isStart){
+      time = '20';
+    }
     return isStart;
   }
 

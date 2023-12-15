@@ -48,7 +48,6 @@ class MidFrequency {
       save1();
     }
     patternA = "1";
-    timeA = "20";
     powerA = "0";
   }
 
@@ -57,9 +56,7 @@ class MidFrequency {
     if(isSave){
       save2();
     }
-
     patternB = "1";
-    timeB = "20";
     powerB = "0";
   }
 
@@ -171,6 +168,9 @@ class MidFrequency {
 
 
     SerialPort().send(data);
+    if(!isStart){
+      timeA = '20';
+    }
     return isStart;
   }
 
@@ -281,10 +281,10 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-
-
-
     SerialPort().send(data);
+    if(!isStart){
+      timeB = '20';
+    }
     return isStart;
   }
 

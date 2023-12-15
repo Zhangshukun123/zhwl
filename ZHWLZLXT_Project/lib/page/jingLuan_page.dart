@@ -43,6 +43,7 @@ class _JingLuanPageState extends State<JingLuanPage>
     super.initState();
     spastic = Spastic();
     spastic?.init(false);
+    spastic?.time = "20";
 
     eventBus.on<TreatmentType>().listen((event) {
       if (!mounted) {

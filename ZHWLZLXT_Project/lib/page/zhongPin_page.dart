@@ -49,7 +49,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     midFrequency = MidFrequency();
     midFrequency?.init(false);
     midFrequency?.init2(false);
-
+    midFrequency?.timeA = "20";
+    midFrequency?.timeB = "20";
     // eventBus.on<UserEvent>().listen((event) {
     //   if (event.type == TreatmentType.frequency) {
     //     midFrequency?.userId = event.user?.userId;

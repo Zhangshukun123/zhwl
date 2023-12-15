@@ -99,6 +99,14 @@ class Globalization {
   static const String hint_007 = "Please enter phone number"; // 输出功率
   static const String hint_008 = "update successfully"; // 输出功率
   static const String hint_009 = "Update failure"; // 输出功率
+  static const String hint_010 = "Please enter your name"; // 输出功率
+  static const String hint_011 = "Please enter your age"; // 输出功率
+  static const String hint_012 = "Please enter your IDCard"; // 输出功率
+  static const String hint_013 = "Please enter the admission number"; // 输出功率
+  static const String hint_014 = "Please enter the bed number"; // 输出功率
+  static const String hint_015 = "Please enter the user number"; // 输出功率
+  static const String hint_016 = "The phone number format is incorrect"; // 输出功率
+  static const String hint_017 = "Currently no user, add user~"; // 输出功率
   static const String RecordTime = "time"; // 输出功率
   static const String ExportMonth = " month"; // 输出功率
   static const String ExportYear = "year"; // 输出功率

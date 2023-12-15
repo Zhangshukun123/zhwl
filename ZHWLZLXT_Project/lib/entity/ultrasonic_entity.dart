@@ -31,10 +31,10 @@ class UltrasonicField {
 class Ultrasonic {
   int? userId = -1;
   String? pattern = Globalization.intermittentOne.tr;
-  String? time = '1';
+  String? time = '20';
   String? power = '0.0';
   String? soundIntensity = '0.0';
-  String? frequency = '1';
+  String? frequency;
   String? setTime = '1';
 
   Ultrasonic({
@@ -47,12 +47,10 @@ class Ultrasonic {
   });
 
   init(bool isSave) {
-
     if(isSave){
       save();
     }
     pattern = Globalization.intermittentOne.tr;
-    time = '20';
     power = '0';
     soundIntensity = '0.0';
     // frequency = '1';
@@ -233,10 +231,10 @@ class Ultrasonic {
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
-
-
-
     SerialPort().send(data);
+    if(!isStart){
+      time = '20';
+    }
     return isStart;
   }
 

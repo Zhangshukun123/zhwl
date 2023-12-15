@@ -177,7 +177,7 @@ class _AddPageState extends State<AddPage> {
                           decoration: InputDecoration(
                             counterText: '',
                             border: const OutlineInputBorder(),
-                            hintText: '请输入编号',
+                            hintText: Globalization.hint_015.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -221,7 +221,7 @@ class _AddPageState extends State<AddPage> {
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '请输入姓名',
+                            hintText: Globalization.hint_010.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -265,7 +265,7 @@ class _AddPageState extends State<AddPage> {
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '请输入年龄',
+                            hintText: Globalization.hint_011.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -416,7 +416,7 @@ class _AddPageState extends State<AddPage> {
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            hintText: '请输入身份证号',
+                            hintText: Globalization.hint_012.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -458,7 +458,7 @@ class _AddPageState extends State<AddPage> {
                           decoration: InputDecoration(
                             counterText: '',
                             border: const OutlineInputBorder(),
-                            hintText: '请输入住院号',
+                            hintText: Globalization.hint_013.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -495,7 +495,7 @@ class _AddPageState extends State<AddPage> {
                           decoration: InputDecoration(
                             counterText: '',
                             border: const OutlineInputBorder(),
-                            hintText: '请输入床号',
+                            hintText: Globalization.hint_014.tr,
                             hintStyle: TextStyle(
                                 color: const Color(0xFFaaaaaa),
                                 fontSize: 14.sp),
@@ -546,11 +546,11 @@ class _AddPageState extends State<AddPage> {
                     child: TextButton(
                       onPressed: () {
                         if (TextUtil.isEmpty(numController.text)) {
-                          showToastMsg(msg: "请输入用户编号");
+                          showToastMsg(msg: Globalization.hint_015.tr);
                           return;
                         }
                         if (TextUtil.isEmpty(nameController.text)) {
-                          showToastMsg(msg: "请输入用户姓名");
+                          showToastMsg(msg: Globalization.hint_010.tr);
                           return;
                         }
                         // if (TextUtil.isEmpty(ageController.text)) {
@@ -558,12 +558,12 @@ class _AddPageState extends State<AddPage> {
                         //   return;
                         // }
                         if (TextUtil.isEmpty(telController.text)) {
-                          showToastMsg(msg: "请输入用户电话");
+                          showToastMsg(msg: Globalization.hint_007.tr);
                           return;
                         }
                         RegExp mobile = RegExp(r"1[0-9]\d{9}$");
                         if (!mobile.hasMatch(telController.text)) {
-                          showToastMsg(msg: "电话号码格式不正确");
+                          showToastMsg(msg: Globalization.hint_016.tr);
                           return;
                         }
 

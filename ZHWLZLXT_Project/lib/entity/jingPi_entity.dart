@@ -64,7 +64,6 @@ class Percutaneous {
       save1();
     }
     patternA = Globalization.continuous.tr;
-    timeA = "20";
     powerA = "0";
     frequencyA = "2";
     pulseA = "60";
@@ -75,7 +74,6 @@ class Percutaneous {
       save2();
     }
     patternB = Globalization.continuous.tr;
-    timeB = "20";
     powerB = "0";
     frequencyB = "2";
     pulseB = "60";
@@ -235,6 +233,9 @@ class Percutaneous {
     data = "$data 00"; // 10
 
     SerialPort().send(data);
+    if(!isStart){
+      timeA = '20';
+    }
     return isStart;
   }
 
@@ -389,6 +390,9 @@ class Percutaneous {
     data = "$data 00"; // 10
 
     SerialPort().send(data);
+    if(!isStart){
+      timeB = '20';
+    }
     return isStart;
   }
 

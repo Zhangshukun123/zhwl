@@ -236,6 +236,9 @@ class _SetPageState extends State<SetPage> {
                           onChanged: (value) {
                             sliderValue = value;
                             setState(() {});
+                            if(value==0){
+                              value = 1;
+                            }
                             setBrightness(value / 100);
                             // print("onChanged : $value");
                             updateSlider(value, "onChangeEnd : $value");
