@@ -170,10 +170,6 @@ class Percutaneous {
         data = "$data 0$patternTmps";
       }
     }
-
-    if (TextUtil.isEmpty(timeA)) {
-      timeA = '1';
-    }
     // data = "$data $timeA"; //byte05 工作时间 05
     // data = "$data ${(double.tryParse(timeA!))?.toInt()}";
     var timeAValue = double.tryParse(timeA!);
@@ -228,10 +224,8 @@ class Percutaneous {
     } else {
       data = "$data 0$pulseATmps";
     }
-
     data = "$data 00"; // 09
     data = "$data 00"; // 10
-
     SerialPort().send(data);
     if(!isStart){
       timeA = '20';
@@ -327,10 +321,6 @@ class Percutaneous {
       } else {
         data = "$data 0$patternTmps";
       }
-    }
-
-    if (TextUtil.isEmpty(timeB)) {
-      timeB = '1';
     }
     // data = "$data $timeB"; //byte05 工作时间 05
     // data = "$data ${(double.tryParse(timeB!))?.toInt()}";

@@ -102,10 +102,13 @@ class _PulsedPageState extends State<PulsedPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime = _countdownTime - 1;
+      pulsed?.time = _countdownTime.toString();
+      RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
+      eventBus.fire(runTime);
       if (_countdownTime < 1) {
         _timer?.cancel();
         pulsed?.init(true);
-        switchSelected = false;
         pulsed?.start(false, false, false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.pulsed));
@@ -113,30 +116,13 @@ class _PulsedPageState extends State<PulsedPage>
         this.startSelected = false;
         MccCureState = this.startSelected;
         setState(() {
+          RunTime runTime = RunTime(20, 1002);
+          eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime = _countdownTime - 1;
-        if (_countdownTime < 1) {
-          _timer?.cancel();
-          pulsed?.init(true);
-          pulsed?.start(false, false, false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.pulsed));
-          });
-          this.startSelected = false;
-          MccCureState = this.startSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        pulsed?.time = _countdownTime.toString();
-        RunTime runTime = RunTime(_countdownTime.toDouble(), 1002);
-        eventBus.fire(runTime);
-        pulsed?.start(startSelected, switchSelected, false);
+        return;
       }
+      pulsed?.start(startSelected, switchSelected, false);
     }
 
     _timer = Timer.periodic(oneSec, callback);

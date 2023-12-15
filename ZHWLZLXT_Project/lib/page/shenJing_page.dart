@@ -87,46 +87,27 @@ class _ShenJingPageState extends State<ShenJingPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime1 = _countdownTime1 - 1;
+      neuromuscular?.timeA = _countdownTime1.toString();
+      RunTime runTime = RunTime(_countdownTime1.toDouble(), 2004);
+      eventBus.fire(runTime);
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
-        //计时结束
-        //结束治疗
         neuromuscular?.setARestValue();
         neuromuscular?.start1(false,false);
         yiStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         SjjrCureState = yiStartSelected || erStartSelected;
         setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), 2004));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.neuromuscular));
           });
           showToastMsg(msg: Globalization.endOfTreatment.tr);
         });
-      } else {
-        _countdownTime1 = _countdownTime1 - 1;
-        if (_countdownTime1 < 1) {
-          _timer1?.cancel();
-          //计时结束
-          //结束治疗
-          neuromuscular?.setARestValue();
-          neuromuscular?.start1(false,false);
-          yiStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          SjjrCureState = yiStartSelected || erStartSelected;
-          setState(() {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.neuromuscular));
-            });
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
-          return;
-        }
-
-        neuromuscular?.timeA = _countdownTime1.toString();
-        RunTime runTime = RunTime(_countdownTime1.toDouble(), 2004);
-        eventBus.fire(runTime);
-        neuromuscular?.start1(yiStartSelected,false);
+        return;
       }
+      neuromuscular?.start1(yiStartSelected,false);
     }
 
     _timer1 = Timer.periodic(oneSec, callback);
@@ -143,10 +124,12 @@ class _ShenJingPageState extends State<ShenJingPage>
     }
     const oneSec = Duration(minutes: 1);
     callback(timer) {
+      _countdownTime2 = _countdownTime2 - 1;
+      neuromuscular?.timeB = _countdownTime2.toString();
+      RunTime runTime = RunTime(_countdownTime2.toDouble(), 2005);
+      eventBus.fire(runTime);
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
-        //计时结束
-        //结束治疗
         neuromuscular?.setBRestValue();
         neuromuscular?.start2(false,false);
         erStartSelected = false;
@@ -154,38 +137,16 @@ class _ShenJingPageState extends State<ShenJingPage>
         eventBus.fire(Notify());
         SjjrCureState = yiStartSelected || erStartSelected;
         setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), 2005));
           showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.neuromuscular));
           });
         });
-      } else {
-        _countdownTime2 = _countdownTime2 - 1;
-
-        if (_countdownTime2 < 1) {
-          _timer2?.cancel();
-          //计时结束
-          //结束治疗
-          neuromuscular?.setBRestValue();
-          neuromuscular?.start2(false,false);
-          erStartSelected = false;
-          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-          eventBus.fire(Notify());
-          SjjrCureState = yiStartSelected || erStartSelected;
-          setState(() {
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.neuromuscular));
-            });
-          });
-          return;
-        }
-
-        neuromuscular?.timeB = _countdownTime2.toString();
-        RunTime runTime = RunTime(_countdownTime2.toDouble(), 2005);
-        eventBus.fire(runTime);
-        neuromuscular?.start2(erStartSelected,false);
+        return;
       }
+
+      neuromuscular?.start2(erStartSelected,false);
     }
 
     _timer2 = Timer.periodic(oneSec, callback);
@@ -254,7 +215,7 @@ class _ShenJingPageState extends State<ShenJingPage>
                                 index: 5,
                                 patternStr: neuromuscular?.patternA ??
                                     Globalization.complete.tr,
-                                enabled: true,
+                                enabled: !yiStartSelected,
                                 popupListener: (value) {
                                   neuromuscular?.patternA = value;
                                 },
@@ -466,7 +427,7 @@ class _ShenJingPageState extends State<ShenJingPage>
                                 index: 5,
                                 patternStr: neuromuscular?.patternB ??
                                     Globalization.complete.tr,
-                                enabled: true,
+                                enabled: !erStartSelected,
                                 popupListener: (value) {
                                   neuromuscular?.patternB = value;
                                 },

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
-import 'package:zhwlzlxt_project/page/table_calender.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
@@ -72,8 +70,6 @@ class LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       )),
-                  // margin: EdgeInsets.only(
-                  //     left: 55.w, right: 55.w, top: 50.h, bottom: 2.h),
                   child: Row(
                     children: [
                       Expanded(
