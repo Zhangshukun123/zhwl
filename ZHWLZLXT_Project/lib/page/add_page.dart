@@ -95,48 +95,51 @@ class _AddPageState extends State<AddPage> {
       //     style: TextStyle(fontSize: 15.sp, color: Colors.white),
       //   ),
       // ),
-      appBar: AppBar(
-        automaticallyImplyLeading : false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 80.w,
-              height: 25.h,
-              decoration: BoxDecoration(
-                  color: const Color(0xFF19B1E9),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.w),
-                  )
-              ),
-              child: InkWell(
-                onTap: (){
-                  focusNode.unfocus();
-                  Navigator.of(context).pop();
-                },
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 10.w,),
-                    Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
-                    Text(
-                      Globalization.back.tr,
-                      style: TextStyle(fontSize: 18.sp),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(35.h),
+        child: AppBar(
+          automaticallyImplyLeading : false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 80.w,
+                height: 35.h,
+                decoration: BoxDecoration(
+                    color: const Color(0xFF19B1E9),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.w),
                     )
-                  ],
+                ),
+                child: InkWell(
+                  onTap: (){
+                    focusNode.unfocus();
+                    Navigator.of(context).pop();
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10.w,),
+                      Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
+                      Text(
+                        Globalization.back.tr,
+                        style: TextStyle(fontSize: 18.sp),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Center(
-                  child: Text(Globalization.addUser.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
-              ),
-            )
-          ],
+              Expanded(
+                child: Center(
+                    child: Text(Globalization.addUser.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
+                ),
+              )
+            ],
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
       ),
       body: SafeArea(
         child: Container(
