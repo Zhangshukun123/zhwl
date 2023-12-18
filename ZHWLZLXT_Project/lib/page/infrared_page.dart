@@ -85,11 +85,43 @@ class _InfraredPageState extends State<InfraredPage>
       infraredEntity?.user = userMap[TreatmentType.infrared];
     });
 
-    SerialMsg.platform.setMethodCallHandler(flutterMethod);
     // checkInfrared();
     eventBus.on<Language>().listen((event) {
       infraredEntity?.init(false);
       setState(() {});
+    });
+
+    eventBus.on<MethodCall>().listen((methodCall) {
+      switch (methodCall.method) {
+        case 'onSendComplete':
+          String value = methodCall.arguments;
+          if (value.length > 20) {
+            if (value.substring(4, 6) == '02') {
+              if (value.substring(18, 20) == "01") {
+                if (!isScram) {
+                  _timer?.cancel();
+                  isScram = true;
+                  startSelected = false;
+                  infraredEntity?.init(true);
+                  infraredEntity?.start(false, false);
+                  infraredEntity?.time = "20";
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    eventBus.fire(SetValueState(TreatmentType.infrared));
+                  });
+                  HwpzgCureState = startSelected;
+                  infraredEntity?.user?.isCure = false;
+                  setState(() {});
+                }
+              } else {
+                if (isScram) {
+                  isScram = false;
+                  setState(() {});
+                }
+              }
+            }
+          }
+          break;
+      }
     });
   }
 
@@ -169,34 +201,6 @@ class _InfraredPageState extends State<InfraredPage>
   }
 
   Timer? _timerCheck;
-
-  // 急停状态
-  Future<dynamic> flutterMethod(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'onSendComplete':
-        String value = methodCall.arguments;
-        if (value.length > 20) {
-          if (value.substring(4, 6) == '02') {
-            if (value.substring(18, 20) == "01") {
-              isScram = true;
-              startSelected = false;
-              infraredEntity?.init(true);
-              infraredEntity?.start(false, false);
-              Future.delayed(const Duration(milliseconds: 500), () {
-                eventBus.fire(SetValueState(TreatmentType.infrared));
-              });
-              HwpzgCureState = startSelected;
-              infraredEntity?.user?.isCure = false;
-              setState(() {});
-            } else {
-              isScram = false;
-              setState(() {});
-            }
-          }
-        }
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -472,7 +476,9 @@ class _InfraredPageState extends State<InfraredPage>
                                     child: TextButton(
                                       onPressed: () {
                                         if (isScram) {
-                                          showToastMsg(msg: '光疗设备处于急停状态');
+                                          showToastMsg(
+                                              msg: Globalization.hint_019.tr);
+                                          return;
                                         }
                                         startSelected = !startSelected;
                                         if (!startSelected) {

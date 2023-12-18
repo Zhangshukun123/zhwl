@@ -44,19 +44,18 @@ class MidFrequency {
   });
 
   void init(isSave) {
-    if(isSave){
+    if (isSave) {
       save1();
     }
-    patternA = "1";
+    // patternA = "1";
     powerA = "0";
   }
 
   void init2(isSave) {
-
-    if(isSave){
+    if (isSave) {
       save2();
     }
-    patternB = "1";
+    // patternB = "1";
     powerB = "0";
   }
 
@@ -85,13 +84,13 @@ class MidFrequency {
         MidFrequencyField.powerB: powerB,
       };
 
-
   DateTime? startTime;
   DateTime? endTime;
   User? user;
   String? settingTimeA;
-  bool start1(bool isStart,isOpenStart) {
-    if(isStart&&isOpenStart){
+
+  bool start1(bool isStart, isOpenStart) {
+    if (isStart && isOpenStart) {
       settingTimeA = timeA;
       startTime = DateTime.now();
     }
@@ -166,51 +165,47 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-
     SerialPort().send(data);
-    if(!isStart){
+    if (!isStart) {
       timeA = '20';
     }
     return isStart;
   }
 
-  void save1(){
-    if (user != null && user?.userId != 0){
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          prescription: patternA,
-          utilityTime: settingTimeA,
-          recordType: '中频/干扰电治疗',
-          actionTime: min,
-          strengthGrade: powerA,
-        );
-        RecordSqlDao.instance().addData(record: record);
+  void save1() {
+    if (user != null && user?.userId != 0) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        prescription: patternA,
+        utilityTime: settingTimeA,
+        recordType: '中频/干扰电治疗',
+        actionTime: min,
+        strengthGrade: powerA,
+      );
+      RecordSqlDao.instance().addData(record: record);
     }
   }
-
-
 
   DateTime? startTime2;
   DateTime? endTime2;
   String? settingTimeB;
-  bool start2(bool isStart,{ isOpenStart}) {
 
-    if(isStart&&isOpenStart){
-      settingTimeB=timeB;
+  bool start2(bool isStart, {bool? isOpenStart}) {
+    if (isStart && isOpenStart == true) {
+      settingTimeB = timeB;
       startTime2 = DateTime.now();
     }
-
     // final TreatmentController controller = Get.find();
     // if (controller.user.value.userId == 0||controller.user.value.userId == null) {
     //   Fluttertoast.showToast(
@@ -282,38 +277,34 @@ class MidFrequency {
     data = "$data 00"; // 10
 
     SerialPort().send(data);
-    if(!isStart){
+    if (!isStart) {
       timeB = '20';
     }
     return isStart;
   }
 
-
-
-  void save2(){
-    if (user != null && user?.userId != 0){
-        endTime2 = DateTime.now();
-        String min = '';
-        Duration diff = endTime2!.difference(startTime2!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          prescription: patternB,
-          utilityTime: settingTimeB,
-          recordType: '中频/干扰电治疗',
-          actionTime: min,
-          strengthGrade: powerB,
-        );
-        RecordSqlDao.instance().addData(record: record);
-
+  void save2() {
+    if (user != null && user?.userId != 0) {
+      endTime2 = DateTime.now();
+      String min = '';
+      Duration diff = endTime2!.difference(startTime2!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        prescription: patternB,
+        utilityTime: settingTimeB,
+        recordType: '中频/干扰电治疗',
+        actionTime: min,
+        strengthGrade: powerB,
+      );
+      RecordSqlDao.instance().addData(record: record);
     }
   }
-
 }

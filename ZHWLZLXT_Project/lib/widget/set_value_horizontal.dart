@@ -85,10 +85,10 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
     if (widget.indexType == 12 || widget.indexType == 13) {
       // 中频 时间
       eventBus.on<SetValueEntity>().listen((event) {
-        if (widget.indexType == 12 && (event.value ?? 0) > 0) {
+        if (widget.indexType == 12 && (event.value ?? 0) >= 0) {
           value = event.value ?? 0;
         }
-        if (widget.indexType == 13 && (event.power ?? 0) > 0) {
+        if (widget.indexType == 13 && (event.power ?? 0) >= 0) {
           value = event.power ?? 0;
         }
         if (!mounted) {
@@ -102,9 +102,17 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       if (!mounted) {
         return;
       }
+      if(widget.indexType==null){
+        return;
+      }
+
+      print("-----------RunTime---${(widget.indexType != event.intType)}");
+      print("-----------RunTime--widget.indexType-${(widget.indexType)}");
+      print("-----------RunTime--widget.indexType-1111${(event.intType)}");
       if (widget.indexType != event.intType) {
         return;
       }
+
       value = event.value ?? 0;
       widget.valueListener!(value);
       setState(() {});

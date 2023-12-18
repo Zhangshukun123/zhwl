@@ -94,23 +94,32 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     callback(timer) {
       _countdownTime1 = _countdownTime1 - 1;
       midFrequency?.timeA = _countdownTime1.toString();
-      RunTime runTime =
-          RunTime(_countdownTime1.toDouble(), aliveAuto ? 12 : 2008);
+      RunTime runTime = RunTime(_countdownTime1.toDouble(), 2008);
       eventBus.fire(runTime);
+
+      if (aliveAuto) {
+        RunTime runTime = RunTime(_countdownTime1.toDouble(), 2009);
+        eventBus.fire(runTime);
+      }
+
       if (_countdownTime1 < 1) {
         _timer1?.cancel();
         midFrequency?.init(true);
         midFrequency?.start1(false, false);
+        midFrequency?.patternA = "1";
         yiStartSelected = false;
         if (aliveAuto) {
           midFrequency?.init2(false);
+          midFrequency?.patternB = "1";
+          eventBus.fire(RunTime(20, 2009));
           erStartSelected = false;
+          aliveAuto = false;
         }
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
         eventBus.fire(Notify());
         setState(() {
-          eventBus.fire(RunTime(double.tryParse("20"), aliveAuto ? 12 : 2008));
+          eventBus.fire(RunTime(20, 2008));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
@@ -137,34 +146,18 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     const oneSec = Duration(minutes: 1);
     callback(timer) {
       _countdownTime2 = _countdownTime2 - 1;
-      if (aliveAuto) {
-        midFrequency?.timeB = _countdownTime2.toString();
-        midFrequency?.timeA = _countdownTime2.toString();
-      } else {
-        midFrequency?.timeB = _countdownTime2.toString();
-      }
-      RunTime runTime =
-          RunTime(_countdownTime2.toDouble(), aliveAuto ? 12 : 2009);
+      midFrequency?.timeB = _countdownTime2.toString();
+      RunTime runTime = RunTime(_countdownTime2.toDouble(), 2009);
       eventBus.fire(runTime);
       if (_countdownTime2 < 1) {
         _timer2?.cancel();
-        if (aliveAuto) {
-          midFrequency?.start1(erStartSelected, false);
-        } else {
-          midFrequency?.start2(erStartSelected);
-        }
         midFrequency?.init2(true);
-        if (aliveAuto) {
-          midFrequency?.init(true);
-          midFrequency?.start1(false, false);
-        } else {
-          midFrequency?.start2(false);
-        }
+        midFrequency?.start2(false);
         erStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
         setState(() {
-          eventBus.fire(RunTime(20, aliveAuto ? 12 : 2009));
+          eventBus.fire(RunTime(20, 2009));
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.frequency));
           });
@@ -172,6 +165,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         });
         return;
       }
+      midFrequency?.start2(erStartSelected);
     }
 
     _timer2 = Timer.periodic(oneSec, callback);
@@ -234,6 +228,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     )),
                               ),
                               PopupMenuBtn(
+                                //20 22 23
                                 index: 7,
                                 patternStr: midFrequency?.patternA ?? "1",
                                 enabled: !yiStartSelected,
@@ -241,12 +236,13 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   if ((int.parse(value) > 50) &&
                                       erStartSelected) {
                                     setState(() {});
-                                    Fluttertoast.showToast(msg: '当前有设置正在运行!');
+                                    showToastMsg(msg:  Globalization.hint_020.tr);
                                     return;
                                   }
                                   midFrequency?.patternA = value;
                                   aliveAuto = (int.parse(value) > 50);
-                                  if (int.parse(value) > 50) {
+                                  setState(() {});
+                                  if (aliveAuto) {
                                     midFrequency?.patternB = value;
                                     eventBus.fire(SetValueEntity(
                                       value: double.tryParse(
@@ -254,9 +250,37 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                       power: -1,
                                     ));
                                   }
-                                  if (int.parse(midFrequency?.patternB ?? '1') >
-                                      50) {
+                                  if (!aliveAuto &&
+                                      int.parse(midFrequency?.patternB ?? '1') >
+                                          50) {
                                     midFrequency?.patternB = value;
+                                    if (value == "20" ||
+                                        value == "22" ||
+                                        value == "23") {
+                                      midFrequency?.timeB = "30";
+                                      RunTime runTime = RunTime(30, 2009);
+                                      eventBus.fire(runTime);
+                                    } else {
+                                      midFrequency?.timeB = "20";
+                                      RunTime runTime = RunTime(20, 2009);
+                                      eventBus.fire(runTime);
+                                    }
+                                  }
+                                  if (value == "20" ||
+                                      value == "22" ||
+                                      value == "23") {
+                                    midFrequency?.timeA = "30";
+                                    RunTime runTime = RunTime(30, 2008);
+                                    eventBus.fire(runTime);
+                                  } else {
+                                    midFrequency?.timeA = "20";
+                                    if (aliveAuto) {
+                                      midFrequency?.timeB = "20";
+                                      RunTime runTime = RunTime(20, 2009);
+                                      eventBus.fire(runTime);
+                                    }
+                                    RunTime runTime = RunTime(20, 2008);
+                                    eventBus.fire(runTime);
                                   }
                                   setState(() {});
                                 },
@@ -271,7 +295,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           isVisJa: false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
-                          indexType: aliveAuto ? 12 : 2008,
+                          indexType: 2008,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           isClock: true,
                           isAnimate: aliveAuto
@@ -352,6 +376,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     erStartSelected = yiStartSelected;
                                     midFrequency?.init2(true);
                                     midFrequency?.timeB = "20";
+                                    midFrequency?.patternB = "1";
                                     aliveAuto = false;
                                     electrotherapyIsRunIng =
                                         yiStartSelected || erStartSelected;
@@ -364,6 +389,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 }
                                 midFrequency?.start1(
                                     yiStartSelected, yiStartSelected);
+                                if (!yiStartSelected) {
+                                  midFrequency?.patternA = "1";
+                                }
                                 electrotherapyIsRunIng =
                                     yiStartSelected || erStartSelected;
                                 eventBus.fire(Notify());
@@ -381,14 +409,6 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   startCountdownTimer1(yiStartSelected);
                                 });
                               },
-                              // child: Image.asset(
-                              //   yiStartSelected
-                              //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                              //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                              //   fit: BoxFit.cover,
-                              //   width: 120.w,
-                              //   height: 45.h,
-                              // )
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -478,22 +498,50 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                               PopupMenuBtn(
                                 index: 7,
                                 patternStr: midFrequency?.patternB ?? "1",
-                                enabled: !erStartSelected && !aliveAuto,
+                                enabled: !erStartSelected,
                                 popupListener: (value) {
                                   if ((int.parse(value) > 50) &&
                                       yiStartSelected) {
                                     setState(() {});
-                                    Fluttertoast.showToast(msg: '当前有设置正在运行!');
+                                    showToastMsg(msg: Globalization.hint_020.tr);
                                     return;
                                   }
                                   midFrequency?.patternB = value;
                                   aliveAuto = (int.parse(value) > 50);
-                                  if (int.parse(value) > 50) {
+                                  if (aliveAuto) {
                                     midFrequency?.patternA = value;
                                   }
-                                  if (int.parse(midFrequency?.patternA ?? '1') >
-                                      50) {
+                                  if (!aliveAuto &&
+                                      int.parse(midFrequency?.patternA ?? '1') >
+                                          50) {
                                     midFrequency?.patternA = value;
+                                    if (value == "20" ||
+                                        value == "22" ||
+                                        value == "23") {
+                                      midFrequency?.timeA = "30";
+                                      RunTime runTime = RunTime(30, 2008);
+                                      eventBus.fire(runTime);
+                                    } else {
+                                      midFrequency?.timeA = "20";
+                                      RunTime runTime = RunTime(20, 2008);
+                                      eventBus.fire(runTime);
+                                    }
+                                  }
+                                  if (value == "20" ||
+                                      value == "22" ||
+                                      value == "23") {
+                                    midFrequency?.timeB = "30";
+                                    RunTime runTime = RunTime(30, 2009);
+                                    eventBus.fire(runTime);
+                                  } else {
+                                    midFrequency?.timeB = "20";
+                                    if (aliveAuto) {
+                                      midFrequency?.timeA = "20";
+                                      RunTime runTime1 = RunTime(20, 2008);
+                                      eventBus.fire(runTime1);
+                                    }
+                                    RunTime runTime = RunTime(20, 2009);
+                                    eventBus.fire(runTime);
                                   }
                                   setState(() {});
                                 },
@@ -508,7 +556,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                           isVisJa: false,
                           type: TreatmentType.frequency,
                           title: Globalization.time.tr,
-                          indexType: aliveAuto ? 12 : 2009,
+                          indexType: 2009,
                           assets: 'assets/images/2.0x/icon_shijian.png',
                           isClock: true,
                           isAnimate: aliveAuto
@@ -597,6 +645,9 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   }
                                   midFrequency?.start2(erStartSelected,
                                       isOpenStart: true);
+                                  if (!erStartSelected) {
+                                    midFrequency?.patternB = "1";
+                                  }
                                   electrotherapyIsRunIng =
                                       yiStartSelected || erStartSelected;
                                   eventBus.fire(Notify());
@@ -625,7 +676,12 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   }
                                   midFrequency?.start1(
                                       yiStartSelected, yiStartSelected);
-                                  midFrequency?.timeB = "20";
+                                  if (!yiStartSelected) {
+                                    midFrequency?.timeA = "20";
+                                    midFrequency?.timeB = "20";
+                                    midFrequency?.patternA = "1";
+                                    midFrequency?.patternB = "1";
+                                  }
                                   electrotherapyIsRunIng =
                                       yiStartSelected || erStartSelected;
 

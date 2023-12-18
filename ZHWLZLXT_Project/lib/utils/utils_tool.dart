@@ -20,9 +20,10 @@ void showToastMsg({
   BuildContext? context,
   Function()? ontap,
 }) {
-  // EasyLoading.instance.loadingStyle = EasyLoadingStyle.dark;
+  EasyLoading.instance.loadingStyle = EasyLoadingStyle.dark;
+  EasyLoading.instance.fontSize = 30;
   // if (type == 1) {
-  //   EasyLoading.showToast(msg);
+    EasyLoading.showToast(msg);
   // } else if (type == 2) {
   //   EasyLoading.showSuccess(msg);
   // } else if (type == 3) {
@@ -39,9 +40,6 @@ void showToastMsg({
   //     },
   //   );
   // }
-
-
-  Fluttertoast.showToast(msg: msg,fontSize: 30,backgroundColor: const Color(0x7f000000));
-
+  // Fluttertoast.showToast(msg: msg,fontSize: 30,backgroundColor: const Color(0x7f000000));
 
 }

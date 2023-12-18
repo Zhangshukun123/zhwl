@@ -22,13 +22,6 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
     private int headLen, tailLen;
 
     public SpecifiedStickPackageHelper(byte[] head, byte[] tail) {
-//        List<String> headlist = new ArrayList<>();
-//        headlist.add("AB");
-//        headlist.add("BA");
-        head = Crc16Util.getDataNoCrc("AB");
-
-        Log.i("TAG", "SpecifiedStickPackageHelper: "+ Arrays.toString(head));
-
         this.head = head;
         this.tail = tail;
         if (tail == null) {
@@ -72,7 +65,6 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
         int startIndex = -1;
         byte[] result = null;
         boolean isFindStart = false, isFindEnd = false;
-        Log.i("SerialHelper", "run: len11111");
         while ((len = is.read()) != -1) {
             temp = (byte) len;
             bytes.add(temp);
@@ -101,7 +93,6 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
                         }
                     }
                 }
-
             }
         }
         if (len == -1) {

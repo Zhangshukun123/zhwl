@@ -11,6 +11,5 @@ class SerialPort {
 
   void send(String data) {
     SerialMsg().sendData(data);
-    //android 串口  、
   }
 }

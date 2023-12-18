@@ -31,8 +31,8 @@ class LoginPageState extends State<LoginPage> {
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
-    // acController.text = 'admin';
-    // pwdController.text = '123456';
+    acController.text = 'admin';
+    pwdController.text = '123456';
 
     if (setSelected) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -242,7 +242,7 @@ class LoginPageState extends State<LoginPage> {
                                                 SpUtils.setBool(
                                                     'setSelected', setSelected);
                                               }
-                                              Get.to(const FunctionPage());
+                                              Get.off(const FunctionPage());
                                             } else {
                                               showToastMsg(msg: Globalization.hint_018.tr);
                                             }

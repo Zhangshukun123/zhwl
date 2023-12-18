@@ -121,7 +121,6 @@ public abstract class SerialHelper {
 //                    Log.e("xxxxx buffer", hexStringToString(ByteArrToHex(bytes))+"*********");
 
                     if (buffer!=null&&buffer.length > 0) {
-
                         ComBean ComRecData = new ComBean(SerialHelper.this.sPort, buffer, buffer.length);
 //                        Log.e("xxxxx", "-------------------");
                         SerialHelper.this.onDataReceived(ComRecData);
@@ -316,8 +315,8 @@ public abstract class SerialHelper {
 
 
 
-//    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper("".getBytes(), "".getBytes());  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper(hexToByteArray("ABBA"), new byte[0]);  // 默认不处理粘包，直接读取返回
+//    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
 //    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
@@ -327,5 +326,32 @@ public abstract class SerialHelper {
     public void setStickPackageHelper(AbsStickPackageHelper mStickPackageHelper) {
         this.mStickPackageHelper = mStickPackageHelper;
     }
+
+
+
+    //16进制转byte
+    public static byte[] hexToByteArray(String inHex) {
+        int hexlen = inHex.length();
+        byte[] result;
+        if (hexlen % 2 == 1) {
+            //奇数
+            hexlen++;
+            result = new byte[(hexlen / 2)];
+            inHex = "0" + inHex;
+        } else {
+            //偶数
+            result = new byte[(hexlen / 2)];
+        }
+        int j = 0;
+        for (int i = 0; i < hexlen; i += 2) {
+            result[j] = hexToByte(inHex.substring(i, i + 2));
+            j++;
+        }
+        return result;
+    }
+    public static byte hexToByte(String inHex) {
+        return (byte) Integer.parseInt(inHex, 16);
+    }
+
 
 }

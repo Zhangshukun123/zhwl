@@ -80,7 +80,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       }
       ultrasonic?.user = userMap[TreatmentType.ultrasonic];
     });
-    SerialMsg.platform.setMethodCallHandler(flutterMethod);
 
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
@@ -97,17 +96,43 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       setState(() {});
     });
 
-  }
 
-  Future<dynamic> flutterMethod(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'UltrasonicState03':
-        String value = methodCall.arguments;
-        Uint8List list = toUnitList(value);
-        if (list[4] == 16) {
-          if (list[12] == 1) {
-            wdText = Globalization.temperatureAnomaly.tr;
-            wdOnline = false;
+    eventBus.on<MethodCall>().listen((methodCall) {
+      switch (methodCall.method) {
+        case 'UltrasonicState03':
+          String value = methodCall.arguments;
+          Uint8List list = toUnitList(value);
+          if (list[4] == 16) {
+            if (list[12] == 1) {
+              wdText = Globalization.temperatureAnomaly.tr;
+              wdOnline = false;
+              if(startSelected){
+                _timer?.cancel();
+                ultrasonic?.init(true);
+                ultrasonic?.start(false,false);
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+                });
+                startSelected = false;
+                cureState = startSelected;
+                setState(() {
+                  RunTime runTime = RunTime(20, 1001);
+                  eventBus.fire(runTime);
+                });
+              }
+              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+            } else {
+              wdText =  Globalization.temperatureNormals.tr;
+              wdOnline = true;
+            }
+          } else if (list[11] == 1) {
+            ultrasonic?.frequency = "1";
+            prowText = '1';
+            onLine = true;
+            unline =Globalization.onLine.tr;
+          } else {
+            unline = Globalization.unlink.tr;
+            onLine = false;
             if(startSelected){
               _timer?.cancel();
               ultrasonic?.init(true);
@@ -121,45 +146,45 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                 RunTime runTime = RunTime(20, 1001);
                 eventBus.fire(runTime);
               });
-              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
             }
-          } else {
-            wdText =  Globalization.temperatureNormals.tr;
-            wdOnline = true;
           }
-        } else if (list[11] == 1) {
-          ultrasonic?.frequency = "1";
-          prowText = '1';
-          onLine = true;
-          unline =Globalization.onLine.tr;
-        } else {
-          unline = Globalization.unlink.tr;
-          onLine = false;
-          if(startSelected){
-            _timer?.cancel();
-            ultrasonic?.init(true);
-            ultrasonic?.start(false,false);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-            });
-            startSelected = false;
-            cureState = startSelected;
-            setState(() {
-              RunTime runTime = RunTime(20, 1001);
-              eventBus.fire(runTime);
-            });
-          }
-        }
-        setState(() {});
-        break;
-      case 'UltrasonicState04':
-        String value = methodCall.arguments;
-        Uint8List list = toUnitList(value);
+          setState(() {});
+          break;
+        case 'UltrasonicState04':
+          String value = methodCall.arguments;
+          Uint8List list = toUnitList(value);
 
-        if (list[4] == 16) {
-          if (list[12] == 1) {
-            wdText = Globalization.temperatureAnomaly.tr;
-            wdOnline = false;
+          if (list[4] == 16) {
+            if (list[12] == 1) {
+              wdText = Globalization.temperatureAnomaly.tr;
+              wdOnline = false;
+              if(startSelected){
+                _timer?.cancel();
+                ultrasonic?.init(true);
+                ultrasonic?.start(false,false);
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+                });
+                startSelected = false;
+                cureState = startSelected;
+                setState(() {
+                  RunTime runTime = RunTime(20, 1001);
+                  eventBus.fire(runTime);
+                });
+                DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+              }
+            } else {
+              wdText = Globalization.temperatureNormals.tr;
+              wdOnline = true;
+            }
+          } else if (list[11] == 1) {
+            ultrasonic?.frequency = "3";
+            prowText = '3';
+            onLine = true;
+            unline = Globalization.onLine.tr;
+          } else {
+            unline =Globalization.unlink.tr;
+            onLine = false;
             if(startSelected){
               _timer?.cancel();
               ultrasonic?.init(true);
@@ -173,40 +198,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                 RunTime runTime = RunTime(20, 1001);
                 eventBus.fire(runTime);
               });
-              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
             }
-          } else {
-            wdText = Globalization.temperatureNormals.tr;
-            wdOnline = true;
           }
-        } else if (list[11] == 1) {
-          ultrasonic?.frequency = "3";
-          prowText = '3';
-          onLine = true;
-          unline = Globalization.onLine.tr;
-        } else {
-          unline =Globalization.unlink.tr;
-          onLine = false;
-          if(startSelected){
-            _timer?.cancel();
-            ultrasonic?.init(true);
-            ultrasonic?.start(false,false);
-            Future.delayed(const Duration(milliseconds: 500), () {
-              eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-            });
-            startSelected = false;
-            cureState = startSelected;
-            setState(() {
-              RunTime runTime = RunTime(20, 1001);
-              eventBus.fire(runTime);
-            });
-          }
-        }
 
-        setState(() {});
-        break;
-    }
+          setState(() {});
+          break;
+      }
+    });
+
   }
+
+
 
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
@@ -367,39 +369,42 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Column(
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              prowText ?? '1',
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 26.sp,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Text(
-                                              'MHz',
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: Colors.red),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 22,
-                                        ),
-                                        Text(
-                                          Globalization.Hz.tr,
-                                          style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: const Color(0xff666666)),
-                                        ),
-                                      ],
+                                    Visibility(
+                                      visible: onLine,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                prowText ?? '1',
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 26.sp,
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                              Text(
+                                                'MHz',
+                                                style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: Colors.red),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 22,
+                                          ),
+                                          Text(
+                                            Globalization.Hz.tr,
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: const Color(0xff666666)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     Column(
                                       children: [
@@ -422,26 +427,29 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      children: [
-                                        Image.asset(
-                                          wdOnline
-                                              ? 'assets/images/icon_wd_online.gif'
-                                              : 'assets/images/icon_wd_unline.gif',
-                                          fit: BoxFit.fitWidth,
-                                          width: 40.w,
-                                          height: 40.h,
-                                        ),
-                                        // const SizedBox(
-                                        //   height: 10,
-                                        // ),
-                                        Text(
-                                          wdText ?? Globalization.temperatureNormals.tr,
-                                          style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: const Color(0xff666666)),
-                                        ),
-                                      ],
+                                    Visibility(
+                                      visible: onLine,
+                                      child: Column(
+                                        children: [
+                                          Image.asset(
+                                            wdOnline
+                                                ? 'assets/images/icon_wd_online.gif'
+                                                : 'assets/images/icon_wd_unline.gif',
+                                            fit: BoxFit.fitWidth,
+                                            width: 40.w,
+                                            height: 40.h,
+                                          ),
+                                          // const SizedBox(
+                                          //   height: 10,
+                                          // ),
+                                          Text(
+                                            wdText ?? Globalization.temperatureNormals.tr,
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: const Color(0xff666666)),
+                                          ),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 )),

@@ -186,6 +186,8 @@ class LanguageValue extends Translations {
           Globalization.hint_016: "电话号码格式不正确",
           Globalization.hint_017: "当前没有用户，添加用户吧",
           Globalization.hint_018: "账号密码错误",
+          Globalization.hint_019: "光疗设备处于急停状态",
+          Globalization.hint_020: "当前设备另一个通道正在运行",
           Globalization.ExportMonth: "导出当月",
           Globalization.ExportYear: "导出当年",
           Globalization.ExportAll: "全部导出",

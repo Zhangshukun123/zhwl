@@ -8,6 +8,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import zhwlzlxt_project.tp.xmaihh.serialport.SerialPortHelper
 import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean
+import zhwlzlxt_project.tp.xmaihh.serialport.stick.StaticLenStickPackageHelper
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil.ByteArrToHex
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util
 import java.util.Timer
@@ -23,6 +24,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
     val serialPortHelper = SerialPortHelper()
     var timer: Timer? = null;
+
 
     lateinit var result: MethodChannel.Result
 
@@ -45,7 +47,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
         }
         toFlutter = MethodChannel(binding.binaryMessenger, "toFlutter");
-
         timer = Timer()
         timer?.schedule(object : TimerTask() {
             override fun run() {
@@ -74,9 +75,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     }
                 }
 
-
             }
-        }, 1000, 500)
+        }, 1000, 1000)
 
 
     }
@@ -107,25 +107,47 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 sendData = call.arguments<String>()
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+
+
+//                var sendCount = 0
+//                val sendTimer = Timer()
+//                sendTimer.schedule(object : TimerTask() {
+//                    override fun run() {
+//                        sendCount++
+//                        if (listBRec.contains(hexData)) {
+//                            listBRec.clear()
+//                            sendTimer.cancel()
+//                            return
+//                        }
+//                        Log.i("serialPortHelper", "run: 重新发送数据-------$hexData")
+//                        serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+//                        if (sendCount >= 2) {
+//                            sendTimer.cancel()
+//                        }
+//                    }
+//                }, 500, 500)
             }
 
         }
     }
 
-
     var hexData: String = "";
+
+//    var listBRec = ArrayList<String>()
 
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        val split = bRec.split("ABBA")
-        if (split.size > 2) {
-
+        if (!bRec.startsWith("ABBA")){
+            serialPortHelper.close()
+            serialPortHelper.open()
+            serialPortHelper.stickPackageHelper = StaticLenStickPackageHelper(15)
+            return
         }
-        Log.i("ByteArrToHex", "onPortDataReceived: $bRec")
+
+//        listBRec.add(bRec)
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {
-//                val bRec = ByteArrToHex(paramComBean.bRec)
                 handler.post {
                     toFlutter.invokeMethod("onSendComplete", bRec, object : MethodChannel.Result {
                         override fun success(o: Any?) {}
@@ -134,8 +156,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     })
                 }
             }
-
             3 -> {//超声1M
+                Log.i("TAG", "onPortDataReceived:03---> $bRec")
                 handler.post {
                     toFlutter.invokeMethod(
                         "UltrasonicState03",
@@ -147,8 +169,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                         })
                 }
             }
-
             4 -> {//超声3M
+                Log.i("TAG", "onPortDataReceived:04---> $bRec")
                 handler.post {
                     toFlutter.invokeMethod(
                         "UltrasonicState04",
@@ -162,6 +184,11 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
         }
     }
+
+    fun received(string: String){
+
+    }
+
 
     override fun onStartError() {
 //        result.success("201")
