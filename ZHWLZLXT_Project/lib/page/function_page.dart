@@ -107,11 +107,16 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
         barrierDismissible: false,
         context: context,
         builder: (context) {
-          return ConnectPort(
-            restConnect: (value) {
-              if (value) {}
-              SerialMsg().startPort().then((value) => {});
+          return WillPopScope(
+            onWillPop: () async{
+              return false;
             },
+            child: ConnectPort(
+              restConnect: (value) {
+                if (value) {}
+                SerialMsg().startPort().then((value) => {});
+              },
+            ),
           );
         });
   }

@@ -18,14 +18,20 @@ class UltrasonicController extends GetxController {
   var title = ''.obs;
   var context = ''.obs;
 
+  bool isRun = false;
+
   void startTimer() {
     count.value = 10;
-    time = Timer.periodic(const Duration(seconds: 1), (timer) {
-      count--;
-      // ignore: unrelated_type_equality_checks
-      if (count == 0) {
-        time.cancel();
-      }
-    });
+    if(!isRun){
+      time = Timer.periodic(const Duration(seconds: 1), (timer) {
+        count--;
+        isRun = true;
+        // ignore: unrelated_type_equality_checks
+        if (count <= 0) {
+          isRun = false;
+          time.cancel();
+        }
+      });
+    }
   }
 }
