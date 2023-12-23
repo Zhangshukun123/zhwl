@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/chuChang_page.dart';
 
 import '../cofig/AnpConfig.dart';
@@ -38,7 +39,7 @@ class SettingDialog {
                       children: [
                         Container(
                             child: Text(
-                              "输入密码",
+                              Globalization.password.tr,
                               style: TextStyle(
                                   color: Colors.white, fontSize: 18.sp),
                             )),
@@ -61,7 +62,7 @@ class SettingDialog {
                             decoration: InputDecoration(
                               counterText: '',
                               border: const OutlineInputBorder(),
-                              hintText: '请输入密码',
+                              hintText: Globalization.password.tr,
                               hintStyle: TextStyle(
                                   color: const Color(0xFF999999),
                                   fontSize: 15.sp),
@@ -90,7 +91,7 @@ class SettingDialog {
                                     Navigator.of(context).pop();
                                   },
                                   child: Text(
-                                    '取消',
+                                    Globalization.cancel.tr,
                                     style: TextStyle(
                                         color: const Color(0xFF00A8E7),
                                         fontSize: 18.sp),
@@ -116,7 +117,7 @@ class SettingDialog {
                                       }
                                       else{
                                         Fluttertoast.showToast(
-                                            msg: '输入密码错误');
+                                            msg: Globalization.hint_018.tr);
                                       }
                                       // Navigator.push(
                                       //     context,
@@ -125,7 +126,7 @@ class SettingDialog {
                                       //         const ChuChangPage()));
                                     },
                                     child: Text(
-                                      '确定',
+                                      Globalization.confirm.tr,
                                       style: TextStyle(
                                           color: const Color(0xFFFFFFFF),
                                           fontSize: 18.sp),
