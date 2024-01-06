@@ -149,8 +149,7 @@ queryLikeUser({
   required String key,
 }) async {
   await sqlUtils.open();
-  String sql =
-      "select * from ${SqlConfig.tableUse} where ${UserTableField.userName} like '$key%' or ${UserTableField.phone} like '$key%' ";
+  String sql ="select * from ${SqlConfig.tableUse} where ${UserTableField.userName} like '$key%' or ${UserTableField.phone} like '$key%' ";
   return await sqlUtils.queryList(sql: sql);
 
   // return await sqlUtils.queryListByHelper(

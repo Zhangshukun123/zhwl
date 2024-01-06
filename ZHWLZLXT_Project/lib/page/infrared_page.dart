@@ -102,6 +102,7 @@ class _InfraredPageState extends State<InfraredPage>
                   _timer?.cancel();
                   isScram = true;
                   startSelected = false;
+                  isDGW = false;
                   infraredEntity?.init(true);
                   infraredEntity?.start(false, false);
                   infraredEntity?.time = "20";
@@ -152,6 +153,7 @@ class _InfraredPageState extends State<InfraredPage>
         eventBus.fire(SetValueState(TreatmentType.infrared));
       });
       this.startSelected = false;
+      isDGW = false;
       HwpzgCureState = this.startSelected;
       infraredEntity?.user?.isCure = this.startSelected;
       setState(() {
@@ -186,6 +188,7 @@ class _InfraredPageState extends State<InfraredPage>
         });
         this.startSelected = false;
         HwpzgCureState = this.startSelected;
+        isDGW = false;
         infraredEntity?.user?.isCure = this.startSelected;
         setState(() {
           RunTime runTime = RunTime(20, 1003);
@@ -483,6 +486,7 @@ class _InfraredPageState extends State<InfraredPage>
                                         startSelected = !startSelected;
                                         if (!startSelected) {
                                           infraredEntity?.init(true);
+                                          isDGW = false;
                                           Future.delayed(
                                               const Duration(milliseconds: 500),
                                               () {
