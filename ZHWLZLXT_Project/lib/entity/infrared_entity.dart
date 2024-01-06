@@ -217,7 +217,6 @@ class InfraredEntity {
 
 
   void save(){
-    print('---------save------${(user != null && user?.userId != 0)}');
     if (user != null && user?.userId != 0){
         endTime = DateTime.now();
         String min = '';

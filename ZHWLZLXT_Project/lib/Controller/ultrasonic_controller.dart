@@ -22,9 +22,12 @@ class UltrasonicController extends GetxController {
 
   void startTimer() {
     count.value = 10;
-    if(!isRun){
+    if (!isRun) {
       time = Timer.periodic(const Duration(seconds: 1), (timer) {
         count--;
+        if (count < 0) {
+          count.value = 0;
+        }
         isRun = true;
         // ignore: unrelated_type_equality_checks
         if (count <= 0) {
@@ -34,4 +37,4 @@ class UltrasonicController extends GetxController {
       });
     }
   }
-}
+  }

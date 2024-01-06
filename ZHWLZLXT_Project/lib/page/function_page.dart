@@ -100,6 +100,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
     }
   }
 
+
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
