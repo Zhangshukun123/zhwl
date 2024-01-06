@@ -132,7 +132,7 @@ class Globalization {
       "3. During the treatment, if the patient has any discomfort or unexpected situation, please press the emergency stop switch, and the treatment should be stopped immediately.\n";
   static const String AttentionTwo =
       "1. When the shock wave is in an abnormal state, stop using it immediately, and contact themanufacturer to solve the problem under the premise of ensuring safety.\n"
-      "2.Ifabnormal sound, fire, smoke, etc. occur when the shock wave is working, the power supplyshould be cut off immediately.\n"
+      "2.If abnormal sound, fire, smoke, etc. occur when the shock wave is working, the power supplyshould be cut off immediately.\n"
       "3. When the shock wave fails, it should be marked with the \"Out of Servicep\" sign, and call themanufacturer for repair.\n"
       "4. The handpiece can only be used by experts and trained professionals, the user is responsiblefor the correct operation of the handpiece, and it is the user's responsibility to accurately find thetreatment location.\n"
       "5. During treatment, if the patient has any discomfort or unexpected situation, the treatmentshould be stopped immediately.\n";
@@ -142,7 +142,7 @@ class Globalization {
       "2.The protocol selection range is 1~50.\n"
       "3. The treatment time is already within the protocol and does not need to be set.\n"
       "4. Click the start button  , \"Start Medium Frequency Therapychannel 1\", the intensity can be adjusted (adjustable from 0 to 99, the step is 1). Please adjustthe intensity slowly. During the adjustment process, keep asking the patient how they feel .\n"
-      "5. When the set treatment time is over or the output is stopped manually, \"Stop Medium Frequency Therapy channel 1\"\n"
+      "5. When the set treatment time is over or the output is stopped manually, \"Stop Medium Frequency Therapy channel 1\".\n"
       "6. The icons of\"+ -\"are gray to indicate that they are not selectable.\n"
       "Tip: There are two different treatment channels for medium frequency therapy. Channel 1 andChannel 2 can be treated individually or at the same time. The above operation steps takechannel 1 as an example.\n"
       "Negative pressure interferential electrotherapy operation instructions:\n"
@@ -150,34 +150,34 @@ class Globalization {
       "2.The protocol selection range is 51~60.\n"
       "3. The treatment time is already within the protocol and does not need to be set.\n"
       "4. Click the start button  , \"Start Interferential Electrotherapy\", theintensity can be adjusted (adjustable from 0 to 99, the step is 1). Please adjust the outputintensity slowly. If it is negative pressure suction therapy, adjust the suction pressure. Duringthe adjustment process, keep asking the patient how they feel.\n"
-      "5. When the set treatment time ends or the output is stopped manually,\"Stop Interferential Electrotherapy\"\n"
+      "5. When the set treatment time ends or the output is stopped manually,\"Stop Interferential Electrotherapy\".\n"
       "6. The icons of\"+ -\"are gray to indicate that they are not selectable.\n";
   static const String detailsSix =
-      "1.Connect the electrode pad to the electrotherapy output interface properly\n"
-      "2.Set relevant parameters: mode, time and frequency\n"
-      "2.1 Mode: select complete denervation and partial denervation through adjustment w > ;\n"
+      "1.Connect the electrode pad to the electrotherapy output interface properly.\n"
+      "2.Set relevant parameters: mode, time and frequency.\n"
+      "2.1 Mode: select complete denervation and partial denervation through adjustment;\n"
       "2.2 Frequency:The first level (complete denervation): the modulation frequency is adjustable from 0.5Hz to5Hz,and the step is 0.5Hz;The second level (partial denervation): the output pulse frequency is adjustable from 0.5Hz to5Hz,and the step is 0.5Hz;\n"
       "2.3 Treatment Time: adjustable from lmin to 30min, and the step is lmin.\n"
       "3. Place the electrode pad on the part to be treated. Before treatment, clean the part to be treatedthen scrub the skin with medical alcohol to remove the oil on the skin, and then moisten the skinwith water to enhance the conductivity of the skin.\n"
       "4. Click the start button, \"Start Neuromuscular Therapy Channel 1\"and the intensity can be adjusted (adjustable from 0 to 99, step is 1). Please adjust the intensityslowly. During the adjustment process, keep asking the patient how they feel .\n"
-      "5. When the set treatment time ends or the output is stopped manually, \"Stop Neuromuscular Therapy Channel 1\"\n"
+      "5. When the set treatment time ends or the output is stopped manually, \"Stop Neuromuscular Therapy Channel 1\".\n"
       "6. The icons of \"+ -\" keys are gray to indicate that they are not selectable.Tip: There are two different treatment channels for Neuromuscular Electrical StimulationTherapy . Channel 1 and Channel 2 can be treated individually or simultaneously. The aboveoperation steps take channel 1 as an example.\"\n";
   static const String detailsFive =
-      "1.Connect the electrode pad to the electrotherapy output interface properly\n"
-      "2.Set related parameters: mode, time, frequency and pulse width\n"
-      "2.1 Mode: select continuous, slow intermittent output or fast intermittent output mode byadjustment:\n"
+      "1.Connect the electrode pad to the electrotherapy output interface properly.\n"
+      "2.Set related parameters: mode, time, frequency and pulse width.\n"
+      "2.1 Mode: select continuous, slow intermittent output or fast intermittent output mode byadjustment;\n"
       "2.2 Frequency: adjustable from 2Hz to 160Hz, step 1Hz;\n"
       "2.3 Pulse Width:60us ~ 520us adjustable, step 10us;\n"
       "2.4 Treatment time: adjustable from lmin to 30min, step by lmin.\n"
       "3. Place the electrode pad on the part to be treated. Before the treatment, clean the part to betreated, first scrub the skin with medical alcohol to remove the oil on the skin, and then moistenthe skin with water to enhance the conductivity of the skin.\n"
       "4. Click the start button  , \"Start TENS Channel 1\", and the inten.sity can be adjusted (adjustable from 0 to 99, step 1). Please adjust the intensity slowly. Duringthe adjustment process, keep asking the patient's feel.\n"
-      "5. When the set treatment time ends or the output is manually stopped, \"Stop TENS Channel 1\"\n"
-      "6. The icons of \"+ -\" keys are gray to indicate that they are not selectable.Tip: There are two different treatment channels for TENS. Channel 1 and Channel 2 can betreated individually or simultaneously. The above operation steps take channel 1 as an example\n";
+      "5. When the set treatment time ends or the output is manually stopped, \"Stop TENS Channel 1\".\n"
+      "6. The icons of \"+ -\" keys are gray to indicate that they are not selectable.Tip: There are two different treatment channels for TENS. Channel 1 and Channel 2 can betreated individually or simultaneously. The above operation steps take channel 1 as an example.\n";
   static const String detailsFour =
       "1. Connect the electrode pads to the electrotherapy output interface properly.\n"
-      "2. Set related parameters: time, pulse period, delay time, pulse width A and pulse width B\n"
+      "2. Set related parameters: time, pulse period, delay time, pulse width A and pulse width B.\n"
       "2.1 Pulse Period: adjustable from 1s to 2s, step is 0.1s;\n"
-      "2.2 Pulse Width: adjustable from 0.1ms to 0.5ms, step is 0.lms\n"
+      "2.2 Pulse Width: adjustable from 0.1ms to 0.5ms, step is 0.lms;\n"
       "2.3 Delay Time: the delay time of the second output of a group of outputs is adjustable from 0.1sto 1.5s compared to the first output, the step is 0.1s, and error +20%;\n"
       "2.4 The treatment time is adjustable from lmin to 30min, and the step is lmin.\n"
       "3. Place the electrode pad on the part to be treated. Before treatment, clean the part to be treated.then scrub the skin with medica alcohol, wipe off the oil on the skin, and then moisten the skinwith water to enhance the conductivity of the skin.\n"
@@ -186,8 +186,8 @@ class Globalization {
       "6. The icons of\"+ -\"are gray to indicate that they are not selectable.\n";
 
   static const String detailsThree =
-      "1. Properly connect the radiator to the output interface of the infrared polarized light module\n"
-      "2,Mode: continuous, intermittent 1, intermittent 2 and intermittent 3, four treatment modesselect different treatment modes by icon .\n"
+      "1. Properly connect the radiator to the output interface of the infrared polarized light module.\n"
+      "2. Mode: continuous, intermittent 1, intermittent 2 and intermittent 3, four treatment modesselect different treatment modes by icon .\n"
       "3. Time: adjustable from 0 to 99 minutes, the step is 1 minute, and the time is set by the + and -keys.\n"
       "4. Intensity: adjustable from 1 to 8 gears, the step is 1, and the intensity is set by + and - keys.\n"
       "5. The radiator is connected normally, select the treatment mode, set the treatment time, clickthe icon > .\"Start Infrared Polarized Light Therapy\", when theset treatment time ends or the output is manually stopped,  \"Stop InfraredPolarized Light Therapy\".\n"
@@ -197,7 +197,7 @@ class Globalization {
   static const String AttentionOne =
       "1. Ultrasound therapy must have enough couplant applied to the skin surface to facilitate thetransmission of ultrasound into the human body. At the same time, the probe must becompletely in contact with the skin to ensure the normal conduction of ultrasound. If thecouplant is too little or the probe is in poor contact with the skin, it will be difficult for theultrasound to be transmitted into the human body, and the probe may become hot and may bedamaged.The couplant cannot be replaced by other items.\n"
       "2. The treatment head must move reciprocatingly around the \"treatment part\", and cannot befixed or stay in a certain part.\n"
-      "3. Very few patients have occasional burning or tingling sensation during treatment, which is an\"allergic\" reaction of the periosteum to ultrasound, and it can be recovered after stoppingtreatment without any trouble\n"
+      "3. Very few patients have occasional burning or tingling sensation during treatment, which is an\"allergic\" reaction of the periosteum to ultrasound, and it can be recovered after stoppingtreatment without any trouble.\n"
       "4. Do not apply the couplant on damaged skin and near the eyes and mouth.\n"
       "5. Selection criteria for couplant: the purchased couplant must comply with the YY0299-2016standard.\n"
       "6. Occasionally, local skin redness and itching may occur during use, which will disappear onits own after discontinuation.\n"
@@ -208,8 +208,8 @@ class Globalization {
       "1. Properly connect the ultrasound probe and the output interface of the ultrasound module.\n"
       "2. The default display mode is Intermittent 1, the output power is 0, the effective sound intensity is 0,and the time is 10 minutes.\n"
       "2.1 Mode: continuous.intermittent 1, intermittent 2 and intermittent 3, four treatment modes.select different treatment modes through the left and right keys.\n"
-      "2.2 Time: the range is adjustable from lmin to 30min, and the step is lmin. You can choose thetreatment time by adjusting \"+ -\". When the treatment time reaches the set value or stopsmanually, there will be a prompt sound of \"Stop Ultrasound Therapy\" and the output will stop\n"
-      "3. Output Power: the range is adjustable from 0 to 7.2W, and the step is 0.6W. After starting.there will be a prompt sound of \"Stop Ultrasound Therapy\", and the output power can beadjusted according to the adjustment of\"+ -\"\n"
+      "2.2 Time: the range is adjustable from lmin to 30min, and the step is lmin. You can choose thetreatment time by adjusting \"+ -\". When the treatment time reaches the set value or stopsmanually, there will be a prompt sound of \"Stop Ultrasound Therapy\" and the output will stop.\n"
+      "3. Output Power: the range is adjustable from 0 to 7.2W, and the step is 0.6W. After starting.there will be a prompt sound of \"Stop Ultrasound Therapy\", and the output power can beadjusted according to the adjustment of\"+ -\".\n"
       "4. Intensity: the range is adjustable from 0 to 1.8W/cm2, and the step is 0.15W/cm?. Whenadjusting the output power, the effective sound intensity changes accordingly.\n"
       "5. When the ultrasound probe is not connected, the prompt message \"Ultrasound probe is notconnected!\" will appear, the ultrasound probe is recognized, and the prompt information disappears.\n"
       "6. When working for a long time, when the ultrasound probe is in a high temperature state, theword \"Over Temperature\" will appear, and the output will be stopped at the same time, and thetime will be in a countdown state. When the temperature of the probe drops to the normalworking temperature, the word \"Over Temperature\" will disappear. The probe continues tooutput.\n"
@@ -223,7 +223,7 @@ class Globalization {
       "3.2 Frequency: adjustable from 20 times/min to 80 times/min, step 10 times/min;\n"
       "3.3 Time: The range is adjustable from lmin to 99min, and the step is lmin.\n"
       "4. According to the patient's condition and the treatment site, choose the opposite or parallelplacement of the treatment pads.\n"
-      "5. When the treatment time reaches the set value or stops manually, \"Stop Pulse Magnetic Therapy\"\n"
+      "5. When the treatment time reaches the set value or stops manually, \"Stop Pulse Magnetic Therapy\".\n"
       "6. The icons of\"+ -\" are gray to indicate that they are not selectable.";
 
 //Intensity
