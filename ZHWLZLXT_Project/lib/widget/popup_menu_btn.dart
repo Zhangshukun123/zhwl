@@ -145,7 +145,6 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem(Globalization.intermittentOne.tr),
           _getPopupMenuItem(Globalization.intermittentTwo.tr),
           _getPopupMenuItem(Globalization.intermittentThree.tr),
-          _getPopupMenuItem('扫频'),
         ];
       case 1:
         widget.unit = "MHz";

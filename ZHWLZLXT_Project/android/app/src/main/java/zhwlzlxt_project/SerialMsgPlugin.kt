@@ -140,7 +140,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-
 //        listBRec.add(bRec)
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {

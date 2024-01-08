@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zhwlzlxt_project/utils/event_bus.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../base/globalization.dart';
+import '../base/run_state_page.dart';
+import '../widget/container_bg.dart';
+import '../widget/set_value.dart';
 import '../widget/set_value_horizontal.dart';
 
 class ChuChangPage extends StatefulWidget {
@@ -13,6 +20,24 @@ class ChuChangPage extends StatefulWidget {
 }
 
 class _ChuChangPageState extends State<ChuChangPage> {
+  var power = 0.0;
+  var utMxt = "1";
+  var powerDAC = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    eventBus.on<String>().listen((event) {
+      if (!mounted) {
+        return;
+      }
+      utMxt = event;
+      setState(() {});
+    });
+    powerDAC = SpUtils.getDouble(power.toString(), defaultValue: 0.0)!;
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
@@ -35,42 +60,45 @@ class _ChuChangPageState extends State<ChuChangPage> {
               Container(
                 width: 700.w,
                 height: 90.h,
-                margin: EdgeInsets.only(left: 115.w,right: 115.w),
+                margin: EdgeInsets.only(left: 115.w, right: 115.w),
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
                     color: const Color(0xFFDBDBDB),
                   ),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(10.w)),
+                  borderRadius: BorderRadius.all(Radius.circular(10.w)),
                 ),
                 child: Row(
                   children: [
                     Container(
                         margin: EdgeInsets.only(left: 33.w),
-                        child: Text('设置',style: TextStyle(color:const Color(0xFF999999),fontSize: 18.sp),)
-                    ),
-                    Expanded(child: SizedBox(width: 10.w,)),
+                        child: Text(
+                          "频率${utMxt}M",
+                          style: TextStyle(
+                              color: const Color(0xFF999999), fontSize: 18.sp),
+                        )),
+                    Expanded(
+                        child: SizedBox(
+                      width: 10.w,
+                    )),
                     Container(
                       width: 110.w,
                       height: 43.h,
                       margin: EdgeInsets.only(right: 33.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00A8E7),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.w),
-                        )
-                      ),
+                          color: const Color(0xFF00A8E7),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.w),
+                          )),
                       child: TextButton(
-                          onPressed: (){
-
+                          onPressed: () {
+                            eventBus.fire(const MethodCall("saponin"));
                           },
-                          child:
-                          Text(
+                          child: Text(
                             '扫频',
-                            style: TextStyle(color: Colors.white,fontSize: 18.sp),
-                          )
-                      ),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18.sp),
+                          )),
                     )
                   ],
                 ),
@@ -83,160 +111,47 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       width: 1,
                       color: const Color(0xFFDBDBDB),
                     ),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(10.w)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.w)),
                   ),
                   child: Row(
                     children: [
                       Container(
                           margin: EdgeInsets.only(left: 33.w),
-                          child: Text('输出功率',style: TextStyle(color:const Color(0xFF999999),fontSize: 18.sp),)
-                      ),
-                      Expanded(child: SizedBox(width: 10.w,)),
-                      Container(
-                        margin: EdgeInsets.only(right: 33.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // if (widget.enabled) {
-                                //   value = (value - appreciation);
-                                //   if (value <= (widget.minValue ?? 0)) {
-                                //     value = (widget.minValue ?? 0);
-                                //   }
-                                //   widget.valueListener!(value);
-                                //   setState(() {});
-                                // }
-                              },
-                              onTapDown: (e) {
-                                // timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
-                                //   if (widget.enabled) {
-                                //     value = (value - appreciation);
-                                //     if (value <= (widget.minValue ?? 0)) {
-                                //       value = (widget.minValue ?? 0);
-                                //     }
-                                //     widget.valueListener!(value);
-                                //     setState(() {});
-                                //   }
-                                // });
-                              },
-                              onTapUp: (e) {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              onTapCancel: () {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              child: Visibility(
-                                visible:  true,
-                                child: Image.asset(
-                                    'assets/images/btn_jian_nor.png',
-                                  // widget.enabled && !(value == (widget.minValue ?? 0))
-                                  //     ? 'assets/images/btn_jian_nor.png'
-                                  //     : 'assets/images/2.0x/btn_jian_disabled.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 34.w,
-                                  height: 34.h,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            Container(
-                              width: 120.w,
-                              height: 60.h,
-                              decoration: const BoxDecoration(
-                                  color: Color(0xFFF0FAFE),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  )),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '1'
-                                    // widget.isInt ?? true
-                                    //     ? value.toInt().toString()
-                                    //     : value.toStringAsFixed(widget.IntFixed ?? 1),
-                              ,
-                                    style: TextStyle(
-                                        color: const Color(0xFF333333), fontSize: 20.sp),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
-                                    child: Text(
-                                      'w',
-                                      style: TextStyle(
-                                          color: const Color(0xFF999999), fontSize: 12.sp),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // if (widget.enabled) {
-                                //   value = value + appreciation;
-                                //   if (value > (widget.maxValue ?? 999999)) {
-                                //     value = (widget.maxValue ?? 999999);
-                                //   }
-                                //   widget.valueListener!(value);
-                                //   setState(() {});
-                                // }
-                              },
-                              onTapDown: (e) {
-                                // timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
-                                //   setState(() {
-                                //     // todo  长按点击事件
-                                //     if (widget.enabled) {
-                                //       value = value + appreciation;
-                                //       if (value > (widget.maxValue ?? 999999)) {
-                                //         value = (widget.maxValue ?? 999999);
-                                //       }
-                                //       widget.valueListener!(value);
-                                //       setState(() {});
-                                //     }
-                                //   });
-                                // });
-                              },
-                              onTapUp: (e) {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              onTapCancel: () {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              child: Visibility(
-                                visible:  true,
-                                child: Image.asset(
-                                    'assets/images/btn_jia_nor.png',
-                                  // widget.enabled && !(value == widget.maxValue)
-                                  //     ? 'assets/images/btn_jia_nor.png'
-                                  //     : 'assets/images/2.0x/btn_jia_disabled.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 34.w,
-                                  height: 34.h,
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
+                          child: Text(
+                            '输出功率',
+                            style: TextStyle(
+                                color: const Color(0xFF999999),
+                                fontSize: 18.sp),
+                          )),
+                      Expanded(
+                          child: SizedBox(
+                        width: 10.w,
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 15.w,
+                          ),
+                          SetValueHorizontal(
+                            enabled: true,
+                            assets: 'assets/images/2.0x/icon_gonglv.png',
+                            initialValue: 0,
+                            width: 250.w,
+                            appreciation: 0.6,
+                            unit: 'W',
+                            maxValue: utMxt == "1" ? 7.2 : 3,
+                            isInt: false,
+                            valueListener: (value) {
+                              power = value;
+                              setState(() {});
+                              // cPower.add(value.toString());
+                            },
+                          ),
+                        ],
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   width: 700.w,
                   height: 90.h,
@@ -245,160 +160,38 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       width: 1,
                       color: const Color(0xFFDBDBDB),
                     ),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(10.w)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.w)),
                   ),
                   child: Row(
                     children: [
                       Container(
                           margin: EdgeInsets.only(left: 33.w),
-                          child: Text('DAC',style: TextStyle(color:const Color(0xFF999999),fontSize: 18.sp),)
-                      ),
-                      Expanded(child: SizedBox(width: 10.w,)),
-                      Container(
-                        margin: EdgeInsets.only(right: 33.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // if (widget.enabled) {
-                                //   value = (value - appreciation);
-                                //   if (value <= (widget.minValue ?? 0)) {
-                                //     value = (widget.minValue ?? 0);
-                                //   }
-                                //   widget.valueListener!(value);
-                                //   setState(() {});
-                                // }
-                              },
-                              onTapDown: (e) {
-                                // timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
-                                //   if (widget.enabled) {
-                                //     value = (value - appreciation);
-                                //     if (value <= (widget.minValue ?? 0)) {
-                                //       value = (widget.minValue ?? 0);
-                                //     }
-                                //     widget.valueListener!(value);
-                                //     setState(() {});
-                                //   }
-                                // });
-                              },
-                              onTapUp: (e) {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              onTapCancel: () {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              child: Visibility(
-                                visible:  true,
-                                child: Image.asset(
-                                  'assets/images/btn_jian_nor.png',
-                                  // widget.enabled && !(value == (widget.minValue ?? 0))
-                                  //     ? 'assets/images/btn_jian_nor.png'
-                                  //     : 'assets/images/2.0x/btn_jian_disabled.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 34.w,
-                                  height: 34.h,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            Container(
-                              width: 120.w,
-                              height: 60.h,
-                              decoration: const BoxDecoration(
-                                  color: Color(0xFFF0FAFE),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  )),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '1'
-                                    // widget.isInt ?? true
-                                    //     ? value.toInt().toString()
-                                    //     : value.toStringAsFixed(widget.IntFixed ?? 1),
-                                    ,
-                                    style: TextStyle(
-                                        color: const Color(0xFF333333), fontSize: 20.sp),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 6.0.h, left: 2.w),
-                                    child: Text(
-                                      'w',
-                                      style: TextStyle(
-                                          color: const Color(0xFF999999), fontSize: 12.sp),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.w,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // if (widget.enabled) {
-                                //   value = value + appreciation;
-                                //   if (value > (widget.maxValue ?? 999999)) {
-                                //     value = (widget.maxValue ?? 999999);
-                                //   }
-                                //   widget.valueListener!(value);
-                                //   setState(() {});
-                                // }
-                              },
-                              onTapDown: (e) {
-                                // timer = Timer.periodic(const Duration(milliseconds: 300), (e) {
-                                //   setState(() {
-                                //     // todo  长按点击事件
-                                //     if (widget.enabled) {
-                                //       value = value + appreciation;
-                                //       if (value > (widget.maxValue ?? 999999)) {
-                                //         value = (widget.maxValue ?? 999999);
-                                //       }
-                                //       widget.valueListener!(value);
-                                //       setState(() {});
-                                //     }
-                                //   });
-                                // });
-                              },
-                              onTapUp: (e) {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              onTapCancel: () {
-                                // if (timer != null) {
-                                //   timer.cancel();
-                                // }
-                              },
-                              child: Visibility(
-                                visible:  true,
-                                child: Image.asset(
-                                  'assets/images/btn_jia_nor.png',
-                                  // widget.enabled && !(value == widget.maxValue)
-                                  //     ? 'assets/images/btn_jia_nor.png'
-                                  //     : 'assets/images/2.0x/btn_jia_disabled.png',
-                                  fit: BoxFit.fitWidth,
-                                  width: 34.w,
-                                  height: 34.h,
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
+                          child: Text(
+                            'DAC',
+                            style: TextStyle(
+                                color: const Color(0xFF999999),
+                                fontSize: 18.sp),
+                          )),
+                      Expanded(
+                          child: SizedBox(
+                        width: 10.w,
+                      )),
+                      SetValueHorizontal(
+                        enabled: true,
+                        assets: 'assets/images/2.0x/icon_gonglv.png',
+                        initialValue: SpUtils.getDouble(power.toString()),
+                        width: 250.w,
+                        appreciation: 0.1,
+                        unit: 'W',
+                        isInt: false,
+                        valueListener: (value) {
+                          powerDAC = value;
+                          // SpUtils.setDouble(power.toString(), value);
+                          // cPower.add(value.toString());
+                        },
                       ),
                     ],
-                  )
-              ),
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -411,13 +204,17 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       ),
                       child: TextButton(
                         onPressed: () {
-
+                          print("--------$cureState");
+                          if (!cureState) {
+                            eventBus.fire(const MethodCall("open"));
+                          } else {
+                            eventBus.fire(const MethodCall("close"));
+                          }
                         },
                         child: Text(
-                          '开启超声',
+                          !cureState ? '开启超声' : "关闭超声",
                           style: TextStyle(
-                              color: const Color(0xFFFFFFFF),
-                              fontSize: 18.sp),
+                              color: const Color(0xFFFFFFFF), fontSize: 18.sp),
                         ),
                       )),
                   Container(
@@ -429,7 +226,11 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       ),
                       child: TextButton(
                           onPressed: () {
-
+                            String formattedNum = powerDAC.toStringAsFixed(2);
+                            SpUtils.setDouble(
+                                power.toString(), double.parse(formattedNum));
+                            showToastMsg(msg: "保存成功");
+                            eventBus.fire(const MethodCall("saveP"));
                           },
                           child: Text(
                             '保存',

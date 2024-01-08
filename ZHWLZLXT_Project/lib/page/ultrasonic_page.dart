@@ -83,19 +83,18 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
-      if(onLine){
-        unline =Globalization.onLine.tr;
-      }else{
+      if (onLine) {
+        unline = Globalization.onLine.tr;
+      } else {
         unline = Globalization.unlink.tr;
       }
-      if(wdOnline){
+      if (wdOnline) {
         wdText = Globalization.temperatureNormals.tr;
-      }else{
+      } else {
         wdText = Globalization.temperatureAnomaly.tr;
       }
       setState(() {});
     });
-
 
     eventBus.on<MethodCall>().listen((methodCall) {
       switch (methodCall.method) {
@@ -106,10 +105,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             if (list[12] == 1) {
               wdText = Globalization.temperatureAnomaly.tr;
               wdOnline = false;
-              if(startSelected){
+              if (startSelected) {
                 _timer?.cancel();
                 ultrasonic?.init(true);
-                ultrasonic?.start(false,false);
+                ultrasonic?.start(false, false);
                 Future.delayed(const Duration(milliseconds: 500), () {
                   eventBus.fire(SetValueState(TreatmentType.ultrasonic));
                 });
@@ -120,23 +119,28 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   eventBus.fire(runTime);
                 });
               }
-              DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+              DialogUtil.alert(
+                  title: "",
+                  message: Globalization.temperatureNormals.tr,
+                  okLabel: "确定");
             } else {
-              wdText =  Globalization.temperatureNormals.tr;
+              wdText = Globalization.temperatureNormals.tr;
               wdOnline = true;
             }
           } else if (list[11] == 1) {
             ultrasonic?.frequency = "1";
             prowText = '1';
+            unltrasonicPw = "1";
+            eventBus.fire(unltrasonicPw);
             onLine = true;
-            unline =Globalization.onLine.tr;
+            unline = Globalization.onLine.tr;
           } else {
             unline = Globalization.unlink.tr;
             onLine = false;
-            if(startSelected){
+            if (startSelected) {
               _timer?.cancel();
               ultrasonic?.init(true);
-              ultrasonic?.start(false,false);
+              ultrasonic?.start(false, false);
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.ultrasonic));
               });
@@ -158,10 +162,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             if (list[12] == 1) {
               wdText = Globalization.temperatureAnomaly.tr;
               wdOnline = false;
-              if(startSelected){
+              if (startSelected) {
                 _timer?.cancel();
                 ultrasonic?.init(true);
-                ultrasonic?.start(false,false);
+                ultrasonic?.start(false, false);
                 Future.delayed(const Duration(milliseconds: 500), () {
                   eventBus.fire(SetValueState(TreatmentType.ultrasonic));
                 });
@@ -171,7 +175,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   RunTime runTime = RunTime(20, 1001);
                   eventBus.fire(runTime);
                 });
-                DialogUtil.alert(title: "", message: Globalization.temperatureNormals.tr, okLabel: "确定");
+                DialogUtil.alert(
+                    title: "",
+                    message: Globalization.temperatureNormals.tr,
+                    okLabel: "确定");
               }
             } else {
               wdText = Globalization.temperatureNormals.tr;
@@ -180,15 +187,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           } else if (list[11] == 1) {
             ultrasonic?.frequency = "3";
             prowText = '3';
+            unltrasonicPw = "3";
+            eventBus.fire(unltrasonicPw);
             onLine = true;
             unline = Globalization.onLine.tr;
           } else {
-            unline =Globalization.unlink.tr;
+            unline = Globalization.unlink.tr;
             onLine = false;
-            if(startSelected){
+            if (startSelected) {
               _timer?.cancel();
               ultrasonic?.init(true);
-              ultrasonic?.start(false,false);
+              ultrasonic?.start(false, false);
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.ultrasonic));
               });
@@ -200,19 +209,56 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               });
             }
           }
-
           setState(() {});
           break;
+        case 'saponin':
+          ultrasonic?.pattern = "扫频";
+          ultrasonic?.start(startSelected, false);
+          break;
+        case "open":
+          startSelected = true;
+          ultrasonic?.start(
+              startSelected, startSelected);
+          cureState = startSelected;
+          double? tmp = double.tryParse(
+              ultrasonic?.time ?? '1');
+          _countdownTime =
+          ((tmp?.toInt())!);
+          startCountdownTimer(
+              startSelected);
+          setState(() {});
+          break;
+        case "close":
+          _timer?.cancel();
+          ultrasonic?.init(true);
+          ultrasonic?.start(false, false);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+          });
+          startSelected = false;
+          cureState = startSelected;
+          setState(() {
+            RunTime runTime = RunTime(20, 1001);
+            eventBus.fire(runTime);
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
+          });
+          break;
+
+        case "saveP":
+          if(startSelected){
+            ultrasonic?.start(
+                startSelected, startSelected);
+          }
+          break;
+
       }
     });
-
   }
-
-
 
   sendHeart(value) {
     if (value == AppConfig.connect_time) {
-      showConnectPort(Globalization.connectionTimeout.tr, Globalization.reconnect.tr);
+      showConnectPort(
+          Globalization.connectionTimeout.tr, Globalization.reconnect.tr);
     }
     if (value == "102") {
       if (isShow) {
@@ -276,7 +322,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         ultrasonic?.init(true);
-        ultrasonic?.start(false,false);
+        ultrasonic?.start(false, false);
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.ultrasonic));
         });
@@ -289,7 +335,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         });
         return;
       }
-      ultrasonic?.start(this.startSelected,false);
+      ultrasonic?.start(this.startSelected, false);
     }
 
     _timer = Timer.periodic(oneSec, callback);
@@ -384,7 +430,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                 style: TextStyle(
                                                     color: Colors.red,
                                                     fontSize: 26.sp,
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               Text(
                                                 'MHz',
@@ -443,7 +490,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                           //   height: 10,
                                           // ),
                                           Text(
-                                            wdText ?? Globalization.temperatureNormals.tr,
+                                            wdText ??
+                                                Globalization
+                                                    .temperatureNormals.tr,
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xff666666)),
@@ -468,13 +517,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               isEventBus: true,
                               assets: 'assets/images/2.0x/icon_gonglv.png',
                               initialValue:
-                                  double.tryParse(ultrasonic?.power ?? '0'),
+                                  double.tryParse(ultrasonic?.power ?? '0.0'),
                               appreciation: 0.6,
                               unit: 'W',
                               // ignore: unrelated_type_equality_checks
-                              maxValue: prowText == "1"
-                                  ? 7.2
-                                  : 3,
+                              maxValue: prowText == "1" ? 7.2 : 3,
                               //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
                               isInt: false,
                               valueListener: (value) {
@@ -491,7 +538,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
-                                  ultrasonic?.start(startSelected,false);
+                                  ultrasonic?.start(startSelected, false);
                                 }
                                 // cPower.add(value.toString());
                               },
@@ -610,8 +657,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               )),
                                           child: TextButton(
                                             onPressed: () {
-                                              if (!onLine) {
-                                                showToastMsg(msg: Globalization.unlink.tr);
+                                              if (!onLine&&!startSelected) {
+                                                showToastMsg(
+                                                    msg: Globalization
+                                                        .unlink.tr);
                                                 return;
                                               }
                                               startSelected = !startSelected;
@@ -625,7 +674,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
-                                              ultrasonic?.start(startSelected,startSelected);
+                                              ultrasonic?.start(
+                                                  startSelected, startSelected);
                                               cureState = startSelected;
 
                                               setState(() {

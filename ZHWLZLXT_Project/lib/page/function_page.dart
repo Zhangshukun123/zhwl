@@ -93,7 +93,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
         break;
       case 'onHeartFail':
         if (!isShow) {
-          showConnectPort('设备连接超时', "正在尝试重新连接");
+          // showConnectPort('设备连接超时', "正在尝试重新连接");
         }
         isShow = true;
         break;

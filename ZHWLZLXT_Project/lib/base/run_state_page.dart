@@ -1,7 +1,7 @@
 import '../utils/treatment_type.dart';
 import '../utils/utils_tool.dart';
 
-bool? cureState = false;//超声治疗
+bool cureState = false;//超声治疗
 bool? MccCureState = false;//脉冲磁疗法
 bool? HwpzgCureState = false;//红外偏振光治疗
 bool? JljCureState = false;//痉挛肌治疗

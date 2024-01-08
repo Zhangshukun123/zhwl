@@ -26,6 +26,7 @@ class SetValueHorizontal extends StatefulWidget {
   bool? isClock = false;
   bool? isAnimate = false;
   double? initialValue;
+  double? width;
   String? unit;
   double? appreciation = 1;
   ValueListener? valueListener;
@@ -50,6 +51,7 @@ class SetValueHorizontal extends StatefulWidget {
     this.valueListener,
     this.minValue,
     this.maxValue,
+    this.width,
     this.isVisJa,
     this.type,
     this.unit,
@@ -102,13 +104,10 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       if (!mounted) {
         return;
       }
-      if(widget.indexType==null){
+      if (widget.indexType == null) {
         return;
       }
 
-      print("-----------RunTime---${(widget.indexType != event.intType)}");
-      print("-----------RunTime--widget.indexType-${(widget.indexType)}");
-      print("-----------RunTime--widget.indexType-1111${(event.intType)}");
       if (widget.indexType != event.intType) {
         return;
       }
@@ -134,42 +133,45 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
   @override
   Widget build(BuildContext context) {
     return ContainerBg(
-        width: 340.w,
+        width: widget.width ?? 340.w,
         height: widget.height ?? 100.h,
         child: Row(
           children: [
             SizedBox(
               width: 20.w,
             ),
-            SizedBox(
-              width: (Get.locale?.countryCode == "CN") ? 70.w : 100.w,
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(children: [
-                    (widget.isClock ?? false)
-                        ? Lottie.asset('assets/lottie/clock.json',
-                            repeat: true,
-                            animate: widget.isAnimate,
-                            width: 18.w,
-                            fit: BoxFit.fitWidth)
-                        : Image.asset(
-                            widget.assets ??
-                                'assets/images/2.0x/icon_shijian.png',
-                            fit: BoxFit.fitWidth,
-                            width: 15.w,
-                          ),
-                    SizedBox(
-                      width: 4.w,
-                    ),
-                    Expanded(
-                      child: Text(
-                        widget.title ?? "时间",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: const Color(0xFF999999), fontSize: 16.sp),
+            Offstage(
+              offstage: widget.title?.isEmpty ?? true,
+              child: SizedBox(
+                width: (Get.locale?.countryCode == "CN") ? 70.w : 100.w,
+                child: TextButton(
+                    onPressed: () {},
+                    child: Row(children: [
+                      (widget.isClock ?? false)
+                          ? Lottie.asset('assets/lottie/clock.json',
+                              repeat: true,
+                              animate: widget.isAnimate,
+                              width: 18.w,
+                              fit: BoxFit.fitWidth)
+                          : Image.asset(
+                              widget.assets ??
+                                  'assets/images/2.0x/icon_shijian.png',
+                              fit: BoxFit.fitWidth,
+                              width: 15.w,
+                            ),
+                      SizedBox(
+                        width: 4.w,
                       ),
-                    ),
-                  ])),
+                      Expanded(
+                        child: Text(
+                          widget.title ?? "时间",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: const Color(0xFF999999), fontSize: 16.sp),
+                        ),
+                      ),
+                    ])),
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -209,7 +211,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: Visibility(
                 visible: widget.isVisJa ?? true,
                 child: Image.asset(
-                  widget.enabled==true && (value != widget.minValue)
+                  widget.enabled == true && (value != widget.minValue)
                       ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
@@ -291,7 +293,7 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
               child: Visibility(
                 visible: widget.isVisJa ?? true,
                 child: Image.asset(
-                  widget.enabled==true && (value != widget.maxValue)
+                  widget.enabled == true && (value != widget.maxValue)
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,
