@@ -23,7 +23,7 @@ class SettingDialog {
         return Dialog(
           child: Container(
             width: 500.w,
-            height: 300.h,
+            height: 250.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10.w),
@@ -47,11 +47,11 @@ class SettingDialog {
                     )),
                 SizedBox(
                     width: 500.w,
-                    height: 250.h,
+                    height: 200.h,
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 55.h),
+                          margin: EdgeInsets.only(top: 30.h),
                           width:300.w,
                           height: 60.h,
                           child: TextField(
@@ -78,7 +78,7 @@ class SettingDialog {
                             Container(
                                 height: 34.5.h,
                                 width: 90.5.w,
-                                margin: EdgeInsets.only(top: 29.h),
+                                margin: EdgeInsets.only(top: 15.h),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 0.5,
@@ -100,7 +100,7 @@ class SettingDialog {
                             Container(
                                 height: 34.5.h,
                                 width: 90.5.w,
-                                margin: EdgeInsets.only(top: 29.h),
+                                margin: EdgeInsets.only(top: 15.h),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF00A8E7),
                                   border: Border.all(

@@ -13,6 +13,8 @@ import 'package:zhwlzlxt_project/entity/port_data.dart';
 import 'package:zhwlzlxt_project/entity/record_entity.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
+import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../Controller/treatment_controller.dart';
 import '../base/globalization.dart';
@@ -47,7 +49,7 @@ class Ultrasonic {
   });
 
   init(bool isSave) {
-    if(isSave){
+    if (isSave) {
       save();
     }
     pattern = Globalization.intermittentOne.tr;
@@ -84,9 +86,8 @@ class Ultrasonic {
 
   User? user;
 
-  bool start(bool isStart,isOpenStart) {
-
-    if(isStart&&isOpenStart){
+  bool start(bool isStart, isOpenStart) {
+    if (isStart && isOpenStart) {
       setTime = time;
       startTime = DateTime.now();
     }
@@ -202,12 +203,13 @@ class Ultrasonic {
     //data = "$data $time";
     // data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
-    if (TextUtil.isEmpty(power)) {
+    if (TextUtil.isEmpty(power)||power=="0") {
       power = '0.0';
     }
     // data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
     //数据进制转换
-    var powerValue = double.tryParse(power!)! * 10;
+
+    var powerValue = SpUtils.getDouble(power!)! * 10;
     var powerTmps = powerValue.toInt().toRadixString(16);
     if (powerTmps.length > 1) {
       data = "$data $powerTmps";
@@ -231,15 +233,15 @@ class Ultrasonic {
     data = "$data 00"; // 08
     data = "$data 00"; // 09
     data = "$data 00"; // 10
+
     SerialPort().send(data);
-    if(!isStart){
+    if (!isStart) {
       time = '20';
     }
     return isStart;
   }
 
-
-  void save(){
+  void save() {
     if (user != null && user?.userId != 0) {
       endTime = DateTime.now();
       String min = '';
@@ -265,5 +267,4 @@ class Ultrasonic {
       RecordSqlDao.instance().addData(record: record);
     }
   }
-
 }

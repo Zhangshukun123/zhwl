@@ -11,6 +11,7 @@ Map<TreatmentType, User> userMap = {};
 TabController? tabController;
 
 
-
-
 bool? electrotherapyIsRunIng = false;
+
+
+String unltrasonicPw = "1";
