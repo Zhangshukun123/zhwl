@@ -51,7 +51,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
         timer?.schedule(object : TimerTask() {
             override fun run() {
                 serialPortHelper.count++
-                if (serialPortHelper.count > 10) {
+                if (serialPortHelper.count > 20) {
                     handler.post {
                         toFlutter.invokeMethod(
                             "onHeartFail",
@@ -99,7 +99,9 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
 
             "heard" -> {
-                serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
+                if (serialPortHelper.isOpen){
+                    serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
+                }
             }
 
             "sendData" -> {
@@ -138,12 +140,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        if (!bRec.startsWith("ABBA")){
-            serialPortHelper.close()
-            serialPortHelper.open()
-            serialPortHelper.stickPackageHelper = StaticLenStickPackageHelper(15)
-            return
-        }
 
 //        listBRec.add(bRec)
         when (toUnsignedInt(paramComBean.bRec[3])) {
