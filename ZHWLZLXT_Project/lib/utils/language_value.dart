@@ -158,7 +158,7 @@ class LanguageValue extends Translations {
           Globalization.intermittentOne: "断续1",
           Globalization.intermittentTwo: "断续2",
           Globalization.intermittentThree: "断续3",
-          Globalization.frequency: "扫频",
+          Globalization.Sweepfrequency: "扫频",
           Globalization.fast: "快速断续输出",
           Globalization.slow: "慢速断续输出",
           Globalization.complete: "完全失神经",

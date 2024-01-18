@@ -173,7 +173,7 @@ class Ultrasonic {
       }
     }
 
-    if (pattern == BYTE04_PT.B_T_05) {
+    if (pattern == Globalization.Sweepfrequency.tr) {
       // data = "$data ${BYTE04_PT.B04}";
       //转成double类型数据
       var patternValue4 = double.tryParse(BYTE04_PT.B05);
