@@ -213,44 +213,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           break;
         case 'saponin':
           ultrasonic?.pattern = "扫频";
-          ultrasonic?.start(startSelected, false);
+          ultrasonic?.start(true, false);
           break;
         case "open":
-          startSelected = true;
-          ultrasonic?.start(
-              startSelected, startSelected);
-          cureState = startSelected;
-          double? tmp = double.tryParse(
-              ultrasonic?.time ?? '1');
-          _countdownTime =
-          ((tmp?.toInt())!);
-          startCountdownTimer(
-              startSelected);
-          setState(() {});
           break;
         case "close":
-          _timer?.cancel();
-          ultrasonic?.init(true);
-          ultrasonic?.start(false, false);
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-          });
-          startSelected = false;
-          cureState = startSelected;
-          setState(() {
-            RunTime runTime = RunTime(20, 1001);
-            eventBus.fire(runTime);
-            showToastMsg(msg: Globalization.endOfTreatment.tr);
-          });
+          ultrasonic?.start(true, false);
           break;
-
         case "saveP":
-          if(startSelected){
-            ultrasonic?.start(
-                startSelected, startSelected);
-          }
+          ultrasonic?.start(true, false);
           break;
-
       }
     });
   }
@@ -657,7 +629,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               )),
                                           child: TextButton(
                                             onPressed: () {
-                                              if (!onLine&&!startSelected) {
+                                              if (!onLine && !startSelected) {
                                                 showToastMsg(
                                                     msg: Globalization
                                                         .unlink.tr);

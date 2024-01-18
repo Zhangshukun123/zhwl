@@ -204,15 +204,12 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          print("--------$cureState");
-                          if (!cureState) {
-                            eventBus.fire(const MethodCall("open"));
-                          } else {
+                          if (cureState) {
                             eventBus.fire(const MethodCall("close"));
                           }
                         },
                         child: Text(
-                          !cureState ? '开启超声' : "关闭超声",
+                          "关闭超声",
                           style: TextStyle(
                               color: const Color(0xFFFFFFFF), fontSize: 18.sp),
                         ),
