@@ -152,7 +152,7 @@ class Percutaneous {
     }
     if (patternA == Globalization.fast.tr) {
       // data = "$data ${BYTE04_PT.B02}";
-      var patternValue = double.tryParse(BYTE04_PT.B02);
+      var patternValue = double.tryParse(BYTE04_PT.B03);
       var patternTmps = patternValue?.toInt().toRadixString(16);
       if (patternTmps!.length > 1) {
         data = "$data $patternTmps";
@@ -162,7 +162,7 @@ class Percutaneous {
     }
     if (patternA == Globalization.slow.tr) {
       // data = "$data ${BYTE04_PT.B03}";
-      var patternValue = double.tryParse(BYTE04_PT.B03);
+      var patternValue = double.tryParse(BYTE04_PT.B02);
       var patternTmps = patternValue?.toInt().toRadixString(16);
       if (patternTmps!.length > 1) {
         data = "$data $patternTmps";
