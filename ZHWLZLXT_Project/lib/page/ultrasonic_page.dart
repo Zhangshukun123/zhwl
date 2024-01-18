@@ -526,15 +526,11 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               isInt: false,
                               valueListener: (value) {
                                 ultrasonic?.power = value.toStringAsFixed(2);
-                                if (ultrasonicController
-                                        .ultrasonic.frequency.value ==
-                                    1) {
-                                  ultrasonic?.soundIntensity =
-                                      (value / 4).toStringAsFixed(2);
+                                if (ultrasonic?.frequency == "1") {
+                                  ultrasonic?.soundIntensity = (value / 4).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 4)));
                                 } else {
-                                  ultrasonic?.soundIntensity =
-                                      (value / 2).toStringAsFixed(2);
+                                  ultrasonic?.soundIntensity = (value / 2).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
