@@ -203,20 +203,21 @@ class Ultrasonic {
     //data = "$data $time";
     // data = "$data ${(double.tryParse(time!))?.toInt()}"; // 05
 
-    if (TextUtil.isEmpty(power)||power=="0") {
+    if (TextUtil.isEmpty(power) || power == "0") {
       power = '0.0';
     }
     // data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
     //数据进制转换
-
-    var powerValue = SpUtils.getDouble(power!)! * 10;
+    var powerValue = double.parse(power!)* 10;
+    if(SpUtils.getDouble(power!,defaultValue: -1)!=-1){
+      powerValue = SpUtils.getDouble(power!)! * 10;
+    }
     var powerTmps = powerValue.toInt().toRadixString(16);
     if (powerTmps.length > 1) {
       data = "$data $powerTmps";
     } else {
       data = "$data 0$powerTmps";
     }
-
     if (TextUtil.isEmpty(soundIntensity)) {
       soundIntensity = '0.0';
     }
@@ -253,7 +254,7 @@ class Ultrasonic {
       }
       // 存储信息 结束
       Record record = Record(
-         userId: user?.userId,
+        userId: user?.userId,
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
         utilityTime: setTime,
