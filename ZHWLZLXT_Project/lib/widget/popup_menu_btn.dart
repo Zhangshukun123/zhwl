@@ -145,6 +145,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem(Globalization.intermittentOne.tr),
           _getPopupMenuItem(Globalization.intermittentTwo.tr),
           _getPopupMenuItem(Globalization.intermittentThree.tr),
+          _getPopupMenuItem(Globalization.frequency.tr),
         ];
       case 1:
         widget.unit = "MHz";

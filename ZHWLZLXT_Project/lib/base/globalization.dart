@@ -75,6 +75,7 @@ class Globalization {
   static const String intermittentOne = "intermittent1"; //断续 1
   static const String intermittentTwo = "intermittent2"; // 断续 2
   static const String intermittentThree = "intermittent3"; // 断续 3
+  static const String frequency = "sweep frequency"; // 断续 3
   static const String fast = "Fast Intermittent"; // 快速断续输出
   static const String slow = "Slow Intermittent"; // 慢速断续输出
   static const String complete = "Complete denervation"; // 完全失神经
