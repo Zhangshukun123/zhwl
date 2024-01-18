@@ -253,7 +253,7 @@ class Ultrasonic {
       }
       // 存储信息 结束
       Record record = Record(
-        userId: user?.userId,
+         userId: user?.userId,
         dataTime: formatDate(DateTime.now(),
             [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
         utilityTime: setTime,

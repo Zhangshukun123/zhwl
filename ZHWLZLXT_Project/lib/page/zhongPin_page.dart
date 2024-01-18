@@ -153,6 +153,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         _timer2?.cancel();
         midFrequency?.init2(true);
         midFrequency?.start2(false);
+        midFrequency?.patternB = "1";
         erStartSelected = false;
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         ZpgrdCureState = yiStartSelected || erStartSelected;
