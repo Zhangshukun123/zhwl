@@ -38,10 +38,11 @@ class InfraredEntity {
     this.pattern,
     this.isStart,
   });
-  String? settingTime;
-  void init(bool isSave) {
 
-    if(isSave){
+  String? settingTime;
+
+  void init(bool isSave) {
+    if (isSave) {
       save();
     }
     power = "1";
@@ -71,7 +72,7 @@ class InfraredEntity {
   DateTime? endTime;
   User? user;
 
-  bool start(bool isStart,bool isOpenStart) {
+  bool start(bool isStart, bool isOpenStart) {
     // final TreatmentController controller = Get.find();
     // print('--------------${controller.user.value.userId}');
     // if (controller.user.value.userId == 0 ||
@@ -81,11 +82,10 @@ class InfraredEntity {
     //   return false;
     // }
 
-    if(isStart&&isOpenStart){
+    if (isStart && isOpenStart) {
       settingTime = time;
       startTime = DateTime.now();
     }
-
 
     // AB BA 01 03(04) 03(04) 01 01 12 36 60 XX XX XX CRCH CRCL
     String data = BYTE00_RW.B01; // 02
@@ -210,37 +210,34 @@ class InfraredEntity {
     data = "$data 00"; // 11
     data = "$data 00"; // 12
     SerialPort().send(data);
-    if(!isStart){
+    if (!isStart) {
       time = '20';
     }
     return isStart;
   }
 
-
-  void save(){
-    if (user != null && user?.userId != 0){
-        endTime = DateTime.now();
-        String min = '';
-        Duration diff = endTime!.difference(startTime!);
-        if (diff.inMinutes == 0) {
-          min = '1';
-        } else {
-          min = '${diff.inMinutes}';
-        }
-        // 存储信息 结束
-        Record record = Record(
-          userId: user?.userId,
-          dataTime: formatDate(DateTime.now(),
-              [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
-          utilityTime: settingTime,
-          pattern: pattern,
-          recordType: Globalization.infrared.tr,
-          strengthGrade: power,
-          actionTime: min,
-        );
-        RecordSqlDao.instance().addData(record: record);
+  void save() {
+    if (user != null && user?.userId != 0) {
+      endTime = DateTime.now();
+      String min = '';
+      Duration diff = endTime!.difference(startTime!);
+      if (diff.inMinutes == 0) {
+        min = '1';
+      } else {
+        min = '${diff.inMinutes}';
+      }
+      // 存储信息 结束
+      Record record = Record(
+        userId: user?.userId,
+        dataTime: formatDate(DateTime.now(),
+            [yyyy, '-', mm, '-', dd, ' ', HH, ':', nn, ':', ss]),
+        utilityTime: settingTime,
+        pattern: pattern,
+        recordType: Globalization.infrared.tr,
+        strengthGrade: power,
+        actionTime: min,
+      );
+      RecordSqlDao.instance().addData(record: record);
     }
   }
-
-
 }

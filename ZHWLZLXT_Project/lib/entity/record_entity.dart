@@ -123,10 +123,88 @@ class Record {
         RecordField.utilityTime: utilityTime,
       };
 
+  // ignore: constant_identifier_names
+  static const String CHINESE_REGEX = "[\u4e00-\u9fa5]";
+
+  // 是否包含中文
+  static bool isChinese(String input) {
+    if (input.isEmpty) return false;
+    return RegExp(CHINESE_REGEX).hasMatch(input);
+  }
+
   List<String>? getInfoList() {
     List<String> infos = [];
     if (!TextUtil.isEmpty(pattern)) {
-      infos.add('${Globalization.mode.tr}：$pattern');
+      String? cl = Get.locale?.languageCode;
+      String patternA = "";
+
+      if (cl == "zh" || cl == "CN") {
+        var ch = isChinese(pattern!);
+        if (ch) {
+          patternA = pattern!;
+        } else {
+          switch (pattern) {
+            case "Continuous":
+              patternA = "连续";
+              break;
+            case "intermittent1":
+              patternA = "断续1";
+              break;
+            case "intermittent2":
+              patternA = "断续2";
+              break;
+            case "intermittent3":
+              patternA = "断续3";
+              break;
+            case "Fast Intermittent":
+              patternA = "快速断续输出";
+              break;
+            case "Slow Intermittent":
+              patternA = "慢速断续输出";
+              break;
+            case "Complete denervation":
+              patternA = "完全失神经";
+              break;
+            case "Partial denervation":
+              patternA = "部分失神经";
+              break;
+          }
+        }
+      } else {
+        var ch = isChinese(pattern!);
+        if (ch) {
+          switch (pattern) {
+            case "连续":
+              patternA = "Continuous";
+              break;
+            case "断续1":
+              patternA = "intermittent1";
+              break;
+            case "断续2":
+              patternA = "intermittent2";
+              break;
+            case "断续3":
+              patternA = "intermittent3";
+              break;
+            case "快速断续输出":
+              patternA = "Fast Intermittent";
+              break;
+            case "慢速断续输出":
+              patternA = "Slow Intermittent";
+              break;
+            case "完全失神经":
+              patternA = "Complete denervation";
+              break;
+            case "部分失神经":
+              patternA = "Partial denervation";
+              break;
+          }
+        } else {
+          patternA = pattern!;
+        }
+      }
+
+      infos.add('${Globalization.mode.tr}：$patternA');
     }
     if (!TextUtil.isEmpty(prescription)) {
       infos.add('${Globalization.recipe.tr}：$prescription');
@@ -162,7 +240,7 @@ class Record {
     }
 
     if (!TextUtil.isEmpty(width)) {
-      infos.add('${Globalization.pulseWidth.tr}：${width}us');
+      infos.add('${Globalization.pulseWidth.tr}：$widthμs');
     }
     if (!TextUtil.isEmpty(widthA)) {
       infos.add('${Globalization.pulseWidthA.tr}：${widthA}ms');
@@ -193,10 +271,77 @@ class Record {
   Map<String, String> getListTitle() {
     Map<String, String> mapData = {};
     if (!TextUtil.isEmpty(recordType)) {
-      mapData[Globalization.therapyMethod.tr] = recordType!;
+      mapData[Globalization.therapyMethod.tr] = getType(recordType!);
     }
     if (!TextUtil.isEmpty(pattern)) {
-      mapData[Globalization.mode.tr] = pattern!;
+      String? cl = Get.locale?.languageCode;
+      String patternA = "";
+      if (cl == "zh" || cl == "CN") {
+        var ch = isChinese(pattern!);
+        if (ch) {
+          patternA = pattern!;
+        } else {
+          switch (pattern) {
+            case "Continuous":
+              patternA = "连续";
+              break;
+            case "intermittent1":
+              patternA = "断续1";
+              break;
+            case "intermittent2":
+              patternA = "断续2";
+              break;
+            case "intermittent3":
+              patternA = "断续3";
+              break;
+            case "Fast Intermittent":
+              patternA = "快速断续输出";
+              break;
+            case "Slow Intermittent":
+              patternA = "慢速断续输出";
+              break;
+            case "Complete denervation":
+              patternA = "完全失神经";
+              break;
+            case "Partial denervation":
+              patternA = "部分失神经";
+              break;
+          }
+        }
+      } else {
+        var ch = isChinese(pattern!);
+        if (ch) {
+          switch (pattern) {
+            case "连续":
+              patternA = "Continuous";
+              break;
+            case "断续1":
+              patternA = "intermittent1";
+              break;
+            case "断续2":
+              patternA = "intermittent2";
+              break;
+            case "断续3":
+              patternA = "intermittent3";
+              break;
+            case "快速断续输出":
+              patternA = "Fast Intermittent";
+              break;
+            case "慢速断续输出":
+              patternA = "Slow Intermittent";
+              break;
+            case "完全失神经":
+              patternA = "Complete denervation";
+              break;
+            case "部分失神经":
+              patternA = "Partial denervation";
+              break;
+          }
+        } else {
+          patternA = pattern!;
+        }
+      }
+      mapData[Globalization.mode.tr] = patternA;
     }
     if (!TextUtil.isEmpty(prescription)) {
       mapData[Globalization.recipe.tr] = prescription!;
@@ -232,7 +377,7 @@ class Record {
       mapData[Globalization.frequency.tr] = '${frequency}Hz';
     }
     if (!TextUtil.isEmpty(width)) {
-      mapData[Globalization.pulseWidth.tr] = '${width}ms';
+      mapData[Globalization.pulseWidth.tr] = '${width}μs';
     }
     if (!TextUtil.isEmpty(widthA)) {
       mapData[Globalization.pulseWidthA.tr] = '${widthA}ms';
@@ -252,9 +397,104 @@ class Record {
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
       mapData[Globalization.openTime.tr] = '${zdTime}min';
     }
-    if (!TextUtil.isEmpty(dataTime)) {
-      mapData[Globalization.RecordTime.tr] = '$dataTime';
-    }
+    // if (!TextUtil.isEmpty(dataTime)) {
+    //   mapData[Globalization.RecordTime.tr] = '$dataTime';
+    // }
     return mapData;
+  }
+
+
+  String getType(String type) {
+    String? cl = Get.locale?.languageCode;
+    switch (type) {
+      case "超声疗法":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "Ultrasound";
+        }
+      case "Ultrasound Therapy":
+        if (cl == "zh" || cl == "CN") {
+          return "超声疗法";
+        } else {
+          return type;
+        }
+      case "脉冲磁疗法":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "Pulse Magnetic";
+        }
+      case "Pulse Magnetic Therapy":
+        if (cl == "zh" || cl == "CN") {
+          return "脉冲磁疗法";
+        } else {
+          return type;
+        }
+
+      case "红外偏振光治疗":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "Infrared Polarized Light";
+        }
+      case "Infrared Polarized Light Therapy":
+        if (cl == "zh" || cl == "CN") {
+          return "红外偏振光治疗";
+        } else {
+          return type;
+        }
+      case "痉挛肌治疗":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "SpasmMuscle";
+        }
+      case "SpasmMuscleTherapy":
+        if (cl == "zh" || cl == "CN") {
+          return "痉挛肌治疗";
+        } else {
+          return type;
+        }
+
+      case "经皮神经电刺激":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "TENS";
+        }
+      case "TENS":
+        if (cl == "zh" || cl == "CN") {
+          return "经皮神经电刺激";
+        } else {
+          return type;
+        }
+
+      case "神经肌肉电刺激":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "MuscleStimulator";
+        }
+      case "MuscleStimulator":
+        if (cl == "zh" || cl == "CN") {
+          return "神经肌肉电刺激";
+        } else {
+          return type;
+        }
+      case "中频/干扰电治疗":
+        if (cl == "zh" || cl == "CN") {
+          return type;
+        } else {
+          return "MediumFrequency/InterferentialCurrent";
+        }
+      case "MediumFrequency/InterferentialCurrentTherapy":
+        if (cl == "zh" || cl == "CN") {
+          return "中频/干扰电治疗";
+        } else {
+          return "MediumFrequency/InterferentialCurrent";
+        }
+    }
+    return "";
   }
 }

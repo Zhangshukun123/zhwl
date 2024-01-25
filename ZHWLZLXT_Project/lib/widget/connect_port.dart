@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 
+import '../base/globalization.dart';
+
 typedef RestConnect = Function(bool isBack);
 
 // ignore: must_be_immutable
@@ -31,7 +33,7 @@ class ConnectPort extends Dialog {
                 height: 20,
               ),
               Obx(() => Text(
-                    '提示：${controller.title}',
+                    '${Globalization.hint.tr}：${controller.title}',
                     style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -58,7 +60,7 @@ class ConnectPort extends Dialog {
     }
 
     return Text(
-      '${controller.context}...,请稍等${controller.count}秒',
+      '${controller.context}...,${Globalization.loading_1.tr} : ${controller.count}s',
       style: const TextStyle(fontSize: 22, color: Color(0xff666666)),
     );
   }

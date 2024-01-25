@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../base/globalization.dart';
 import '../main.dart';
 
 typedef fut();
@@ -19,7 +20,7 @@ class DialogUtil {
     // });
 
     Get.defaultDialog(
-        title: "提示",
+        title: Globalization.hint.tr,
         barrierDismissible:false,
         titlePadding: const EdgeInsets.only(top: 10,bottom: 10),
         titleStyle: const TextStyle(fontSize: 30),
@@ -28,11 +29,11 @@ class DialogUtil {
             Get.back();
             fu?.call();
           },
-          child: const Padding(
-            padding: EdgeInsets.all(15),
+          child:  Padding(
+            padding: const EdgeInsets.all(15),
             child: Text(
-              "确定",
-              style: TextStyle(fontSize: 28),
+              Globalization.confirm.tr,
+              style: const TextStyle(fontSize: 28),
             ),
           ),
         ),

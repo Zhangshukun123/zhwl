@@ -66,7 +66,7 @@ class _InfraredPageState extends State<InfraredPage>
     infraredEntity = InfraredEntity();
     infraredEntity?.init(false);
     infraredEntity?.time = "20";
-    isDGW = (infraredEntity?.pattern != "连续");
+    isDGW = (infraredEntity?.pattern != Globalization.continuous.tr);
 
     // infraredEntity = InfraredEntity();
 

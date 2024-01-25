@@ -394,9 +394,8 @@ class _RecordPageState extends State<RecordPage> {
                                       ),
                                       child: TextButton(
                                           onPressed: () async {
-                                            var status =
-                                                await Permission.storage.status;
-                                            if (status.isGranted) {
+                                            var status = await requestCalendarPermission();
+                                            if (status) {
                                               Sheet sheetObject =
                                                   excel['Sheet1'];
                                               var record = recordsList[i];
@@ -683,19 +682,15 @@ class _RecordPageState extends State<RecordPage> {
         Map<String, String> mapVa = element.getListTitle();
         mapVa.forEach((key, value) {
           if (!mapKey.contains(key)) {
-            // if (mapKey.isNotEmpty && mapKey[mapKey.length - 1] == "时间") {
-            //   mapKey.removeAt(mapKey.length - 1);
-            // }
             mapKey.add(key);
-            // mapKey.add('时间');
           }
         });
       }
     }
-    if (mapKey.contains(Globalization.RecordTime.tr)) {
-      mapKey.remove(Globalization.RecordTime.tr);
-    }
-    mapKey.add(Globalization.RecordTime.tr);
+    // if (mapKey.contains(Globalization.RecordTime.tr)) {
+    //   mapKey.remove(Globalization.RecordTime.tr);
+    // }
+    // mapKey.add(Globalization.RecordTime.tr);
     int kI = 1;
     for (var element in mapKey) {
       sheetObject.cell(CellIndex.indexByString('${k[kI]}1')).value = element;
