@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/base/run_state_page.dart';
 import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
 import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 
+import '../entity/Electrotherapy.dart';
 import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
@@ -63,6 +64,47 @@ class _ZhongPinPageState extends State<ZhongPinPage>
         return;
       }
       midFrequency?.user = userMap[TreatmentType.frequency];
+    });
+
+    eventBus.on<Electrotherapy>().listen((event) {
+      if (yiStartSelected) {
+        _timer1?.cancel();
+        midFrequency?.init(true);
+        midFrequency?.start1(false, false);
+        midFrequency?.patternA = "1";
+        yiStartSelected = false;
+        if (aliveAuto) {
+          midFrequency?.init2(false);
+          midFrequency?.patternB = "1";
+          eventBus.fire(RunTime(20, 2009));
+          erStartSelected = false;
+          aliveAuto = false;
+        }
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+        ZpgrdCureState = yiStartSelected || erStartSelected;
+        eventBus.fire(Notify());
+        setState(() {
+          eventBus.fire(RunTime(20, 2008));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.frequency));
+          });
+        });
+      }
+      if (erStartSelected) {
+        _timer2?.cancel();
+        midFrequency?.init2(true);
+        midFrequency?.start2(false);
+        midFrequency?.patternB = "1";
+        erStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+        ZpgrdCureState = yiStartSelected || erStartSelected;
+        setState(() {
+          eventBus.fire(RunTime(20, 2009));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.frequency));
+          });
+        });
+      }
     });
   }
 
@@ -237,7 +279,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   if ((int.parse(value) > 50) &&
                                       erStartSelected) {
                                     setState(() {});
-                                    showToastMsg(msg:  Globalization.hint_020.tr);
+                                    showToastMsg(
+                                        msg: Globalization.hint_020.tr);
                                     return;
                                   }
                                   midFrequency?.patternA = value;
@@ -504,7 +547,8 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   if ((int.parse(value) > 50) &&
                                       yiStartSelected) {
                                     setState(() {});
-                                    showToastMsg(msg: Globalization.hint_020.tr);
+                                    showToastMsg(
+                                        msg: Globalization.hint_020.tr);
                                     return;
                                   }
                                   midFrequency?.patternB = value;

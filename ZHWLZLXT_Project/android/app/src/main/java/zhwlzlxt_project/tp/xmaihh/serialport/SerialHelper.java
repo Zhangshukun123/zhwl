@@ -111,7 +111,6 @@ public abstract class SerialHelper {
                     }
                     byte[] buffer = getStickPackageHelper().execute(SerialHelper.this.mInputStream);
                     byte[] bytes = getbLoopData();
-                    count = 0;
 //                    if (buffer == null) {
 //                        ComBean ComRecData = new ComBean(SerialHelper.this.sPort, bytes, bytes.length);
 //                        SerialHelper.this.onDataReceived(ComRecData);
@@ -122,7 +121,6 @@ public abstract class SerialHelper {
 
                     if (buffer!=null&&buffer.length > 0) {
                         ComBean ComRecData = new ComBean(SerialHelper.this.sPort, buffer, buffer.length);
-//                        Log.e("xxxxx", "-------------------");
                         SerialHelper.this.onDataReceived(ComRecData);
                     } else {
 //                        Log.e("xxxxx",null+"*********");
@@ -316,8 +314,8 @@ public abstract class SerialHelper {
 
 
 //    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper(hexToByteArray("ABBA"), new byte[0]);  // 默认不处理粘包，直接读取返回
-//    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+//    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {
         return mStickPackageHelper;

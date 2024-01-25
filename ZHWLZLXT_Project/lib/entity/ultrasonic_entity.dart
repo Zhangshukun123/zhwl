@@ -263,7 +263,7 @@ class Ultrasonic {
         power: power,
         soundIntensity: soundIntensity,
         actionTime: min,
-        frequency: frequency,
+        frequency: "${frequency}MHz",
       );
       RecordSqlDao.instance().addData(record: record);
     }

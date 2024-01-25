@@ -11,6 +11,7 @@ import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/shenJing_entity.dart';
 
 import '../base/run_state_page.dart';
+import '../entity/Electrotherapy.dart';
 import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
@@ -59,6 +60,41 @@ class _ShenJingPageState extends State<ShenJingPage>
       neuromuscular?.init();
       setState(() {});
     });
+
+    eventBus.on<Electrotherapy>().listen((event) {
+      if(yiStartSelected){
+        _timer1?.cancel();
+        neuromuscular?.setARestValue();
+        neuromuscular?.start1(false,false);
+        yiStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+        SjjrCureState = yiStartSelected || erStartSelected;
+        setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), 2004));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+          });
+        });
+      }
+      if(erStartSelected){
+        _timer2?.cancel();
+        neuromuscular?.setBRestValue();
+        neuromuscular?.start2(false,false);
+        erStartSelected = false;
+        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+        eventBus.fire(Notify());
+        SjjrCureState = yiStartSelected || erStartSelected;
+        setState(() {
+          eventBus.fire(RunTime(double.tryParse("20"), 2005));
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+          });
+        });
+      }
+
+
+    });
+
   }
 
   void save(int userId) {

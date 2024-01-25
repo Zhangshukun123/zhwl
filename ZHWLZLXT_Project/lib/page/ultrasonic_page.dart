@@ -190,6 +190,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             unltrasonicPw = "3";
             eventBus.fire(unltrasonicPw);
             onLine = true;
+
             unline = Globalization.onLine.tr;
           } else {
             unline = Globalization.unlink.tr;

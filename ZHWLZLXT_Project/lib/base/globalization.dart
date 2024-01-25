@@ -24,6 +24,8 @@ class Globalization {
   static const String onLine = "on line"; //当前急停状态
   static const String unlink = "unlink"; //当前急停状态
   static const String temperatureNormals = "temperature normals"; //当前急停状态
+  static const String kadu = "Open short circuit"; //当前急停状态
+  static const String ci = "times"; //当前急停状态
   static const String temperatureAnomaly = "temperature anomaly"; //当前急停状态
   static const String OI = "OI"; //当前急停状态
   static const String NeedAttention = "NeedAttention"; //当前急停状态

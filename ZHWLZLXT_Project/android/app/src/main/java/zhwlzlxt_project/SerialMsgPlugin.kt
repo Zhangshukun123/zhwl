@@ -99,9 +99,9 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
 
             "heard" -> {
-                if (serialPortHelper.isOpen){
-                    serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
-                }
+//                if (serialPortHelper.isOpen){
+//                    serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
+//                }
             }
 
             "sendData" -> {
@@ -140,7 +140,20 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
+        Log.i("TAG", "onPortDataReceived---> ${bRec}")
 //        listBRec.add(bRec)
+
+        handler.post {
+            toFlutter.invokeMethod(
+                "Electrotherapy",
+                bRec,
+                object : MethodChannel.Result {
+                    override fun success(o: Any?) {}
+                    override fun error(s: String, s1: String?, o: Any?) {}
+                    override fun notImplemented() {}
+                })
+        }
+
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {
                 handler.post {
@@ -152,7 +165,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 }
             }
             3 -> {//超声1M
-                Log.i("TAG", "onPortDataReceived:03---> $bRec")
                 handler.post {
                     toFlutter.invokeMethod(
                         "UltrasonicState03",
@@ -165,7 +177,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 }
             }
             4 -> {//超声3M
-                Log.i("TAG", "onPortDataReceived:04---> $bRec")
                 handler.post {
                     toFlutter.invokeMethod(
                         "UltrasonicState04",

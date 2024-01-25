@@ -1,8 +1,11 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/entity/Electrotherapy.dart';
 import 'package:zhwlzlxt_project/page/jingLuan_page.dart';
 import 'package:zhwlzlxt_project/page/jingPi_page.dart';
 import 'package:zhwlzlxt_project/page/shenJing_page.dart';
@@ -13,6 +16,8 @@ import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 
 import '../Controller/treatment_controller.dart';
 import '../entity/ultrasonic_sound.dart';
+import '../utils/dialog_utils.dart';
+import '../utils/utils.dart';
 import '../widget/custom_tabIndicator.dart';
 import '../widget/details_dialog.dart';
 
@@ -43,6 +48,8 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
   TreatmentType type = TreatmentType.spasm;
 
   UserHeadView? view;
+
+  bool isShow = false;
 
   final TreatmentController controller = Get.find();
 
@@ -108,8 +115,6 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     dialog?.setTabController(_diaController);
 
-
-
     eventBus.on<Notify>().listen((event) {
       if (!mounted) {
         return;
@@ -117,6 +122,30 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       setState(() {});
     });
 
+    eventBus.on<MethodCall>().listen((methodCall) {
+      switch (methodCall.method) {
+        case "Electrotherapy":
+          Uint8List list = toUnitList(methodCall.arguments);
+          if (list[4] == 10 || list[4] == 9) {
+            if (list[12] == 1|| list[12]==2) {
+              if (!isShow) {
+                DialogUtil.alert(
+                    title: "",
+                    message: Globalization.kadu.tr,
+                    okLabel: "确定",
+                    fu: () {
+                      isShow = false;
+                    });
+                isShow = true;
+               var e = Electrotherapy();
+               e.channel = list[4];
+                eventBus.fire(e);
+              }
+            }
+          }
+          break;
+      }
+    });
   }
 
   @override
@@ -152,14 +181,17 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                               labelColor: const Color(0xFF00A8E7),
                               //标签 Tab 内容颜色
                               labelStyle: const TextStyle(
-                                  fontSize: 35, fontWeight: FontWeight.w600,color: Colors.black),
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               //// 标签 Tab 内容样式
                               indicatorSize: Cum.TabBarIndicatorSize.label,
                               indicator: const CustomTabIndicator(
                                   width: 60,
                                   borderSide: BorderSide(
                                       width: 5.0, color: Color(0xFF00A8E7))),
-                              unselectedLabelStyle: const TextStyle(fontSize: 30),
+                              unselectedLabelStyle:
+                                  const TextStyle(fontSize: 30),
                               //未选中标签样式
                               unselectedLabelColor: const Color(0xFF666666),
                               //未选中标签 Tab 颜色
@@ -197,7 +229,9 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
                                       color: const Color(0xFF009CB4),
                                       fontSize: 18.sp),
                                 ),
-                                SizedBox(width: 5.w,),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
                               ],
                             )),
                       ),

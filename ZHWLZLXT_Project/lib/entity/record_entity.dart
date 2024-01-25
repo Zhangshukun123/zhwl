@@ -150,13 +150,19 @@ class Record {
       infos.add('${Globalization.soundIntensity.tr}：${soundIntensity}w/c㎡');
     }
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
+      var sp = frequency?.split("次/min");
+      if (sp != null && sp.isNotEmpty) {
+        infos.add(
+            '${Globalization.frequency.tr}： ${sp[0]}${Globalization.ci.tr}/min');
+      }
+    } else if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('MHz')) {
       infos.add('${Globalization.frequency.tr}：$frequency');
     } else if (!TextUtil.isEmpty(frequency)) {
       infos.add('${Globalization.frequency.tr}：${frequency}Hz');
     }
 
     if (!TextUtil.isEmpty(width)) {
-      infos.add('${Globalization.pulseWidth.tr}：${width}ms');
+      infos.add('${Globalization.pulseWidth.tr}：${width}us');
     }
     if (!TextUtil.isEmpty(widthA)) {
       infos.add('${Globalization.pulseWidthA.tr}：${widthA}ms');
@@ -213,7 +219,14 @@ class Record {
     if (!TextUtil.isEmpty(soundIntensity)) {
       mapData[Globalization.soundIntensity.tr] = '${soundIntensity}w/c㎡';
     }
+
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
+      var sp = frequency?.split("次/min");
+      if (sp != null && sp.isNotEmpty) {
+        mapData[Globalization.frequency.tr] =
+            '${sp[0]}${Globalization.ci.tr}/min';
+      }
+    } else if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('MHz')) {
       mapData[Globalization.frequency.tr] = '$frequency';
     } else if (!TextUtil.isEmpty(frequency)) {
       mapData[Globalization.frequency.tr] = '${frequency}Hz';

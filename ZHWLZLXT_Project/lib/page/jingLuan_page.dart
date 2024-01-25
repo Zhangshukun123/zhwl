@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/base/run_state_page.dart';
+import 'package:zhwlzlxt_project/entity/Electrotherapy.dart';
 import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
 
 import '../entity/set_value_state.dart';
@@ -51,13 +52,54 @@ class _JingLuanPageState extends State<JingLuanPage>
       }
       spastic?.user = userMap[TreatmentType.spasm];
     });
+    eventBus.on<Electrotherapy>().listen((event) {
+      if (startSelected) {
+        if (event.channel == 9) {
+          if (spastic?.powerB == "0") {
+            funClose();
+          } else {
+            spastic?.powerA = "0";
+            spastic?.start(startSelected, false);
+            setState(() {
+              eventBus.fire(RunTime(double.tryParse("20"), 2001));
+              Future.delayed(const Duration(milliseconds: 500), () {
+                eventBus.fire(SetValueState(TreatmentType.spasm));
+              });
+            });
+          }
+        }
+        if (event.channel == 10) {
+          if (spastic?.powerA == "0") {
+            funClose();
+          } else {
+            spastic?.powerB = "0";
+            spastic?.start(startSelected, false);
+            setState(() {
+              eventBus.fire(RunTime(double.tryParse("20"), 2001));
+              Future.delayed(const Duration(milliseconds: 500), () {
+                eventBus.fire(SetValueState(TreatmentType.spasm));
+              });
+            });
+          }
+        }
+      }
+    });
+  }
 
-    // eventBus.on<UserEvent>().listen((event) {
-    //   if (event.type == TreatmentType.spasm) {
-    //     spastic?.userId = event.user?.userId;
-    //     spastic?.user = event.user;
-    //   }
-    // });
+  void funClose() {
+    _timer?.cancel();
+    spastic?.init(true);
+    spastic?.start(false, false);
+    startSelected = false;
+    electrotherapyIsRunIng = startSelected;
+    JljCureState = startSelected;
+    eventBus.fire(Notify());
+    setState(() {
+      eventBus.fire(RunTime(double.tryParse("20"), 2001));
+      Future.delayed(const Duration(milliseconds: 500), () {
+        eventBus.fire(SetValueState(TreatmentType.spasm));
+      });
+    });
   }
 
   @override
@@ -86,7 +128,7 @@ class _JingLuanPageState extends State<JingLuanPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         spastic?.init(true);
-        spastic?.start(false,false);
+        spastic?.start(false, false);
         this.startSelected = false;
         electrotherapyIsRunIng = this.startSelected;
         JljCureState = this.startSelected;
@@ -100,8 +142,9 @@ class _JingLuanPageState extends State<JingLuanPage>
         });
         return;
       }
-      spastic?.start(this.startSelected,false);
+      spastic?.start(this.startSelected, false);
     }
+
     _timer = Timer.periodic(oneSec, callback);
   }
 
@@ -225,7 +268,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerA = value.toString();
-                        spastic?.start(true,false);
+                        spastic?.start(true, false);
                       },
                     ),
                     SetValueHorizontal(
@@ -239,7 +282,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                       minValue: 0,
                       valueListener: (value) {
                         spastic?.powerB = value.toString();
-                        spastic?.start(true,false);
+                        spastic?.start(true, false);
                       },
                     ),
                     Container(
@@ -292,21 +335,18 @@ class _JingLuanPageState extends State<JingLuanPage>
                                           SetValueState(TreatmentType.spasm));
                                     });
                                   }
-                                  spastic?.start(startSelected,startSelected);
+                                  spastic?.start(startSelected, startSelected);
                                   electrotherapyIsRunIng = startSelected;
                                   JljCureState = startSelected;
                                   eventBus.fire(Notify());
                                   setState(() {
                                     //点击开始治疗
                                     double? tmp =
-                                    double.tryParse(spastic?.time ?? '1');
+                                        double.tryParse(spastic?.time ?? '1');
                                     _countdownTime = ((tmp?.toInt())!);
                                   });
                                   startCountdownTimer(startSelected);
                                 },
-
-
-
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

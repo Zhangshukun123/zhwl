@@ -475,91 +475,90 @@ class _RecordPageState extends State<RecordPage> {
 
   String getType(String type) {
     String? cl = Get.locale?.languageCode;
-
     switch (type) {
       case "超声疗法":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "Ultrasound";
         }
       case "Ultrasound Therapy":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "超声疗法";
         } else {
           return type;
         }
       case "脉冲磁疗法":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "Pulse Magnetic";
         }
       case "Pulse Magnetic Therapy":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "脉冲磁疗法";
         } else {
           return type;
         }
 
       case "红外偏振光治疗":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "Infrared Polarized Light";
         }
       case "Infrared Polarized Light Therapy":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "红外偏振光治疗";
         } else {
           return type;
         }
       case "痉挛肌治疗":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "SpasmMuscle";
         }
       case "SpasmMuscleTherapy":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "痉挛肌治疗";
         } else {
           return type;
         }
 
       case "经皮神经电刺激":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "TENS";
         }
       case "TENS":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "经皮神经电刺激";
         } else {
           return type;
         }
 
       case "神经肌肉电刺激":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "MuscleStimulator";
         }
       case "MuscleStimulator":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "神经肌肉电刺激";
         } else {
           return type;
         }
       case "中频/干扰电治疗":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return type;
         } else {
           return "MediumFrequency/InterferentialCurrent";
         }
       case "MediumFrequency/InterferentialCurrentTherapy":
-        if (cl == "CN") {
+        if (cl == "zh" || cl == "CN") {
           return "中频/干扰电治疗";
         } else {
           return "MediumFrequency/InterferentialCurrent";
