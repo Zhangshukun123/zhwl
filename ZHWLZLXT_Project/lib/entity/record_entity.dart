@@ -210,19 +210,19 @@ class Record {
       infos.add('${Globalization.recipe.tr}：$prescription');
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      infos.add('${Globalization.setTime.tr}：${utilityTime}min');
+      infos.add('${Globalization.setTime.tr}：${double.parse(utilityTime!).toInt()}min');
     }
     if (!TextUtil.isEmpty(power)) {
       infos.add('${Globalization.power.tr}：${power}w');
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      infos.add('${Globalization.intensity.tr}：$strengthGrade');
+      infos.add('${Globalization.intensity.tr}：${double.parse(strengthGrade!).toInt()}');
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      infos.add('${Globalization.intensityA.tr}：$strengthGradeA');
+      infos.add('${Globalization.intensityA.tr}：${double.parse(strengthGradeA!).toInt()}');
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      infos.add('${Globalization.intensityB.tr}：$strengthGradeB');
+      infos.add('${Globalization.intensityB.tr}：${double.parse(strengthGradeB!).toInt()}');
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
       infos.add('${Globalization.soundIntensity.tr}：${soundIntensity}w/c㎡');
@@ -255,10 +255,10 @@ class Record {
       infos.add('${Globalization.pulsePeriod.tr}：${circle}s');
     }
     if (!TextUtil.isEmpty(actionTime)) {
-      infos.add('${Globalization.cureTime.tr}：${actionTime}min');
+      infos.add('${Globalization.cureTime.tr}：${double.parse(actionTime!).toInt()}min');
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      infos.add('${Globalization.openTime.tr}：${zdTime}min');
+      infos.add('${Globalization.openTime.tr}：${double.parse(zdTime!).toInt()}min');
     }
     return infos;
   }
@@ -347,19 +347,19 @@ class Record {
       mapData[Globalization.recipe.tr] = prescription!;
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      mapData[Globalization.setTime.tr] = '${utilityTime}min';
+      mapData[Globalization.setTime.tr] = '${double.parse(utilityTime!).toInt()}min';
     }
     if (!TextUtil.isEmpty(power)) {
       mapData[Globalization.power.tr] = '${power}w';
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      mapData[Globalization.intensity.tr] = strengthGrade!;
+      mapData[Globalization.intensity.tr] = double.parse(strengthGrade!).toInt().toString();
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      mapData[Globalization.intensityA.tr] = strengthGradeA!;
+      mapData[Globalization.intensityA.tr] = double.parse(strengthGradeA!).toInt().toString();
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      mapData[Globalization.intensityB.tr] = strengthGradeB!;
+      mapData[Globalization.intensityB.tr] =  double.parse(strengthGradeB!).toInt().toString();
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
       mapData[Globalization.soundIntensity.tr] = '${soundIntensity}w/c㎡';
@@ -377,7 +377,7 @@ class Record {
       mapData[Globalization.frequency.tr] = '${frequency}Hz';
     }
     if (!TextUtil.isEmpty(width)) {
-      mapData[Globalization.pulseWidth.tr] = '${width}μs';
+      mapData[Globalization.pulseWidth.tr] = '$widthμs';
     }
     if (!TextUtil.isEmpty(widthA)) {
       mapData[Globalization.pulseWidthA.tr] = '${widthA}ms';
@@ -395,7 +395,7 @@ class Record {
       mapData[Globalization.cureTime.tr] = '${actionTime}min';
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      mapData[Globalization.openTime.tr] = '${zdTime}min';
+      mapData[Globalization.openTime.tr] = '${double.parse(zdTime!).toInt()}min';
     }
     // if (!TextUtil.isEmpty(dataTime)) {
     //   mapData[Globalization.RecordTime.tr] = '$dataTime';

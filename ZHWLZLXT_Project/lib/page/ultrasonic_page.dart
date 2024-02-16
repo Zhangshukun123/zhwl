@@ -121,7 +121,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               }
               DialogUtil.alert(
                   title: "",
-                  message: Globalization.temperatureNormals.tr,
+                  message: Globalization.temperatureAnomaly.tr,
                   okLabel: "确定");
             } else {
               wdText = Globalization.temperatureNormals.tr;
@@ -177,7 +177,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                 });
                 DialogUtil.alert(
                     title: "",
-                    message: Globalization.temperatureNormals.tr,
+                    message: Globalization.temperatureAnomaly.tr,
                     okLabel: "确定");
               }
             } else {
@@ -648,8 +648,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               cureState = startSelected;
 
                                               setState(() {
-                                                double? tmp = double.tryParse(
-                                                    ultrasonic?.time ?? '1');
+                                                  double? tmp = double.tryParse(
+                                                  ultrasonic?.time ?? '1');
                                                 _countdownTime =
                                                     ((tmp?.toInt())!);
                                                 startCountdownTimer(

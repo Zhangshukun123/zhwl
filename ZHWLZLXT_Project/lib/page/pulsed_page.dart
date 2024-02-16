@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
-import 'package:zhwlzlxt_project/page/operate_page.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
 import 'package:zhwlzlxt_project/widget/container_bg.dart';
@@ -20,11 +16,8 @@ import '../entity/set_value_state.dart';
 import '../entity/ultrasonic_sound.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
-import '../utils/treatment_type.dart';
 import '../utils/utils_tool.dart';
 import '../widget/details_dialog.dart';
-import 'attention_page.dart';
-import 'control_page.dart';
 
 class PulsedPage extends StatefulWidget {
   const PulsedPage({Key? key}) : super(key: key);

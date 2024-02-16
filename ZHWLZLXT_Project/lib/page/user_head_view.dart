@@ -6,23 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
-import 'package:zhwlzlxt_project/dataResource/user_sql_dao.dart';
-import 'package:zhwlzlxt_project/entity/infrared_entity.dart';
-import 'package:zhwlzlxt_project/entity/jingLuan_entity.dart';
-import 'package:zhwlzlxt_project/entity/jingPi_entity.dart';
-import 'package:zhwlzlxt_project/entity/pulsed_entity.dart';
-import 'package:zhwlzlxt_project/entity/zhongPin_entity.dart';
 import 'package:zhwlzlxt_project/page/set_page.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
-import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../Controller/treatment_controller.dart';
 import '../base/run_state_page.dart';
-import '../entity/shenJing_entity.dart';
-import '../entity/ultrasonic_entity.dart';
 import '../entity/user_entity.dart';
 import '../utils/event_bus.dart';
-import '../utils/sp_utils.dart';
 import 'control_page.dart';
 
 // ignore: must_be_immutable

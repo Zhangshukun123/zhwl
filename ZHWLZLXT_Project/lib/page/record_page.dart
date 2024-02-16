@@ -419,6 +419,7 @@ class _RecordPageState extends State<RecordPage> {
                                               File(join(path))
                                                 ..createSync(recursive: true)
                                                 ..writeAsBytesSync(fileBytes!);
+                                              EasyLoading.dismiss();
                                               showToastMsg(
                                                   msg:
                                                       '${Globalization.hint_003.tr}$path');
