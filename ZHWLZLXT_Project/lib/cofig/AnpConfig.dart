@@ -12,6 +12,7 @@ class AnpConfig {
   static void init() {
     AccList.add('admin');
 
+    PswLIst.add('733');
     PswLIst.add('123456');
   }
 }

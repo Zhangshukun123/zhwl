@@ -15,7 +15,7 @@ class ConnectPort extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    controller.count.value = 10;
+    // controller.count.value = 10;
     controller.startTimer();
 
     return Center(
@@ -51,16 +51,13 @@ class ConnectPort extends Dialog {
   }
 
   Widget ObsTxt() {
-    if (controller.count.value % 3 == 0) {
+    if (controller.count.value  == 0) {
       restConnect?.call(false);
-    }
-
-    if (controller.count.value == 0) {
       controller.startTimer();
     }
 
     return Text(
-      '${controller.context}...,${Globalization.loading_1.tr} : ${controller.count}s',
+      '${controller.context} ${Globalization.loading_1.tr}...  ${controller.count}s',
       style: const TextStyle(fontSize: 22, color: Color(0xff666666)),
     );
   }

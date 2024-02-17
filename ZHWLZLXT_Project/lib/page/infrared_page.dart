@@ -122,6 +122,36 @@ class _InfraredPageState extends State<InfraredPage>
             }
           }
           break;
+        case 'openPg':
+          if (isScram) {
+            showToastMsg(msg: Globalization.hint_019.tr);
+            return;
+          }
+          startSelected = true;
+          infraredEntity?.start(startSelected, startSelected);
+          HwpzgCureState = startSelected;
+          infraredEntity?.user?.isCure = startSelected;
+          setState(() {
+            //点击开始治疗
+            double? tmp = double.tryParse(infraredEntity?.time ?? '1');
+            _countdownTime = ((tmp?.toInt())!);
+            startCountdownTimer(startSelected);
+          });
+
+          break;
+        case 'closePg':
+          startSelected = false;
+          infraredEntity?.init(true);
+          isDGW = false;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            eventBus.fire(SetValueState(TreatmentType.infrared));
+          });
+          infraredEntity?.start(startSelected, startSelected);
+          startCountdownTimer(startSelected);
+          break;
+        case 'sendPg':
+          infraredEntity?.start(startSelected, startSelected);
+          break;
       }
     });
   }
@@ -509,13 +539,6 @@ class _InfraredPageState extends State<InfraredPage>
                                           startCountdownTimer(startSelected);
                                         });
                                       },
-                                      // child: Image.asset(
-                                      //   startSelected
-                                      //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                      //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                      //   width: 100.w,
-                                      //   fit: BoxFit.fitWidth,
-                                      // ),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

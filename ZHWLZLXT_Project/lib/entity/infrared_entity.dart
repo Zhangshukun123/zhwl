@@ -15,6 +15,7 @@ import '../Controller/treatment_controller.dart';
 import '../base/globalization.dart';
 
 import '../dataResource/record_sql_dao.dart';
+import '../utils/sp_utils.dart';
 
 class InfraredField {
   static String InfraredKey = "InfraredKey"; // 存储 -key
@@ -190,11 +191,21 @@ class InfraredEntity {
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
+    double? powerValue;
+    var value = SpUtils.getInt('$pattern$power', defaultValue: -1);
+
+    debugPrint("spower---------<$power");
+    debugPrint("spower------pattern---<$value");
+
+
+    if (value != -1) {
+      powerValue = double.tryParse(value!.toString());
+    } else {
+      powerValue = double.tryParse(power!);
+    }
     // data = "$data $power"; // 08
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
-    var powerValue = double.tryParse(power!);
-    debugPrint("sendData---------<$powerValue");
     //转成16进制数据
     var powerTmps = powerValue?.toInt().toRadixString(16);
     //以16进制数据发送

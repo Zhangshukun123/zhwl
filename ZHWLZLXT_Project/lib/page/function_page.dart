@@ -93,7 +93,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
         break;
       case 'onHeartFail':
         if (!isShow) {
-          showConnectPort(Globalization.connection1.tr, Globalization.connection2.tr);
+          // showConnectPort(Globalization.connection1.tr, Globalization.connection2.tr);
         }
         isShow = true;
         break;
@@ -104,6 +104,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
+    ultrasonicController.count.value = 10;
     showDialog(
         barrierDismissible: false,
         context: context,

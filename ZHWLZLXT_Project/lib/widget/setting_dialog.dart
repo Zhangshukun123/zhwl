@@ -8,14 +8,14 @@ import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/chuChang_page.dart';
 
 import '../cofig/AnpConfig.dart';
-
+import '../page/pg_setting_page.dart';
 
 class SettingDialog {
-
   //输入框
   TextEditingController numController = TextEditingController();
 
   void showSettingDialog(BuildContext context) {
+    numController.text ="";
     showDialog(
       barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
       context: context,
@@ -26,8 +26,8 @@ class SettingDialog {
             height: 250.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(10.w),
-                )),
+              Radius.circular(10.w),
+            )),
             child: Column(
               children: [
                 Container(
@@ -39,10 +39,10 @@ class SettingDialog {
                       children: [
                         Container(
                             child: Text(
-                              Globalization.password.tr,
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 18.sp),
-                            )),
+                          Globalization.password.tr,
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 18.sp),
+                        )),
                       ],
                     )),
                 SizedBox(
@@ -52,13 +52,14 @@ class SettingDialog {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 30.h),
-                          width:300.w,
+                          width: 300.w,
                           height: 60.h,
                           child: TextField(
                             controller: numController,
                             maxLength: 20,
                             style: TextStyle(
-                                fontSize: 15.sp, color: const Color(0xFF333333)),
+                                fontSize: 15.sp,
+                                color: const Color(0xFF333333)),
                             decoration: InputDecoration(
                               counterText: '',
                               border: const OutlineInputBorder(),
@@ -84,7 +85,8 @@ class SettingDialog {
                                     width: 0.5,
                                     color: const Color(0xFF00A8E7),
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7.w)),
                                 ),
                                 child: TextButton(
                                   onPressed: () {
@@ -107,15 +109,78 @@ class SettingDialog {
                                     width: 0.5,
                                     color: const Color(0xFF00A8E7),
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(7.w)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7.w)),
                                 ),
                                 child: TextButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop();
-                                      if (PswLIst.contains(numController.text)){
-                                        Get.to(const ChuChangPage());
-                                      }
-                                      else{
+                                      if ("733".contains(numController.text)) {
+                                        Navigator.of(context).pop();
+
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Dialog(
+                                                child: Container(
+                                                  width: 600,
+                                                  height: 250,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              const ChuChangPage());
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20,
+                                                                  right: 20,
+                                                                  top: 20,
+                                                                  bottom: 20),
+                                                          child: const Text("超声"),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 1,
+                                                        color: const Color(0xffeeeeee),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              const PgSettingPage());
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 20,
+                                                                  right: 20,
+                                                                  top: 20,
+                                                                  bottom: 20),
+                                                          child: const Text("红外偏振光"),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 1,
+                                                        color: const Color(0xffeeeeee),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+
+                                      } else {
                                         Fluttertoast.showToast(
                                             msg: Globalization.hint_018.tr);
                                       }

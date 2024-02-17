@@ -177,7 +177,7 @@ class _JingPiPageState extends State<JingPiPage>
         electrotherapyIsRunIng = yiStartSelected || erStartSelected;
         JpsjCureState = yiStartSelected || erStartSelected;
         setState(() {
-          RunTime runTime = RunTime(double.tryParse('20'), 2002);
+          RunTime runTime = RunTime(double.tryParse('20'), 2003);
           eventBus.fire(runTime);
           showToastMsg(msg: Globalization.endOfTreatment.tr);
           Future.delayed(const Duration(milliseconds: 500), () {

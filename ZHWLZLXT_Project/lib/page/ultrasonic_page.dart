@@ -45,11 +45,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   var frequency = 1;
 
+
+  bool isShow = false;
+
+
   Ultrasonic? ultrasonic;
 
   final TreatmentController controller = Get.find();
-  final UltrasonicController ultrasonicController =
-      Get.put(UltrasonicController());
+  final UltrasonicController ultrasonicController = Get.find();
 
   //计时器
   Timer? _timer;
@@ -72,6 +75,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
 
+
+
+
     dialog?.setTabController(_tabController);
 
     eventBus.on<TreatmentType>().listen((event) {
@@ -80,7 +86,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       }
       ultrasonic?.user = userMap[TreatmentType.ultrasonic];
     });
-
     eventBus.on<Language>().listen((event) {
       ultrasonic?.init(false);
       if (onLine) {
@@ -119,13 +124,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   eventBus.fire(runTime);
                 });
               }
-              DialogUtil.alert(
-                  title: "",
-                  message: Globalization.temperatureAnomaly.tr,
-                  okLabel: "确定");
+
+              if(!isShow){
+                showConnectPort(Globalization.temperatureAnomaly.tr, "");
+              }
+              // DialogUtil.alert(
+              //     title: "",
+              //     message: Globalization.temperatureAnomaly.tr,
+              //     okLabel: "确定");
             } else {
-              wdText = Globalization.temperatureNormals.tr;
-              wdOnline = true;
+              // wdText = Globalization.temperatureNormals.tr;
+              // wdOnline = true;
             }
           } else if (list[11] == 1) {
             ultrasonic?.frequency = "1";
@@ -175,14 +184,17 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   RunTime runTime = RunTime(20, 1001);
                   eventBus.fire(runTime);
                 });
-                DialogUtil.alert(
-                    title: "",
-                    message: Globalization.temperatureAnomaly.tr,
-                    okLabel: "确定");
+                if(!isShow){
+                  showConnectPort(Globalization.temperatureAnomaly.tr, "");
+                }
+                // DialogUtil.alert(
+                //     title: "",
+                //     message: Globalization.temperatureAnomaly.tr,
+                //     okLabel: "确定");
               }
             } else {
-              wdText = Globalization.temperatureNormals.tr;
-              wdOnline = true;
+              // wdText = Globalization.temperatureNormals.tr;
+              // wdOnline = true;
             }
           } else if (list[11] == 1) {
             ultrasonic?.frequency = "3";
@@ -226,27 +238,15 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           break;
       }
     });
+
   }
 
-  sendHeart(value) {
-    if (value == AppConfig.connect_time) {
-      showConnectPort(
-          Globalization.connectionTimeout.tr, Globalization.reconnect.tr);
-    }
-    if (value == "102") {
-      if (isShow) {
-        Get.back();
-        isShow = false;
-      }
-    }
-  }
 
-  bool isShow = false;
 
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
     ultrasonicController.context.value = con;
-
+    ultrasonicController.count.value = 30;
     if (!isShow) {
       showDialog(
           barrierDismissible: false,
@@ -254,12 +254,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           builder: (context) {
             return ConnectPort(
               restConnect: (value) {
-                if (value) {}
-                // ultrasonicController.startTimer();
-                SerialMsg().startPort().then((value) => {
-                      if (value == AppConfig.port_start) Get.back(),
-                      isShow = false
-                    });
+                Get.back();
+                isShow = false;
+                wdText = Globalization.temperatureNormals.tr;
+                wdOnline = true;
               },
             );
           });
@@ -500,10 +498,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                               valueListener: (value) {
                                 ultrasonic?.power = value.toStringAsFixed(2);
                                 if (ultrasonic?.frequency == "1") {
-                                  ultrasonic?.soundIntensity = (value / 4).toStringAsFixed(2);
+                                  ultrasonic?.soundIntensity =
+                                      (value / 4).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 4)));
                                 } else {
-                                  ultrasonic?.soundIntensity = (value / 2).toStringAsFixed(2);
+                                  ultrasonic?.soundIntensity =
+                                      (value / 2).toStringAsFixed(2);
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
@@ -648,8 +648,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               cureState = startSelected;
 
                                               setState(() {
-                                                  double? tmp = double.tryParse(
-                                                  ultrasonic?.time ?? '1');
+                                                double? tmp = double.tryParse(
+                                                    ultrasonic?.time ?? '1');
                                                 _countdownTime =
                                                     ((tmp?.toInt())!);
                                                 startCountdownTimer(
