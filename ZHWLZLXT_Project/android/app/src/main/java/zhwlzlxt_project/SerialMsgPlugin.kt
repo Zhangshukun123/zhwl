@@ -115,6 +115,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 isSend = true
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+                Log.i("TAG", "onMethodCall: send-$hexData")
+                Log.i("TAG", "onMethodCall: send-$sendData")
 
                 GlobalScope.launch {
                     if (sendCount == 0) {
@@ -134,7 +136,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     } else {
                         sendCount++
                         if (sendCount > 3) {
-                            Log.i("TAG", "onMethodCall: ------switchSelected-------finish")
                             result.success("finish")
                             listBRec.clear()
                             isSend = false

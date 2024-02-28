@@ -52,7 +52,7 @@ public class Crc16Util {
             System.arraycopy(aa, 0, buffer, data.length, aa.length);
             data = buffer;
         }
-        return getDataB(data);
+        return getData(data);
     }
 
     /**
@@ -160,8 +160,8 @@ public class Crc16Util {
      */
     private static byte[] intToBytes(int value) {
         byte[] src = new byte[2];
-        src[1] = (byte) ((value >> 8) & 0xFF);
-        src[0] = (byte) (value & 0xFF);
+        src[0] = (byte) ((value >> 8) & 0xFF);
+        src[1] = (byte) (value & 0xFF);
         return src;
     }
 
