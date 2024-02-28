@@ -119,15 +119,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 Log.i("TAG", "onMethodCall: send-$sendData")
 
                 GlobalScope.launch {
-                    if (sendCount == 0) {
-                        delay(300)
-                    }
-                    if (sendCount == 1) {
-                        delay(500)
-                    }
-                    if (sendCount == 2) {
-                        delay(1000)
-                    }
+                    delay(200)
                     if (listBRec.contains(hexData)) {
                         result.success("success")
                         isSend = false

@@ -18,12 +18,15 @@ class SerialPort {
 
   void send(String data, bool isStart,
       {sendSuccessBack? back, sendFinish? finish}) {
-
-
-
     SerialMsg().sendData(data).then((value) {
+      if(back==null){
+        return;
+      }
       if (value == "success") {
-        back?.call();
+        back.call();
+        if (EasyLoading.isShow) {
+          EasyLoading.dismiss();
+        }
       }
       if (value == "fail") {
         if (isStart) {

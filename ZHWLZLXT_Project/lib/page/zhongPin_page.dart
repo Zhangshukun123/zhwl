@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/base/run_state_page.dart';
 import 'package:zhwlzlxt_project/entity/set_value_entity.dart';
@@ -20,7 +18,6 @@ import '../utils/treatment_type.dart';
 import '../utils/utils_tool.dart';
 import '../widget/popup_menu_btn.dart';
 import '../widget/set_value_horizontal.dart';
-import 'control_page.dart';
 
 class ZhongPinPage extends StatefulWidget {
   const ZhongPinPage({Key? key}) : super(key: key);

@@ -85,7 +85,7 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
                         isFindStart = true;
                     }
                 } else if (!isFindEnd) {
-                    if (byteArray.length - startIndex == 14) {
+                    if (byteArray.length - startIndex == 15) {
                         if (startIndex + headLen <= bytes.size()) {
                             isFindEnd = true;
                             result = getRangeBytes(bytes, startIndex, bytes.size());
