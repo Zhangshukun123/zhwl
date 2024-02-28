@@ -23,7 +23,7 @@ class SettingDialog {
         return Dialog(
           child: Container(
             width: 500.w,
-            height: 250.h,
+            height: 180.h,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
               Radius.circular(10.w),
@@ -32,7 +32,7 @@ class SettingDialog {
               children: [
                 Container(
                     width: 500.w,
-                    height: 50.h,
+                    height: 40.h,
                     color: const Color(0xFF00A8E7),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -47,13 +47,12 @@ class SettingDialog {
                     )),
                 SizedBox(
                     width: 500.w,
-                    height: 200.h,
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 30.h),
+                          margin: EdgeInsets.only(top: 15.h),
                           width: 300.w,
-                          height: 60.h,
+                          height: 40.h,
                           child: TextField(
                             controller: numController,
                             maxLength: 20,
@@ -73,13 +72,15 @@ class SettingDialog {
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                                height: 34.5.h,
+                                height: 35.h,
                                 width: 90.5.w,
-                                margin: EdgeInsets.only(top: 15.h),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 0.5,
@@ -100,9 +101,8 @@ class SettingDialog {
                                   ),
                                 )),
                             Container(
-                                height: 34.5.h,
+                                height: 35.h,
                                 width: 90.5.w,
-                                margin: EdgeInsets.only(top: 15.h),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF00A8E7),
                                   border: Border.all(
@@ -184,11 +184,6 @@ class SettingDialog {
                                         Fluttertoast.showToast(
                                             msg: Globalization.hint_018.tr);
                                       }
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (BuildContext context) =>
-                                      //         const ChuChangPage()));
                                     },
                                     child: Text(
                                       Globalization.confirm.tr,

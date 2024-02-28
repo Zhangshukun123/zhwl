@@ -313,8 +313,8 @@ public abstract class SerialHelper {
 
 
 
-//    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper(hexToByteArray("ABBA"), new byte[0]);  // 默认不处理粘包，直接读取返回
-    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
+    private AbsStickPackageHelper mStickPackageHelper = new SpecifiedStickPackageHelper(hexToByteArray("ABBA"));  // 默认不处理粘包，直接读取返回
+//    private AbsStickPackageHelper mStickPackageHelper = new BaseStickPackageHelper();  // 默认不处理粘包，直接读取返回
 //    private AbsStickPackageHelper mStickPackageHelper = new StaticLenStickPackageHelper(15);  // 默认不处理粘包，直接读取返回
 
     public AbsStickPackageHelper getStickPackageHelper() {

@@ -238,7 +238,8 @@ class _PulsedPageState extends State<PulsedPage>
                                       children: [
                                         Image.asset(
                                           'assets/images/2.0x/icon_zhendong.png',
-                                          fit: BoxFit.cover,
+                                          width: 20,
+                                          fit: BoxFit.fitWidth,
                                         ),
                                         Text(
                                           Globalization.vibration.tr,
@@ -352,6 +353,9 @@ class _PulsedPageState extends State<PulsedPage>
                                     child: TextButton(
                                       onPressed: () {
                                         startSelected = !startSelected;
+                                        print(
+                                            "------switchSelected--------$startSelected");
+
                                         if (!startSelected) {
                                           pulsed?.init(true);
                                           switchSelected = false;
@@ -362,24 +366,29 @@ class _PulsedPageState extends State<PulsedPage>
                                                 TreatmentType.pulsed));
                                           });
                                         }
-                                        pulsed?.start(startSelected,
-                                            switchSelected, startSelected);
-                                        MccCureState = startSelected;
-                                        setState(() {
-                                          //点击开始治疗
-                                          double? tmp = double.tryParse(
-                                              pulsed?.time ?? '1');
-                                          _countdownTime = ((tmp?.toInt())!);
-                                          startCountdownTimer(startSelected);
+
+                                        pulsed?.start(
+                                            startSelected,
+                                            switchSelected,
+                                            startSelected, back: () {
+                                          MccCureState = startSelected;
+                                          setState(() {
+                                            //点击开始治疗
+                                            double? tmp = double.tryParse(
+                                                pulsed?.time ?? '1');
+                                            _countdownTime = ((tmp?.toInt())!);
+                                            startCountdownTimer(startSelected);
+                                          });
+                                        }, finish: () {
+                                          if (startSelected) {
+                                            startSelected = false;
+                                          } else {
+                                            startCountdownTimer(startSelected);
+                                          }
+                                          MccCureState = false;
+                                          setState(() {});
                                         });
                                       },
-                                      // child: Image.asset(
-                                      //   startSelected
-                                      //       ? 'assets/images/2.0x/btn_tingzhi_nor.png'
-                                      //       : 'assets/images/2.0x/btn_kaishi_nor.png',
-                                      //   width: 100.w,
-                                      //   fit: BoxFit.fitWidth,
-                                      // ),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

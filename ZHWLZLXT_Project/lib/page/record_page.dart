@@ -59,7 +59,7 @@ class _RecordPageState extends State<RecordPage> {
       } else {
         recordsList.clear();
         for (var element in records) {
-          if (element.recordType.toString().startsWith(searchController.text)) {
+          if (element.recordType.toString().contains(searchController.text)) {
             recordsList.add(element);
           }
         }
@@ -85,7 +85,7 @@ class _RecordPageState extends State<RecordPage> {
   Widget build(BuildContext context) {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
-    return Scaffold(
+    return Scaffold (
       backgroundColor: const Color(0xFFF5F7F9),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(35.h),
@@ -164,14 +164,16 @@ class _RecordPageState extends State<RecordPage> {
                         borderRadius: BorderRadius.all(
                           Radius.circular(18.5.w),
                         )),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        hintText: Globalization.hint_002.tr,
-                        border: InputBorder.none,
-                        icon: const Icon(Icons.search),
+                    child: Center(
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: Globalization.hint_002.tr,
+                          border: InputBorder.none,
+                          icon:  const Icon(Icons.search,size: 25,),
+                        ),
+                        style: TextStyle(fontSize: 15.sp),
                       ),
-                      style: TextStyle(fontSize: 15.sp),
                     ),
                   ),
                   Container(
@@ -378,7 +380,7 @@ class _RecordPageState extends State<RecordPage> {
                                     Container(
                                         margin: EdgeInsets.only(left: 42.w),
                                         child: Text(
-                                          '${Globalization.therapyMethod.tr}：${getType(recordsList[i].recordType ?? "")}',
+                                          '${Globalization.therapyMethod.tr}：${getType(recordsList[i],recordsList[i].recordType ?? "")}',
                                           style: TextStyle(
                                               color: const Color(0xFF333333),
                                               fontSize: 17.sp),
@@ -473,7 +475,7 @@ class _RecordPageState extends State<RecordPage> {
     );
   }
 
-  String getType(String type) {
+  String getType(Record record,String type) {
     String? cl = Get.locale?.languageCode;
     switch (type) {
       case "超声疗法":
@@ -553,15 +555,31 @@ class _RecordPageState extends State<RecordPage> {
         }
       case "中频/干扰电治疗":
         if (cl == "zh" || cl == "CN") {
-          return type;
+          if (int.parse(record.prescription ?? "0") > 50) {
+            return "干扰电治疗";
+          } else {
+            return "中频";
+          }
         } else {
-          return "MediumFrequency/InterferentialCurrent";
+          if (int.parse(record.prescription ?? "0") > 50) {
+            return "InterferentialCurrent";
+          } else {
+            return "MediumFrequency";
+          }
         }
       case "MediumFrequency/InterferentialCurrentTherapy":
         if (cl == "zh" || cl == "CN") {
-          return "中频/干扰电治疗";
+          if (int.parse(record.prescription ?? "0") > 50) {
+            return "干扰电治疗";
+          } else {
+            return "中频";
+          }
         } else {
-          return "MediumFrequency/InterferentialCurrent";
+          if (int.parse(record.prescription ?? "0") > 50) {
+            return "InterferentialCurrent";
+          } else {
+            return "MediumFrequency";
+          }
         }
     }
     return "";

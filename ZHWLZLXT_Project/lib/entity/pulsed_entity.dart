@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:math';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:date_format/date_format.dart';
@@ -73,7 +74,8 @@ class Pulsed {
   String? settIngTime;
   bool? isStart;
 
-  bool start(bool isStart, bool isOpen, bool isStartOpen) {
+  bool start(bool isStart, bool isOpen, bool isStartOpen,
+      {sendSuccessBack? back, sendFinish? finish}) {
     this.isStart = isStart;
     if (isStart && isStartOpen) {
       settIngTime = time;
@@ -169,8 +171,9 @@ class Pulsed {
       zdStartTime = DateTime.now();
       zdTime = 1;
     }
-    SerialPort().send(data);
-    if(!isStart){
+    print("onMethodCall: ------switchSelected------123-${finish == null}");
+    SerialPort().send(data, isStart, back: back, finish: finish);
+    if (!isStart) {
       time = '20';
     }
     return isStart;
@@ -180,6 +183,9 @@ class Pulsed {
     if (user != null && user?.userId != 0) {
       endTime = DateTime.now();
       String min = '';
+      if (startTime == null) {
+        return;
+      }
       Duration diff = endTime!.difference(startTime!);
       if (diff.inMinutes == 0) {
         min = '1';

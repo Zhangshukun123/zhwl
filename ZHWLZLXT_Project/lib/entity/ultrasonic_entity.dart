@@ -35,7 +35,7 @@ class Ultrasonic {
   String? pattern = Globalization.intermittentOne.tr;
   String? time = '20';
   String? power = '0.0';
-  String? soundIntensity = '0.0';
+  String? soundIntensity = '0.00';
   String? frequency;
   String? setTime = '1';
 
@@ -54,7 +54,7 @@ class Ultrasonic {
     }
     pattern = Globalization.intermittentOne.tr;
     power = '0';
-    soundIntensity = '0.0';
+    soundIntensity = '0.00';
     // frequency = '1';
   }
 
@@ -86,7 +86,7 @@ class Ultrasonic {
 
   User? user;
 
-  bool start(bool isStart, isOpenStart) {
+  bool start(bool isStart, isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
     if (isStart && isOpenStart) {
       setTime = time;
       startTime = DateTime.now();
@@ -219,7 +219,7 @@ class Ultrasonic {
       data = "$data 0$powerTmps";
     }
     if (TextUtil.isEmpty(soundIntensity)) {
-      soundIntensity = '0.0';
+      soundIntensity = '0.00';
     }
     // data = "$data ${((double.tryParse(soundIntensity!))! * 100).toInt()}"; // 07
     //数据进制转换
@@ -235,7 +235,7 @@ class Ultrasonic {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if (!isStart) {
       time = '20';
     }

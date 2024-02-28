@@ -432,26 +432,35 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                   });
                                 }
                                 midFrequency?.start1(
-                                    yiStartSelected, yiStartSelected);
-                                if (!yiStartSelected) {
-                                  midFrequency?.patternA = "1";
-                                }
-                                electrotherapyIsRunIng =
-                                    yiStartSelected || erStartSelected;
-                                eventBus.fire(Notify());
-                                ZpgrdCureState =
-                                    yiStartSelected || erStartSelected;
+                                    yiStartSelected, yiStartSelected, back: () {
+                                  electrotherapyIsRunIng =
+                                      yiStartSelected || erStartSelected;
+                                  eventBus.fire(Notify());
+                                  ZpgrdCureState =
+                                      yiStartSelected || erStartSelected;
+                                  setState(() {
+                                    double? tmp = double.tryParse(
+                                        midFrequency?.timeA ?? '1');
+                                    _countdownTime1 = ((tmp?.toInt())!);
+                                    startCountdownTimer1(yiStartSelected);
+                                  });
 
-                                if (aliveAuto) {
-                                  erStartSelected = yiStartSelected;
-                                }
-                                setState(() {
-                                  //点击开始治疗
-                                  double? tmp = double.tryParse(
-                                      midFrequency?.timeA ?? '1');
-                                  _countdownTime1 = ((tmp?.toInt())!);
-                                  startCountdownTimer1(yiStartSelected);
+
+                                  if (!yiStartSelected) {
+                                    midFrequency?.patternA = "1";
+                                  }
+                                  if (aliveAuto) {
+                                    erStartSelected = yiStartSelected;
+                                  }
+
+                                }, finish: () {
+                                  yiStartSelected = false;
+                                  if (aliveAuto) {
+                                    erStartSelected = false;
+                                  }
+                                  setState(() {});
                                 });
+
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -689,23 +698,29 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                     });
                                   }
                                   midFrequency?.start2(erStartSelected,
-                                      isOpenStart: true);
-                                  if (!erStartSelected) {
-                                    midFrequency?.patternB = "1";
-                                  }
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
-                                  ZpgrdCureState =
-                                      yiStartSelected || erStartSelected;
+                                      isOpenStart: true, back: () {
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
+                                    eventBus.fire(Notify());
+                                    ZpgrdCureState =
+                                        yiStartSelected || erStartSelected;
+                                    setState(() {
+                                      //点击开始治疗
+                                      double? tmp = double.tryParse(
+                                          midFrequency?.timeB ?? '1');
+                                      _countdownTime2 = ((tmp?.toInt())!);
+                                      startCountdownTimer2(erStartSelected);
 
-                                  setState(() {
-                                    //点击开始治疗
-                                    double? tmp = double.tryParse(
-                                        midFrequency?.timeB ?? '1');
-                                    _countdownTime2 = ((tmp?.toInt())!);
-                                    startCountdownTimer2(erStartSelected);
+                                      if (!erStartSelected) {
+                                        midFrequency?.patternB = "1";
+                                      }
+
+                                    });
+                                  }, finish: () {
+                                    erStartSelected = false;
+                                    setState(() {});
                                   });
+
                                 } else {
                                   yiStartSelected = !yiStartSelected;
                                   erStartSelected = !erStartSelected;
@@ -719,28 +734,36 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                           TreatmentType.frequency));
                                     });
                                   }
-                                  midFrequency?.start1(
-                                      yiStartSelected, yiStartSelected);
-                                  if (!yiStartSelected) {
-                                    midFrequency?.timeA = "20";
-                                    midFrequency?.timeB = "20";
-                                    midFrequency?.patternA = "1";
-                                    midFrequency?.patternB = "1";
-                                  }
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
+                                  midFrequency
+                                      ?.start1(yiStartSelected, yiStartSelected,
+                                          back: () {
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
+                                    eventBus.fire(Notify());
+                                    ZpgrdCureState =
+                                        yiStartSelected || erStartSelected;
+                                    erStartSelected = yiStartSelected;
+                                    setState(() {
+                                      //点击开始治疗
+                                      double? tmp = double.tryParse(
+                                          midFrequency?.timeA ?? '1');
+                                      _countdownTime1 = ((tmp?.toInt())!);
+                                      startCountdownTimer1(yiStartSelected);
 
-                                  eventBus.fire(Notify());
-                                  ZpgrdCureState =
-                                      yiStartSelected || erStartSelected;
-                                  erStartSelected = yiStartSelected;
-                                  setState(() {
-                                    //点击开始治疗
-                                    double? tmp = double.tryParse(
-                                        midFrequency?.timeA ?? '1');
-                                    _countdownTime1 = ((tmp?.toInt())!);
-                                    startCountdownTimer1(yiStartSelected);
+                                      if (!yiStartSelected) {
+                                        midFrequency?.timeA = "20";
+                                        midFrequency?.timeB = "20";
+                                        midFrequency?.patternA = "1";
+                                        midFrequency?.patternB = "1";
+                                      }
+
+                                    });
+                                  }, finish: () {
+                                    yiStartSelected = false;
+                                    erStartSelected = false;
+                                    setState(() {});
                                   });
+
                                 }
                               },
                               child: Row(

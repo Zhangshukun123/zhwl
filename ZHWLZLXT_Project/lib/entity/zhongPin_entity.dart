@@ -89,7 +89,7 @@ class MidFrequency {
   User? user;
   String? settingTimeA;
 
-  bool start1(bool isStart, isOpenStart) {
+  bool start1(bool isStart, isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
     if (isStart && isOpenStart) {
       settingTimeA = timeA;
       startTime = DateTime.now();
@@ -165,7 +165,7 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if (!isStart) {
       timeA = '20';
     }
@@ -201,7 +201,7 @@ class MidFrequency {
   DateTime? endTime2;
   String? settingTimeB;
 
-  bool start2(bool isStart, {bool? isOpenStart}) {
+  bool start2(bool isStart, {bool? isOpenStart,sendSuccessBack? back, sendFinish? finish}) {
     if (isStart && isOpenStart == true) {
       settingTimeB = timeB;
       startTime2 = DateTime.now();
@@ -276,7 +276,7 @@ class MidFrequency {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back:back,finish: finish);
     if (!isStart) {
       timeB = '20';
     }
@@ -287,6 +287,10 @@ class MidFrequency {
     if (user != null && user?.userId != 0) {
       endTime2 = DateTime.now();
       String min = '';
+      if(startTime2==null){
+        return;
+      }
+
       Duration diff = endTime2!.difference(startTime2!);
       if (diff.inMinutes == 0) {
         min = '1';

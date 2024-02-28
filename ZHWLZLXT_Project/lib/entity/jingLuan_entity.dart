@@ -92,7 +92,7 @@ class Spastic {
 
   User? user;
 
-  bool start(bool isStart, bool isOpenStart) {
+  bool start(bool isStart, bool isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
     if (isStart && isOpenStart) {
       settingTime = time;
       startTime = DateTime.now();
@@ -216,7 +216,7 @@ class Spastic {
       data = "$data 0$timeTmps";
     }
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if(!isStart){
       time = '20';
     }

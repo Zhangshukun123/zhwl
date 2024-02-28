@@ -112,7 +112,7 @@ class Neuromuscular {
   DateTime? startTime;
   DateTime? endTime;
   User? user;
-  bool start1(bool isStart,bool isOpenStart) {
+  bool start1(bool isStart,bool isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
 
     if(isStart&&isOpenStart){
       settingTime = timeA;
@@ -208,7 +208,7 @@ class Neuromuscular {
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if(!isStart){
       timeA = '20';
     }
@@ -247,7 +247,7 @@ class Neuromuscular {
   DateTime? endTime2;
 String? settingTimeB;
 
-  bool start2(bool isStart,bool isOpenStart) {
+  bool start2(bool isStart,bool isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
     if(isStart&&isOpenStart){
       settingTimeB = timeB;
       startTime2 = DateTime.now();
@@ -341,7 +341,7 @@ String? settingTimeB;
     data = "$data 00"; // 09
     data = "$data 00"; // 10
 
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if(!isStart){
       timeB = '20';
     }

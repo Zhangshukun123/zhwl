@@ -39,8 +39,8 @@ class Globalization {
   static const String pulseWidthB = "Pulse Width(B)"; //脉宽B
   static const String delayTime = "Delay Time"; //延时时间
   static const String pulsePeriod = "Pulse Period"; //脉冲周期
-  static const String intensityA = "Intensity(A)"; //强度A
-  static const String intensityB = "Intensity(B)"; //强度B
+  static const String intensityA = "Intensity\n(A)"; //强度A
+  static const String intensityB = "Intensity\n(B)"; //强度B
   static const String pulseWidth = "Pulse Width"; //脉宽
   static const String recipe = "Recipe"; //处方
   static const String ultrasound = "Ultrasound Therapy"; //超声疗法
@@ -117,6 +117,7 @@ class Globalization {
   static const String hint_018 = "Account password error"; // 输出功率
   static const String hint_019 = "The phototherapy equipment is on emergency stop"; // 输出功率
   static const String hint_020 = "A device is currently running"; // 输出功率
+  static const String hint_021 = "Boot failure! Please try again later"; // 输出功率
   static const String RecordTime = "time"; // 输出功率
   static const String ExportMonth = " month"; // 输出功率
   static const String ExportYear = "year"; // 输出功率
@@ -148,7 +149,7 @@ class Globalization {
       "1.Properly connect the electrode pad to the output interface.\n"
       "2.The protocol selection range is 1~50.\n"
       "3. The treatment time is already within the protocol and does not need to be set.\n"
-      "4. Click the start button  , \"Start Medium Frequency Therapychannel 1\", the intensity can be adjusted (adjustable from 0 to 99, the step is 1). Please adjustthe intensity slowly. During the adjustment process, keep asking the patient how they feel .\n"
+      "4. Click the start button  , \"Start Medium Frequency Therapychannel 1\", the intensity can be adjusted (adjustable from 0 to 99, the step is 1).\n"
       "5. When the set treatment time is over or the output is stopped manually, \"Stop Medium Frequency Therapy channel 1\".\n"
       "6. The icons of\"+ -\"are gray to indicate that they are not selectable.\n"
       "Tip: There are two different treatment channels for medium frequency therapy. Channel 1 andChannel 2 can be treated individually or at the same time. The above operation steps takechannel 1 as an example.\n"
@@ -185,7 +186,7 @@ class Globalization {
       "2. Set related parameters: time, pulse period, delay time, pulse width A and pulse width B.\n"
       "2.1 Pulse Period: adjustable from 1s to 2s, step is 0.1s;\n"
       "2.2 Pulse Width: adjustable from 0.1ms to 0.5ms, step is 0.lms;\n"
-      "2.3 Delay Time: the delay time of the second output of a group of outputs is adjustable from 0.1sto 1.5s compared to the first output, the step is 0.1s, and error +20%;\n"
+      "2.3 Delay Time: the delay time of the second output of a group of outputs is adjustable from 0.1sto 1.5s compared to the first output, the step is 0.1s, The maximum pulse period -1 is the maximum delay time；\n"
       "2.4 The treatment time is adjustable from lmin to 30min, and the step is lmin.\n"
       "3. Place the electrode pad on the part to be treated. Before treatment, clean the part to be treated.then scrub the skin with medica alcohol, wipe off the oil on the skin, and then moisten the skinwith water to enhance the conductivity of the skin.\n"
       "4. Click start button, \"Start Spasm Muscle Therapy\", the intensity(adjustable from 0 to 99, the step is 1), please adjust the intensity slowly. During the adjustmentprocess, keep asking the patient how they feel.\n"

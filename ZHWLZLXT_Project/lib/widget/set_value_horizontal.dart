@@ -215,8 +215,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
+                  width: 30.w,
+                  height: 30.h,
                 ),
               ),
             ),
@@ -297,8 +297,8 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       ? 'assets/images/btn_jia_nor.png'
                       : 'assets/images/2.0x/btn_jia_disabled.png',
                   fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
+                  width: 30.w,
+                  height: 30.h,
                 ),
               ),
             ),

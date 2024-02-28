@@ -21,17 +21,17 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
     private List<Byte> bytes;
     private int headLen, tailLen;
 
-    public SpecifiedStickPackageHelper(byte[] head, byte[] tail) {
+    public SpecifiedStickPackageHelper(byte[] head) {
         this.head = head;
-        this.tail = tail;
-        if (tail == null) {
-            throw new IllegalStateException(" head or tail ==null");
-        }
-        if (head.length == 0 && tail.length == 0) {
+//        this.tail = tail;
+//        if (tail == null) {
+//            throw new IllegalStateException(" head or tail ==null");
+//        }
+        if (head.length == 0) {
             throw new IllegalStateException(" head and tail length==0");
         }
         headLen = head.length;
-        tailLen = tail.length;
+//        tailLen = tail.length;
         bytes = new ArrayList<>();
     }
 
@@ -69,8 +69,8 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
             temp = (byte) len;
             bytes.add(temp);
             Byte[] byteArray = bytes.toArray(new Byte[]{});
-            if (headLen == 0 || tailLen == 0) {//只有头或尾标记
-                if (endWith(byteArray, head) || endWith(byteArray, tail)) {
+            if (headLen == 0) {               //只有头或尾标记
+                if (endWith(byteArray, head)) {
                     if (startIndex == -1) {
                         startIndex = bytes.size() - headLen;
                     } else {//找到了
@@ -85,8 +85,8 @@ public class SpecifiedStickPackageHelper implements AbsStickPackageHelper {
                         isFindStart = true;
                     }
                 } else if (!isFindEnd) {
-                    if (endWith(byteArray, tail)) {
-                        if (startIndex + headLen <= bytes.size() - tailLen) {
+                    if (byteArray.length - startIndex == 14) {
+                        if (startIndex + headLen <= bytes.size()) {
                             isFindEnd = true;
                             result = getRangeBytes(bytes, startIndex, bytes.size());
                             break;

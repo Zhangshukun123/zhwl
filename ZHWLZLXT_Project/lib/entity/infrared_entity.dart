@@ -73,7 +73,7 @@ class InfraredEntity {
   DateTime? endTime;
   User? user;
 
-  bool start(bool isStart, bool isOpenStart) {
+  bool start(bool isStart, bool isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
     // final TreatmentController controller = Get.find();
     // print('--------------${controller.user.value.userId}');
     // if (controller.user.value.userId == 0 ||
@@ -220,7 +220,7 @@ class InfraredEntity {
     data = "$data 00"; // 10
     data = "$data 00"; // 11
     data = "$data 00"; // 12
-    SerialPort().send(data);
+    SerialPort().send(data,isStart,back: back,finish: finish);
     if (!isStart) {
       time = '20';
     }

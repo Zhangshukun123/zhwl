@@ -514,6 +514,7 @@ class _InfraredPageState extends State<InfraredPage>
                                           return;
                                         }
                                         startSelected = !startSelected;
+
                                         if (!startSelected) {
                                           infraredEntity?.init(true);
                                           isDGW = false;
@@ -524,19 +525,26 @@ class _InfraredPageState extends State<InfraredPage>
                                                 TreatmentType.infrared));
                                           });
                                         }
-                                        // thirdStartSelected = !thirdStartSelected;
                                         infraredEntity?.start(
-                                            startSelected, startSelected);
-                                        HwpzgCureState = startSelected;
-                                        infraredEntity?.user?.isCure =
-                                            startSelected;
-                                        setState(() {
-                                          //点击开始治疗
-                                          double? tmp = double.tryParse(
-                                              infraredEntity?.time ?? '1');
-                                          _countdownTime = ((tmp?.toInt())!);
-
-                                          startCountdownTimer(startSelected);
+                                            startSelected, startSelected,
+                                            back: () {
+                                          HwpzgCureState = startSelected;
+                                          infraredEntity?.user?.isCure = startSelected;
+                                          setState(() {
+                                            double? tmp = double.tryParse(
+                                                infraredEntity?.time ?? '1');
+                                            _countdownTime = ((tmp?.toInt())!);
+                                            startCountdownTimer(startSelected);
+                                          });
+                                        }, finish: () {
+                                          if (startSelected) {
+                                            startSelected = false;
+                                          } else {
+                                            startCountdownTimer(startSelected);
+                                          }
+                                          HwpzgCureState = false;
+                                          infraredEntity?.user?.isCure = startSelected;
+                                          setState(() {});
                                         });
                                       },
                                       child: Row(

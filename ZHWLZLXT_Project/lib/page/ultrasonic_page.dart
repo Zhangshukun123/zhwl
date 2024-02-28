@@ -45,9 +45,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   var frequency = 1;
 
-
   bool isShow = false;
-
 
   Ultrasonic? ultrasonic;
 
@@ -74,9 +72,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     _tabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
     _tabController.addListener(() {});
-
-
-
 
     dialog?.setTabController(_tabController);
 
@@ -125,7 +120,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                 });
               }
 
-              if(!isShow){
+              if (!isShow) {
                 showConnectPort(Globalization.temperatureAnomaly.tr, "");
               }
               // DialogUtil.alert(
@@ -184,7 +179,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   RunTime runTime = RunTime(20, 1001);
                   eventBus.fire(runTime);
                 });
-                if(!isShow){
+                if (!isShow) {
                   showConnectPort(Globalization.temperatureAnomaly.tr, "");
                 }
                 // DialogUtil.alert(
@@ -231,17 +226,14 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         case "open":
           break;
         case "close":
-          ultrasonic?.start(true, false);
+          ultrasonic?.start(false, false);
           break;
         case "saveP":
           ultrasonic?.start(true, false);
           break;
       }
     });
-
   }
-
-
 
   showConnectPort(title, con) async {
     ultrasonicController.title.value = title;
@@ -644,16 +636,26 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                 });
                                               }
                                               ultrasonic?.start(
-                                                  startSelected, startSelected);
-                                              cureState = startSelected;
-
-                                              setState(() {
-                                                double? tmp = double.tryParse(
-                                                    ultrasonic?.time ?? '1');
-                                                _countdownTime =
-                                                    ((tmp?.toInt())!);
-                                                startCountdownTimer(
-                                                    startSelected);
+                                                  startSelected, startSelected,
+                                                  back: () {
+                                                cureState = startSelected;
+                                                setState(() {
+                                                  double? tmp = double.tryParse(
+                                                      ultrasonic?.time ?? '1');
+                                                  _countdownTime =
+                                                      ((tmp?.toInt())!);
+                                                  startCountdownTimer(
+                                                      startSelected);
+                                                });
+                                              }, finish: () {
+                                                if (startSelected) {
+                                                  startSelected = false;
+                                                } else {
+                                                  startCountdownTimer(
+                                                      startSelected);
+                                                }
+                                                cureState = false;
+                                                setState(() {});
                                               });
                                             },
                                             child: Row(

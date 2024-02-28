@@ -32,8 +32,8 @@ class LanguageValue extends Translations {
           Globalization.delayTime: "Delay Time",
           Globalization.ci: "count",
           Globalization.pulsePeriod: "Pulse Period",
-          Globalization.intensityA: "Intensity(A)",
-          Globalization.intensityB: "Intensity(B)",
+          Globalization.intensityA: "Intensity\n(A)",
+          Globalization.intensityB: "Intensity\n(B)",
           Globalization.pulseWidth: "Pulse Width",
           Globalization.recipe: "Recipe",
           Globalization.ultrasound: "Ultrasound Therapy",
@@ -196,6 +196,7 @@ class LanguageValue extends Translations {
           Globalization.hint_018: "账号密码错误",
           Globalization.hint_019: "光疗设备处于急停状态",
           Globalization.hint_020: "当前设备另一个通道正在运行",
+          Globalization.hint_021: "启动失败！请稍后重试",
           Globalization.ExportMonth: "导出当月",
           Globalization.ExportYear: "导出当年",
           Globalization.ExportAll: "全部导出",
@@ -239,7 +240,7 @@ class LanguageValue extends Translations {
               '1 干扰电输出，需要使用四个干扰电极片。\n'
               '2 处方选择范围51～60。\n'
               '3 治疗时间已在处方内，不需要设置。\n'
-              '4 点击开始按钮，可以调节强度（0～99可调，步进为1），请慢速调节输出强度，如果是负压吸附治疗调节吸附压力，在调节的过程中不断询问患者的感受。\n'
+              '4 点击开始按钮，可以调节强度（0～99可调，步进为1），请慢速调节输出强度\n'
               '5 当设定治疗时间结束或手动停止输出，输出停止。\n'
               '6 “+、-”键的图标为灰色表示不可选。',
           Globalization.detailsSix: '1 将电极片与电疗输出接口妥善连接。\n'
@@ -269,7 +270,7 @@ class LanguageValue extends Translations {
               '2 设置相关参数：时间、脉冲周期、延时时间、脉宽A和脉宽B；\n'
               '2.1 脉冲周期：1s～2s可调，步进为0.1s；\n'
               '2.2 脉冲宽度：0.1ms~0.5ms可调，步进为0.1ms；\n'
-              '2.3 延时时间：一组输出的第二路输出比第一路输出延时时间为0.1s～1.5s可调，步进为0.1s，允差±20%；\n'
+              '2.3 延时时间：一组输出的第二路输出比第一路输出延时时间为0.1s～1.5s可调，步进为0.1s，脉冲周期的最大值-1为延迟时间的最大值；\n'
               '2.4 治疗时间为1min~30min可调，步进为1min。\n'
               '3 将电极片放置在需治疗部位，在治疗前，先将需要治疗的部位进行清洁，再用医用酒精擦洗皮肤，擦去皮肤上的油脂，再用清水润湿皮肤加强皮肤的导电性。\n'
               '4 点击开始按钮，强度（0～99可调，步进为1），请慢速调节强度，在调节的过程中，不断询问患者的感受。\n'

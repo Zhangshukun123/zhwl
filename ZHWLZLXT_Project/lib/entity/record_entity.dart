@@ -210,22 +210,26 @@ class Record {
       infos.add('${Globalization.recipe.tr}：$prescription');
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      infos.add('${Globalization.setTime.tr}：${double.parse(utilityTime!).toInt()}min');
+      infos.add(
+          '${Globalization.setTime.tr}：${double.parse(utilityTime!).toInt()}min');
     }
     if (!TextUtil.isEmpty(power)) {
       infos.add('${Globalization.power.tr}：${power}w');
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      infos.add('${Globalization.intensity.tr}：${double.parse(strengthGrade!).toInt()}');
+      infos.add(
+          '${Globalization.intensity.tr}：${double.parse(strengthGrade!).toInt()}');
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      infos.add('${Globalization.intensityA.tr}：${double.parse(strengthGradeA!).toInt()}');
+      infos.add(
+          '${Globalization.intensityA.tr}：${double.parse(strengthGradeA!).toInt()}');
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      infos.add('${Globalization.intensityB.tr}：${double.parse(strengthGradeB!).toInt()}');
+      infos.add(
+          '${Globalization.intensityB.tr}：${double.parse(strengthGradeB!).toInt()}');
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
-      infos.add('${Globalization.soundIntensity.tr}：${soundIntensity}w/c㎡');
+      infos.add('${Globalization.soundIntensity.tr}：${soundIntensity}W/c㎡');
     }
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
       var sp = frequency?.split("次/min");
@@ -255,10 +259,12 @@ class Record {
       infos.add('${Globalization.pulsePeriod.tr}：${circle}s');
     }
     if (!TextUtil.isEmpty(actionTime)) {
-      infos.add('${Globalization.cureTime.tr}：${double.parse(actionTime!).toInt()}min');
+      infos.add(
+          '${Globalization.cureTime.tr}：${double.parse(actionTime!).toInt()}min');
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      infos.add('${Globalization.openTime.tr}：${double.parse(zdTime!).toInt()}min');
+      infos.add(
+          '${Globalization.openTime.tr}：${double.parse(zdTime!).toInt()}min');
     }
     return infos;
   }
@@ -347,22 +353,26 @@ class Record {
       mapData[Globalization.recipe.tr] = prescription!;
     }
     if (!TextUtil.isEmpty(utilityTime)) {
-      mapData[Globalization.setTime.tr] = '${double.parse(utilityTime!).toInt()}min';
+      mapData[Globalization.setTime.tr] =
+          '${double.parse(utilityTime!).toInt()}min';
     }
     if (!TextUtil.isEmpty(power)) {
       mapData[Globalization.power.tr] = '${power}w';
     }
     if (!TextUtil.isEmpty(strengthGrade)) {
-      mapData[Globalization.intensity.tr] = double.parse(strengthGrade!).toInt().toString();
+      mapData[Globalization.intensity.tr] =
+          double.parse(strengthGrade!).toInt().toString();
     }
     if (!TextUtil.isEmpty(strengthGradeA)) {
-      mapData[Globalization.intensityA.tr] = double.parse(strengthGradeA!).toInt().toString();
+      mapData[Globalization.intensityA.tr] =
+          double.parse(strengthGradeA!).toInt().toString();
     }
     if (!TextUtil.isEmpty(strengthGradeB)) {
-      mapData[Globalization.intensityB.tr] =  double.parse(strengthGradeB!).toInt().toString();
+      mapData[Globalization.intensityB.tr] =
+          double.parse(strengthGradeB!).toInt().toString();
     }
     if (!TextUtil.isEmpty(soundIntensity)) {
-      mapData[Globalization.soundIntensity.tr] = '${soundIntensity}w/c㎡';
+      mapData[Globalization.soundIntensity.tr] = '${soundIntensity}W/c㎡';
     }
 
     if (!TextUtil.isEmpty(frequency) && frequency!.endsWith('次/min')) {
@@ -395,14 +405,14 @@ class Record {
       mapData[Globalization.cureTime.tr] = '${actionTime}min';
     }
     if (!TextUtil.isEmpty(zdTime) && zdTime != "0") {
-      mapData[Globalization.openTime.tr] = '${double.parse(zdTime!).toInt()}min';
+      mapData[Globalization.openTime.tr] =
+          '${double.parse(zdTime!).toInt()}min';
     }
     // if (!TextUtil.isEmpty(dataTime)) {
     //   mapData[Globalization.RecordTime.tr] = '$dataTime';
     // }
     return mapData;
   }
-
 
   String getType(String type) {
     String? cl = Get.locale?.languageCode;
@@ -484,15 +494,31 @@ class Record {
         }
       case "中频/干扰电治疗":
         if (cl == "zh" || cl == "CN") {
-          return type;
+          if (int.parse(prescription ?? "0") > 50) {
+            return "干扰电治疗";
+          } else {
+            return "中频";
+          }
         } else {
-          return "MediumFrequency/InterferentialCurrent";
+          if (int.parse(prescription ?? "0") > 50) {
+            return "InterferentialCurrent";
+          } else {
+            return "MediumFrequency";
+          }
         }
       case "MediumFrequency/InterferentialCurrentTherapy":
         if (cl == "zh" || cl == "CN") {
-          return "中频/干扰电治疗";
+          if (int.parse(prescription ?? "0") > 50) {
+            return "干扰电治疗";
+          } else {
+            return "中频";
+          }
         } else {
-          return "MediumFrequency/InterferentialCurrent";
+          if (int.parse(prescription ?? "0") > 50) {
+            return "InterferentialCurrent";
+          } else {
+            return "MediumFrequency";
+          }
         }
     }
     return "";

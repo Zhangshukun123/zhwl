@@ -335,17 +335,22 @@ class _JingLuanPageState extends State<JingLuanPage>
                                           SetValueState(TreatmentType.spasm));
                                     });
                                   }
-                                  spastic?.start(startSelected, startSelected);
-                                  electrotherapyIsRunIng = startSelected;
-                                  JljCureState = startSelected;
-                                  eventBus.fire(Notify());
-                                  setState(() {
-                                    //点击开始治疗
-                                    double? tmp =
-                                        double.tryParse(spastic?.time ?? '1');
-                                    _countdownTime = ((tmp?.toInt())!);
+                                  spastic?.start(startSelected, startSelected,back: (){
+                                    electrotherapyIsRunIng = startSelected;
+                                    JljCureState = startSelected;
+                                    eventBus.fire(Notify());
+                                    setState(() {
+                                      double? tmp =
+                                      double.tryParse(spastic?.time ?? '1');
+                                      _countdownTime = ((tmp?.toInt())!);
+                                    });
+                                    startCountdownTimer(startSelected);
+                                  },finish: (){
+                                    startSelected = false;
+                                    electrotherapyIsRunIng = false;
+                                    JljCureState = false;
                                   });
-                                  startCountdownTimer(startSelected);
+
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

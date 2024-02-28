@@ -210,7 +210,7 @@ class _ControlPageState extends State<ControlPage> {
               },
               child: Container(
                 // margin: const EdgeInsets.only(top: 3.0, right: 20,bottom: 3 ),
-                width: 100.w,
+                width: 110.w,
                 height: 55.h,
                 padding: const EdgeInsets.all(5),
                 // color: Color(0xFF19B1E9),
@@ -388,7 +388,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.no.tr,
                                           style: TextStyle(
@@ -396,8 +396,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -427,7 +427,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.name.tr,
                                           style: TextStyle(
@@ -435,8 +435,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -474,7 +474,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.age.tr,
                                           style: TextStyle(
@@ -482,8 +482,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -513,7 +513,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.gender.tr,
                                           style: TextStyle(
@@ -521,8 +521,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -604,7 +604,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.tel.tr,
                                           style: TextStyle(
@@ -612,8 +612,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -643,7 +643,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.certificate.tr,
                                           style: TextStyle(
@@ -651,8 +651,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -690,7 +690,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.hospitalNo.tr,
                                           style: TextStyle(
@@ -698,8 +698,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
@@ -729,7 +729,7 @@ class _ControlPageState extends State<ControlPage> {
                                 Row(
                                   children: [
                                     SizedBox(
-                                        width: 70.w,
+                                        width: 75.w,
                                         child: Text(
                                           Globalization.bedNo.tr,
                                           style: TextStyle(
@@ -737,8 +737,8 @@ class _ControlPageState extends State<ControlPage> {
                                               fontSize: 16.sp),
                                         )),
                                     Container(
-                                        width: 220.w,
-                                        height: 43.h,
+                                        width: 200.w,
+                                        height: 40.h,
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.5,
