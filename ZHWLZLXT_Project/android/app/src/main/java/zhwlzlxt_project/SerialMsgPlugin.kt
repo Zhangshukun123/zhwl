@@ -105,7 +105,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
             "heard" -> {
 //                if (serialPortHelper.isOpen){
-//                    serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
+                    serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
 //                }
             }
 
