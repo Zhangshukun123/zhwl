@@ -87,21 +87,25 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           });
         });
       }
-      if (erStartSelected) {
-        _timer2?.cancel();
-        midFrequency?.init2(true);
-        midFrequency?.start2(false);
-        midFrequency?.patternB = "1";
-        erStartSelected = false;
-        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-        ZpgrdCureState = yiStartSelected || erStartSelected;
-        setState(() {
-          eventBus.fire(RunTime(20, 2009));
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.frequency));
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (erStartSelected) {
+          _timer2?.cancel();
+          midFrequency?.init2(true);
+          midFrequency?.start2(false);
+          midFrequency?.patternB = "1";
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          ZpgrdCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            eventBus.fire(RunTime(20, 2009));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.frequency));
+            });
           });
-        });
-      }
+        }
+      });
+
     });
   }
 

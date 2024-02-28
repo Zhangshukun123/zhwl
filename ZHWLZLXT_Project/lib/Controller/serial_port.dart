@@ -18,32 +18,34 @@ class SerialPort {
 
   void send(String data, bool isStart,
       {sendSuccessBack? back, sendFinish? finish}) {
-    SerialMsg().sendData(data).then((value) {
-      if(back==null){
-        return;
-      }
-      if (value == "success") {
-        back.call();
-        if (EasyLoading.isShow) {
-          EasyLoading.dismiss();
-        }
-      }
-      if (value == "fail") {
-        if (isStart) {
-          if (!EasyLoading.isShow) {
-            EasyLoading.instance.userInteractions = false;
-            EasyLoading.show(dismissOnTap: false);
+    if(back!=null){
+      SerialMsg().sendData(data).then((value) {
+
+        if (value == "success") {
+          back.call();
+          if (EasyLoading.isShow) {
+            EasyLoading.dismiss();
           }
         }
-        send(data, isStart, back: back, finish: finish);
-      }
-      if (value == "finish") {
-        if (isStart) {
-          EasyLoading.dismiss();
-          showToastMsg(msg: Globalization.hint_021.tr);
+        if (value == "fail") {
+          if (isStart) {
+            if (!EasyLoading.isShow) {
+              EasyLoading.instance.userInteractions = false;
+              EasyLoading.show(dismissOnTap: false);
+            }
+          }
+          send(data, isStart, back: back, finish: finish);
         }
-        finish?.call();
-      }
-    });
+        if (value == "finish") {
+          if (isStart) {
+            EasyLoading.dismiss();
+            showToastMsg(msg: Globalization.hint_021.tr);
+          }
+          finish?.call();
+        }
+      });
+    }else{
+      SerialMsg().sendHData(data);
+    }
   }
 }

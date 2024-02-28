@@ -75,21 +75,24 @@ class _ShenJingPageState extends State<ShenJingPage>
           });
         });
       }
-      if (erStartSelected) {
-        _timer2?.cancel();
-        neuromuscular?.setBRestValue();
-        neuromuscular?.start2(false, false);
-        erStartSelected = false;
-        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-        eventBus.fire(Notify());
-        SjjrCureState = yiStartSelected || erStartSelected;
-        setState(() {
-          eventBus.fire(RunTime(double.tryParse("20"), 2005));
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (erStartSelected) {
+          _timer2?.cancel();
+          neuromuscular?.setBRestValue();
+          neuromuscular?.start2(false, false);
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          eventBus.fire(Notify());
+          SjjrCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            eventBus.fire(RunTime(double.tryParse("20"), 2005));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+            });
           });
-        });
-      }
+        }
+      });
     });
   }
 
@@ -586,11 +589,13 @@ class _ShenJingPageState extends State<ShenJingPage>
                                     _countdownTime2 = ((tmp?.toInt())!);
                                     startCountdownTimer2(erStartSelected);
                                   });
-                                },finish: (){
+                                }, finish: () {
                                   erStartSelected = false;
-                                  electrotherapyIsRunIng = erStartSelected || yiStartSelected;
+                                  electrotherapyIsRunIng =
+                                      erStartSelected || yiStartSelected;
                                   eventBus.fire(Notify());
-                                  SjjrCureState = yiStartSelected || erStartSelected;
+                                  SjjrCureState =
+                                      yiStartSelected || erStartSelected;
                                   setState(() {});
                                 });
                               },

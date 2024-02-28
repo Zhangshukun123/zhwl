@@ -108,15 +108,17 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     serialPortHelper.sendByte(Crc16Util.getData(tl.split(" ")))
 //                }
             }
-
+            "sendHData"->{
+                sendData = call.arguments<String>()
+                serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+            }
             "sendData" -> {
                 // 这里的 packageName 是在 Flutter 中定义的 com.allensu
                 sendData = call.arguments<String>()
                 isSend = true
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
-                Log.i("TAG", "onMethodCall: send-$hexData")
-                Log.i("TAG", "onMethodCall: send-$sendData")
+                Log.i("TAG", "onPortDataReceived: send-$hexData")
 
                 GlobalScope.launch {
                     delay(200)
@@ -150,8 +152,8 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        Log.i("TAG", "onPortDataReceived---> ${bRec}")
         if (isSend) {
+            Log.i("TAG", "onPortDataReceived---> ${bRec}")
             listBRec.add(bRec)
         }
 
