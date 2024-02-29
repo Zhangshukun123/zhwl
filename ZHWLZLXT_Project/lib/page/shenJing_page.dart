@@ -75,21 +75,24 @@ class _ShenJingPageState extends State<ShenJingPage>
           });
         });
       }
-      if (erStartSelected && event.channel == 10) {
-        _timer2?.cancel();
-        neuromuscular?.setBRestValue();
-        neuromuscular?.start2(false, false);
-        erStartSelected = false;
-        electrotherapyIsRunIng = yiStartSelected || erStartSelected;
-        eventBus.fire(Notify());
-        SjjrCureState = yiStartSelected || erStartSelected;
-        setState(() {
-          eventBus.fire(RunTime(double.tryParse("20"), 2005));
-          Future.delayed(const Duration(milliseconds: 500), () {
-            eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (erStartSelected) {
+          _timer2?.cancel();
+          neuromuscular?.setBRestValue();
+          neuromuscular?.start2(false, false);
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          eventBus.fire(Notify());
+          SjjrCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            eventBus.fire(RunTime(double.tryParse("20"), 2005));
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.neuromuscular));
+            });
           });
-        });
-      }
+        }
+      });
     });
   }
 

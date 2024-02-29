@@ -81,6 +81,7 @@ class _JingPiPageState extends State<JingPiPage>
           });
         });
       }
+<<<<<<< HEAD
 
       if (erStartSelected && event.channel == 10) {
         _timer2?.cancel();
@@ -94,9 +95,25 @@ class _JingPiPageState extends State<JingPiPage>
           eventBus.fire(runTime);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.percutaneous));
+=======
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (erStartSelected) {
+          _timer2?.cancel();
+          percutaneous?.initB(true);
+          percutaneous?.start2(false, false);
+          erStartSelected = false;
+          electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+          JpsjCureState = yiStartSelected || erStartSelected;
+          setState(() {
+            RunTime runTime = RunTime(double.tryParse('20'), 2002);
+            eventBus.fire(runTime);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              eventBus.fire(SetValueState(TreatmentType.percutaneous));
+            });
+>>>>>>> 0b4bcf1c3cd2c1235be93644de5c382fb4ffa4d0
           });
-        });
-      }
+        }
+      });
     });
   }
 

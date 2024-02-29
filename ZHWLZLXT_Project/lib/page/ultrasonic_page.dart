@@ -625,6 +625,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                 return;
                                               }
                                               startSelected = !startSelected;
+
                                               if (!startSelected) {
                                                 ultrasonic?.init(true);
                                                 Future.delayed(
@@ -635,10 +636,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                           .ultrasonic));
                                                 });
                                               }
+
+
                                               ultrasonic?.start(
                                                   startSelected, startSelected,
                                                   back: () {
                                                 cureState = startSelected;
+
                                                 setState(() {
                                                   double? tmp = double.tryParse(
                                                       ultrasonic?.time ?? '1');
@@ -648,12 +652,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                                       startSelected);
                                                 });
                                               }, finish: () {
-                                                if (startSelected) {
-                                                  startSelected = false;
-                                                } else {
-                                                  startCountdownTimer(
-                                                      startSelected);
-                                                }
+                                                startSelected = false;
                                                 cureState = false;
                                                 setState(() {});
                                               });

@@ -42,14 +42,16 @@ class SerialMsg {
   }
 
   Future<String> sendData(String data) async {
-    // sendData 调用方法的名称，com.example.zhwlzlxt_project 应用包名
     String buffer = '${PortData.FH} $data';
     print("-----sendData----$buffer");
-
-    // Fluttertoast.showToast(
-    //     msg: '发送数据=$buffer', fontSize: 22, backgroundColor: Colors.blue);
     String res = await _channel.invokeMethod("sendData", buffer);
-    // print('-----sendData-------$res');
     return res;
   }
+
+  Future<String> sendHData(String data) async {
+    String buffer = '${PortData.FH} $data';
+    String res = await _channel.invokeMethod("sendHData", buffer);
+    return res;
+  }
+
 }
