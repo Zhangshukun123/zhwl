@@ -65,7 +65,7 @@ class _JingPiPageState extends State<JingPiPage>
     });
 
     eventBus.on<Electrotherapy>().listen((event) {
-      if (yiStartSelected) {
+      if (yiStartSelected && event.channel == 9) {
         _timer1?.cancel();
         percutaneous?.init(true);
         percutaneous?.start1(false, false);
@@ -82,7 +82,7 @@ class _JingPiPageState extends State<JingPiPage>
         });
       }
 
-      if (erStartSelected) {
+      if (erStartSelected && event.channel == 10) {
         _timer2?.cancel();
         percutaneous?.initB(true);
         percutaneous?.start2(false, false);
@@ -363,10 +363,14 @@ class _JingPiPageState extends State<JingPiPage>
                                           TreatmentType.percutaneous));
                                     });
                                   }
-                                  percutaneous?.start1(yiStartSelected, yiStartSelected,back: (){
-                                    electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+                                  percutaneous
+                                      ?.start1(yiStartSelected, yiStartSelected,
+                                          back: () {
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
                                     eventBus.fire(Notify());
-                                    JpsjCureState = yiStartSelected || erStartSelected;
+                                    JpsjCureState =
+                                        yiStartSelected || erStartSelected;
                                     setState(() {
                                       //点击开始治疗
                                       double? tmp = double.tryParse(
@@ -374,14 +378,15 @@ class _JingPiPageState extends State<JingPiPage>
                                       _countdownTime1 = ((tmp?.toInt())!);
                                       startCountdownTimer1(yiStartSelected);
                                     });
-                                  },finish: (){
+                                  }, finish: () {
                                     yiStartSelected = false;
-                                    electrotherapyIsRunIng = yiStartSelected || erStartSelected;
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
                                     eventBus.fire(Notify());
-                                    JpsjCureState = yiStartSelected || erStartSelected;
+                                    JpsjCureState =
+                                        yiStartSelected || erStartSelected;
                                     setState(() {});
                                   });
-
                                 },
                                 // child: Image.asset(
                                 //   yiStartSelected
@@ -614,21 +619,27 @@ class _JingPiPageState extends State<JingPiPage>
                                     });
                                   }
 
-                                  percutaneous?.start2(
-                                      erStartSelected, erStartSelected,back: (){
-                                    electrotherapyIsRunIng = erStartSelected || yiStartSelected;
+                                  percutaneous
+                                      ?.start2(erStartSelected, erStartSelected,
+                                          back: () {
+                                    electrotherapyIsRunIng =
+                                        erStartSelected || yiStartSelected;
                                     eventBus.fire(Notify());
-                                    JpsjCureState = erStartSelected || yiStartSelected;
+                                    JpsjCureState =
+                                        erStartSelected || yiStartSelected;
                                     setState(() {
-                                      double? tmp = double.tryParse(percutaneous?.timeB ?? '1');
+                                      double? tmp = double.tryParse(
+                                          percutaneous?.timeB ?? '1');
                                       _countdownTime2 = ((tmp?.toInt())!);
                                       startCountdownTimer2(erStartSelected);
                                     });
-                                  },finish: (){
+                                  }, finish: () {
                                     erStartSelected = false;
-                                    electrotherapyIsRunIng = erStartSelected || yiStartSelected;
+                                    electrotherapyIsRunIng =
+                                        erStartSelected || yiStartSelected;
                                     eventBus.fire(Notify());
-                                    JpsjCureState = erStartSelected || yiStartSelected;
+                                    JpsjCureState =
+                                        erStartSelected || yiStartSelected;
                                     setState(() {});
                                   });
                                 },

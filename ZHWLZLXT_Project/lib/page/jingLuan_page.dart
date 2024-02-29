@@ -54,34 +54,7 @@ class _JingLuanPageState extends State<JingLuanPage>
     });
     eventBus.on<Electrotherapy>().listen((event) {
       if (startSelected) {
-        if (event.channel == 9) {
-          if (spastic?.powerB == "0") {
-            funClose();
-          } else {
-            spastic?.powerA = "0";
-            spastic?.start(startSelected, false);
-            setState(() {
-              eventBus.fire(RunTime(double.tryParse("20"), 2001));
-              Future.delayed(const Duration(milliseconds: 500), () {
-                eventBus.fire(SetValueState(TreatmentType.spasm));
-              });
-            });
-          }
-        }
-        if (event.channel == 10) {
-          if (spastic?.powerA == "0") {
-            funClose();
-          } else {
-            spastic?.powerB = "0";
-            spastic?.start(startSelected, false);
-            setState(() {
-              eventBus.fire(RunTime(double.tryParse("20"), 2001));
-              Future.delayed(const Duration(milliseconds: 500), () {
-                eventBus.fire(SetValueState(TreatmentType.spasm));
-              });
-            });
-          }
-        }
+        funClose();
       }
     });
   }

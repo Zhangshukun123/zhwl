@@ -61,7 +61,7 @@ class _ShenJingPageState extends State<ShenJingPage>
     });
 
     eventBus.on<Electrotherapy>().listen((event) {
-      if (yiStartSelected) {
+      if (yiStartSelected && event.channel == 9) {
         _timer1?.cancel();
         neuromuscular?.setARestValue();
         neuromuscular?.start1(false, false);
@@ -75,7 +75,7 @@ class _ShenJingPageState extends State<ShenJingPage>
           });
         });
       }
-      if (erStartSelected) {
+      if (erStartSelected && event.channel == 10) {
         _timer2?.cancel();
         neuromuscular?.setBRestValue();
         neuromuscular?.start2(false, false);
@@ -586,11 +586,13 @@ class _ShenJingPageState extends State<ShenJingPage>
                                     _countdownTime2 = ((tmp?.toInt())!);
                                     startCountdownTimer2(erStartSelected);
                                   });
-                                },finish: (){
+                                }, finish: () {
                                   erStartSelected = false;
-                                  electrotherapyIsRunIng = erStartSelected || yiStartSelected;
+                                  electrotherapyIsRunIng =
+                                      erStartSelected || yiStartSelected;
                                   eventBus.fire(Notify());
-                                  SjjrCureState = yiStartSelected || erStartSelected;
+                                  SjjrCureState =
+                                      yiStartSelected || erStartSelected;
                                   setState(() {});
                                 });
                               },

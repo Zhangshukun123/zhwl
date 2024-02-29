@@ -64,7 +64,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
     });
 
     eventBus.on<Electrotherapy>().listen((event) {
-      if (yiStartSelected) {
+      if (yiStartSelected && event.channel == 9 || aliveAuto) {
         _timer1?.cancel();
         midFrequency?.init(true);
         midFrequency?.start1(false, false);
@@ -87,7 +87,7 @@ class _ZhongPinPageState extends State<ZhongPinPage>
           });
         });
       }
-      if (erStartSelected) {
+      if (erStartSelected && event.channel == 10) {
         _timer2?.cancel();
         midFrequency?.init2(true);
         midFrequency?.start2(false);
