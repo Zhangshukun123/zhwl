@@ -20,7 +20,6 @@ class SerialPort {
       {sendSuccessBack? back, sendFinish? finish}) {
     if(back!=null){
       SerialMsg().sendData(data).then((value) {
-
         if (value == "success") {
           back.call();
           if (EasyLoading.isShow) {

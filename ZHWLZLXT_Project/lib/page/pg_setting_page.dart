@@ -30,7 +30,7 @@ class _PgSettingPageState extends State<PgSettingPage> {
   @override
   void initState() {
     super.initState();
-    strengthDAC = SpUtils.getInt('$patter$strength', defaultValue: 0)!;
+    strengthDAC = SpUtils.getInt('InfraredPage', defaultValue: 0)!;
     setState(() {});
   }
 
@@ -52,62 +52,6 @@ class _PgSettingPageState extends State<PgSettingPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                width: 700.w,
-                height: 90.h,
-                margin: EdgeInsets.only(left: 115.w, right: 115.w),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFDBDBDB),
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 33.w),
-                        child: Text(
-                          "模式",
-                          style: TextStyle(
-                              color: const Color(0xFF999999), fontSize: 18.sp),
-                        )),
-                    Expanded(
-                        child: SizedBox(
-                      width: 10.w,
-                    )),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: const Color(0xFFDBDBDB),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                      ),
-                      child: PopupMenuBtn(
-                        index: 2,
-                        enabled: true,
-                        offset: const Offset(0, 100),
-                        patternStr: patter,
-                        popupListener: (value) {
-                          patter = value;
-                          strengthDAC = SpUtils.getInt('$patter$strength',
-                              defaultValue: 0)!;
-
-                          if (strengthDAC != 0) {
-                            RunTime runTime =
-                                RunTime(strengthDAC.toDouble(), 100101);
-                            eventBus.fire(runTime);
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    )
-                  ],
-                ),
-              ),
-              Container(
                   width: 700.w,
                   height: 90.h,
                   decoration: BoxDecoration(
@@ -122,59 +66,7 @@ class _PgSettingPageState extends State<PgSettingPage> {
                       Container(
                           margin: EdgeInsets.only(left: 33.w),
                           child: Text(
-                            '强度',
-                            style: TextStyle(
-                                color: const Color(0xFF999999),
-                                fontSize: 18.sp),
-                          )),
-                      Expanded(
-                          child: SizedBox(
-                        width: 10.w,
-                      )),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 15.w,
-                          ),
-                          SetValueHorizontal(
-                            enabled: true,
-                            assets: 'assets/images/2.0x/icon_gonglv.png',
-                            initialValue: 0,
-                            width: 250.w,
-                            appreciation: 1,
-                            isInt: true,
-                            valueListener: (value) {
-                              strength = value.toInt();
-                              strengthDAC = SpUtils.getInt('$patter$strength',
-                                  defaultValue: 0)!;
-                              if (strengthDAC != 0) {
-                                RunTime runTime =
-                                    RunTime(strengthDAC.toDouble(), 100101);
-                                eventBus.fire(runTime);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-              Container(
-                  width: 700.w,
-                  height: 90.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: const Color(0xFFDBDBDB),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(left: 33.w),
-                          child: Text(
-                            'DAC',
+                            '偏光亮度',
                             style: TextStyle(
                                 color: const Color(0xFF999999),
                                 fontSize: 18.sp),
@@ -236,7 +128,7 @@ class _PgSettingPageState extends State<PgSettingPage> {
                               showToastMsg(msg: "偏光未开启!");
                               return;
                             }
-                            SpUtils.setInt('$patter$strength', strengthDAC);
+                            SpUtils.setInt('InfraredPage', strengthDAC);
                             showToastMsg(msg: "保存成功");
                             eventBus.fire(const MethodCall("sendPg"));
                           },

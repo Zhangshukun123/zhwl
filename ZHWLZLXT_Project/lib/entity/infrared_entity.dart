@@ -73,7 +73,8 @@ class InfraredEntity {
   DateTime? endTime;
   User? user;
 
-  bool start(bool isStart, bool isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
+  bool start(bool isStart, bool isOpenStart,
+      {sendSuccessBack? back, sendFinish? finish}) {
     // final TreatmentController controller = Get.find();
     // print('--------------${controller.user.value.userId}');
     // if (controller.user.value.userId == 0 ||
@@ -191,18 +192,7 @@ class InfraredEntity {
     if (TextUtil.isEmpty(power)) {
       power = '0';
     }
-    double? powerValue;
-    var value = SpUtils.getInt('$pattern$power', defaultValue: -1);
-
-    debugPrint("spower---------<$power");
-    debugPrint("spower------pattern---<$value");
-
-
-    if (value != -1) {
-      powerValue = double.tryParse(value!.toString());
-    } else {
-      powerValue = double.tryParse(power!);
-    }
+    double? powerValue = double.tryParse(power!);
     // data = "$data $power"; // 08
     // data = "$data ${(double.tryParse(power!))?.toInt()}";
     //转成double类型数据
@@ -214,13 +204,16 @@ class InfraredEntity {
     } else {
       data = "$data 0$powerTmps";
     }
-
     data = "$data 00"; //09
-
-    data = "$data 00"; // 10
+   var sInt = SpUtils.getInt("InfraredPage",defaultValue: 0)!.toRadixString(16);
+    if (sInt.length > 1) {
+      data = "$data $sInt";
+    } else {
+      data = "$data 0$sInt";
+    }
     data = "$data 00"; // 11
     data = "$data 00"; // 12
-    SerialPort().send(data,isStart,back: back,finish: finish);
+    SerialPort().send(data, isStart, back: back, finish: finish);
     if (!isStart) {
       time = '20';
     }

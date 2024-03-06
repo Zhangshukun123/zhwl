@@ -15,7 +15,7 @@ class SettingDialog {
   TextEditingController numController = TextEditingController();
 
   void showSettingDialog(BuildContext context) {
-    numController.text ="";
+    numController.text = "";
     showDialog(
       barrierDismissible: true, //表示点击灰色背景的时候是否消失弹出框
       context: context,
@@ -147,12 +147,17 @@ class SettingDialog {
                                                                   right: 20,
                                                                   top: 20,
                                                                   bottom: 20),
-                                                          child: const Text("超声"),
+                                                          child: const Text(
+                                                            "超声",
+                                                            style: TextStyle(
+                                                                fontSize: 20),
+                                                          ),
                                                         ),
                                                       ),
                                                       Container(
                                                         height: 1,
-                                                        color: const Color(0xffeeeeee),
+                                                        color: const Color(
+                                                            0xffeeeeee),
                                                       ),
                                                       InkWell(
                                                         onTap: () {
@@ -167,19 +172,23 @@ class SettingDialog {
                                                                   right: 20,
                                                                   top: 20,
                                                                   bottom: 20),
-                                                          child: const Text("红外偏振光"),
+                                                          child: const Text(
+                                                              "红外偏振光",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                  20)),
                                                         ),
                                                       ),
                                                       Container(
                                                         height: 1,
-                                                        color: const Color(0xffeeeeee),
+                                                        color: const Color(
+                                                            0xffeeeeee),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                               );
                                             });
-
                                       } else {
                                         Fluttertoast.showToast(
                                             msg: Globalization.hint_018.tr);
