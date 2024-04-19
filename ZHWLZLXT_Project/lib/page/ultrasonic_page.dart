@@ -224,6 +224,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           ultrasonic?.start(true, false);
           break;
         case "open":
+          ultrasonic?.start(true, false);
           break;
         case "close":
           ultrasonic?.start(false, false);

@@ -93,7 +93,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
         break;
       case 'onHeartFail':
         if (!isShow) {
-          showConnectPort(Globalization.connection1.tr, Globalization.connection2.tr);
+          // showConnectPort(Globalization.connection1.tr, Globalization.connection2.tr);
         }
         isShow = true;
         break;

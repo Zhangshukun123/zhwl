@@ -8,6 +8,7 @@ import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../base/globalization.dart';
 import '../base/run_state_page.dart';
+import '../entity/set_value_entity.dart';
 import '../widget/container_bg.dart';
 import '../widget/set_value.dart';
 import '../widget/set_value_horizontal.dart';
@@ -23,6 +24,7 @@ class _ChuChangPageState extends State<ChuChangPage> {
   var power = 0.0;
   var utMxt = "1";
   var powerDAC = 0.0;
+  var isOpen = false;
 
   @override
   void initState() {
@@ -144,6 +146,10 @@ class _ChuChangPageState extends State<ChuChangPage> {
                             isInt: false,
                             valueListener: (value) {
                               power = value;
+                              var set = SetValueEntity();
+                              set.value = SpUtils.getDouble(power.toString());
+                              set.type = 15;
+                              eventBus.fire(set);
                               setState(() {});
                               // cPower.add(value.toString());
                             },
@@ -182,10 +188,12 @@ class _ChuChangPageState extends State<ChuChangPage> {
                         initialValue: SpUtils.getDouble(power.toString()),
                         width: 250.w,
                         appreciation: 0.1,
+                        indexType: 15,
                         unit: 'W',
                         isInt: false,
                         valueListener: (value) {
                           powerDAC = value;
+                          eventBus.fire(const MethodCall("saveP"));
                           // SpUtils.setDouble(power.toString(), value);
                           // cPower.add(value.toString());
                         },
@@ -204,12 +212,17 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          if (cureState) {
+                          if (isOpen) {
                             eventBus.fire(const MethodCall("close"));
+                          } else {
+                            eventBus.fire(const MethodCall("open"));
                           }
+                          isOpen = !isOpen;
+                          setState(() {
+                          });
                         },
                         child: Text(
-                          "关闭超声",
+                          isOpen ? "关闭超声" : "开启超声",
                           style: TextStyle(
                               color: const Color(0xFFFFFFFF), fontSize: 18.sp),
                         ),
@@ -227,7 +240,6 @@ class _ChuChangPageState extends State<ChuChangPage> {
                             SpUtils.setDouble(
                                 power.toString(), double.parse(formattedNum));
                             showToastMsg(msg: "保存成功");
-                            eventBus.fire(const MethodCall("saveP"));
                           },
                           child: Text(
                             '保存',

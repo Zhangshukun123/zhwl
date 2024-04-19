@@ -22,7 +22,6 @@ class HomeSwitchButton extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return HomeSwitchButtonState();
   }
 
@@ -32,7 +31,6 @@ class HomeSwitchButtonState extends State<HomeSwitchButton> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return _switchButton();
   }
 

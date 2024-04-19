@@ -100,6 +100,18 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
       });
     }
 
+    if (widget.indexType == 15) {
+      eventBus.on<SetValueEntity>().listen((event) {
+        if (!mounted) {
+          return;
+        }
+        if (event.type == 15) {
+          value = event.value ?? 0;
+        }
+        setState(() {});
+      });
+    }
+
     eventBus.on<RunTime>().listen((event) {
       if (!mounted) {
         return;
