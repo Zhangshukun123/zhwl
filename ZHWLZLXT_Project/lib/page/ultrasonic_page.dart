@@ -220,7 +220,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           setState(() {});
           break;
         case 'saponin':
-          ultrasonic?.pattern = Globalization.frequency.tr;
+          ultrasonic?.pattern = Globalization.Sweepfrequency.tr;
           ultrasonic?.start(true, false);
           break;
         case "open":

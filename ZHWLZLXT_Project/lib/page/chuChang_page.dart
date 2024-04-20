@@ -7,10 +7,7 @@ import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
 import '../base/globalization.dart';
-import '../base/run_state_page.dart';
 import '../entity/set_value_entity.dart';
-import '../widget/container_bg.dart';
-import '../widget/set_value.dart';
 import '../widget/set_value_horizontal.dart';
 
 class ChuChangPage extends StatefulWidget {
