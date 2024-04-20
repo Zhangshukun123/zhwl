@@ -128,7 +128,7 @@ class _InfraredPageState extends State<InfraredPage>
             return;
           }
           startSelected = true;
-          infraredEntity?.start(startSelected, startSelected);
+          infraredEntity?.start(startSelected, startSelected,back: (){});
           HwpzgCureState = startSelected;
           infraredEntity?.user?.isCure = startSelected;
           setState(() {
@@ -140,14 +140,22 @@ class _InfraredPageState extends State<InfraredPage>
 
           break;
         case 'closePg':
-          startSelected = false;
+          _timer?.cancel();
+          //计时结束
           infraredEntity?.init(true);
-          isDGW = false;
+          infraredEntity?.start(false, false);
           Future.delayed(const Duration(milliseconds: 500), () {
             eventBus.fire(SetValueState(TreatmentType.infrared));
           });
-          infraredEntity?.start(startSelected, startSelected);
-          startCountdownTimer(startSelected);
+          startSelected = false;
+          isDGW = false;
+          HwpzgCureState = startSelected;
+          infraredEntity?.user?.isCure = startSelected;
+          setState(() {
+            RunTime runTime = RunTime(20, 1003);
+            eventBus.fire(runTime);
+            showToastMsg(msg: Globalization.endOfTreatment.tr);
+          });
           break;
         case 'sendPg':
           infraredEntity?.start(startSelected, startSelected);

@@ -96,21 +96,16 @@ class _PgSettingPageState extends State<PgSettingPage> {
                       height: 43.h,
                       width: 110.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00C290),
+                        color: const Color(0xffeeeeee),
                         borderRadius: BorderRadius.all(Radius.circular(7.w)),
                       ),
                       child: TextButton(
                         onPressed: () {
-                          if (isOpen) {
-                            eventBus.fire(const MethodCall("openPg"));
-                          } else {
-                            eventBus.fire(const MethodCall("closePg"));
-                          }
                           isOpen = !isOpen;
                           setState(() {});
                         },
                         child: Text(
-                          isOpen ? "关闭偏光" : "开启偏光",
+                          isOpen ? "偏光" : "偏光",
                           style: TextStyle(
                               color: const Color(0xFFFFFFFF), fontSize: 18.sp),
                         ),
@@ -124,13 +119,8 @@ class _PgSettingPageState extends State<PgSettingPage> {
                       ),
                       child: TextButton(
                           onPressed: () {
-                            if (!isOpen) {
-                              showToastMsg(msg: "偏光未开启!");
-                              return;
-                            }
                             SpUtils.setInt('InfraredPage', strengthDAC);
                             showToastMsg(msg: "保存成功");
-                            eventBus.fire(const MethodCall("sendPg"));
                           },
                           child: Text(
                             '保存',

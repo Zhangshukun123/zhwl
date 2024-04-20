@@ -110,7 +110,9 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
             "sendHData"->{
                 sendData = call.arguments<String>()
+                hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+                Log.i("TAG", "onPortDataReceived: sendHData-$hexData")
             }
             "sendData" -> {
                 // 这里的 packageName 是在 Flutter 中定义的 com.allensu
@@ -118,8 +120,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 isSend = true
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
-                Log.i("TAG", "onPortDataReceived: send-$hexData")
-
+                Log.i("TAG", "onPortDataReceived: sendHData-$hexData")
                 GlobalScope.launch {
                     delay(200)
                     if (listBRec.contains(hexData)) {
@@ -152,11 +153,10 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
+        Log.i("TAG", "onPortDataReceived: sendHData-$bRec")
         if (isSend) {
-            Log.i("TAG", "onPortDataReceived---> ${bRec}")
             listBRec.add(bRec)
         }
-
         handler.post {
             toFlutter.invokeMethod(
                 "Electrotherapy",

@@ -18,6 +18,9 @@ class SerialPort {
 
   void send(String data, bool isStart,
       {sendSuccessBack? back, sendFinish? finish}) {
+
+    print("----sendSuccessBack-------$data");
+
     if(back!=null){
       SerialMsg().sendData(data).then((value) {
         if (value == "success") {

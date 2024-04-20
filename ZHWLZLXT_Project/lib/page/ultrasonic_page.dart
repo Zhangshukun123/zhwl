@@ -108,7 +108,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               if (startSelected) {
                 _timer?.cancel();
                 ultrasonic?.init(true);
-                ultrasonic?.start(false, false);
+                ultrasonic?.start(false, false,"${prowText}M");
                 Future.delayed(const Duration(milliseconds: 500), () {
                   eventBus.fire(SetValueState(TreatmentType.ultrasonic));
                 });
@@ -144,7 +144,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             if (startSelected) {
               _timer?.cancel();
               ultrasonic?.init(true);
-              ultrasonic?.start(false, false);
+              ultrasonic?.start(false, false,"${prowText}M");
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.ultrasonic));
               });
@@ -169,7 +169,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
               if (startSelected) {
                 _timer?.cancel();
                 ultrasonic?.init(true);
-                ultrasonic?.start(false, false);
+                ultrasonic?.start(false, false,"${prowText}M");
                 Future.delayed(const Duration(milliseconds: 500), () {
                   eventBus.fire(SetValueState(TreatmentType.ultrasonic));
                 });
@@ -205,7 +205,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             if (startSelected) {
               _timer?.cancel();
               ultrasonic?.init(true);
-              ultrasonic?.start(false, false);
+              ultrasonic?.start(false, false,"${prowText}M");
               Future.delayed(const Duration(milliseconds: 500), () {
                 eventBus.fire(SetValueState(TreatmentType.ultrasonic));
               });
@@ -221,16 +221,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
           break;
         case 'saponin':
           ultrasonic?.pattern = Globalization.Sweepfrequency.tr;
-          ultrasonic?.start(true, false);
+          ultrasonic?.start(true, false,"${prowText}M");
           break;
         case "open":
-          ultrasonic?.start(true, false);
+          ultrasonic?.start(true, false,"${prowText}M");
           break;
         case "close":
-          ultrasonic?.start(false, false);
+          ultrasonic?.start(false, false,"${prowText}M");
           break;
         case "saveP":
-          ultrasonic?.start(true, false);
+          ultrasonic?.start(true, false,"${prowText}M");
           break;
       }
     });
@@ -286,7 +286,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       if (_countdownTime < 1) {
         _timer?.cancel();
         ultrasonic?.init(true);
-        ultrasonic?.start(false, false);
+        ultrasonic?.start(false, false,"${prowText}M");
         Future.delayed(const Duration(milliseconds: 500), () {
           eventBus.fire(SetValueState(TreatmentType.ultrasonic));
         });
@@ -299,7 +299,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         });
         return;
       }
-      ultrasonic?.start(this.startSelected, false);
+      ultrasonic?.start(this.startSelected, false,"${prowText}M");
     }
 
     _timer = Timer.periodic(oneSec, callback);
@@ -500,7 +500,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   eventBus.fire(UltrasonicSound((value / 2)));
                                 }
                                 if (startSelected) {
-                                  ultrasonic?.start(startSelected, false);
+                                  ultrasonic?.start(startSelected, false,"${prowText}M");
                                 }
                                 // cPower.add(value.toString());
                               },
@@ -640,7 +640,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
 
                                               ultrasonic?.start(
-                                                  startSelected, startSelected,
+                                                  startSelected, startSelected,"${prowText}M",
                                                   back: () {
                                                 cureState = startSelected;
 

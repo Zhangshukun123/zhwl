@@ -6,6 +6,7 @@ import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 
+import '../Controller/serial_port.dart';
 import '../base/globalization.dart';
 import '../entity/set_value_entity.dart';
 import '../widget/set_value_horizontal.dart';
@@ -34,7 +35,9 @@ class _ChuChangPageState extends State<ChuChangPage> {
       utMxt = event;
       setState(() {});
     });
-    powerDAC = SpUtils.getDouble(power.toString(), defaultValue: 0.0)!;
+    powerDAC = SpUtils.getDouble(
+        "${utMxt}M${double.parse(power.toStringAsFixed(2)).toString()}",
+        defaultValue: 0.0)!;
   }
 
   @override
@@ -92,6 +95,9 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       child: TextButton(
                           onPressed: () {
                             eventBus.fire(const MethodCall("saponin"));
+                            isOpen =true;
+                            setState(() {
+                            });
                           },
                           child: Text(
                             '扫频',
@@ -144,7 +150,8 @@ class _ChuChangPageState extends State<ChuChangPage> {
                             valueListener: (value) {
                               power = value;
                               var set = SetValueEntity();
-                              set.value = SpUtils.getDouble(power.toString());
+                              set.value = SpUtils.getDouble(
+                                  "${utMxt}M${double.parse(power.toStringAsFixed(2)).toString()}");
                               set.type = 15;
                               eventBus.fire(set);
                               setState(() {});
@@ -182,7 +189,8 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       SetValueHorizontal(
                         enabled: true,
                         assets: 'assets/images/2.0x/icon_gonglv.png',
-                        initialValue: SpUtils.getDouble(power.toString()),
+                        initialValue: SpUtils.getDouble(
+                            "${utMxt}M${double.parse(power.toStringAsFixed(2)).toString()}"),
                         width: 250.w,
                         appreciation: 0.1,
                         indexType: 15,
@@ -190,7 +198,24 @@ class _ChuChangPageState extends State<ChuChangPage> {
                         isInt: false,
                         valueListener: (value) {
                           powerDAC = value;
-                          eventBus.fire(const MethodCall("saveP"));
+                          var powerTmps =
+                              (powerDAC * 10).toInt().toRadixString(16);
+                          var data = "";
+                          if (powerTmps.length > 1) {
+                            data = powerTmps;
+                          } else {
+                            data = "0$powerTmps";
+                          }
+                          String dac="";
+                          if(utMxt=="1"){
+                             dac = "01 03 10 01 02 14 $data 00 00 00 00";
+                          }else{
+                             dac = "01 04 10 01 02 14 $data 00 00 00 00";
+                          }
+                          SerialPort().send(dac, false);
+                          // eventBus.fire(const MethodCall("saveP"));
+                          isOpen = true;
+                          setState(() {});
                           // SpUtils.setDouble(power.toString(), value);
                           // cPower.add(value.toString());
                         },
@@ -215,8 +240,7 @@ class _ChuChangPageState extends State<ChuChangPage> {
                             eventBus.fire(const MethodCall("open"));
                           }
                           isOpen = !isOpen;
-                          setState(() {
-                          });
+                          setState(() {});
                         },
                         child: Text(
                           isOpen ? "关闭超声" : "开启超声",
@@ -234,9 +258,15 @@ class _ChuChangPageState extends State<ChuChangPage> {
                       child: TextButton(
                           onPressed: () {
                             String formattedNum = powerDAC.toStringAsFixed(2);
-                            SpUtils.setDouble(
-                                power.toString(), double.parse(formattedNum));
+                            String powerKey =
+                                double.parse(power.toStringAsFixed(2))
+                                    .toString();
+
+                            SpUtils.setDouble("${utMxt}M$powerKey",
+                                double.parse(formattedNum));
+
                             showToastMsg(msg: "保存成功");
+                            setState(() {});
                           },
                           child: Text(
                             '保存',

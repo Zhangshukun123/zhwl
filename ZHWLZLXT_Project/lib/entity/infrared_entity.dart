@@ -205,7 +205,7 @@ class InfraredEntity {
       data = "$data 0$powerTmps";
     }
     data = "$data 00"; //09
-   var sInt = SpUtils.getInt("InfraredPage",defaultValue: 0)!.toRadixString(16);
+   var sInt = SpUtils.getInt("InfraredPage",defaultValue: 66)!.toRadixString(16);
     if (sInt.length > 1) {
       data = "$data $sInt";
     } else {

@@ -5,6 +5,7 @@ import 'dart:ffi';
 import 'package:common_utils/common_utils.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/Controller/serial_port.dart';
@@ -86,7 +87,7 @@ class Ultrasonic {
 
   User? user;
 
-  bool start(bool isStart, isOpenStart,{sendSuccessBack? back, sendFinish? finish}) {
+  bool start(bool isStart, isOpenStart, String m,{sendSuccessBack? back, sendFinish? finish}) {
     if (isStart && isOpenStart) {
       setTime = time;
       startTime = DateTime.now();
@@ -209,8 +210,15 @@ class Ultrasonic {
     // data = "$data ${((double.tryParse(power!))! * 10).toInt()}"; // 06
     //数据进制转换
     var powerValue = double.parse(power!)* 10;
-    if(SpUtils.getDouble(power!,defaultValue: -1)!=-1){
-      powerValue = SpUtils.getDouble(power!)! * 10;
+
+   var powerkey = m+((powerValue/10).toString());
+
+    print("----powerValue------1----------$power");
+    print("----powerValue------2----------$powerkey");
+    print("----powerValue------3----------${SpUtils.getDouble(powerkey,defaultValue: -1)}");
+
+    if(SpUtils.getDouble(powerkey,defaultValue: -1)!=-1){
+      powerValue = SpUtils.getDouble(powerkey)! * 10;
     }
     var powerTmps = powerValue.toInt().toRadixString(16);
     if (powerTmps.length > 1) {
