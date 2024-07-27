@@ -155,16 +155,19 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
                         _lastTime = DateTime.now();
                       }
                     },
-                    child: Container(
-                        margin: EdgeInsets.only(
-                          top: 12.5.h,
-                        ),
-                        child: Image.asset(
-                          'assets/images/2.0x/function_logo.png',
-                          fit: BoxFit.fitWidth,
-                          width: 140.w,
-                          height: 39.5.h,
-                        )),
+                    child: Visibility(
+                      visible: true,
+                      child: Container(
+                          margin: EdgeInsets.only(
+                            top: 12.5.h,
+                          ),
+                          child: Image.asset(
+                            'assets/images/2.0x/function_logo.png',
+                            fit: BoxFit.fitWidth,
+                            width: 140.w,
+                            height: 39.5.h,
+                          )),
+                    ),
                   ),
                   Expanded(
                     child: Column(
