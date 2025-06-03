@@ -22,6 +22,10 @@ class UltrasonicController extends GetxController {
 
   void startTimer() {
     if (!isRun) {
+      if(time!=null){
+        time.cancel();
+        time = null;
+      }
       time = Timer.periodic(const Duration(seconds: 1), (timer) {
         count--;
         if (count < 0) {

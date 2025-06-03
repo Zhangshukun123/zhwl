@@ -241,20 +241,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     ultrasonicController.context.value = con;
     ultrasonicController.count.value = 30;
     if (!isShow) {
-      showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) {
-            return ConnectPort(
-              restConnect: (value) {
-                Get.back();
-                isShow = false;
-                wdText = Globalization.temperatureNormals.tr;
-                wdOnline = true;
-              },
-            );
-          });
-      isShow = true;
+      Future.delayed(const Duration(milliseconds: 300),(){
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return ConnectPort(
+                restConnect: (value) {
+                  Get.back();
+                  isShow = false;
+                  wdText = Globalization.temperatureNormals.tr;
+                  wdOnline = true;
+                },
+              );
+            });
+        isShow = true;
+      });
     }
   }
 

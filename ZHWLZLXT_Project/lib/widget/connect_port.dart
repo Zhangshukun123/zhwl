@@ -13,6 +13,7 @@ class ConnectPort extends Dialog {
 
   ConnectPort({Key? key, this.restConnect}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     // controller.count.value = 10;
@@ -53,7 +54,7 @@ class ConnectPort extends Dialog {
   Widget ObsTxt() {
     if (controller.count.value  == 0) {
       restConnect?.call(false);
-      controller.startTimer();
+      // controller.startTimer();
     }
 
     return Text(

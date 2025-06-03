@@ -213,9 +213,7 @@ class Ultrasonic {
 
    var powerkey = m+((powerValue/10).toString());
 
-    print("----powerValue------1----------$power");
-    print("----powerValue------2----------$powerkey");
-    print("----powerValue------3----------${SpUtils.getDouble(powerkey,defaultValue: -1)}");
+
 
     if(SpUtils.getDouble(powerkey,defaultValue: -1)!=-1){
       powerValue = SpUtils.getDouble(powerkey)! * 10;
