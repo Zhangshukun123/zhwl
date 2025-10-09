@@ -3,16 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/chuChang_page.dart';
+import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
-import '../cofig/AnpConfig.dart';
+import '../Controller/serial_port.dart';
 import '../page/pg_setting_page.dart';
 
 class SettingDialog {
   //输入框
   TextEditingController numController = TextEditingController();
+
+  bool _isEnabled = false; // 当前开关状态
 
   void showSettingDialog(BuildContext context) {
     numController.text = "";
@@ -184,6 +186,26 @@ class SettingDialog {
                                                         color: const Color(
                                                             0xffeeeeee),
                                                       ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          _showSwitchDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 20,
+                                                                  right: 20,
+                                                                  top: 20,
+                                                                  bottom: 20),
+                                                          child: const Text(
+                                                              "开短路设置",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      20)),
+                                                        ),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -207,6 +229,54 @@ class SettingDialog {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showSwitchDialog(BuildContext context) {
+
+    var kdl =  SpUtils.getBool("keyKDL",defaultValue: false);
+    bool tempValue = kdl!;
+
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("设置开关",style: TextStyle(fontSize: 30)),
+          content: SizedBox(
+            width: 500,
+            height: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("功能开关",style: TextStyle(fontSize: 25),),
+                Switch(
+                  value: tempValue,
+                  onChanged: (value) {
+                    tempValue = value;
+                    (context as Element).markNeedsBuild();
+                    SpUtils.setBool("keyKDL", value);
+
+                    if(value){
+                      var dac = "01 b3 00 00 01 00 00 00 00 00 00";
+                      SerialPort().send(dac, false);
+                    }else{
+                      var dac = "01 b3 00 00 00 00 00 00 00 00 00";
+                      SerialPort().send(dac, false);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("关闭",style: TextStyle(fontSize: 25)),
+            ),
+          ],
         );
       },
     );

@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.zhwlzlxt_project.app-mergeDebugResources-23:/values-night-v8/values-night-v8.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\29070\\Desktop\\zhwl\\ZHWLZLXT\\ZHWLZLXT_Project\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "from": {
+                        "startLines": "3,18",
+                        "startColumns": "4,4",
+                        "startOffsets": "222,1153",
+                        "endLines": "11,20",
+                        "endColumns": "12,12",
+                        "endOffsets": "804,1319"
+                    },
+                    "to": {
+                        "startLines": "2,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,507",
+                        "endLines": "9,12",
+                        "endColumns": "12,12",
+                        "endOffsets": "502,671"
+                    }
+                }
+            ]
+        }
+    ]
+}

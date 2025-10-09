@@ -11,10 +11,12 @@ import 'package:zhwlzlxt_project/page/pulsed_page.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
 
 import '../Controller/serial_msg.dart';
+import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
 import '../Controller/ultrasonic_controller.dart';
 import '../cofig/config.dart';
 import '../utils/event_bus.dart';
+import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
 import '../widget/connect_port.dart';
 import 'control_page.dart';
@@ -52,12 +54,21 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
     // });
     Future.delayed(Duration.zero, () {
       SerialMsg().startPort();
+      var kdl =  SpUtils.getBool("keyKDL",defaultValue: false);
+      if(kdl!){
+        var dac = "01 b3 00 00 01 00 00 00 00 00 00";
+        SerialPort().send(dac, false);
+      }else{
+        var dac = "01 b3 00 00 00 00 00 00 00 00 00";
+        SerialPort().send(dac, false);
+      }
     });
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
       SerialMsg().sendHeart().then((value) => {});
     });
     SerialMsg.platform.setMethodCallHandler(flutterMethod);
+
   }
 
 

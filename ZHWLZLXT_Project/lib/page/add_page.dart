@@ -51,6 +51,19 @@ class _AddPageState extends State<AddPage> {
   void initState() {
     super.initState();
     focusNode.requestFocus();
+
+    ageController.addListener(() {
+      final text = ageController.text;
+      if (text.isNotEmpty) {
+        final value = int.tryParse(text);
+        if (value != null && value > 120) {
+          ageController.text = '120';
+          ageController.selection = TextSelection.fromPosition(
+            TextPosition(offset: ageController.text.length),
+          );
+        }
+      }
+    });
   }
 
   @override
@@ -188,6 +201,9 @@ class _AddPageState extends State<AddPage> {
                           inputFormatters: [
                             // FilteringTextInputFormatter.digitsOnly,//数字，只能是整数
                             LengthLimitingTextInputFormatter(8),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'),
+                            ),
                             //限制长度8位，推荐年月日+2 位数字组合
                             // FilteringTextInputFormatter.allow(RegExp("[0-9.]")),//数字包括小数
                             //FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),//只允许输入字母
@@ -217,11 +233,15 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(5)
+                            LengthLimitingTextInputFormatter(5),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
+                            ),
                           ],
                           controller: nameController,
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
+
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: Globalization.hint_010.tr,
@@ -260,7 +280,8 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(3)
+                            LengthLimitingTextInputFormatter(3),
+                            FilteringTextInputFormatter.digitsOnly, // 只允许数字
                           ],
                           controller: ageController,
                           keyboardType: TextInputType.number,
@@ -412,7 +433,10 @@ class _AddPageState extends State<AddPage> {
                         height: 43.h,
                         child: TextField(
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(18)
+                            LengthLimitingTextInputFormatter(18),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'),
+                            ),
                           ],
                           controller: cerController,
                           style: TextStyle(
@@ -456,6 +480,12 @@ class _AddPageState extends State<AddPage> {
                         child: TextField(
                           maxLength: 50,
                           controller: zhuController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(50),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'),
+                            ),
+                          ],
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),
                           decoration: InputDecoration(
@@ -491,7 +521,10 @@ class _AddPageState extends State<AddPage> {
                           controller: bedController,
                           maxLength: 50,
                           inputFormatters: [
-                            LengthLimitingTextInputFormatter(50)
+                            LengthLimitingTextInputFormatter(50),
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'),
+                            ),
                           ],
                           style: TextStyle(
                               fontSize: 15.sp, color: const Color(0xFF333333)),

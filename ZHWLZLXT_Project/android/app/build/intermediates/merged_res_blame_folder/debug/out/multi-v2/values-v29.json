@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.zhwlzlxt_project.app-mergeDebugResources-23:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\29070\\Desktop\\zhwl\\ZHWLZLXT\\ZHWLZLXT_Project\\android\\app\\src\\main\\res\\values-v29\\styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "59",
+                        "endLines": "11",
+                        "endColumns": "12",
+                        "endOffsets": "641"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "502"
+                    }
+                }
+            ]
+        }
+    ]
+}

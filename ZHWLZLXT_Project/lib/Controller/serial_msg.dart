@@ -42,6 +42,7 @@ class SerialMsg {
   }
 
   Future<String> sendData(String data) async {
+    print("-----sendData---data-->$data");
     String buffer = '${PortData.FH} $data';
     print("-----sendData----$buffer");
     String res = await _channel.invokeMethod("sendData", buffer);

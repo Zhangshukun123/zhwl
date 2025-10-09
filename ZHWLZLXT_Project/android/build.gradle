@@ -1,8 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.7.0'
+    ext.kotlin_version = '1.9.21'
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven {
+            url "https://jitpack.io"
+        }
 
         maven {url "https://maven.aliyun.com/repository/public"}  //替代 jcenter() , mavenCentral()
         maven {url "https://maven.aliyun.com/repository/google"}  //替代google()
@@ -11,15 +15,21 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "com.android.tools.build:gradle:8.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     repositories {
+
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven {
+            url "https://jitpack.io"
+        }
+
         maven {url "https://maven.aliyun.com/repository/public"}  //替代 jcenter() , mavenCentral()
         maven {url "https://maven.aliyun.com/repository/google"}  //替代google()
         maven{ url 'https://maven.aliyun.com/repository/gradle-plugin'}

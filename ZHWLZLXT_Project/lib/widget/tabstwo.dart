@@ -193,11 +193,11 @@ class _TabStyle extends AnimatedWidget {
     final TextStyle defaultUnselectedStyle = (unselectedLabelStyle ??
             tabBarTheme.unselectedLabelStyle ??
             labelStyle ??
-            themeData.primaryTextTheme.bodyText1)!
+            themeData.primaryTextTheme.bodyLarge)!
         .copyWith(inherit: true);
     final TextStyle defaultStyle = (labelStyle ??
             tabBarTheme.labelStyle ??
-            themeData.primaryTextTheme.bodyText1)!
+            themeData.primaryTextTheme.bodyLarge)!
         .copyWith(inherit: true)
         .copyWith(fontSize: defaultUnselectedStyle.fontSize);
     final TextStyle? textStyle = selected
@@ -206,7 +206,7 @@ class _TabStyle extends AnimatedWidget {
 
     final Color? selectedColor = labelColor ??
         tabBarTheme.labelColor ??
-        themeData.primaryTextTheme.bodyText1!.color;
+        themeData.primaryTextTheme.bodyLarge!.color;
     final Color unselectedColor = unselectedLabelColor ??
         tabBarTheme.unselectedLabelColor ??
         selectedColor!.withAlpha(0xB2); // 70% alpha

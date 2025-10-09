@@ -124,7 +124,6 @@ class _UserHeadViewState extends State<UserHeadView>
               ],
             ),
           ),
-
           const Expanded(child: SizedBox()),
           Row(
             children: [

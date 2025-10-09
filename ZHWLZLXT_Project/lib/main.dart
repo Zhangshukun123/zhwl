@@ -8,6 +8,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:zhwlzlxt_project/utils/language_value.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
+import 'Controller/serial_port.dart';
 import 'base/globalization.dart';
 import 'cofig/AnpConfig.dart';
 import 'cofig/routes.dart';
@@ -58,7 +59,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

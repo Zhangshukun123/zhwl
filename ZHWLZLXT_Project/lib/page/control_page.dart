@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -109,6 +110,21 @@ class _ControlPageState extends State<ControlPage> {
             .then((value) => {userForJson(value)});
       }
     });
+
+
+    ageController.addListener(() {
+      final text = ageController.text;
+      if (text.isNotEmpty) {
+        final value = int.tryParse(text);
+        if (value != null && value > 120) {
+          ageController.text = '120';
+          ageController.selection = TextSelection.fromPosition(
+            TextPosition(offset: ageController.text.length),
+          );
+        }
+      }
+    });
+
   }
 
   void userForJson(value) {
@@ -147,109 +163,104 @@ class _ControlPageState extends State<ControlPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFF9F9F9),
-      appBar: PreferredSize(
-        // preferredSize: Size(double.infinity, 40.h),
-        preferredSize: Size.fromHeight(35.h),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 80.w,
-                height: 35.h,
-                decoration: BoxDecoration(
-                    color: const Color(0xFF19B1E9),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.w),
-                    )),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Image.asset(
-                        'assets/images/2.0x/btn_fanhui.png',
-                        width: 14.w,
-                        height: 14.h,
-                        fit: BoxFit.fitWidth,
-                      ),
-                      Text(
-                        Globalization.back.tr,
-                        style: TextStyle(fontSize: 18.sp),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Center(
-                    child: Text(
-                  Globalization.userManagement.tr,
-                  style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                )),
-              )
-            ],
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            InkWell(
-              onTap: () {
-                debugPrint('点击新增用户');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => const AddPage()));
-              },
-              child: Container(
-                // margin: const EdgeInsets.only(top: 3.0, right: 20,bottom: 3 ),
-                width: 110.w,
-                height: 55.h,
-                padding: const EdgeInsets.all(5),
-                // color: Color(0xFF19B1E9),
-                decoration: BoxDecoration(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 80.w,
+              height: 45.h,
+              decoration: BoxDecoration(
                   color: const Color(0xFF19B1E9),
-                  border: Border.all(
-                    color: const Color(0xFF19B1E9),
-                    width: 0.5.w,
-                  ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10.w),
-                  ),
-                ),
+                  )),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     SizedBox(
                       width: 10.w,
                     ),
                     Image.asset(
-                      'assets/images/2.0x/icon_xinzeng.png',
+                      'assets/images/2.0x/btn_fanhui.png',
                       width: 14.w,
+                      height: 14.h,
                       fit: BoxFit.fitWidth,
                     ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
                     Text(
-                      Globalization.newUsers.tr,
-                      style: TextStyle(color: Colors.white, fontSize: 12.sp),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
+                      Globalization.back.tr,
+                      style: TextStyle(fontSize: 18.sp),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
                   ],
                 ),
               ),
             ),
+            Expanded(
+              child: Center(
+                  child: Text(
+                Globalization.userManagement.tr,
+                style: TextStyle(fontSize: 18.sp, color: Colors.white),
+              )),
+            )
           ],
         ),
+        centerTitle: true,
+        actions: <Widget>[
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const AddPage()));
+            },
+            child: Container(
+              // margin: const EdgeInsets.only(top: 3.0, right: 20,bottom: 3 ),
+              width: 110.w,
+              height: 55.h,
+              padding: const EdgeInsets.all(5),
+              // color: Color(0xFF19B1E9),
+              decoration: BoxDecoration(
+                color: const Color(0xFF19B1E9),
+                border: Border.all(
+                  color: const Color(0xFF19B1E9),
+                  width: 0.5.w,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.w),
+                ),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Image.asset(
+                    'assets/images/2.0x/icon_xinzeng.png',
+                    width: 14.w,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text(
+                    Globalization.newUsers.tr,
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
 
       body: SafeArea(
@@ -409,6 +420,11 @@ class _ControlPageState extends State<ControlPage> {
                                         child: Center(
                                           child: TextField(
                                             maxLength: 20,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
+                                              ),
+                                            ],
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
@@ -452,6 +468,11 @@ class _ControlPageState extends State<ControlPage> {
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
+                                              ),
+                                            ],
                                             decoration: InputDecoration(
                                               counterText: '',
                                               contentPadding:
@@ -494,8 +515,11 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
-                                            maxLength: 3,
                                             controller: ageController,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(3),
+                                              FilteringTextInputFormatter.digitsOnly, // 只允许数字
+                                            ],
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
@@ -663,8 +687,11 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
-                                            maxLength: 30,
                                             controller: cerController,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(18),
+                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                            ],
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
@@ -710,8 +737,11 @@ class _ControlPageState extends State<ControlPage> {
                                         ),
                                         child: Center(
                                           child: TextField(
-                                            maxLength: 2,
                                             controller: zhuController,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(20),
+                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                            ],
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
@@ -751,6 +781,10 @@ class _ControlPageState extends State<ControlPage> {
                                           child: TextField(
                                             maxLength: 20,
                                             controller: bedController,
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(20),
+                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                            ],
                                             style: TextStyle(
                                                 fontSize: 16.sp,
                                                 color: const Color(0xFF333333)),
@@ -792,6 +826,7 @@ class _ControlPageState extends State<ControlPage> {
                                       child: TextButton(
                                         onPressed: () {
                                           isEdit = !isEdit;
+                                          chooseUser(user!);
                                           setState(() {});
                                         },
                                         child: Text(
