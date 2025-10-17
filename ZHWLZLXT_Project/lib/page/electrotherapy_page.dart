@@ -126,20 +126,22 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
       switch (methodCall.method) {
         case "Electrotherapy":
           Uint8List list = toUnitList(methodCall.arguments);
-          if (list[4] == 10 || list[4] == 9) {
-            if (list[12] == 1|| list[12]==2) {
-              if (!isShow) {
-                DialogUtil.alert(
-                    title: "",
-                    message: Globalization.kadu.tr,
-                    okLabel: "确定",
-                    fu: () {
-                      isShow = false;
-                    });
-                isShow = true;
-               var e = Electrotherapy();
-               e.channel = list[4];
-                eventBus.fire(e);
+          if(list[3] == 179){
+            if (list[4] == 10 || list[4] == 9) {
+              if (list[12] == 1|| list[12]==2) {
+                if (!isShow) {
+                  DialogUtil.alert(
+                      title: "",
+                      message: Globalization.kadu.tr,
+                      okLabel: "确定",
+                      fu: () {
+                        isShow = false;
+                      });
+                  isShow = true;
+                  var e = Electrotherapy();
+                  e.channel = list[4];
+                  eventBus.fire(e);
+                }
               }
             }
           }

@@ -54,6 +54,7 @@ dependencies:
   archive: ^3.4.10
   excel: ^3.0.0
   path_provider: ^2.1.5
+  easy_debounce: ^2.0.3
   permission_handler: ^11.0.1
   screen_brightness: ^0.2.2+1
   lottie: ^2.4.0

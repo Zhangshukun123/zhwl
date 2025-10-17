@@ -54,6 +54,15 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
     // });
     Future.delayed(Duration.zero, () {
       SerialMsg().startPort();
+
+    });
+
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      SerialMsg().sendHeart().then((value) => {});
+    });
+    SerialMsg.platform.setMethodCallHandler(flutterMethod);
+
+    Future.delayed(const Duration(seconds: 1), () {
       var kdl =  SpUtils.getBool("keyKDL",defaultValue: false);
       if(kdl!){
         var dac = "01 b3 00 00 01 00 00 00 00 00 00";
@@ -63,11 +72,6 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
         SerialPort().send(dac, false);
       }
     });
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      SerialMsg().sendHeart().then((value) => {});
-    });
-    SerialMsg.platform.setMethodCallHandler(flutterMethod);
 
   }
 
@@ -89,10 +93,7 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
-
-
   bool isShow = false;
-
   Future<dynamic> flutterMethod(MethodCall methodCall) async {
     eventBus.fire(methodCall);
     switch (methodCall.method) {

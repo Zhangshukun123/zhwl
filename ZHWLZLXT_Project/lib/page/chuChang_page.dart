@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +12,7 @@ import 'package:zhwlzlxt_project/utils/utils_tool.dart';
 import '../Controller/serial_port.dart';
 import '../base/globalization.dart';
 import '../entity/set_value_entity.dart';
+import '../utils/utils.dart';
 import '../widget/set_value_horizontal.dart';
 
 class ChuChangPage extends StatefulWidget {
@@ -23,6 +27,8 @@ class _ChuChangPageState extends State<ChuChangPage> {
   var utMxt = "1";
   var powerDAC = 0.0;
   var isOpen = false;
+  var vBig = 0.0;
+  List<int> bytes = [];
 
   @override
   void initState() {
@@ -38,6 +44,25 @@ class _ChuChangPageState extends State<ChuChangPage> {
     powerDAC = SpUtils.getDouble(
         "${utMxt}M${double.parse(power.toStringAsFixed(2)).toString()}",
         defaultValue: 0.0)!;
+    eventBus.on<MethodCall>().listen((methodCall) {
+      switch (methodCall.method) {
+        case '0xB6':
+          String value = methodCall.arguments;
+          Uint8List list = toUnitList(value);
+          vBig = readScaledUint16(list,4);
+          isOpen = false;
+          eventBus.fire(const MethodCall("close"));
+          setState(() {});
+          break;
+      }
+    });
+  }
+
+  double readScaledUint16(Uint8List bytes, int offsetBytes,
+      {int scale = 10000, bool bigEndian = true}) {
+    final bd = ByteData.sublistView(bytes, offsetBytes, offsetBytes + 2);
+    final u16 = bigEndian ? bd.getUint16(0, Endian.big) : bd.getUint16(0, Endian.little);
+    return u16 / scale;
   }
 
   @override
@@ -83,6 +108,8 @@ class _ChuChangPageState extends State<ChuChangPage> {
                         child: SizedBox(
                       width: 10.w,
                     )),
+                    Text("${vBig}Mhz",style: const TextStyle(fontSize: 30),),
+                    const SizedBox(width: 80),
                     Container(
                       width: 110.w,
                       height: 43.h,
@@ -208,9 +235,9 @@ class _ChuChangPageState extends State<ChuChangPage> {
                           }
                           String dac="";
                           if(utMxt=="1"){
-                             dac = "01 03 10 01 02 14 $data 00 00 00 00";
+                             dac = "01 03 10 01 01 14 $data 00 00 00 00";
                           }else{
-                             dac = "01 04 10 01 02 14 $data 00 00 00 00";
+                             dac = "01 04 10 01 01 14 $data 00 00 00 00";
                           }
                           SerialPort().send(dac, false);
                           // eventBus.fire(const MethodCall("saveP"));

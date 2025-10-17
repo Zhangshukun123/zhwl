@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -417,53 +418,56 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 )),
                             child: TextButton(
                               onPressed: () {
-                                yiStartSelected = !yiStartSelected;
-                                if (!yiStartSelected) {
-                                  midFrequency?.init(true);
-                                  if (aliveAuto) {
-                                    erStartSelected = yiStartSelected;
-                                    midFrequency?.init2(true);
-                                    midFrequency?.timeB = "20";
-                                    midFrequency?.patternB = "1";
-                                    aliveAuto = false;
+                                EasyThrottle.throttle('start-btn7', const Duration(seconds: 1), () {
+                                  yiStartSelected = !yiStartSelected;
+                                  if (!yiStartSelected) {
+                                    midFrequency?.init(true);
+                                    if (aliveAuto) {
+                                      erStartSelected = yiStartSelected;
+                                      midFrequency?.init2(true);
+                                      midFrequency?.timeB = "20";
+                                      midFrequency?.patternB = "1";
+                                      aliveAuto = false;
+                                      electrotherapyIsRunIng =
+                                          yiStartSelected || erStartSelected;
+                                    }
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(
+                                          SetValueState(TreatmentType.frequency));
+                                    });
+                                  }
+                                  midFrequency?.start1(
+                                      yiStartSelected, yiStartSelected, back: () {
                                     electrotherapyIsRunIng =
                                         yiStartSelected || erStartSelected;
-                                  }
-                                  Future.delayed(
-                                      const Duration(milliseconds: 500), () {
-                                    eventBus.fire(
-                                        SetValueState(TreatmentType.frequency));
+                                    eventBus.fire(Notify());
+                                    ZpgrdCureState =
+                                        yiStartSelected || erStartSelected;
+                                    setState(() {
+                                      double? tmp = double.tryParse(
+                                          midFrequency?.timeA ?? '1');
+                                      _countdownTime1 = ((tmp?.toInt())!);
+                                      startCountdownTimer1(yiStartSelected);
+                                    });
+
+                                    if (!yiStartSelected) {
+                                      midFrequency?.patternA = "1";
+                                    }
+                                    if (aliveAuto) {
+                                      erStartSelected = yiStartSelected;
+                                    }
+
+                                  }, finish: () {
+                                    yiStartSelected = false;
+                                    if (aliveAuto) {
+                                      erStartSelected = false;
+                                    }
+                                    setState(() {});
                                   });
-                                }
-                                midFrequency?.start1(
-                                    yiStartSelected, yiStartSelected, back: () {
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
-                                  ZpgrdCureState =
-                                      yiStartSelected || erStartSelected;
-                                  setState(() {
-                                    double? tmp = double.tryParse(
-                                        midFrequency?.timeA ?? '1');
-                                    _countdownTime1 = ((tmp?.toInt())!);
-                                    startCountdownTimer1(yiStartSelected);
-                                  });
-
-
-                                  if (!yiStartSelected) {
-                                    midFrequency?.patternA = "1";
-                                  }
-                                  if (aliveAuto) {
-                                    erStartSelected = yiStartSelected;
-                                  }
-
-                                }, finish: () {
-                                  yiStartSelected = false;
-                                  if (aliveAuto) {
-                                    erStartSelected = false;
-                                  }
-                                  setState(() {});
                                 });
+
+
 
                               },
                               child: Row(
@@ -690,85 +694,86 @@ class _ZhongPinPageState extends State<ZhongPinPage>
                                 )),
                             child: TextButton(
                               onPressed: () {
-                                if (!aliveAuto) {
-                                  erStartSelected = !erStartSelected;
+                                EasyThrottle.throttle('save-btn7', const Duration(seconds: 1), () {
+                                  if (!aliveAuto) {
+                                    erStartSelected = !erStartSelected;
+                                    if (!erStartSelected) {
+                                      midFrequency?.init2(true);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500), () {
+                                        eventBus.fire(SetValueState(
+                                            TreatmentType.frequency));
+                                      });
+                                    }
+                                    midFrequency?.start2(erStartSelected,
+                                        isOpenStart: true, back: () {
+                                          electrotherapyIsRunIng =
+                                              yiStartSelected || erStartSelected;
+                                          eventBus.fire(Notify());
+                                          ZpgrdCureState =
+                                              yiStartSelected || erStartSelected;
+                                          setState(() {
+                                            //点击开始治疗
+                                            double? tmp = double.tryParse(
+                                                midFrequency?.timeB ?? '1');
+                                            _countdownTime2 = ((tmp?.toInt())!);
+                                            startCountdownTimer2(erStartSelected);
 
-                                  if (!erStartSelected) {
-                                    midFrequency?.init2(true);
-                                    Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      eventBus.fire(SetValueState(
-                                          TreatmentType.frequency));
-                                    });
+                                            if (!erStartSelected) {
+                                              midFrequency?.patternB = "1";
+                                            }
+
+                                          });
+                                        }, finish: () {
+                                          erStartSelected = false;
+                                          setState(() {});
+                                        });
+
+                                  } else {
+                                    yiStartSelected = !yiStartSelected;
+                                    erStartSelected = !erStartSelected;
+                                    if (!yiStartSelected) {
+                                      midFrequency?.init(true);
+                                      midFrequency?.init2(true);
+                                      aliveAuto = false;
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500), () {
+                                        eventBus.fire(SetValueState(
+                                            TreatmentType.frequency));
+                                      });
+                                    }
+                                    midFrequency
+                                        ?.start1(yiStartSelected, yiStartSelected,
+                                        back: () {
+                                          electrotherapyIsRunIng =
+                                              yiStartSelected || erStartSelected;
+                                          eventBus.fire(Notify());
+                                          ZpgrdCureState =
+                                              yiStartSelected || erStartSelected;
+                                          erStartSelected = yiStartSelected;
+                                          setState(() {
+                                            //点击开始治疗
+                                            double? tmp = double.tryParse(
+                                                midFrequency?.timeA ?? '1');
+                                            _countdownTime1 = ((tmp?.toInt())!);
+                                            startCountdownTimer1(yiStartSelected);
+
+                                            if (!yiStartSelected) {
+                                              midFrequency?.timeA = "20";
+                                              midFrequency?.timeB = "20";
+                                              midFrequency?.patternA = "1";
+                                              midFrequency?.patternB = "1";
+                                            }
+
+                                          });
+                                        }, finish: () {
+                                          yiStartSelected = false;
+                                          erStartSelected = false;
+                                          setState(() {});
+                                        });
                                   }
-                                  midFrequency?.start2(erStartSelected,
-                                      isOpenStart: true, back: () {
-                                    electrotherapyIsRunIng =
-                                        yiStartSelected || erStartSelected;
-                                    eventBus.fire(Notify());
-                                    ZpgrdCureState =
-                                        yiStartSelected || erStartSelected;
-                                    setState(() {
-                                      //点击开始治疗
-                                      double? tmp = double.tryParse(
-                                          midFrequency?.timeB ?? '1');
-                                      _countdownTime2 = ((tmp?.toInt())!);
-                                      startCountdownTimer2(erStartSelected);
+                                });
 
-                                      if (!erStartSelected) {
-                                        midFrequency?.patternB = "1";
-                                      }
-
-                                    });
-                                  }, finish: () {
-                                    erStartSelected = false;
-                                    setState(() {});
-                                  });
-
-                                } else {
-                                  yiStartSelected = !yiStartSelected;
-                                  erStartSelected = !erStartSelected;
-                                  if (!yiStartSelected) {
-                                    midFrequency?.init(true);
-                                    midFrequency?.init2(true);
-                                    aliveAuto = false;
-                                    Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      eventBus.fire(SetValueState(
-                                          TreatmentType.frequency));
-                                    });
-                                  }
-                                  midFrequency
-                                      ?.start1(yiStartSelected, yiStartSelected,
-                                          back: () {
-                                    electrotherapyIsRunIng =
-                                        yiStartSelected || erStartSelected;
-                                    eventBus.fire(Notify());
-                                    ZpgrdCureState =
-                                        yiStartSelected || erStartSelected;
-                                    erStartSelected = yiStartSelected;
-                                    setState(() {
-                                      //点击开始治疗
-                                      double? tmp = double.tryParse(
-                                          midFrequency?.timeA ?? '1');
-                                      _countdownTime1 = ((tmp?.toInt())!);
-                                      startCountdownTimer1(yiStartSelected);
-
-                                      if (!yiStartSelected) {
-                                        midFrequency?.timeA = "20";
-                                        midFrequency?.timeB = "20";
-                                        midFrequency?.patternA = "1";
-                                        midFrequency?.patternB = "1";
-                                      }
-
-                                    });
-                                  }, finish: () {
-                                    yiStartSelected = false;
-                                    erStartSelected = false;
-                                    setState(() {});
-                                  });
-
-                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

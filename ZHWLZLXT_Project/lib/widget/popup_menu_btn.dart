@@ -73,6 +73,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
             itemBuilder: (BuildContext context) {
               return pop;
             },
+            tooltip: '',
             enabled: widget.enabled!,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

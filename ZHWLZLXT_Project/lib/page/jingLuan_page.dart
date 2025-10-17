@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -299,31 +300,33 @@ class _JingLuanPageState extends State<JingLuanPage>
                                   )),
                               child: TextButton(
                                 onPressed: () {
-                                  startSelected = !startSelected;
-                                  if (!startSelected) {
-                                    spastic?.init(true);
-                                    Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      eventBus.fire(
-                                          SetValueState(TreatmentType.spasm));
+                                  EasyThrottle.throttle('save-btn3', const Duration(seconds: 1), () {
+                                    startSelected = !startSelected;
+                                    if (!startSelected) {
+                                      spastic?.init(true);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 500), () {
+                                        eventBus.fire(
+                                            SetValueState(TreatmentType.spasm));
+                                      });
+                                    }
+                                    spastic?.start(startSelected, startSelected,back: (){
+                                      electrotherapyIsRunIng = startSelected;
+                                      JljCureState = startSelected;
+                                      eventBus.fire(Notify());
+                                      setState(() {
+                                        double? tmp =
+                                        double.tryParse(spastic?.time ?? '1');
+                                        _countdownTime = ((tmp?.toInt())!);
+                                      });
+                                      startCountdownTimer(startSelected);
+                                    },finish: (){
+                                      startSelected = false;
+                                      electrotherapyIsRunIng = false;
+                                      JljCureState = false;
+                                      setState(() {});
                                     });
-                                  }
-                                  spastic?.start(startSelected, startSelected,back: (){
-                                    electrotherapyIsRunIng = startSelected;
-                                    JljCureState = startSelected;
-                                    eventBus.fire(Notify());
-                                    setState(() {
-                                      double? tmp =
-                                      double.tryParse(spastic?.time ?? '1');
-                                      _countdownTime = ((tmp?.toInt())!);
-                                    });
-                                    startCountdownTimer(startSelected);
-                                  },finish: (){
-                                    startSelected = false;
-                                    electrotherapyIsRunIng = false;
-                                    JljCureState = false;
                                   });
-
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

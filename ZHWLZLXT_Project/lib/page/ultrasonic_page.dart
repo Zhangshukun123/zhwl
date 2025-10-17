@@ -1,16 +1,14 @@
 import 'dart:async';
 
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zhwlzlxt_project/Controller/serial_msg.dart';
 import 'package:zhwlzlxt_project/Controller/ultrasonic_controller.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
-import 'package:zhwlzlxt_project/cofig/config.dart';
 import 'package:zhwlzlxt_project/entity/set_value_state.dart';
 import 'package:zhwlzlxt_project/page/user_head_view.dart';
-import 'package:zhwlzlxt_project/utils/dialog_utils.dart';
 import 'package:zhwlzlxt_project/utils/event_bus.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/treatment_type.dart';
@@ -621,43 +619,41 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                               )),
                                           child: TextButton(
                                             onPressed: () {
-                                              if (!onLine && !startSelected) {
-                                                showToastMsg(
-                                                    msg: Globalization
-                                                        .unlink.tr);
-                                                return;
-                                              }
-                                              startSelected = !startSelected;
-
-                                              if (!startSelected) {
-                                                ultrasonic?.init(true);
-                                                Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 500), () {
-                                                  eventBus.fire(SetValueState(
-                                                      TreatmentType
-                                                          .ultrasonic));
+                                              EasyThrottle.throttle('save-btn1', const Duration(seconds: 1), () {
+                                                if (!onLine && !startSelected) {
+                                                  showToastMsg(
+                                                      msg: Globalization
+                                                          .unlink.tr);
+                                                  return;
+                                                }
+                                                startSelected = !startSelected;
+                                                if (!startSelected) {
+                                                  ultrasonic?.init(true);
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 500), () {
+                                                    eventBus.fire(SetValueState(
+                                                        TreatmentType
+                                                            .ultrasonic));
+                                                  });
+                                                }
+                                                ultrasonic?.start(
+                                                    startSelected, startSelected,"${prowText}M",
+                                                    back: () {
+                                                      cureState = startSelected;
+                                                      setState(() {
+                                                        double? tmp = double.tryParse(
+                                                            ultrasonic?.time ?? '1');
+                                                        _countdownTime =
+                                                        ((tmp?.toInt())!);
+                                                        startCountdownTimer(
+                                                            startSelected);
+                                                      });
+                                                    }, finish: () {
+                                                  startSelected = false;
+                                                  cureState = false;
+                                                  setState(() {});
                                                 });
-                                              }
-
-
-                                              ultrasonic?.start(
-                                                  startSelected, startSelected,"${prowText}M",
-                                                  back: () {
-                                                cureState = startSelected;
-
-                                                setState(() {
-                                                  double? tmp = double.tryParse(
-                                                      ultrasonic?.time ?? '1');
-                                                  _countdownTime =
-                                                      ((tmp?.toInt())!);
-                                                  startCountdownTimer(
-                                                      startSelected);
-                                                });
-                                              }, finish: () {
-                                                startSelected = false;
-                                                cureState = false;
-                                                setState(() {});
                                               });
                                             },
                                             child: Row(

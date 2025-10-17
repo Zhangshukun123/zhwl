@@ -81,8 +81,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
             }
         }, 1000, 1000)
-
-
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -112,17 +110,15 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 sendData = call.arguments<String>()
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
-                Log.i("TAG", "onPortDataReceived: sendHData-$hexData")
             }
             "sendData" -> {
-                // 这里的 packageName 是在 Flutter 中定义的 com.allensu
                 sendData = call.arguments<String>()
                 isSend = true
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
                 Log.i("TAG", "onPortDataReceived: sendHData-$hexData")
                 GlobalScope.launch {
-                    delay(200)
+                    delay(100)
                     if (listBRec.contains(hexData)) {
                         result.success("success")
                         isSend = false
@@ -153,10 +149,15 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        Log.i("TAG", "onPortDataReceived: sendHData-$bRec")
+        Log.i("serialPortHelper", "onPortDataReceived: "+bRec)
         if (isSend) {
             listBRec.add(bRec)
         }
+        if (listBRec.size>30){
+            listBRec.clear()
+        }
+
+
         handler.post {
             toFlutter.invokeMethod(
                 "Electrotherapy",
@@ -167,7 +168,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     override fun notImplemented() {}
                 })
         }
-
         when (toUnsignedInt(paramComBean.bRec[3])) {
             1 -> {
                 handler.post {
@@ -178,7 +178,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                     })
                 }
             }
-
             3 -> {//超声1M
                 handler.post {
                     toFlutter.invokeMethod(
@@ -191,7 +190,6 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                         })
                 }
             }
-
             4 -> {//超声3M
                 handler.post {
                     toFlutter.invokeMethod(
@@ -204,18 +202,25 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                         })
                 }
             }
+            182->{
+                handler.post {
+                    toFlutter.invokeMethod(
+                        "0xB6",
+                        bRec,
+                        object : MethodChannel.Result {
+                            override fun success(o: Any?) {}
+                            override fun error(s: String, s1: String?, o: Any?) {}
+                            override fun notImplemented() {}
+                        })
+                }
+            }
         }
     }
-
     fun received(string: String) {
-
     }
-
-
     override fun onStartError() {
 //        result.success("201")
     }
-
     fun toUnsignedInt(x: Byte): Int {
         return x.toInt() and 0xff
     }

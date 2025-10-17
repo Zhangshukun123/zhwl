@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -516,44 +517,46 @@ class _InfraredPageState extends State<InfraredPage>
                                         )),
                                     child: TextButton(
                                       onPressed: () {
-                                        if (isScram) {
-                                          showToastMsg(
-                                              msg: Globalization.hint_019.tr);
-                                          return;
-                                        }
-                                        startSelected = !startSelected;
-
-                                        if (!startSelected) {
-                                          infraredEntity?.init(true);
-                                          isDGW = false;
-                                          Future.delayed(
-                                              const Duration(milliseconds: 500),
-                                              () {
-                                            eventBus.fire(SetValueState(
-                                                TreatmentType.infrared));
-                                          });
-                                        }
-                                        infraredEntity?.start(
-                                            startSelected, startSelected,
-                                            back: () {
-                                          HwpzgCureState = startSelected;
-                                          infraredEntity?.user?.isCure = startSelected;
-                                          setState(() {
-                                            double? tmp = double.tryParse(
-                                                infraredEntity?.time ?? '1');
-                                            _countdownTime = ((tmp?.toInt())!);
-                                            startCountdownTimer(startSelected);
-                                          });
-                                        }, finish: () {
-                                          if (startSelected) {
-                                            startSelected = false;
-                                          } else {
-                                            startCountdownTimer(startSelected);
+                                        EasyThrottle.throttle('start-btn2', const Duration(seconds: 1), () {
+                                          if (isScram) {
+                                            showToastMsg(
+                                                msg: Globalization.hint_019.tr);
+                                            return;
                                           }
-                                          HwpzgCureState = false;
-                                          infraredEntity?.user?.isCure = startSelected;
-                                          setState(() {});
+                                          startSelected = !startSelected;
+                                          if (!startSelected) {
+                                            infraredEntity?.init(true);
+                                            isDGW = false;
+                                            Future.delayed(
+                                                const Duration(milliseconds: 500),
+                                                    () {
+                                                  eventBus.fire(SetValueState(
+                                                      TreatmentType.infrared));
+                                                });
+                                          }
+                                          infraredEntity?.start(
+                                              startSelected, startSelected,
+                                              back: () {
+                                                HwpzgCureState = startSelected;
+                                                infraredEntity?.user?.isCure = startSelected;
+                                                setState(() {
+                                                  double? tmp = double.tryParse(
+                                                      infraredEntity?.time ?? '1');
+                                                  _countdownTime = ((tmp?.toInt())!);
+                                                  startCountdownTimer(startSelected);
+                                                });
+                                              }, finish: () {
+                                            if (startSelected) {
+                                              startSelected = false;
+                                            } else {
+                                              startCountdownTimer(startSelected);
+                                            }
+                                            HwpzgCureState = false;
+                                            infraredEntity?.user?.isCure = startSelected;
+                                            setState(() {});
+                                          });
                                         });
+
                                       },
                                       child: Row(
                                         mainAxisAlignment:

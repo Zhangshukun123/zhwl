@@ -42,8 +42,13 @@ class _SetPageState extends State<SetPage> {
     super.initState();
     languageBtnSelected = SpUtils.getBool(Globalization.languageSelected)!;
     sliderValue = SpUtils.getDouble('sliderValue', defaultValue: 100)!;
+    print("sliderValue----------------$sliderValue");
+    if(sliderValue<5){
+      setBrightness(5 / 100);
+    }else{
+      setBrightness(sliderValue / 100);
+    }
     textValue = sliderValue.round();
-    setBrightness(sliderValue / 100);
     dialog = SettingDialog();
   }
 
@@ -242,7 +247,11 @@ class _SetPageState extends State<SetPage> {
                             if(value==0){
                               value = 1;
                             }
-                            setBrightness(value / 100);
+                            if(value<5){
+                              setBrightness(5 / 100);
+                            }else{
+                              setBrightness(value / 100);
+                            }
                             // print("onChanged : $value");
                             updateSlider(value, "onChangeEnd : $value");
                           },

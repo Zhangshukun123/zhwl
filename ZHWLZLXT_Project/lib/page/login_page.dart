@@ -269,7 +269,7 @@ class LoginPageState extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
               child: Text(
-                '${Globalization.version.tr}:v1.0',
+                '${Globalization.version.tr}:V1.0.0.20251011_alpha01',
                 style: TextStyle(fontSize: 18.sp, color: Colors.white),
               ),
             ),

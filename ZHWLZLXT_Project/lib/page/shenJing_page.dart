@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -346,37 +347,42 @@ class _ShenJingPageState extends State<ShenJingPage>
                                 )),
                             child: TextButton(
                               onPressed: () {
-                                yiStartSelected = !yiStartSelected;
-                                if (!yiStartSelected) {
-                                  neuromuscular?.setARestValue();
-                                  Future.delayed(
-                                      const Duration(milliseconds: 500), () {
-                                    eventBus.fire(SetValueState(
-                                        TreatmentType.neuromuscular));
+
+                                EasyThrottle.throttle('start-btn6', const Duration(seconds:1), () {
+                                  yiStartSelected = !yiStartSelected;
+                                  if (!yiStartSelected) {
+                                    neuromuscular?.setARestValue();
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(
+                                          TreatmentType.neuromuscular));
+                                    });
+                                  }
+                                  neuromuscular?.start1(
+                                      yiStartSelected, yiStartSelected, back: () {
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
+                                    eventBus.fire(Notify());
+                                    SjjrCureState =
+                                        yiStartSelected || erStartSelected;
+                                    setState(() {
+                                      //点击开始治疗
+                                      double? tmp = double.tryParse(
+                                          neuromuscular?.timeA ?? '1');
+                                      _countdownTime1 = ((tmp?.toInt())!);
+                                      startCountdownTimer1(yiStartSelected);
+                                    });
+                                  }, finish: () {
+                                    yiStartSelected = false;
+                                    electrotherapyIsRunIng =
+                                        yiStartSelected || erStartSelected;
+                                    eventBus.fire(Notify());
+                                    SjjrCureState =
+                                        yiStartSelected || erStartSelected;
                                   });
-                                }
-                                neuromuscular?.start1(
-                                    yiStartSelected, yiStartSelected, back: () {
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
-                                  SjjrCureState =
-                                      yiStartSelected || erStartSelected;
-                                  setState(() {
-                                    //点击开始治疗
-                                    double? tmp = double.tryParse(
-                                        neuromuscular?.timeA ?? '1');
-                                    _countdownTime1 = ((tmp?.toInt())!);
-                                    startCountdownTimer1(yiStartSelected);
-                                  });
-                                }, finish: () {
-                                  yiStartSelected = false;
-                                  electrotherapyIsRunIng =
-                                      yiStartSelected || erStartSelected;
-                                  eventBus.fire(Notify());
-                                  SjjrCureState =
-                                      yiStartSelected || erStartSelected;
                                 });
+
+
                               },
                               // child: Image.asset(yiStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
                               child: Row(
@@ -566,38 +572,42 @@ class _ShenJingPageState extends State<ShenJingPage>
                                 )),
                             child: TextButton(
                               onPressed: () {
-                                erStartSelected = !erStartSelected;
-                                if (!erStartSelected) {
-                                  neuromuscular?.setBRestValue();
-                                  Future.delayed(
-                                      const Duration(milliseconds: 500), () {
-                                    eventBus.fire(SetValueState(
-                                        TreatmentType.neuromuscular));
+                                EasyThrottle.throttle('save-btn6', const Duration(seconds: 1), () {
+                                  erStartSelected = !erStartSelected;
+                                  if (!erStartSelected) {
+                                    neuromuscular?.setBRestValue();
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      eventBus.fire(SetValueState(
+                                          TreatmentType.neuromuscular));
+                                    });
+                                  }
+                                  neuromuscular?.start2(
+                                      erStartSelected, erStartSelected, back: () {
+                                    electrotherapyIsRunIng =
+                                        erStartSelected || yiStartSelected;
+                                    eventBus.fire(Notify());
+                                    SjjrCureState =
+                                        yiStartSelected || erStartSelected;
+                                    setState(() {
+                                      //点击开始治疗
+                                      double? tmp = double.tryParse(
+                                          neuromuscular?.timeB ?? '1');
+                                      _countdownTime2 = ((tmp?.toInt())!);
+                                      startCountdownTimer2(erStartSelected);
+                                    });
+                                  }, finish: () {
+                                    erStartSelected = false;
+                                    electrotherapyIsRunIng =
+                                        erStartSelected || yiStartSelected;
+                                    eventBus.fire(Notify());
+                                    SjjrCureState =
+                                        yiStartSelected || erStartSelected;
+                                    setState(() {});
                                   });
-                                }
-                                neuromuscular?.start2(
-                                    erStartSelected, erStartSelected, back: () {
-                                  electrotherapyIsRunIng =
-                                      erStartSelected || yiStartSelected;
-                                  eventBus.fire(Notify());
-                                  SjjrCureState =
-                                      yiStartSelected || erStartSelected;
-                                  setState(() {
-                                    //点击开始治疗
-                                    double? tmp = double.tryParse(
-                                        neuromuscular?.timeB ?? '1');
-                                    _countdownTime2 = ((tmp?.toInt())!);
-                                    startCountdownTimer2(erStartSelected);
-                                  });
-                                }, finish: () {
-                                  erStartSelected = false;
-                                  electrotherapyIsRunIng =
-                                      erStartSelected || yiStartSelected;
-                                  eventBus.fire(Notify());
-                                  SjjrCureState =
-                                      yiStartSelected || erStartSelected;
-                                  setState(() {});
                                 });
+
+
                               },
                               // child: Image.asset(erStartSelected ? 'assets/images/2.0x/btn_tingzhi_nor.png' : 'assets/images/2.0x/btn_kaishi_nor.png',fit: BoxFit.cover,width: 120.w,height: 45.h,)
                               child: Row(

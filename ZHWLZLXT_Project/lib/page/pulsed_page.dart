@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_debounce/easy_throttle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -352,42 +353,41 @@ class _PulsedPageState extends State<PulsedPage>
                                         )),
                                     child: TextButton(
                                       onPressed: () {
-                                        startSelected = !startSelected;
-                                        print(
-                                            "------switchSelected--------$startSelected");
-
-                                        if (!startSelected) {
-                                          pulsed?.init(true);
-                                          switchSelected = false;
-                                          Future.delayed(
-                                              const Duration(milliseconds: 500),
-                                              () {
-                                            eventBus.fire(SetValueState(
-                                                TreatmentType.pulsed));
-                                          });
-                                        }
-
-                                        pulsed?.start(
-                                            startSelected,
-                                            switchSelected,
-                                            startSelected, back: () {
-                                          MccCureState = startSelected;
-                                          setState(() {
-                                            //点击开始治疗
-                                            double? tmp = double.tryParse(
-                                                pulsed?.time ?? '1');
-                                            _countdownTime = ((tmp?.toInt())!);
-                                            startCountdownTimer(startSelected);
-                                          });
-                                        }, finish: () {
-                                          if (startSelected) {
-                                            startSelected = false;
-                                          } else {
-                                            startCountdownTimer(startSelected);
+                                        EasyThrottle.throttle('start-btn1', const Duration(seconds: 1), () {
+                                          startSelected = !startSelected;
+                                          if (!startSelected) {
+                                            pulsed?.init(true);
+                                            switchSelected = false;
+                                            Future.delayed(
+                                                const Duration(milliseconds: 500),
+                                                    () {
+                                                  eventBus.fire(SetValueState(
+                                                      TreatmentType.pulsed));
+                                                });
                                           }
-                                          MccCureState = false;
-                                          setState(() {});
+                                          pulsed?.start(
+                                              startSelected,
+                                              switchSelected,
+                                              startSelected, back: () {
+                                            MccCureState = startSelected;
+                                            setState(() {
+                                              //点击开始治疗
+                                              double? tmp = double.tryParse(
+                                                  pulsed?.time ?? '1');
+                                              _countdownTime = ((tmp?.toInt())!);
+                                              startCountdownTimer(startSelected);
+                                            });
+                                          }, finish: () {
+                                            if (startSelected) {
+                                              startSelected = false;
+                                            } else {
+                                              startCountdownTimer(startSelected);
+                                            }
+                                            MccCureState = false;
+                                            setState(() {});
+                                          });
                                         });
+
                                       },
                                       child: Row(
                                         mainAxisAlignment:
