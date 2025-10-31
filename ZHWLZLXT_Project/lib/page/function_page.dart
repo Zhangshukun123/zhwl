@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/electrotherapy_page.dart';
 import 'package:zhwlzlxt_project/page/pulsed_page.dart';
+import 'package:zhwlzlxt_project/page/show_dialog.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
 
 import '../Controller/serial_msg.dart';
@@ -54,7 +56,6 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
     // });
     Future.delayed(Duration.zero, () {
       SerialMsg().startPort();
-
     });
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -158,11 +159,16 @@ class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserve
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (_lastTime == null || DateTime.now().difference(_lastTime!) < const Duration(seconds: 5)) {
                         ocIndex++;
-                        if (ocIndex >= 5) {
-                          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                        if (ocIndex >= 6) {
+                          final result = await promptText(context);
+                          if (result != null&&result=="733") {
+                            ocIndex = 0;
+                            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                            openAppSettings();
+                          }
                         }
                         _lastTime = DateTime.now();
                       }

@@ -42,7 +42,6 @@ class _SetPageState extends State<SetPage> {
     super.initState();
     languageBtnSelected = SpUtils.getBool(Globalization.languageSelected)!;
     sliderValue = SpUtils.getDouble('sliderValue', defaultValue: 100)!;
-    print("sliderValue----------------$sliderValue");
     if(sliderValue<5){
       setBrightness(5 / 100);
     }else{
@@ -85,7 +84,7 @@ class _SetPageState extends State<SetPage> {
                         Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
                         Text(
                           Globalization.back.tr,
-                          style: TextStyle(fontSize: 18.sp),
+                          style: TextStyle(fontSize: 18.sp,color: Colors.white),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         )

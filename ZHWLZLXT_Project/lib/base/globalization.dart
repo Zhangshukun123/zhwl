@@ -69,7 +69,8 @@ class Globalization {
   static const String addUser = "Add user"; //添加用户
   static const String theme = "Integrated Physiotherapy System"; //综合物理治疗系统
   static const String rememberPassword = "Remember password"; //记住密码
-  static const String version = "Current Version Number"; //当前版本号
+  static const String version = "Upper-level msv"; //当前版本号
+  static const String version_1 = "Lower-level S-V"; //当前版本号
   static const String confirm = "Confirm"; //确定
   static const String userName = "Please input username"; //请输入用户名
   static const String password = "Please input password"; //请输入密码

@@ -109,9 +109,8 @@ class UserSqlDao {
         str = "添加成功";
       }
     } else {
-      str = "用户已经存在";
+      str = "当前新增用户编号或电话已存在";
     }
-
     showToastMsg(
         msg: str,
         ontap: () {

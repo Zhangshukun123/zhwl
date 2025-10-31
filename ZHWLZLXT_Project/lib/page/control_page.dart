@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
+import 'package:zhwlzlxt_project/dataResource/record_sql_dao.dart';
 import 'package:zhwlzlxt_project/entity/user_entity.dart';
 import 'package:zhwlzlxt_project/page/add_page.dart';
 import 'package:zhwlzlxt_project/page/record_page.dart';
@@ -422,7 +423,7 @@ class _ControlPageState extends State<ControlPage> {
                                             maxLength: 20,
                                             inputFormatters: [
                                               FilteringTextInputFormatter.allow(
-                                                RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
+                                                RegExp(r'[a-zA-Z0-9]'), // 允许：英文、数字、中文
                                               ),
                                             ],
                                             style: TextStyle(
@@ -1033,6 +1034,7 @@ class _ControlPageState extends State<ControlPage> {
                   var suc = await UserSqlDao.instance()
                       .delectData(userId: user!.userId!);
                   if (suc) {
+                    RecordSqlDao.instance().delRecord(userId:user!.userId!);
                     userList.removeAt(index);
                     if (userList.isNotEmpty && lastIndex == index) {
                       lastIndex = 0;

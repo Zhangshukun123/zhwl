@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/base/globalization.dart';
 import 'package:zhwlzlxt_project/page/chuChang_page.dart';
+import 'package:zhwlzlxt_project/page/dl_setting_page.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 
 import '../Controller/serial_port.dart';
@@ -118,14 +119,13 @@ class SettingDialog {
                                     onPressed: () {
                                       if ("733".contains(numController.text)) {
                                         Navigator.of(context).pop();
-
                                         showDialog(
                                             context: context,
                                             builder: (context) {
                                               return Dialog(
                                                 child: Container(
                                                   width: 600,
-                                                  height: 250,
+                                                  height: 300,
                                                   decoration:
                                                       const BoxDecoration(
                                                     borderRadius:
@@ -204,6 +204,31 @@ class SettingDialog {
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       20)),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 1,
+                                                        color: const Color(
+                                                            0xffeeeeee),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Get.to(
+                                                              const DLSettingPage());
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .only(
+                                                              left: 20,
+                                                              right: 20,
+                                                              top: 20,
+                                                              bottom: 20),
+                                                          child: const Text(
+                                                              "电疗",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                  20)),
                                                         ),
                                                       ),
                                                     ],

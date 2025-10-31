@@ -22,6 +22,7 @@ class LoginPageState extends State<LoginPage> {
   bool setSelected = SpUtils.getBool('setSelected', defaultValue: false)!;
   TextEditingController acController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+  bool isBudgVer = false;
 
   @override
   void initState() {
@@ -59,6 +60,7 @@ class LoginPageState extends State<LoginPage> {
           fit: BoxFit.fill, // 完全填充
         )),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Center(
@@ -267,10 +269,27 @@ class LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 15.h, bottom: 15.h),
-              child: Text(
-                '${Globalization.version.tr}:V1.0.0.20251011_alpha01',
-                style: TextStyle(fontSize: 18.sp, color: Colors.white),
+              padding: EdgeInsets.only(left:!isBudgVer?305.w:100.w,top: 15.h, bottom: 15.h),
+              child: InkWell(
+                onTap: (){
+                  isBudgVer = !isBudgVer;
+                  setState(() {
+                  });
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      !isBudgVer?'${Globalization.version.tr}:V1.0.0.1':
+                      '${Globalization.version.tr}:V1.0.0,20251030_alpha01',
+                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                    ),
+                    const SizedBox(width: 100,),
+                    Text(
+                      !isBudgVer?'${Globalization.version_1.tr}:V1.0.0.1':'${Globalization.version_1.tr}:V1.0.0,20251030_alpha01',
+                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

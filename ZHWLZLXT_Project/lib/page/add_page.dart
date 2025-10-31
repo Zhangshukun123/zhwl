@@ -202,7 +202,7 @@ class _AddPageState extends State<AddPage> {
                             // FilteringTextInputFormatter.digitsOnly,//数字，只能是整数
                             LengthLimitingTextInputFormatter(8),
                             FilteringTextInputFormatter.allow(
-                              RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'),
+                              RegExp(r'[a-zA-Z0-9]'),
                             ),
                             //限制长度8位，推荐年月日+2 位数字组合
                             // FilteringTextInputFormatter.allow(RegExp("[0-9.]")),//数字包括小数

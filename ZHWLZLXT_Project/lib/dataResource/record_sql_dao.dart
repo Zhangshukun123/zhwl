@@ -32,6 +32,13 @@ class RecordSqlDao {
   }
 
 
+  delRecord({required int userId}) async {
+    SqlUtils sqlUtils = SqlUtils();
+    var map = await queryRecordUserId(sqlUtils: sqlUtils, userId: userId);
+    sqlUtils.close();
+    return map;
+  }
+
 
 
   //select * from 表名

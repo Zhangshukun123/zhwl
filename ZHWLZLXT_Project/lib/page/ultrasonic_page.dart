@@ -379,7 +379,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Visibility(
+                                            Visibility(
                                       visible: onLine,
                                       child: Column(
                                         children: [

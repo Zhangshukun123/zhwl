@@ -202,3 +202,27 @@ queryAllRecord({
     whereArgs: [],
   );
 }
+
+delRecord({
+  required SqlUtils sqlUtils,
+  required int userId,
+}) async {
+  await sqlUtils.open();
+  return await sqlUtils.queryListByHelper(
+    tableName: SqlConfig.tableRecord,
+    selects: [
+      RecordField.userId,
+      RecordField.recordType,
+      RecordField.pattern,
+      RecordField.power,
+      RecordField.soundIntensity,
+      RecordField.frequency,
+      RecordField.dataTime,
+      RecordField.utilityTime,
+    ],
+    whereStr: '${UserTableField.userId} = ?',
+    whereArgs: [userId],
+  );
+}
+
+
