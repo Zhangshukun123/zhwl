@@ -35,17 +35,16 @@ class SettingDialog {
               children: [
                 Container(
                     width: 500.w,
-                    height: 40.h,
-                    color: const Color(0xFF00A8E7),
+                    height: 45.h,
+                    color: const Color(0xFF403B5B),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                            child: Text(
+                        Text(
                           Globalization.password.tr,
                           style:
                               TextStyle(color: Colors.white, fontSize: 18.sp),
-                        )),
+                        ),
                       ],
                     )),
                 SizedBox(
@@ -87,7 +86,7 @@ class SettingDialog {
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 0.5,
-                                    color: const Color(0xFF00A8E7),
+                                    color: const Color(0xFF403B5B),
                                   ),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(7.w)),
@@ -99,7 +98,7 @@ class SettingDialog {
                                   child: Text(
                                     Globalization.cancel.tr,
                                     style: TextStyle(
-                                        color: const Color(0xFF00A8E7),
+                                        color: const Color(0xFF403B5B),
                                         fontSize: 18.sp),
                                   ),
                                 )),
@@ -107,10 +106,10 @@ class SettingDialog {
                                 height: 35.h,
                                 width: 90.5.w,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF00A8E7),
+                                  color: const Color(0xFF403B5B),
                                   border: Border.all(
                                     width: 0.5,
-                                    color: const Color(0xFF00A8E7),
+                                    color: const Color(0xFF403B5B),
                                   ),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(7.w)),

@@ -56,220 +56,225 @@ class _SetPageState extends State<SetPage> {
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(35.h),
-          child: AppBar(
-            automaticallyImplyLeading : false,
-              title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 80.w,
-                      height: 35.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF19B1E9),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.w),
-                        )
-                      ),
-                  child: InkWell(
-                    onTap: (){
-                      Navigator.of(context).pop();
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10.w,),
-                        Image.asset('assets/images/2.0x/btn_fanhui.png',width: 14.w,height: 14.h,fit: BoxFit.fitWidth,),
-                        Text(
-                          Globalization.back.tr,
-                          style: TextStyle(fontSize: 18.sp,color: Colors.white),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                      child: Text(Globalization.setting.tr,style: TextStyle(fontSize: 18.sp, color: Colors.white),)
-                  ),
-                )
-              ],
-              ),
-            centerTitle: true,
-          ),
-        ),
-
+      backgroundColor: const Color(0xFFFCFCFC),
     body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 10.h),
-          color: Colors.white,
+          margin: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
-                children: [
+                children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: 180.w),
-                    child: Row(
-                      children: [
-                        Text(
-                          Globalization.language.tr,
-                          style: TextStyle(
-                              fontSize: 18.sp, color: const Color(0xFF999999)),
-                        ),
-                        SizedBox(
-                          width: 14.w,
-                        ),
-                        HomeSwitchButton(
-                            onString: "中文",
-                            offString: "EN",
-                            pressed: Get.locale?.countryCode == "CN",
-                            onTap: (obj) {
-                              languageBtnSelected = !languageBtnSelected;
-                              SpUtils.setBool(Globalization.languageSelected,
-                                  languageBtnSelected);
-                              if (languageBtnSelected) {
-                                var locale = const Locale('zh', 'CN');
-                                Get.updateLocale(locale);
-                              } else {
-                                var locale = const Locale('en', 'US');
-                                Get.updateLocale(locale);
-                              }
-                              debugPrint(
-                                  '当前的语言为: ${Get.locale?.countryCode == "CN"}');
-                              Language l = Language(Get.locale?.countryCode == "CN"?1:2);
-                              eventBus.fire(l);
-
-                              setState(() {
-                                print(obj);
-                              });
-                            }),
-                      ],
+                    width: 80.w,
+                    height: 35.h,
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.w),
+                        )
+                    ),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.of(context).pop();
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          const SizedBox(width: 15,),
+                          Image.asset(
+                            'assets/images/2.0x/icon_fanhui.png',
+                            width: 10.w,
+                            fit: BoxFit.fitWidth,
+                          ),
+                          const SizedBox(width: 15,),
+                          Text(
+                            Globalization.back.tr,
+                            style: TextStyle(fontSize: 18.sp,color: const Color(0xff666666)),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 200.w),
-                    child: Row(
-                      children: [
-                        Text(
-                          Globalization.setting.tr,
-                          style: TextStyle(
-                              fontSize: 18.sp, color: const Color(0xFF999999)),
-                        ),
-                        SizedBox(
-                          width: 14.w,
-                        ),
-                        Container(
-                          width: 150.w,
-                          height: 43.h,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF00A8E7),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.w),
-                            ),
-                          ),
-                          child: TextButton(
-                              onPressed: (){
-                                dialog?.showSettingDialog(context);
-                              },
-                              child:Text(Globalization.factory.tr,
-                                style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),)
-                          ),
-                        ),
-                      ],
+                  Expanded(
+                    child: Center(
+                        child: Text(Globalization.setting.tr,style: TextStyle(fontSize: 18.sp, color: const Color(0xff555555)),)
                     ),
-                  ),
-                  // Visibility(
-                  //   visible: false,
-                  //   child: Container(
-                  //     margin: EdgeInsets.only(left: 200.w),
-                  //     child: Row(
-                  //       children: [
-                  //         Text(
-                  //           Globalization.bluetooth.tr,
-                  //           style: TextStyle(
-                  //               fontSize: 18.sp,
-                  //               color: const Color(0xFF999999)),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 14.w,
-                  //         ),
-                  //         HomeSwitchButton(
-                  //             onString: Globalization.open.tr,
-                  //             offString: Globalization.close.tr,
-                  //             pressed: blueBtnSelected,
-                  //             onTap: (obj) {
-                  //               setState(() {
-                  //                 blueBtnSelected = !blueBtnSelected;
-                  //                 print(obj);
-                  //               });
-                  //             }),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  )
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(left: 180.w),
-                      child: Text(
-                        Globalization.brightness.tr,
-                        style: TextStyle(
-                            color: const Color(0xFF999999), fontSize: 18.sp),
-                      )),
-                  Column(
+              const SizedBox(height: 30,),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        '$textValue%',
-                        style: TextStyle(color: Colors.black, fontSize: 18.sp),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 180.w),
+                            child: Row(
+                              children: [
+                                Text(
+                                  Globalization.language.tr,
+                                  style: TextStyle(
+                                      fontSize: 18.sp, color: const Color(0xFF999999)),
+                                ),
+                                SizedBox(
+                                  width: 14.w,
+                                ),
+                                HomeSwitchButton(
+                                    onString: "中文",
+                                    offString: "EN",
+                                    pressed: Get.locale?.countryCode == "CN",
+                                    onTap: (obj) {
+                                      languageBtnSelected = !languageBtnSelected;
+                                      SpUtils.setBool(Globalization.languageSelected,
+                                          languageBtnSelected);
+                                      if (languageBtnSelected) {
+                                        var locale = const Locale('zh', 'CN');
+                                        Get.updateLocale(locale);
+                                      } else {
+                                        var locale = const Locale('en', 'US');
+                                        Get.updateLocale(locale);
+                                      }
+                                      debugPrint(
+                                          '当前的语言为: ${Get.locale?.countryCode == "CN"}');
+                                      Language l = Language(Get.locale?.countryCode == "CN"?1:2);
+                                      eventBus.fire(l);
+
+                                      setState(() {
+                                        print(obj);
+                                      });
+                                    }),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 200.w),
+                            child: Row(
+                              children: [
+                                Text(
+                                  Globalization.setting.tr,
+                                  style: TextStyle(
+                                      fontSize: 18.sp, color: const Color(0xFF999999)),
+                                ),
+                                SizedBox(
+                                  width: 14.w,
+                                ),
+                                Container(
+                                  width: 150.w,
+                                  height: 43.h,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF403B5B),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.w),
+                                    ),
+                                  ),
+                                  child: TextButton(
+                                      onPressed: (){
+                                        dialog?.showSettingDialog(context);
+                                      },
+                                      child:Text(Globalization.factory.tr,
+                                        style: TextStyle(color: const Color(0xFFFFFFFF),fontSize: 18.sp),)
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Visibility(
+                          //   visible: false,
+                          //   child: Container(
+                          //     margin: EdgeInsets.only(left: 200.w),
+                          //     child: Row(
+                          //       children: [
+                          //         Text(
+                          //           Globalization.bluetooth.tr,
+                          //           style: TextStyle(
+                          //               fontSize: 18.sp,
+                          //               color: const Color(0xFF999999)),
+                          //         ),
+                          //         SizedBox(
+                          //           width: 14.w,
+                          //         ),
+                          //         HomeSwitchButton(
+                          //             onString: Globalization.open.tr,
+                          //             offString: Globalization.close.tr,
+                          //             pressed: blueBtnSelected,
+                          //             onTap: (obj) {
+                          //               setState(() {
+                          //                 blueBtnSelected = !blueBtnSelected;
+                          //                 print(obj);
+                          //               });
+                          //             }),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
                       ),
-                      Container(
-                        width: 430.w,
-                        child: Slider(
-                          value: sliderValue,
-                          min: 0,
-                          max: 100,
-                          //滑块颜色
-                          activeColor: const Color(0xFF00A8E7),
-                          //轨道颜色
-                          inactiveColor: const Color(0xFFF0F0F0),
-                          //正在滑动或者点击，未松手
-                          onChanged: (value) {
-                            sliderValue = value;
-                            setState(() {});
-                            if(value==0){
-                              value = 1;
-                            }
-                            if(value<5){
-                              setBrightness(5 / 100);
-                            }else{
-                              setBrightness(value / 100);
-                            }
-                            // print("onChanged : $value");
-                            updateSlider(value, "onChangeEnd : $value");
-                          },
-                          //刚开始点击
-                          onChangeStart: (value) {
-                            print("onChangeStart : $value");
-                            updateSlider(value, "onChangeStart : $value");
-                          },
-                          //滑动或者点击结束，已松手
-                          onChangeEnd: (value) {
-                            print("onChangeEnd : $value");
-                            updateSlider(value, "onChangeEnd : $value");
-                            SpUtils.setDouble('sliderValue', value);
-                          },
-                        ),
-                      )
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(left: 180.w),
+                              child: Text(
+                                Globalization.brightness.tr,
+                                style: TextStyle(
+                                    color: const Color(0xFF999999), fontSize: 18.sp),
+                              )),
+                          Column(
+                            children: [
+                              Text(
+                                '$textValue%',
+                                style: TextStyle(color: Colors.black, fontSize: 18.sp),
+                              ),
+                              Container(
+                                width: 430.w,
+                                child: Slider(
+                                  value: sliderValue,
+                                  min: 0,
+                                  max: 100,
+                                  //滑块颜色
+                                  activeColor: const Color(0xFF403B5B),
+                                  //轨道颜色
+                                  inactiveColor: const Color(0xFFF0F0F0),
+                                  //正在滑动或者点击，未松手
+                                  onChanged: (value) {
+                                    sliderValue = value;
+                                    setState(() {});
+                                    if(value==0){
+                                      value = 1;
+                                    }
+                                    if(value<5){
+                                      setBrightness(5 / 100);
+                                    }else{
+                                      setBrightness(value / 100);
+                                    }
+                                    // print("onChanged : $value");
+                                    updateSlider(value, "onChangeEnd : $value");
+                                  },
+                                  //刚开始点击
+                                  onChangeStart: (value) {
+                                    print("onChangeStart : $value");
+                                    updateSlider(value, "onChangeStart : $value");
+                                  },
+                                  //滑动或者点击结束，已松手
+                                  onChangeEnd: (value) {
+                                    print("onChangeEnd : $value");
+                                    updateSlider(value, "onChangeEnd : $value");
+                                    SpUtils.setDouble('sliderValue', value);
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

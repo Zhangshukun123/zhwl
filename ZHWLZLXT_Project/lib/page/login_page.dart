@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_utils/get_utils.dart';
+import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/function_page.dart';
 import 'package:zhwlzlxt_project/utils/sp_utils.dart';
 import 'package:zhwlzlxt_project/utils/utils_tool.dart';
@@ -15,252 +13,189 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  bool setSelected = SpUtils.getBool('setSelected', defaultValue: false)!;
-  TextEditingController acController = TextEditingController();
-  TextEditingController pwdController = TextEditingController();
-  bool isBudgVer = false;
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController acController = TextEditingController(text: 'admin');
+  final TextEditingController pwdController = TextEditingController(text: '688626');
+  bool rememberAccount = SpUtils.getBool('setSelected', defaultValue: false)!;
+  bool showDebugVersion = false;
 
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    _initSystemUI();
+    _restoreSavedCredentials();
+  }
 
+  Future<void> _initSystemUI() async {
+    await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight],
+    );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  }
 
-    acController.text = 'admin';
-    pwdController.text = '123456';
-
-    if (setSelected) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        acController.text = SpUtils.getString('account', defaultValue: "")!;
-        pwdController.text = SpUtils.getString('password', defaultValue: "")!;
+  void _restoreSavedCredentials() {
+    if (rememberAccount) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        acController.text = SpUtils.getString('account', defaultValue: '')!;
+        pwdController.text = SpUtils.getString('password', defaultValue: '')!;
         setState(() {});
       });
     }
   }
 
+  void _handleLogin() {
+    if (AccList.contains(acController.text) && PswLIst.contains(pwdController.text)) {
+      if (rememberAccount) {
+        SpUtils.setString('account', acController.text);
+        SpUtils.setString('password', pwdController.text);
+        SpUtils.setBool('setSelected', rememberAccount);
+      }
+      Get.off(const FunctionPage());
+    } else {
+      showToastMsg(msg: Globalization.hint_018.tr);
+    }
+  }
+
+  Widget _buildInputField({
+    required String hintText,
+    required String iconPath,
+    required TextEditingController controller,
+    bool obscureText = false,
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 33.w),
+      padding: EdgeInsets.all(10.h),
+      decoration: BoxDecoration(
+        color: const Color(0xffF4F4F4),
+        borderRadius: BorderRadius.circular(7),
+      ),
+      child: Row(
+        children: [
+          SizedBox(width: 32.w),
+          Image.asset(iconPath, height: 18.w, fit: BoxFit.fitHeight),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              obscureText: obscureText,
+              style: TextStyle(fontSize: 15.sp),
+              decoration: InputDecoration(
+                hintText: hintText,
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50.w),
+      padding: EdgeInsets.all(5.h),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color(0xFF403B5B),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: TextButton(
+        onPressed: _handleLogin,
+        child: Text(
+          Globalization.confirm.tr,
+          style: TextStyle(color: Colors.white, fontSize: 18.sp),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.blue,
+      backgroundColor: const Color(0XFFF4F4F4),
       body: Container(
         width: 960.w,
         height: 600.h,
         decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/images/img_denglu.png'),
-          fit: BoxFit.fill, // 完全填充
-        )),
+          image: DecorationImage(
+            image: AssetImage('assets/images/img_denglu.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 20),
             Expanded(
               child: Center(
                 child: Container(
                   width: 850.w,
                   height: 500.h,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      )),
                   child: Row(
                     children: [
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                margin: EdgeInsets.only(top: 44.h, left: 27.w),
-                                child: Image.asset(
-                                  'assets/images/2.0x/login_logo.png',
-                                  fit: BoxFit.fitHeight,
-                                  height: 45.h,
-                                )),
-                            Expanded(
-                              child: Container(
-                                transform:
-                                    Matrix4.translationValues(0, -10.h, 0),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/img_shebei.png',
-                                        fit: BoxFit.fitHeight,
-                                        height: 321.h,
-                                      ),
-                                      SizedBox(
-                                        height: 17.h,
-                                      ),
-                                      Text(
-                                        Globalization.theme.tr,
-                                        style: TextStyle(
-                                            fontSize: 18.sp,
-                                            color: const Color(0xFF999999)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              color: Color(0xFFF5F7F9),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              )),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 44.h, left: 27.w),
                           child: Column(
                             children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 79.h),
-                                  child: Text(
-                                    Globalization.login.tr,
-                                    style: TextStyle(
-                                        fontSize: 20.sp,
-                                        color: const Color(0xFF242021)),
-                                  )),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: 33.w, right: 33.w),
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(7),
-                                              )),
-                                          padding: EdgeInsets.all(5.h),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 32.w),
-                                              Image.asset(
-                                                'assets/images/2.0x/login_account.png',
-                                                fit: BoxFit.fitHeight,
-                                                height: 18.w,
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Expanded(
-                                                child: TextField(
-                                                  controller: acController,
-                                                  decoration: InputDecoration(
-                                                      hintText: Globalization
-                                                          .userName.tr,
-                                                      border: InputBorder.none),
-                                                  style: TextStyle(
-                                                      fontSize: 15.sp),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 30.h,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: 33.w, right: 33.w),
-                                          padding: EdgeInsets.all(5.h),
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(7),
-                                              )),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(width: 32.w),
-                                              Image.asset(
-                                                'assets/images/2.0x/login_pwd.png',
-                                                fit: BoxFit.fitHeight,
-                                                height: 18.w,
-                                              ),
-                                              SizedBox(
-                                                width: 10.w,
-                                              ),
-                                              Expanded(
-                                                child: TextField(
-                                                  controller: pwdController,
-                                                  obscureText: true,
-                                                  decoration: InputDecoration(
-                                                    hintText: Globalization
-                                                        .password.tr,
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  style: TextStyle(
-                                                      fontSize: 15.sp),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20.h,
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: 32.w,
-                                        right: 32.w,
-                                      ),
-                                      padding: EdgeInsets.all(5.h),
-                                      width: double.infinity,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xFF00A8E7),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
-                                          )),
-                                      child: TextButton(
-                                          onPressed: () {
-                                            if (AccList.contains(
-                                                    acController.text) &&
-                                                PswLIst.contains(
-                                                    pwdController.text)) {
-                                              if (setSelected) {
-                                                SpUtils.setString('account',
-                                                    acController.text);
-                                                SpUtils.setString('password',
-                                                    pwdController.text);
-                                                SpUtils.setBool(
-                                                    'setSelected', setSelected);
-                                              }
-                                              Get.off(const FunctionPage());
-                                            } else {
-                                              showToastMsg(msg: Globalization.hint_018.tr);
-                                            }
-                                          },
-                                          child: Text(
-                                            Globalization.confirm.tr,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18.sp),
-                                          )),
-                                    ),
-                                  ],
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Image.asset(
+                                  'assets/images/2.0x/login_logo.png',
+                                  height: 22.h,
+                                  fit: BoxFit.fitWidth,
                                 ),
-                              )
+                              ),
+                              const Spacer(),
+                              Image.asset(
+                                'assets/images/img_shebei.png',
+                                height: 321.h,
+                              ),
+                              SizedBox(height: 17.h),
+                              Text(
+                                Globalization.theme.tr,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color: const Color(0xFF666666),
+                                ),
+                              ),
+                              const Spacer(),
                             ],
                           ),
+                        ),
+                      ),
+                      // 右侧登录表单区
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 79.h),
+                            Text(
+                              Globalization.login.tr,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                color: const Color(0xFF242021),
+                              ),
+                            ),
+                            SizedBox(height: 60.h),
+                            _buildInputField(
+                              hintText: Globalization.userName.tr,
+                              iconPath: 'assets/images/2.0x/login_account.png',
+                              controller: acController,
+                            ),
+                            SizedBox(height: 60.h),
+                            _buildInputField(
+                              hintText: Globalization.password.tr,
+                              iconPath: 'assets/images/2.0x/login_pwd.png',
+                              controller: pwdController,
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 70.h),
+                            _buildLoginButton(),
+                          ],
                         ),
                       ),
                     ],
@@ -268,25 +203,26 @@ class LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+
+            // 底部版本信息
             Padding(
-              padding: EdgeInsets.only(left:!isBudgVer?305.w:100.w,top: 15.h, bottom: 15.h),
+              padding: EdgeInsets.only(left: showDebugVersion ? 280.w : 340.w, top: 0.h, bottom: 10.h),
               child: InkWell(
-                onTap: (){
-                  isBudgVer = !isBudgVer;
-                  setState(() {
-                  });
-                },
+                onTap: () => setState(() => showDebugVersion = !showDebugVersion),
                 child: Row(
                   children: [
                     Text(
-                      !isBudgVer?'${Globalization.version.tr}:V1.0.0.1':
-                      '${Globalization.version.tr}:V1.0.0,20251030_alpha01',
-                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                      showDebugVersion
+                          ? '${Globalization.version.tr}:V1.0.0,20251030_alpha01'
+                          : '${Globalization.version.tr}:V1.0.0.1',
+                      style: TextStyle(fontSize: 11.sp, color: const Color(0xFF999999)),
                     ),
-                    const SizedBox(width: 100,),
+                    const SizedBox(width: 100),
                     Text(
-                      !isBudgVer?'${Globalization.version_1.tr}:V1.0.0.1':'${Globalization.version_1.tr}:V1.0.0,20251030_alpha01',
-                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                      showDebugVersion
+                          ? '${Globalization.version_1.tr}:V1.0.0,20251030_alpha01'
+                          : '${Globalization.version_1.tr}:V1.0.0.1',
+                      style: TextStyle(fontSize: 11.sp, color: const Color(0xFF999999)),
                     ),
                   ],
                 ),

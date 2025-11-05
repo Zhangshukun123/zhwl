@@ -127,7 +127,7 @@ class _JingLuanPageState extends State<JingLuanPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFCFCFC),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.only(left: 35.w, right: 35.w),
@@ -263,7 +263,7 @@ class _JingLuanPageState extends State<JingLuanPage>
                         width: 340.w,
                         height: 100.h,
                         decoration: BoxDecoration(
-                            color: const Color(0xFFF0FAFE),
+                            color: const Color(0xFFFFFFFF),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.black.withOpacity(0.15),
@@ -289,12 +289,10 @@ class _JingLuanPageState extends State<JingLuanPage>
                                   fit: BoxFit.fitWidth,
                                 )),
                             Container(
-                              width: 120.w,
-                              height: 55.h,
+                              width: 110.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
-                                  color: startSelected
-                                      ? const Color(0xFF00C290)
-                                      : const Color(0xFF00A8E7),
+                                  color: const Color(0xFF41B962),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10.w),
                                   )),

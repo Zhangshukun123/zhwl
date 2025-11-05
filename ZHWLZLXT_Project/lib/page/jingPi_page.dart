@@ -202,7 +202,7 @@ class _JingPiPageState extends State<JingPiPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFCFCFC),
       body: SafeArea(
         child: Row(
           children: [
@@ -346,19 +346,16 @@ class _JingPiPageState extends State<JingPiPage>
                                       fit: BoxFit.fitWidth,
                                     ))),
                             Container(
-                              width: 120.w,
-                              height: 45.h,
+                              width: 110.w,
+                              height: 40.h,
                               margin: EdgeInsets.only(top: 10.h),
                               decoration: BoxDecoration(
-                                  color: yiStartSelected
-                                      ? const Color(0xFF00C290)
-                                      : const Color(0xFF00A8E7),
+                                  color: const Color(0xFF41B962),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10.w),
                                   )),
                               child: TextButton(
                                 onPressed: () {
-
                                   EasyThrottle.throttle('save-btn4', const Duration(seconds: 1), () {
                                     yiStartSelected = !yiStartSelected;
                                     if (!yiStartSelected) {
@@ -461,7 +458,7 @@ class _JingPiPageState extends State<JingPiPage>
                     children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: const Color(0xFFF0FAFE),
+                              color: const Color(0xFFFFFFFF),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -604,13 +601,11 @@ class _JingPiPageState extends State<JingPiPage>
                                   ))),
                           Container(
                             child: Container(
-                              width: 120.w,
-                              height: 45.h,
+                              width: 110.w,
+                              height: 40.h,
                               margin: EdgeInsets.only(top: 10.h),
                               decoration: BoxDecoration(
-                                  color: erStartSelected
-                                      ? const Color(0xFF00C290)
-                                      : const Color(0xFF00A8E7),
+                                  color: const Color(0xFF41B962),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10.w),
                                   )),

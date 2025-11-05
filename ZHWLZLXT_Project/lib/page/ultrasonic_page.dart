@@ -33,662 +33,247 @@ class UltrasonicPage extends StatefulWidget {
 }
 
 class _UltrasonicPageState extends State<UltrasonicPage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  //定义四个页面
-
-  bool startSelected = false;
-  late TabController _tabController;
-
-  DetailsDialog? dialog;
-
-  var frequency = 1;
-
-  bool isShow = false;
-
-  Ultrasonic? ultrasonic;
-
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final TreatmentController controller = Get.find();
   final UltrasonicController ultrasonicController = Get.find();
 
-  //计时器
+  Ultrasonic ultrasonic = Ultrasonic();
+  DetailsDialog? dialog;
+
+  // 运行 & 连接 & 温度状态
+  bool isRunning = false;
+  bool isConnected = false;
+  bool tempOk = true;
+  bool dialogVisible = false;
+
+  // 频率/文案
+  String frequencyText = '1'; // “1” 或 “3”
+  String linkText = Globalization.unlink.tr;
+  String tempText = Globalization.temperatureNormals.tr;
+
+  // 计时
   Timer? _timer;
-  String? prowText = '1';
-  String? unline = Globalization.unlink.tr;
-  String? wdText = Globalization.temperatureNormals.tr;
-  bool onLine = false;
-  bool wdOnline = true;
-  int _countdownTime = 0;
+  int _countdown = 0;
+  TabController? _dialogTabController;
 
   @override
   void initState() {
     super.initState();
-    dialog = DetailsDialog(
-        index: 1); //1:超声疗法；2：脉冲磁疗法；3：红外偏光；4：痉挛肌；5：经皮神经电刺激；6：神经肌肉点刺激；7：中频/干扰电治疗；
-    ultrasonic = Ultrasonic();
-    ultrasonic?.init(false);
-    ultrasonic?.time = "20";
-    _tabController =
+    dialog = DetailsDialog(index: 1); // 1=超声
+    _dialogTabController =
         TabController(length: dialog?.tabs.length ?? 0, vsync: this);
-    _tabController.addListener(() {});
+    dialog?.setTabController(_dialogTabController!);
 
-    dialog?.setTabController(_tabController);
+    ultrasonic.init(false);
+    ultrasonic.time = "20";
+    _bindEventBus();
+  }
 
+  void _bindEventBus() {
     eventBus.on<TreatmentType>().listen((event) {
-      if (!mounted) {
-        return;
+      if (!mounted) return;
+      if (event == TreatmentType.ultrasonic) {
+        ultrasonic.user = userMap[event];
       }
-      ultrasonic?.user = userMap[TreatmentType.ultrasonic];
     });
-    eventBus.on<Language>().listen((event) {
-      ultrasonic?.init(false);
-      if (onLine) {
-        unline = Globalization.onLine.tr;
-      } else {
-        unline = Globalization.unlink.tr;
-      }
-      if (wdOnline) {
-        wdText = Globalization.temperatureNormals.tr;
-      } else {
-        wdText = Globalization.temperatureAnomaly.tr;
-      }
+
+    eventBus.on<Language>().listen((_) {
+      ultrasonic.init(false);
+      linkText =
+          isConnected ? Globalization.onLine.tr : Globalization.unlink.tr;
+      tempText = tempOk
+          ? Globalization.temperatureNormals.tr
+          : Globalization.temperatureAnomaly.tr;
       setState(() {});
     });
 
-    eventBus.on<MethodCall>().listen((methodCall) {
-      switch (methodCall.method) {
-        case 'UltrasonicState03':
-          String value = methodCall.arguments;
-          Uint8List list = toUnitList(value);
-          if (list[4] == 16) {
-            if (list[12] == 1) {
-              wdText = Globalization.temperatureAnomaly.tr;
-              wdOnline = false;
-              if (startSelected) {
-                _timer?.cancel();
-                ultrasonic?.init(true);
-                ultrasonic?.start(false, false,"${prowText}M");
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-                });
-                startSelected = false;
-                cureState = startSelected;
-                setState(() {
-                  RunTime runTime = RunTime(20, 1001);
-                  eventBus.fire(runTime);
-                });
-              }
+    eventBus.on<MethodCall>().listen(_onMethodCall);
+  }
 
-              if (!isShow) {
-                showConnectPort(Globalization.temperatureAnomaly.tr, "");
-              }
-              // DialogUtil.alert(
-              //     title: "",
-              //     message: Globalization.temperatureAnomaly.tr,
-              //     okLabel: "确定");
-            } else {
-              // wdText = Globalization.temperatureNormals.tr;
-              // wdOnline = true;
-            }
-          } else if (list[11] == 1) {
-            ultrasonic?.frequency = "1";
-            prowText = '1';
-            unltrasonicPw = "1";
-            eventBus.fire(unltrasonicPw);
-            onLine = true;
-            unline = Globalization.onLine.tr;
-          } else {
-            unline = Globalization.unlink.tr;
-            onLine = false;
-            if (startSelected) {
-              _timer?.cancel();
-              ultrasonic?.init(true);
-              ultrasonic?.start(false, false,"${prowText}M");
-              Future.delayed(const Duration(milliseconds: 500), () {
-                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-              });
-              startSelected = false;
-              cureState = startSelected;
-              setState(() {
-                RunTime runTime = RunTime(20, 1001);
-                eventBus.fire(runTime);
-              });
-            }
-          }
-          setState(() {});
-          break;
-        case 'UltrasonicState04':
-          String value = methodCall.arguments;
-          Uint8List list = toUnitList(value);
+  void _onMethodCall(MethodCall call) {
+    switch (call.method) {
+      case 'UltrasonicState03':
+      case 'UltrasonicState04':
+        _handleDeviceFrame(toUnitList(call.arguments));
+        break;
+      case 'saponin': // 频扫
+        ultrasonic.pattern = Globalization.Sweepfrequency.tr;
+        ultrasonic.start(true, false, '${frequencyText}M');
+        break;
+      case 'open':
+      case 'saveP':
+        ultrasonic.start(true, false, '${frequencyText}M');
+        break;
+      case 'close':
+        ultrasonic.start(false, false, '${frequencyText}M');
+        break;
+    }
+  }
 
-          if (list[4] == 16) {
-            if (list[12] == 1) {
-              wdText = Globalization.temperatureAnomaly.tr;
-              wdOnline = false;
-              if (startSelected) {
-                _timer?.cancel();
-                ultrasonic?.init(true);
-                ultrasonic?.start(false, false,"${prowText}M");
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-                });
-                startSelected = false;
-                cureState = startSelected;
-                setState(() {
-                  RunTime runTime = RunTime(20, 1001);
-                  eventBus.fire(runTime);
-                });
-                if (!isShow) {
-                  showConnectPort(Globalization.temperatureAnomaly.tr, "");
-                }
-                // DialogUtil.alert(
-                //     title: "",
-                //     message: Globalization.temperatureAnomaly.tr,
-                //     okLabel: "确定");
-              }
-            } else {
-              // wdText = Globalization.temperatureNormals.tr;
-              // wdOnline = true;
-            }
-          } else if (list[11] == 1) {
-            ultrasonic?.frequency = "3";
-            prowText = '3';
-            unltrasonicPw = "3";
-            eventBus.fire(unltrasonicPw);
-            onLine = true;
+  void _handleDeviceFrame(Uint8List frame) {
+    // 温度异常：frame[4]==16 且 frame[12]==1
+    final tempError = frame[4] == 16 && frame[12] == 1;
+    // 连接状态：frame[11]==1
+    final connected = frame[11] == 1;
 
-            unline = Globalization.onLine.tr;
-          } else {
-            unline = Globalization.unlink.tr;
-            onLine = false;
-            if (startSelected) {
-              _timer?.cancel();
-              ultrasonic?.init(true);
-              ultrasonic?.start(false, false,"${prowText}M");
-              Future.delayed(const Duration(milliseconds: 500), () {
-                eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-              });
-              startSelected = false;
-              cureState = startSelected;
-              setState(() {
-                RunTime runTime = RunTime(20, 1001);
-                eventBus.fire(runTime);
-              });
-            }
-          }
-          setState(() {});
-          break;
-        case 'saponin':
-          ultrasonic?.pattern = Globalization.Sweepfrequency.tr;
-          ultrasonic?.start(true, false,"${prowText}M");
-          break;
-        case "open":
-          ultrasonic?.start(true, false,"${prowText}M");
-          break;
-        case "close":
-          ultrasonic?.start(false, false,"${prowText}M");
-          break;
-        case "saveP":
-          ultrasonic?.start(true, false,"${prowText}M");
-          break;
-      }
+    if (tempError) {
+      _onTemperatureAnomaly();
+      return;
+    }
+
+    // 解析频率：某些帧类型代表3MHz（示例用 frame[4]==16），否则 1MHz
+    if (connected) {
+      final freq = (frame[4] == 16) ? "3" : "1";
+      _updateConnection(true, freq);
+    } else {
+      _updateConnection(false, null);
+    }
+
+    setState(() {});
+  }
+
+  void _onTemperatureAnomaly() {
+    tempOk = false;
+    tempText = Globalization.temperatureAnomaly.tr;
+
+    if (isRunning) _stopTreatment();
+
+    if (!dialogVisible) {
+      _showConnectPort(Globalization.temperatureAnomaly.tr);
+    }
+  }
+
+  void _updateConnection(bool connected, String? freq) {
+    isConnected = connected;
+    linkText = connected ? Globalization.onLine.tr : Globalization.unlink.tr;
+
+    if (connected && freq != null) {
+      frequencyText = freq;
+      ultrasonic.frequency = freq;
+      unltrasonicPw = freq; // 兼容原有事件
+      eventBus.fire(unltrasonicPw);
+    }
+
+    if (!connected && isRunning) {
+      _stopTreatment();
+    }
+  }
+
+  void _showConnectPort(String title) {
+    ultrasonicController
+      ..title.value = title
+      ..context.value = ''
+      ..count.value = 30;
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => ConnectPort(
+          restConnect: (_) {
+            Get.back();
+            dialogVisible = false;
+            tempOk = true;
+            tempText = Globalization.temperatureNormals.tr;
+            setState(() {});
+          },
+        ),
+      );
+      dialogVisible = true;
     });
   }
 
-  showConnectPort(title, con) async {
-    ultrasonicController.title.value = title;
-    ultrasonicController.context.value = con;
-    ultrasonicController.count.value = 30;
-    if (!isShow) {
-      Future.delayed(const Duration(milliseconds: 300),(){
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return ConnectPort(
-                restConnect: (value) {
-                  Get.back();
-                  isShow = false;
-                  wdText = Globalization.temperatureNormals.tr;
-                  wdOnline = true;
-                },
-              );
-            });
-        isShow = true;
-      });
-    }
+  void _toggleStart() {
+    EasyThrottle.throttle('ultra-start', const Duration(seconds: 1), () {
+      if (!isConnected && !isRunning) {
+        showToastMsg(msg: Globalization.unlink.tr);
+        return;
+      }
+
+      isRunning = !isRunning;
+
+      if (!isRunning) {
+        _stopTreatment();
+        setState(() {});
+        return;
+      }
+
+      ultrasonic.start(
+        true, // 开
+        true, // 保存参数
+        '${frequencyText}M',
+        back: _startTimer,
+        finish: _finishTreatment,
+      );
+      setState(() {});
+    });
   }
 
-  void save(int userId) {
-    SpUtils.set(UltrasonicField.UltrasonicKey, userId);
+  void _startTimer() {
+    final t = int.tryParse(ultrasonic.time ?? '20') ?? 20;
+    _countdown = t;
+    _timer?.cancel();
+
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      if (_countdown <= 0) {
+        _finishTreatment();
+        return;
+      }
+      _countdown--;
+      ultrasonic.time = _countdown.toString();
+      eventBus.fire(RunTime(_countdown.toDouble(), 1001));
+    });
+
+    // 首次回调同步一次 UI
+    eventBus.fire(RunTime(_countdown.toDouble(), 1001));
   }
+
+  void _stopTreatment() {
+    _timer?.cancel();
+    ultrasonic.init(true);
+    ultrasonic.start(false, false, '${frequencyText}M'); // 关
+    Future.delayed(const Duration(milliseconds: 500), () {
+      eventBus.fire(SetValueState(TreatmentType.ultrasonic));
+    });
+    isRunning = false;
+    cureState = false;
+  }
+
+  void _finishTreatment() {
+    _stopTreatment();
+    setState(() {});
+    showToastMsg(msg: Globalization.endOfTreatment.tr);
+  }
+
+  void save(int userId) => SpUtils.set(UltrasonicField.UltrasonicKey, userId);
 
   @override
   void dispose() {
-    super.dispose();
     _timer?.cancel();
-  }
-
-  void startCountdownTimer(bool startSelected) {
-    if (_timer != null) {
-      _timer?.cancel();
-    }
-
-    if (!startSelected) {
-      _timer?.cancel();
-      return;
-    }
-    const oneSec = Duration(minutes: 1);
-    callback(timer) {
-      _countdownTime = _countdownTime - 1;
-      ultrasonic?.time = _countdownTime.toString();
-      RunTime runTime = RunTime(_countdownTime.toDouble(), 1001);
-      eventBus.fire(runTime);
-      if (_countdownTime < 1) {
-        _timer?.cancel();
-        ultrasonic?.init(true);
-        ultrasonic?.start(false, false,"${prowText}M");
-        Future.delayed(const Duration(milliseconds: 500), () {
-          eventBus.fire(SetValueState(TreatmentType.ultrasonic));
-        });
-        this.startSelected = false;
-        cureState = this.startSelected;
-        setState(() {
-          RunTime runTime = RunTime(20, 1001);
-          eventBus.fire(runTime);
-          showToastMsg(msg: Globalization.endOfTreatment.tr);
-        });
-        return;
-      }
-      ultrasonic?.start(this.startSelected, false,"${prowText}M");
-    }
-
-    _timer = Timer.periodic(oneSec, callback);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFCFCFC),
       body: SafeArea(
         child: Column(
           children: [
-            UserHeadView(
-              type: TreatmentType.ultrasonic,
-            ),
+            UserHeadView(type: TreatmentType.ultrasonic),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 35.w, right: 35.w, top: 11.h),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 11.h),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                        height: 150.h,
-                        child: Row(
-                          children: [
-                            ContainerBg(
-                                child: Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      EdgeInsets.only(top: 15.h, bottom: 10.h),
-                                  width: 120.w,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/2.0x/icon_moshi.png',
-                                            fit: BoxFit.fitWidth,
-                                            width: 22.w,
-                                            height: 22.h,
-                                          ),
-                                          SizedBox(
-                                            width: 5.w,
-                                          ),
-                                          Text(
-                                            Globalization.mode.tr,
-                                            style: TextStyle(
-                                                fontSize: 22.sp,
-                                                color: const Color(0xFF999999)),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                                PopupMenuBtn(
-                                  index: 0,
-                                  patternStr: ultrasonic?.pattern ??
-                                      Globalization.intermittentOne.tr,
-                                  enabled: !startSelected,
-                                  popupListener: (value) {
-                                    ultrasonic?.pattern = value;
-                                    // save();
-                                  },
-                                ),
-                              ],
-                            )),
-                            ContainerBg(
-                                margin: EdgeInsets.only(left: 30.w),
-                                padding: EdgeInsets.only(top: 40.h),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                            Visibility(
-                                      visible: onLine,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                prowText ?? '1',
-                                                style: TextStyle(
-                                                    color: Colors.red,
-                                                    fontSize: 26.sp,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              Text(
-                                                'MHz',
-                                                style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    color: Colors.red),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 22,
-                                          ),
-                                          Text(
-                                            Globalization.Hz.tr,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xff666666)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Image.asset(
-                                          onLine
-                                              ? 'assets/images/icon_line.png'
-                                              : 'assets/images/icon_un_line.png',
-                                          fit: BoxFit.fill,
-                                          width: 30.w,
-                                          height: 30.h,
-                                        ),
-                                        const SizedBox(
-                                          height: 22,
-                                        ),
-                                        Text(
-                                          unline ?? Globalization.unlink.tr,
-                                          style: TextStyle(
-                                              fontSize: 16.sp,
-                                              color: const Color(0xff666666)),
-                                        ),
-                                      ],
-                                    ),
-                                    Visibility(
-                                      visible: onLine,
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            wdOnline
-                                                ? 'assets/images/icon_wd_online.gif'
-                                                : 'assets/images/icon_wd_unline.gif',
-                                            fit: BoxFit.fitWidth,
-                                            width: 40.w,
-                                            height: 40.h,
-                                          ),
-                                          // const SizedBox(
-                                          //   height: 10,
-                                          // ),
-                                          Text(
-                                            wdText ??
-                                                Globalization
-                                                    .temperatureNormals.tr,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xff666666)),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ],
-                        )),
-                    Container(
-                        margin: EdgeInsets.only(top: 15.h),
-                        height: 150.h,
-                        child: Row(
-                          children: [
-                            ContainerBg(
-                                child: SetValue(
-                              enabled: startSelected,
-                              type: TreatmentType.ultrasonic,
-                              title: Globalization.pPower.tr,
-                              isEventBus: true,
-                              assets: 'assets/images/2.0x/icon_gonglv.png',
-                              initialValue:
-                                  double.tryParse(ultrasonic?.power ?? '0.0'),
-                              appreciation: 0.6,
-                              unit: 'W',
-                              // ignore: unrelated_type_equality_checks
-                              maxValue: prowText == "1" ? 7.2 : 3,
-                              //输出功率：1Mhz - 0～7.2W可调，级差0.6W;  3Mhz - 0～3W可调，级差0.6W;
-                              isInt: false,
-                              valueListener: (value) {
-                                ultrasonic?.power = value.toStringAsFixed(2);
-                                if (ultrasonic?.frequency == "1") {
-                                  ultrasonic?.soundIntensity =
-                                      (value / 4).toStringAsFixed(2);
-                                  eventBus.fire(UltrasonicSound((value / 4)));
-                                } else {
-                                  ultrasonic?.soundIntensity =
-                                      (value / 2).toStringAsFixed(2);
-                                  eventBus.fire(UltrasonicSound((value / 2)));
-                                }
-                                if (startSelected) {
-                                  ultrasonic?.start(startSelected, false,"${prowText}M");
-                                }
-                                // cPower.add(value.toString());
-                              },
-                            )),
-                            ContainerBg(
-                                margin: EdgeInsets.only(left: 30.w),
-                                child: SetValue(
-                                  enabled: false,
-                                  isInt: false,
-                                  isViImg: false,
-                                  indexType: 1,
-                                  type: TreatmentType.ultrasonic,
-                                  isEventBus: true,
-                                  IntFixed: 2,
-                                  title: Globalization.pSoundIntensity.tr,
-                                  assets:
-                                      'assets/images/2.0x/icon_shengqiang.png',
-                                  initialValue: double.tryParse(
-                                      ultrasonic?.soundIntensity ?? '0.0'),
-                                  // //有效声强：1Mhz -    0W/cm2～1.8W/cm2可调，级差0.15W/cm2; 3Mhz -     0W/cm2～1.5W/cm2可调，级差0.3W/cm2;
-                                  unit: 'W/cm²',
-                                  valueListener: (value) {
-                                    ultrasonic?.soundIntensity =
-                                        value.toStringAsFixed(2);
-                                  },
-                                )),
-                          ],
-                        )),
-                    Container(
-                        margin: EdgeInsets.only(top: 15.h),
-                        height: 150.h,
-                        child: Row(
-                          children: [
-                            ContainerBg(
-                                child: SetValue(
-                              enabled: !startSelected,
-                              type: TreatmentType.ultrasonic,
-                              title: Globalization.time.tr,
-                              isClock: true,
-                              isAnimate: startSelected,
-                              assets: 'assets/images/2.0x/icon_shijian.png',
-                              initialValue:
-                                  double.tryParse(ultrasonic?.time ?? '1'),
-                              minValue: 1,
-                              maxValue: 30,
-                              indexType: 1001,
-                              unit: 'min',
-                              valueListener: (value) {
-                                ultrasonic?.time = value.toString();
-                              },
-                            )),
-                            ContainerBg(
-                                margin: EdgeInsets.only(left: 30.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: (Get.locale?.countryCode == "CN")
-                                          ? 78.w
-                                          : 100.w,
-                                      margin: EdgeInsets.only(top: 15.5.h),
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/2.0x/img_xiangqing.png'),
-                                        fit: BoxFit.fill, // 完全填充
-                                      )),
-                                      child: TextButton(
-                                          onPressed: () {
-                                            dialog?.showCustomDialog(context);
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/2.0x/icon_xiangqing.png',
-                                                fit: BoxFit.fill,
-                                                width: 18.w,
-                                                height: 18.h,
-                                              ),
-                                              Text(
-                                                Globalization.details.tr,
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xFF009CB4),
-                                                    fontSize: 18.sp),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Visibility(
-                                            visible: startSelected,
-                                            maintainState: false,
-                                            maintainAnimation: false,
-                                            maintainSize: false,
-                                            child: Image.asset(
-                                              'assets/images/2.0x/gif_recording.gif',
-                                              width: 34.w,
-                                              height: 34.h,
-                                              fit: BoxFit.fitWidth,
-                                            )),
-                                        Container(
-                                          width: 120.w,
-                                          height: 55.h,
-                                          decoration: BoxDecoration(
-                                              color: startSelected
-                                                  ? const Color(0xFF00C290)
-                                                  : const Color(0xFF00A8E7),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.w),
-                                              )),
-                                          child: TextButton(
-                                            onPressed: () {
-                                              EasyThrottle.throttle('save-btn1', const Duration(seconds: 1), () {
-                                                if (!onLine && !startSelected) {
-                                                  showToastMsg(
-                                                      msg: Globalization
-                                                          .unlink.tr);
-                                                  return;
-                                                }
-                                                startSelected = !startSelected;
-                                                if (!startSelected) {
-                                                  ultrasonic?.init(true);
-                                                  Future.delayed(
-                                                      const Duration(
-                                                          milliseconds: 500), () {
-                                                    eventBus.fire(SetValueState(
-                                                        TreatmentType
-                                                            .ultrasonic));
-                                                  });
-                                                }
-                                                ultrasonic?.start(
-                                                    startSelected, startSelected,"${prowText}M",
-                                                    back: () {
-                                                      cureState = startSelected;
-                                                      setState(() {
-                                                        double? tmp = double.tryParse(
-                                                            ultrasonic?.time ?? '1');
-                                                        _countdownTime =
-                                                        ((tmp?.toInt())!);
-                                                        startCountdownTimer(
-                                                            startSelected);
-                                                      });
-                                                    }, finish: () {
-                                                  startSelected = false;
-                                                  cureState = false;
-                                                  setState(() {});
-                                                });
-                                              });
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/2.0x/icon_kaishi.png',
-                                                  fit: BoxFit.fitWidth,
-                                                  width: 18.w,
-                                                  height: 18.h,
-                                                ),
-                                                SizedBox(
-                                                  width: 8.w,
-                                                ),
-                                                Text(
-                                                  startSelected
-                                                      ? Globalization.stop.tr
-                                                      : Globalization.start.tr,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        )),
+                    _buildStatusRow(),
+                    _buildPowerRow(),
+                    _buildTimeRow(),
                   ],
                 ),
               ),
@@ -698,6 +283,266 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       ),
     );
   }
+
+  Widget _buildStatusRow() => SizedBox(
+        height: 150.h,
+        child: Row(
+          children: [
+            // 模式
+            ContainerBg(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 120.w,
+                    child: TextButton.icon(
+                      onPressed: () {},
+                      icon: Image.asset('assets/images/2.0x/icon_moshi.png',
+                          width: 16.w, fit: BoxFit.fitWidth),
+                      label: Text(
+                        Globalization.mode.tr,
+                        style: TextStyle(
+                            fontSize: 20.sp, color: const Color(0xFF999999)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  PopupMenuBtn(
+                    index: 0,
+                    patternStr:
+                        ultrasonic.pattern ?? Globalization.intermittentOne.tr,
+                    enabled: !isRunning,
+                    popupListener: (v) => ultrasonic.pattern = v,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 30.w),
+            // 连接/频率/温度
+            ContainerBg(
+              padding: EdgeInsets.only(top: 40.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (isConnected)
+                    Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              frequencyText,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 26.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text('MHz',
+                                style: TextStyle(
+                                    fontSize: 12.sp, color: Colors.red)),
+                          ],
+                        ),
+                        const SizedBox(height: 22),
+                        Text(Globalization.Hz.tr,
+                            style: TextStyle(
+                                fontSize: 16.sp,
+                                color: const Color(0xff666666))),
+                      ],
+                    ),
+                  Column(
+                    children: [
+                      Image.asset(
+                        isConnected
+                            ? 'assets/images/icon_line.png'
+                            : 'assets/images/icon_un_line.png',
+                        width: 30.w,
+                        height: 30.h,
+                      ),
+                      const SizedBox(height: 22),
+                      Text(linkText,
+                          style: TextStyle(
+                              fontSize: 16.sp, color: const Color(0xff666666))),
+                    ],
+                  ),
+                  if (isConnected)
+                    Column(
+                      children: [
+                        Image.asset(
+                          tempOk
+                              ? 'assets/images/icon_wd_online.gif'
+                              : 'assets/images/icon_wd_unline.gif',
+                          width: 40.w,
+                          height: 40.h,
+                        ),
+                        Text(tempText,
+                            style: TextStyle(
+                                fontSize: 16.sp,
+                                color: const Color(0xff666666))),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildPowerRow() => SizedBox(
+        height: 150.h,
+        child: Row(
+          children: [
+            // 输出功率
+            ContainerBg(
+              child: SetValue(
+                enabled: isRunning,
+                type: TreatmentType.ultrasonic,
+                title: Globalization.pPower.tr,
+                isEventBus: true,
+                assets: 'assets/images/2.0x/icon_gonglv.png',
+                initialValue: double.tryParse(ultrasonic.power ?? '0.0'),
+                appreciation: 0.6,
+                unit: 'W',
+                maxValue: frequencyText == "1" ? 7.2 : 3,
+                // 1MHz:0~7.2W(0.6步进)；3MHz:0~3W
+                isInt: false,
+                valueListener: (v) {
+                  ultrasonic.power = v.toStringAsFixed(2);
+                  final sound = (frequencyText == "1") ? v / 4 : v / 2;
+                  ultrasonic.soundIntensity = sound.toStringAsFixed(2);
+                  eventBus.fire(UltrasonicSound(sound));
+                  if (isRunning) {
+                    ultrasonic.start(true, false, '${frequencyText}M');
+                  }
+                },
+              ),
+            ),
+            SizedBox(width: 30.w),
+            // 有效声强（只读）
+            ContainerBg(
+              child: SetValue(
+                enabled: false,
+                isInt: false,
+                isViImg: false,
+                indexType: 1,
+                type: TreatmentType.ultrasonic,
+                isEventBus: true,
+                IntFixed: 2,
+                title: Globalization.pSoundIntensity.tr,
+                assets: 'assets/images/2.0x/icon_shengqiang.png',
+                initialValue:
+                    double.tryParse(ultrasonic.soundIntensity ?? '0.0'),
+                unit: 'W/cm²',
+                valueListener: (v) =>
+                    ultrasonic.soundIntensity = v.toStringAsFixed(2),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildTimeRow() => SizedBox(
+        height: 150.h,
+        child: Row(
+          children: [
+            // 时间
+            ContainerBg(
+              child: SetValue(
+                enabled: !isRunning,
+                type: TreatmentType.ultrasonic,
+                title: Globalization.time.tr,
+                isClock: true,
+                isAnimate: isRunning,
+                assets: 'assets/images/2.0x/icon_shijian.png',
+                initialValue: double.tryParse(ultrasonic.time ?? '20'),
+                minValue: 1,
+                maxValue: 30,
+                indexType: 1001,
+                unit: 'min',
+                valueListener: (v) => ultrasonic.time = v.toString(),
+              ),
+            ),
+            SizedBox(width: 30.w),
+            // 详情 + 启停
+            ContainerBg(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const SizedBox(height: 20,),
+                  SizedBox(
+                    width: (Get.locale?.countryCode == "CN") ? 78.w : 100.w,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/2.0x/img_xiangqing.png'),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                      child: TextButton.icon(
+                        onPressed: () => dialog?.showCustomDialog(context),
+                        icon: Image.asset(
+                          'assets/images/2.0x/icon_xiangqing.png',
+                          width: 15.w,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        label: Text(
+                          Globalization.details.tr,
+                          style: TextStyle(
+                              color: const Color(0xFF403B5B), fontSize: 15.sp),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (isRunning)
+                        Image.asset('assets/images/2.0x/hourglass_68.gif',
+                            width: 34.w, height: 34.h),
+                      Container(
+                        width: 120.w,
+                        height: 55.h,
+                        margin: EdgeInsets.only(left: 10.w),
+                        decoration: BoxDecoration(
+                          color: isRunning
+                              ? const Color(0xFF00C290)
+                              : const Color(0xFF41B962),
+                          borderRadius: BorderRadius.circular(10.w),
+                        ),
+                        child: TextButton(
+                          onPressed: _toggleStart,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/2.0x/icon_kaishi.png',
+                                  width: 18.w, fit: BoxFit.fitWidth,),
+                              SizedBox(width: 8.w),
+                              Text(
+                                isRunning
+                                    ? Globalization.stop.tr
+                                    : Globalization.start.tr,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   bool get wantKeepAlive => true;

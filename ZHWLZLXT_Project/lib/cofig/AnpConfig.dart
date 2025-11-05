@@ -14,5 +14,6 @@ class AnpConfig {
 
     PswLIst.add('733');
     PswLIst.add('123456');
+    PswLIst.add('688626');
   }
 }

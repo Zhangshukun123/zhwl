@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,17 +9,14 @@ import 'package:zhwlzlxt_project/page/electrotherapy_page.dart';
 import 'package:zhwlzlxt_project/page/pulsed_page.dart';
 import 'package:zhwlzlxt_project/page/show_dialog.dart';
 import 'package:zhwlzlxt_project/page/ultrasonic_page.dart';
-
 import '../Controller/serial_msg.dart';
 import '../Controller/serial_port.dart';
 import '../Controller/treatment_controller.dart';
 import '../Controller/ultrasonic_controller.dart';
-import '../cofig/config.dart';
 import '../utils/event_bus.dart';
 import '../utils/sp_utils.dart';
 import '../utils/treatment_type.dart';
 import '../widget/connect_port.dart';
-import 'control_page.dart';
 import 'infrared_page.dart';
 
 class FunctionPage extends StatefulWidget {
@@ -31,254 +26,241 @@ class FunctionPage extends StatefulWidget {
   State<FunctionPage> createState() => _FunctionPageState();
 }
 
-class _FunctionPageState extends State<FunctionPage>  with WidgetsBindingObserver{
-  int curPosition = 0;
+class _FunctionPageState extends State<FunctionPage>
+    with WidgetsBindingObserver {
   final PageController _pageController = PageController();
   final TreatmentController controller = Get.put(TreatmentController());
-  final UltrasonicController ultrasonicController =
-      Get.put(UltrasonicController());
-  List<Widget> pageView = [
-    const UltrasonicPage(),
-    const PulsedPage(),
-    const InfraredPage(),
-    const ElectrotherapyPage(),
+  final UltrasonicController ultrasonicController = Get.put(UltrasonicController());
+
+  int curPosition = 0;
+  bool isDialogVisible = false;
+  DateTime? _lastTapTime;
+  int secretTapCount = 0;
+
+  late final List<Widget> _pages = const [
+    UltrasonicPage(),
+    PulsedPage(),
+    InfraredPage(),
+    ElectrotherapyPage(),
   ];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    controller.treatmentType.value = TreatmentType.ultrasonic;
-    controller.setUserForType(TreatmentType.ultrasonic);
-
-    // eventBus.on<UserEvent>().listen((event) {
-    //   controller.setUserForType(event.type);
-    // });
-    Future.delayed(Duration.zero, () {
-      SerialMsg().startPort();
-    });
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      SerialMsg().sendHeart().then((value) => {});
-    });
-    SerialMsg.platform.setMethodCallHandler(flutterMethod);
-
-    Future.delayed(const Duration(seconds: 1), () {
-      var kdl =  SpUtils.getBool("keyKDL",defaultValue: false);
-      if(kdl!){
-        var dac = "01 b3 00 00 01 00 00 00 00 00 00";
-        SerialPort().send(dac, false);
-      }else{
-        var dac = "01 b3 00 00 00 00 00 00 00 00 00";
-        SerialPort().send(dac, false);
-      }
-    });
-
+    _initTreatment();
+    _initSerial();
+    _startHeartBeat();
+    _initDAC();
   }
 
+  /// 初始化治疗类型
+  void _initTreatment() {
+    controller.treatmentType.value = TreatmentType.ultrasonic;
+    controller.setUserForType(TreatmentType.ultrasonic);
+  }
 
+  /// 初始化串口与平台通信
+  void _initSerial() {
+    SerialMsg().startPort();
+    SerialMsg.platform.setMethodCallHandler(_onMethodCall);
+  }
+
+  /// 心跳包定时任务
+  void _startHeartBeat() {
+    Timer.periodic(const Duration(seconds: 1), (_) {
+      SerialMsg().sendHeart();
+    });
+  }
+
+  /// 初始化 DAC 设置
+  Future<void> _initDAC() async {
+    await Future.delayed(const Duration(seconds: 1));
+    final isKDL = SpUtils.getBool("keyKDL", defaultValue: false) ?? false;
+    final dac = isKDL
+        ? "01 b3 00 00 01 00 00 00 00 00 00"
+        : "01 b3 00 00 00 00 00 00 00 00 00";
+    SerialPort().send(dac, false);
+  }
+
+  /// 处理平台消息
+  Future<dynamic> _onMethodCall(MethodCall call) async {
+    eventBus.fire(call);
+    switch (call.method) {
+      case 'onHeart':
+        if (isDialogVisible) {
+          Get.back();
+          isDialogVisible = false;
+        }
+        break;
+      case 'onHeartFail':
+        if (!isDialogVisible) {
+          // _showConnectDialog(Globalization.connection1.tr, Globalization.connection2.tr);
+          isDialogVisible = true;
+        }
+        break;
+    }
+  }
+
+  /// 弹出重新连接弹窗
+  Future<void> _showConnectDialog(String title, String content) async {
+    ultrasonicController
+      ..title.value = title
+      ..context.value = content
+      ..count.value = 10;
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+        child: ConnectPort(
+          restConnect: (v) => SerialMsg().startPort(),
+        ),
+      ),
+    );
+  }
+
+  /// 生命周期监听
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      print("切换到了前台");
+      debugPrint("👉 App 回到前台");
     } else if (state == AppLifecycleState.paused) {
-      print("切换到了后台");
-      // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      debugPrint("👈 App 进入后台");
     }
   }
-
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _pageController.dispose();
     super.dispose();
   }
-  bool isShow = false;
-  Future<dynamic> flutterMethod(MethodCall methodCall) async {
-    eventBus.fire(methodCall);
-    switch (methodCall.method) {
-      case 'onHeart':
-        if (isShow) {
-          Get.back();
+
+  /// 隐藏调试入口（连点 logo 六次）
+  Future<void> _onLogoTap() async {
+    final now = DateTime.now();
+    if (_lastTapTime == null || now.difference(_lastTapTime!) < const Duration(seconds: 5)) {
+      secretTapCount++;
+      if (secretTapCount >= 6) {
+        final result = await promptText(context);
+        if (result == "733") {
+          secretTapCount = 0;
+          await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          openAppSettings();
         }
-        isShow = false;
-        break;
-      case 'onHeartFail':
-        if (!isShow) {
-          // showConnectPort(Globalization.connection1.tr, Globalization.connection2.tr);
-        }
-        isShow = true;
-        break;
+      }
+      _lastTapTime = now;
     }
   }
 
+  /// 切换治疗页面并分发事件
+  void _onPageChanged(int index) {
+    curPosition = index;
+    final type = [
+      TreatmentType.ultrasonic,
+      TreatmentType.pulsed,
+      TreatmentType.infrared,
+      TreatmentType.spasm
+    ][index];
 
-  showConnectPort(title, con) async {
-    ultrasonicController.title.value = title;
-    ultrasonicController.context.value = con;
-    ultrasonicController.count.value = 10;
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async{
-              return false;
-            },
-            child: ConnectPort(
-              restConnect: (value) {
-                if (value) {}
-                SerialMsg().startPort().then((value) => {});
-              },
-            ),
-          );
-        });
+    controller.treatmentType.value = type;
+    controller.setUserForType(type);
+    eventBus.fire(type);
+
+    // 电刺激页面的子模式特殊处理
+    if (type == TreatmentType.spasm) {
+      final tabIndex = tabController?.index ?? 0;
+      final subTypes = [
+        TreatmentType.spasm,
+        TreatmentType.percutaneous,
+        TreatmentType.neuromuscular,
+        TreatmentType.frequency
+      ];
+      eventBus.fire(subTypes[tabIndex]);
+    }
+
+    setState(() {});
   }
 
-  DateTime? _lastTime; //上次点击时间
-
-  int ocIndex = 0;
+  Widget _buildPageButton(String label, int index) {
+    final selected = curPosition == index;
+    return Container(
+      width: 150.w,
+      height: 60.h,
+      decoration: BoxDecoration(
+        color: selected ? const Color(0xFF403B5B) : const Color(0xFFF0F4F9),
+        borderRadius: BorderRadius.circular(30.w),
+      ),
+      child: TextButton(
+        onPressed: () => _pageController.jumpToPage(index),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+            color: selected ? Colors.white : const Color(0xFF403B5B),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+      onWillPop: () async => false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: Row(
           children: [
-            Container(
+            // 左侧功能栏
+            SizedBox(
               width: 180.w,
-              color: const Color(0xFF00A8E7),
               child: Column(
                 children: [
                   InkWell(
-                    onTap: () async {
-                      if (_lastTime == null || DateTime.now().difference(_lastTime!) < const Duration(seconds: 5)) {
-                        ocIndex++;
-                        if (ocIndex >= 6) {
-                          final result = await promptText(context);
-                          if (result != null&&result=="733") {
-                            ocIndex = 0;
-                            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                            openAppSettings();
-                          }
-                        }
-                        _lastTime = DateTime.now();
-                      }
-                    },
-                    child: Visibility(
-                      visible: true,
-                      child: Container(
-                          margin: EdgeInsets.only(
-                            top: 12.5.h,
-                          ),
-                          child: Image.asset(
-                            'assets/images/2.0x/function_logo.png',
-                            fit: BoxFit.fitWidth,
-                            width: 140.w,
-                            height: 39.5.h,
-                          )),
+                    onTap: _onLogoTap,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20.5.h),
+                      child: Image.asset(
+                        'assets/images/2.0x/function_logo.png',
+                        width: 120.w,
+                        height: 39.5.h,
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
                   ),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        pageButton(Globalization.ultrasound.tr, 0),
-                        pageButton(Globalization.pulse.tr, 1),
-                        pageButton(Globalization.infrared.tr, 2),
-                        pageButton(Globalization.electricity.tr, 3),
+                        _buildPageButton(Globalization.ultrasound.tr, 0),
+                        _buildPageButton(Globalization.pulse.tr, 1),
+                        _buildPageButton(Globalization.infrared.tr, 2),
+                        _buildPageButton(Globalization.electricity.tr, 3),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 180.w,
-              height: MediaQuery.of(context).size.height,
+            // 主体内容区
+            Expanded(
               child: PageView(
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
-                //上下滚动
-                onPageChanged: (int index) {
-                  curPosition = index;
-                  if (index == 0) {
-                    controller.treatmentType.value = TreatmentType.ultrasonic;
-                    controller.setUserForType(TreatmentType.ultrasonic);
-                    eventBus.fire(TreatmentType.ultrasonic);
-                  }
-                  if (index == 1) {
-                    controller.treatmentType.value = TreatmentType.pulsed;
-                    controller.setUserForType(TreatmentType.pulsed);
-                    eventBus.fire(TreatmentType.pulsed);
-                  }
-                  if (index == 2) {
-                    controller.treatmentType.value = TreatmentType.infrared;
-                    controller.setUserForType(TreatmentType.infrared);
-                    eventBus.fire(TreatmentType.infrared);
-                  }
-                  if (index == 3) {
-                    controller.treatmentType.value = TreatmentType.spasm;
-                    controller.setUserForType(TreatmentType.spasm);
-                    int index = tabController?.index ?? 0;
-                    if (index == 0) {
-                      eventBus.fire(TreatmentType.spasm);
-                    }
-                    if (index == 1) {
-                      eventBus.fire(TreatmentType.percutaneous);
-                    }
-                    if (index == 2) {
-                      eventBus.fire(TreatmentType.neuromuscular);
-                    }
-                    if (index == 3) {
-                      eventBus.fire(TreatmentType.frequency);
-                    }
-                  }
-                  setState(() {});
-                },
-                children: pageView,
+                onPageChanged: _onPageChanged,
+                children: _pages,
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget pageButton(String txt, int index) {
-    return Container(
-      width: 150.w,
-      height: 60.h,
-      decoration: BoxDecoration(
-          color: curPosition == index
-              ? const Color(0XFFFFFFFF)
-              : const Color(0xFF19B1E9),
-          borderRadius: BorderRadius.all(
-            Radius.circular(30.w),
-          )),
-      child: TextButton(
-          onPressed: () {
-            _pageController.jumpToPage(index);
-          },
-          child: Text(
-            txt,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: curPosition == index
-                    ? const Color(0xFF00A8E7)
-                    : const Color(0xFFFFFFFF)),
-          )),
     );
   }
 }

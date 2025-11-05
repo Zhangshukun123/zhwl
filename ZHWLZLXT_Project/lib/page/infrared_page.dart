@@ -250,7 +250,7 @@ class _InfraredPageState extends State<InfraredPage>
     ScreenUtil().orientation;
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFCFCFC),
       body: SafeArea(
         child: Column(
           children: [
@@ -312,7 +312,7 @@ class _InfraredPageState extends State<InfraredPage>
                           )),
                       Container(
                           decoration: BoxDecoration(
-                              color: const Color(0xFFF0FAFE),
+                              color: const Color(0xFFFFFFFF),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -329,7 +329,7 @@ class _InfraredPageState extends State<InfraredPage>
                           child: Column(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 29.h),
+                                margin: EdgeInsets.only(top: 20.h),
                                 width: (Get.locale?.countryCode == "CN")
                                     ? 90.w
                                     : 100.w,
@@ -343,7 +343,6 @@ class _InfraredPageState extends State<InfraredPage>
                                           'assets/images/2.0x/icon_moshi.png',
                                           fit: BoxFit.fitWidth,
                                           width: 16.w,
-                                          height: 16.h,
                                         ),
                                         SizedBox(
                                           width: 5.w,
@@ -351,12 +350,13 @@ class _InfraredPageState extends State<InfraredPage>
                                         Text(
                                           Globalization.mode.tr,
                                           style: TextStyle(
-                                              fontSize: 24.sp,
+                                              fontSize: 20.sp,
                                               color: const Color(0xFF999999)),
                                         ),
                                       ],
                                     )),
                               ),
+                              const SizedBox(height: 15,),
                               PopupMenuBtn(
                                 index: 2,
                                 patternStr: infraredEntity?.pattern ??
@@ -392,7 +392,7 @@ class _InfraredPageState extends State<InfraredPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: const Color(0xFFF0FAFE),
+                              color: const Color(0xFFFFFFFF),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -416,7 +416,7 @@ class _InfraredPageState extends State<InfraredPage>
                                           ? 'assets/images/2.0x/icon_jiting.png'
                                           : 'assets/images/2.0x/icon_zhengchang.png',
                                       fit: BoxFit.fitHeight,
-                                      height: 100.h,
+                                      height: 80.h,
                                     ),
                                   ],
                                 ),
@@ -429,7 +429,7 @@ class _InfraredPageState extends State<InfraredPage>
                                       : Globalization.infrared_start_onLine.tr,
                                   style: TextStyle(
                                       color: isScram
-                                          ? const Color(0xFFFD5F1F)
+                                          ? const Color(0xFFF5222D)
                                           : Colors.black,
                                       fontSize: 18.sp),
                                 ),
@@ -440,7 +440,7 @@ class _InfraredPageState extends State<InfraredPage>
                           width: 260.w,
                           height: 235.h,
                           decoration: BoxDecoration(
-                              color: const Color(0xFFF0FAFE),
+                              color: const Color(0xFFFFFFFF),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.15),
@@ -466,27 +466,19 @@ class _InfraredPageState extends State<InfraredPage>
                                       'assets/images/2.0x/img_xiangqing.png'),
                                   fit: BoxFit.fill, // 完全填充
                                 )),
-                                child: TextButton(
-                                    onPressed: () {
-                                      dialog?.showCustomDialog(context);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/2.0x/icon_xiangqing.png',
-                                          fit: BoxFit.fill,
-                                          width: 18.w,
-                                          height: 18.h,
-                                        ),
-                                        Text(
-                                          Globalization.details.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF009CB4),
-                                              fontSize: 18.sp),
-                                        ),
-                                      ],
-                                    )),
+                                child: TextButton.icon(
+                                  onPressed: () => dialog?.showCustomDialog(context),
+                                  icon: Image.asset(
+                                    'assets/images/2.0x/icon_xiangqing.png',
+                                    width: 15.w,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                  label: Text(
+                                    Globalization.details.tr,
+                                    style: TextStyle(
+                                        color: const Color(0xFF403B5B), fontSize: 15.sp),
+                                  ),
+                                ),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -509,9 +501,7 @@ class _InfraredPageState extends State<InfraredPage>
                                     width: 120.w,
                                     height: 55.h,
                                     decoration: BoxDecoration(
-                                        color: startSelected
-                                            ? const Color(0xFF00C290)
-                                            : const Color(0xFF00A8E7),
+                                        color: const Color(0xFF41B962),
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(10.w),
                                         )),

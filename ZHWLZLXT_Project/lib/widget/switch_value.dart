@@ -36,7 +36,7 @@ class HomeSwitchButtonState extends State<HomeSwitchButton> {
 
   Widget _switchButton() {
     BoxDecoration BoxDecoration_left1 = BoxDecoration(
-      color: const Color(0xFF00A8E7),
+      color: const Color(0xFF403B5B),
         border: Border.all(
             width: 0.5, style: BorderStyle.solid, color: const Color(0xFFF0F0F0)),
         borderRadius: BorderRadius.circular(22.5.h));
@@ -51,7 +51,7 @@ class HomeSwitchButtonState extends State<HomeSwitchButton> {
             width: 0.5, style: BorderStyle.solid, color: const Color(0xFFF0F0F0)),
         borderRadius: BorderRadius.circular(22.5.h));
     BoxDecoration BoxDecoration_right2 = BoxDecoration(
-        color: const Color(0xFF00A8E7),
+        color: const Color(0xFF403B5B),
         border: Border.all(
             width: 0.5, style: BorderStyle.solid, color: const Color(0xFFF0F0F0)),
         borderRadius: BorderRadius.circular(22.5.h));

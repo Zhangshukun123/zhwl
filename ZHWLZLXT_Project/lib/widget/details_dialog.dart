@@ -27,11 +27,9 @@ class DetailsDialog {
   void setTabs(List tabs) {
     this.tabs = tabs;
   }
-
   // void setPgeViewList(List<Widget> pageViewList){
   //   this.pageViewList = pageViewList;
   // }
-
   void showCustomDialog(BuildContext context) {
     tabs = [
       Globalization.OI.tr,
@@ -55,6 +53,7 @@ class DetailsDialog {
             width: 700.w,
             height: 400.h,
             decoration: const BoxDecoration(
+              color: Colors.white,
                 borderRadius: BorderRadius.all(
               Radius.circular(15),
             )),
@@ -63,7 +62,7 @@ class DetailsDialog {
                 Container(
                     width: 700.w,
                     height: 50.h,
-                    color: const Color(0xFF00A8E7),
+                    color: const Color(0xFFF4F4F4),
                     child: Row(
                       children: [
                         Container(
@@ -71,7 +70,7 @@ class DetailsDialog {
                             child: Text(
                               Globalization.details.tr,
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 18.sp),
+                                  color: const Color(0xff555555), fontSize: 18.sp),
                             )),
                         const Expanded(child: SizedBox()),
                         Container(
@@ -82,9 +81,8 @@ class DetailsDialog {
                               },
                               child: Image.asset(
                                 'assets/images/2.0x/btn_guanbi.png',
-                                fit: BoxFit.cover,
-                                width: 22.w,
-                                height: 22.h,
+                                fit: BoxFit.fitWidth,
+                                width: 15.w,
                               )),
                         )
                       ],
@@ -97,13 +95,13 @@ class DetailsDialog {
                           height: 120,
                           child: Center(
                             child: TabBar(
-                              indicatorColor: const Color(0xFF00A8E7),
+                              indicatorColor: const Color(0xFF403B5B),
                               //// 底部指示器颜色
                               indicatorSize: TabBarIndicatorSize.tab,
                               //指示器宽度
                               isScrollable: true,
                               // 标签 Tab 是否可滑动
-                              labelColor: const Color(0xFF00A8E7),
+                              labelColor: const Color(0xFF403B5B),
                               //标签 Tab 内容颜色
                               labelStyle: const TextStyle(fontSize: 30),
                               //// 标签 Tab 内容样式
@@ -121,7 +119,7 @@ class DetailsDialog {
                         ),
                         SizedBox(
                           width: 700.w,
-                          height: 240.h,
+                          height: 280.h,
                           child: TabBarView(
                               controller: tabController,
                               children: pageViewList!),

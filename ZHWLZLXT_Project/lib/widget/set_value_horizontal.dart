@@ -185,6 +185,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                     ])),
               ),
             ),
+            SizedBox(
+              width: 10.w,
+            ),
             GestureDetector(
               onTap: () {
                 if (widget.enabled ?? false) {
@@ -228,7 +231,6 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
                   width: 30.w,
-                  height: 30.h,
                 ),
               ),
             ),
@@ -237,9 +239,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
             ),
             Container(
               width: 120.w,
-              height: 55.h,
+              height: 50.h,
               decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFFF4F4F4),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   )),
@@ -263,6 +265,9 @@ class _SetValueHorizontalState extends State<SetValueHorizontal> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              width: 5.w,
             ),
             SizedBox(
               width: 5.w,

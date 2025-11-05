@@ -19,8 +19,8 @@ class _GuidePageState extends State<GuidePage> {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => Future.delayed(const Duration(seconds: 2), () {
-              Get.to(const LoginPage());
+        (_) => Future.delayed(const Duration(seconds: 3), () {
+              // Get.to(const LoginPage());
             }));
   }
 

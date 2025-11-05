@@ -163,798 +163,795 @@ class _ControlPageState extends State<ControlPage> {
     ScreenUtil.init(context, designSize: const Size(960, 600));
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xFFF9F9F9),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 80.w,
-              height: 45.h,
-              decoration: BoxDecoration(
-                  color: const Color(0xFF19B1E9),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.w),
-                  )),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 10.w,
+      backgroundColor: const Color(0xFFFCFCFC),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 15.w, top: 10.h),
+                  width: 80.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                      color: const Color(0xFFFFFFFF),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.w),
+                      )),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Image.asset(
+                          'assets/images/2.0x/icon_fanhui.png',
+                          width: 14.w,
+                          height: 14.h,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        Text(
+                          Globalization.back.tr,
+                          style: TextStyle(fontSize: 18.sp,color: const Color(0xff666666)),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
                     ),
-                    Image.asset(
-                      'assets/images/2.0x/btn_fanhui.png',
-                      width: 14.w,
-                      height: 14.h,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    Text(
-                      Globalization.back.tr,
-                      style: TextStyle(fontSize: 18.sp),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  ],
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: Center(
+                      child: Text(
+                        Globalization.userManagement.tr,
+                        style: TextStyle(fontSize: 18.sp, color: Color(0XFF555555)),
+                      )),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => const AddPage()));
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only( right: 40 ),
+                    height: 40.h,
+                    padding: const EdgeInsets.all(5),
+                    // color: Color(0xFF19B1E9),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFFFF),
+                      border: Border.all(
+                        color: const Color(0xFFFFFFFF),
+                        width: 0.5.w,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.w),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Image.asset(
+                          'assets/images/2.0x/icon_xinzeng.png',
+                          width: 14.w,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          Globalization.newUsers.tr,
+                          style: TextStyle(color: const Color(0xff403B5B), fontSize: 12.sp),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
-              child: Center(
-                  child: Text(
-                Globalization.userManagement.tr,
-                style: TextStyle(fontSize: 18.sp, color: Colors.white),
-              )),
-            )
-          ],
-        ),
-        centerTitle: true,
-        actions: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const AddPage()));
-            },
-            child: Container(
-              // margin: const EdgeInsets.only(top: 3.0, right: 20,bottom: 3 ),
-              width: 110.w,
-              height: 55.h,
-              padding: const EdgeInsets.all(5),
-              // color: Color(0xFF19B1E9),
-              decoration: BoxDecoration(
-                color: const Color(0xFF19B1E9),
-                border: Border.all(
-                  color: const Color(0xFF19B1E9),
-                  width: 0.5.w,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.w),
-                ),
-              ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Image.asset(
-                    'assets/images/2.0x/icon_xinzeng.png',
-                    width: 14.w,
-                    fit: BoxFit.fitWidth,
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Text(
-                    Globalization.newUsers.tr,
-                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-
-      body: SafeArea(
-        child: Container(
-          margin:
-              EdgeInsets.only(left: 15.w, right: 10.w, top: 10.h, bottom: 10.h),
-          child: Row(
-            children: [
-              Container(
-                  width: 295.w,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.white, width: 0.5),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15.w),
-                    ),
-                  ),
-                  margin: EdgeInsets.only(right: 10.w),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: 6.w, right: 6.w, top: 10.h, bottom: 10.h),
-                        padding: EdgeInsets.only(left: 60.w, right: 10.w),
-                        height: 45.h,
+              child: Container(
+                margin:
+                    EdgeInsets.only(left: 15.w, right: 10.w, top: 10.h, bottom: 10.h),
+                child: Row(
+                  children: [
+                    Container(
+                        width: 295.w,
                         decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 0.5,
-                            color: const Color(0xFFD6D6D6),
+                          color: Colors.white,
+                          border: Border.all(color: Colors.white, width: 0.5),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15.w),
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        margin: EdgeInsets.only(right: 10.w),
+                        child: Column(
                           children: [
-                            Image.asset(
-                              'assets/images/2.0x/icon_sousuo.png',
-                              fit: BoxFit.fitWidth,
-                              width: 16.w,
-                            ),
-                            SizedBox(
-                              width: 6.w,
-                            ),
-                            SizedBox(
-                              width: 180.w,
-                              child: TextField(
-                                controller: searchController,
-                                style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: const Color(0xFF333333)),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: Globalization.hint_007.tr,
-                                  hintStyle: TextStyle(
-                                      color: const Color(0xFFaaaaaa),
-                                      fontSize: 13.sp),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 6.w, right: 6.w, top: 10.h, bottom: 10.h),
+                              padding: EdgeInsets.only(left: 60.w, right: 10.w),
+                              height: 45.h,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 0.5,
+                                  color: const Color(0xFFD6D6D6),
                                 ),
+                                borderRadius: BorderRadius.all(Radius.circular(7.w)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/2.0x/icon_sousuo.png',
+                                    fit: BoxFit.fitWidth,
+                                    width: 16.w,
+                                  ),
+                                  SizedBox(
+                                    width: 6.w,
+                                  ),
+                                  SizedBox(
+                                    width: 180.w,
+                                    child: TextField(
+                                      controller: searchController,
+                                      style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: const Color(0xFF333333)),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: Globalization.hint_007.tr,
+                                        hintStyle: TextStyle(
+                                            color: const Color(0xFFaaaaaa),
+                                            fontSize: 13.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 6.w, right: 6.w),
-                        height: 43.h,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F7F9),
-                          border: Border.all(
-                            width: 0.5,
-                            color: const Color(0xFFF5F7F9),
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(7.w)),
-                        ),
-                        child: Row(
-                          children: [
                             Container(
-                                margin: EdgeInsets.only(left: 41.w),
-                                width: 70.w,
-                                child: Text(
-                                  Globalization.name.tr,
-                                  style: TextStyle(
-                                      color: const Color(0xFF999999),
-                                      fontSize: 14.sp),
-                                )),
-                            Container(
-                                margin: EdgeInsets.only(left: 20.w),
-                                child: Text(
-                                  Globalization.tel.tr,
-                                  style: TextStyle(
-                                      color: const Color(0xFF999999),
-                                      fontSize: 14.sp),
-                                )),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(top: 15, left: 15),
-                          shrinkWrap: true,
-                          itemCount: userList.length,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                                thickness: 1,
-                                height: 10,
-                                color: Color(0xffeeeeee));
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return userItem(index);
-                          },
-                        ),
-                      ),
-                    ],
-                  )),
-              Container(
-                  width: 610.w,
-                  height: 550.h,
-                  margin: EdgeInsets.only(left: 10.w, right: 10.w),
-                  padding: EdgeInsets.only(top: 40.h, left: 20.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.white, width: 0.5),
-                    borderRadius: BorderRadius.all(Radius.circular(15.w)),
-                  ),
-                  child: userList.isEmpty
-                      ? Center(
-                          child: Text(
-                          Globalization.hint_017.tr,
-                          style: TextStyle(fontSize: 15.sp),
-                        ))
-                      : ListView(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.no.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            maxLength: 20,
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                RegExp(r'[a-zA-Z0-9]'), // 允许：英文、数字、中文
-                                              ),
-                                            ],
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            controller: numController,
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding:
-                                                  EdgeInsets.only(left: 10.w),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
+                              margin: EdgeInsets.only(left: 6.w, right: 6.w),
+                              height: 43.h,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF5F7F9),
+                                border: Border.all(
+                                  width: 0.5,
+                                  color: const Color(0xFFF5F7F9),
                                 ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.name.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            maxLength: 5,
-                                            controller: nameController,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
-                                              ),
-                                            ],
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding:
-                                                  EdgeInsets.only(left: 10.w),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 55.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.age.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            controller: ageController,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(3),
-                                              FilteringTextInputFormatter.digitsOnly, // 只允许数字
-                                            ],
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              border: InputBorder.none,
-                                              contentPadding:
-                                                  EdgeInsets.only(left: 10.w),
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.gender.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: isEdit
-                                              ? Text(
-                                                  sex == 1
-                                                      ? Globalization.man.tr
-                                                      : Globalization.nv.tr,
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      color: const Color(
-                                                          0xFF333333)),
-                                                )
-                                              : Row(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Radio(
-                                                            value: 1, //按钮的值
-                                                            groupValue: sex,
-                                                            onChanged: (value) {
-                                                              setState(() {
-                                                                sex = value!;
-                                                              });
-                                                            }),
-                                                        SizedBox(
-                                                          width: 5.w,
-                                                        ),
-                                                        Text(
-                                                          Globalization.man.tr,
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xFF333333),
-                                                              fontSize: 15.sp),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Radio(
-                                                            value: 2, //按钮的值
-                                                            groupValue: sex,
-                                                            onChanged: (value) {
-                                                              setState(() {
-                                                                sex = value!;
-                                                              });
-                                                            }),
-                                                        SizedBox(
-                                                          width: 5.w,
-                                                        ),
-                                                        Text(
-                                                          Globalization.nv.tr,
-                                                          style: TextStyle(
-                                                              color: const Color(
-                                                                  0xFF333333),
-                                                              fontSize: 15.sp),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 55.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.tel.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            maxLength: 20,
-                                            controller: telController,
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding:
-                                                  EdgeInsets.only(left: 10.w),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.certificate.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            controller: cerController,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(18),
-                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
-                                            ],
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding: EdgeInsets.only(
-                                                  left: 10.w, top: 5.h),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 55.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.hospitalNo.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            controller: zhuController,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
-                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
-                                            ],
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding: EdgeInsets.only(
-                                                  left: 10.w, top: 5.h),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 75.w,
-                                        child: Text(
-                                          Globalization.bedNo.tr,
-                                          style: TextStyle(
-                                              color: const Color(0xFF999999),
-                                              fontSize: 16.sp),
-                                        )),
-                                    Container(
-                                        width: 200.w,
-                                        height: 40.h,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFFDBDBDB),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: Center(
-                                          child: TextField(
-                                            maxLength: 20,
-                                            controller: bedController,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(20),
-                                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
-                                            ],
-                                            style: TextStyle(
-                                                fontSize: 16.sp,
-                                                color: const Color(0xFF333333)),
-                                            decoration: InputDecoration(
-                                              counterText: '',
-                                              contentPadding: EdgeInsets.only(
-                                                  left: 10.w, top: 5.h),
-                                              border: InputBorder.none,
-                                              enabled: isEdit ? false : true,
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 55.h,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 40.h),
+                                borderRadius: BorderRadius.all(Radius.circular(7.w)),
+                              ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                      height: (Get.locale?.countryCode == "CN")
-                                          ? 43.h
-                                          : 60.h,
-                                      width: 110.w,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color: const Color(0xFF00A8E7),
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(7.w)),
-                                      ),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          isEdit = !isEdit;
-                                          chooseUser(user!);
-                                          setState(() {});
-                                        },
-                                        child: Text(
-                                          isEdit
-                                              ? Globalization.editInfo.tr
-                                              : Globalization.cancel.tr,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: const Color(0xFF00A8E7),
-                                              fontSize: 18.sp),
-                                        ),
+                                      margin: EdgeInsets.only(left: 41.w),
+                                      width: 70.w,
+                                      child: Text(
+                                        Globalization.name.tr,
+                                        style: TextStyle(
+                                            color: const Color(0xFF999999),
+                                            fontSize: 14.sp),
                                       )),
-                                  Visibility(
-                                    visible: isEdit ? true : false,
-                                    maintainState: false,
-                                    maintainAnimation: false,
-                                    maintainSize: false,
-                                    child: Container(
-                                        height:
-                                            (Get.locale?.countryCode == "CN")
-                                                ? 43.h
-                                                : 60.h,
-                                        width: 110.w,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF00A8E7),
-                                          border: Border.all(
-                                            width: 0.5,
-                                            color: const Color(0xFF00A8E7),
-                                          ),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(7.w)),
-                                        ),
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          RecordPage(
-                                                              user?.userId,
-                                                              user?.userName)));
-                                            },
-                                            child: Text(
-                                              Globalization.treatmentRecords.tr,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xFFFFFFFF),
-                                                  fontSize: 18.sp),
-                                            ))),
-                                  ),
                                   Container(
-                                      height: (Get.locale?.countryCode == "CN")
-                                          ? 43.h
-                                          : 60.h,
-                                      width: 110.w,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF00C290),
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color: const Color(0xFF00C290),
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(7.w)),
-                                      ),
-                                      child: TextButton(
-                                          onPressed: () {
-                                            if (!isEdit) {
-                                              user?.userNub =
-                                                  numController.text; //编号
-                                              user?.userName =
-                                                  nameController.text;
-                                              user?.sex = sex;
-                                              user?.age = int.parse(
-                                                  ageController.text); //年龄
-                                              user?.sex = sex; //性别
-                                              user?.phone =
-                                                  telController.text; //电话
-                                              user?.idCard =
-                                                  cerController.text; //证件
-                                              user?.ad =
-                                                  zhuController.text; //住院号
-                                              user?.bedNumber =
-                                                  bedController.text; //床号
-
-                                              RegExp mobile =
-                                                  RegExp(r"1[0-9]\d{9}$");
-                                              if (!mobile.hasMatch(
-                                                  telController.text)) {
-                                                showToastMsg(
-                                                    msg: Globalization
-                                                        .hint_016.tr);
-                                                return;
-                                              }
-
-                                              UserSqlDao.instance()
-                                                  .updateData(user: user!);
-                                              isEdit = true;
-                                              setState(() {});
-                                            } else {
-                                              user?.isCure = true;
-                                              userMap[widget.type!] = user!;
-                                              eventBus.fire(UserEvent(
-                                                  user: user,
-                                                  type: widget.type));
-                                              eventBus.fire(widget.type);
-                                              Get.back();
-                                            }
-                                          },
-                                          child: Text(
-                                            isEdit
-                                                ? Globalization
-                                                    .startTreatment.tr
-                                                : Globalization.save.tr,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: const Color(0xFFFFFFFF),
-                                                fontSize: 18.sp),
-                                          ))),
+                                      margin: EdgeInsets.only(left: 20.w),
+                                      child: Text(
+                                        Globalization.tel.tr,
+                                        style: TextStyle(
+                                            color: const Color(0xFF999999),
+                                            fontSize: 14.sp),
+                                      )),
                                 ],
+                              ),
+                            ),
+                            Expanded(
+                              child: ListView.separated(
+                                padding: const EdgeInsets.only(top: 15, left: 15),
+                                shrinkWrap: true,
+                                itemCount: userList.length,
+                                separatorBuilder: (BuildContext context, int index) {
+                                  return const Divider(
+                                      thickness: 1,
+                                      height: 10,
+                                      color: Color(0xffeeeeee));
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return userItem(index);
+                                },
                               ),
                             ),
                           ],
                         )),
-            ],
-          ),
+                    Container(
+                        width: 610.w,
+                        height: 550.h,
+                        margin: EdgeInsets.only(left: 10.w, right: 10.w),
+                        padding: EdgeInsets.only(top: 40.h, left: 20.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.white, width: 0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(15.w)),
+                        ),
+                        child: userList.isEmpty
+                            ? Center(
+                                child: Text(
+                                Globalization.hint_017.tr,
+                                style: TextStyle(fontSize: 15.sp),
+                              ))
+                            : ListView(
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.no.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  maxLength: 20,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                      RegExp(r'[a-zA-Z0-9]'), // 允许：英文、数字、中文
+                                                    ),
+                                                  ],
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  controller: numController,
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding:
+                                                        EdgeInsets.only(left: 10.w),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.name.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  maxLength: 5,
+                                                  controller: nameController,
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(
+                                                      RegExp(r'[a-zA-Z0-9\u4e00-\u9fa5]'), // 允许：英文、数字、中文
+                                                    ),
+                                                  ],
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding:
+                                                        EdgeInsets.only(left: 10.w),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 55.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.age.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller: ageController,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(3),
+                                                    FilteringTextInputFormatter.digitsOnly, // 只允许数字
+                                                  ],
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    border: InputBorder.none,
+                                                    contentPadding:
+                                                        EdgeInsets.only(left: 10.w),
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.gender.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: isEdit
+                                                    ? Text(
+                                                        sex == 1
+                                                            ? Globalization.man.tr
+                                                            : Globalization.nv.tr,
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            color: const Color(
+                                                                0xFF333333)),
+                                                      )
+                                                    : Row(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Radio(
+                                                                  value: 1, //按钮的值
+                                                                  groupValue: sex,
+                                                                  onChanged: (value) {
+                                                                    setState(() {
+                                                                      sex = value!;
+                                                                    });
+                                                                  }),
+                                                              SizedBox(
+                                                                width: 5.w,
+                                                              ),
+                                                              Text(
+                                                                Globalization.man.tr,
+                                                                style: TextStyle(
+                                                                    color: const Color(
+                                                                        0xFF333333),
+                                                                    fontSize: 15.sp),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Radio(
+                                                                  value: 2, //按钮的值
+                                                                  groupValue: sex,
+                                                                  onChanged: (value) {
+                                                                    setState(() {
+                                                                      sex = value!;
+                                                                    });
+                                                                  }),
+                                                              SizedBox(
+                                                                width: 5.w,
+                                                              ),
+                                                              Text(
+                                                                Globalization.nv.tr,
+                                                                style: TextStyle(
+                                                                    color: const Color(
+                                                                        0xFF333333),
+                                                                    fontSize: 15.sp),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 55.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.tel.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  maxLength: 20,
+                                                  controller: telController,
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding:
+                                                        EdgeInsets.only(left: 10.w),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.certificate.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller: cerController,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(18),
+                                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                                  ],
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 10.w, top: 5.h),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 55.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.hospitalNo.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  controller: zhuController,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(20),
+                                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                                  ],
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 10.w, top: 5.h),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                              width: 75.w,
+                                              child: Text(
+                                                Globalization.bedNo.tr,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF999999),
+                                                    fontSize: 16.sp),
+                                              )),
+                                          Container(
+                                              width: 200.w,
+                                              height: 40.h,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFFDBDBDB),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: Center(
+                                                child: TextField(
+                                                  maxLength: 20,
+                                                  controller: bedController,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(20),
+                                                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                                                  ],
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      color: const Color(0xFF333333)),
+                                                  decoration: InputDecoration(
+                                                    counterText: '',
+                                                    contentPadding: EdgeInsets.only(
+                                                        left: 10.w, top: 5.h),
+                                                    border: InputBorder.none,
+                                                    enabled: isEdit ? false : true,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 55.h,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 40.h),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                            height: (Get.locale?.countryCode == "CN")
+                                                ? 43.h
+                                                : 60.h,
+                                            width: 110.w,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                width: 0.5,
+                                                color: const Color(0xFF00A8E7),
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7.w)),
+                                            ),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                isEdit = !isEdit;
+                                                chooseUser(user!);
+                                                setState(() {});
+                                              },
+                                              child: Text(
+                                                isEdit
+                                                    ? Globalization.editInfo.tr
+                                                    : Globalization.cancel.tr,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: const Color(0xFF00A8E7),
+                                                    fontSize: 18.sp),
+                                              ),
+                                            )),
+                                        Visibility(
+                                          visible: isEdit ? true : false,
+                                          maintainState: false,
+                                          maintainAnimation: false,
+                                          maintainSize: false,
+                                          child: Container(
+                                              height:
+                                                  (Get.locale?.countryCode == "CN")
+                                                      ? 43.h
+                                                      : 60.h,
+                                              width: 110.w,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF00A8E7),
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: const Color(0xFF00A8E7),
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(7.w)),
+                                              ),
+                                              child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                RecordPage(
+                                                                    user?.userId,
+                                                                    user?.userName)));
+                                                  },
+                                                  child: Text(
+                                                    Globalization.treatmentRecords.tr,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color:
+                                                            const Color(0xFFFFFFFF),
+                                                        fontSize: 18.sp),
+                                                  ))),
+                                        ),
+                                        Container(
+                                            height: (Get.locale?.countryCode == "CN")
+                                                ? 43.h
+                                                : 60.h,
+                                            width: 110.w,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF00C290),
+                                              border: Border.all(
+                                                width: 0.5,
+                                                color: const Color(0xFF00C290),
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7.w)),
+                                            ),
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  if (!isEdit) {
+                                                    user?.userNub =
+                                                        numController.text; //编号
+                                                    user?.userName =
+                                                        nameController.text;
+                                                    user?.sex = sex;
+                                                    user?.age = int.parse(
+                                                        ageController.text); //年龄
+                                                    user?.sex = sex; //性别
+                                                    user?.phone =
+                                                        telController.text; //电话
+                                                    user?.idCard =
+                                                        cerController.text; //证件
+                                                    user?.ad =
+                                                        zhuController.text; //住院号
+                                                    user?.bedNumber =
+                                                        bedController.text; //床号
+              
+                                                    RegExp mobile =
+                                                        RegExp(r"1[0-9]\d{9}$");
+                                                    if (!mobile.hasMatch(
+                                                        telController.text)) {
+                                                      showToastMsg(
+                                                          msg: Globalization
+                                                              .hint_016.tr);
+                                                      return;
+                                                    }
+              
+                                                    UserSqlDao.instance()
+                                                        .updateData(user: user!);
+                                                    isEdit = true;
+                                                    setState(() {});
+                                                  } else {
+                                                    user?.isCure = true;
+                                                    userMap[widget.type!] = user!;
+                                                    eventBus.fire(UserEvent(
+                                                        user: user,
+                                                        type: widget.type));
+                                                    eventBus.fire(widget.type);
+                                                    Get.back();
+                                                  }
+                                                },
+                                                child: Text(
+                                                  isEdit
+                                                      ? Globalization
+                                                          .startTreatment.tr
+                                                      : Globalization.save.tr,
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: const Color(0xFFFFFFFF),
+                                                      fontSize: 18.sp),
+                                                ))),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

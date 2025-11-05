@@ -133,14 +133,13 @@ class _SetValueState extends State<SetValue> {
                       ? Lottie.asset('assets/lottie/clock.json',
                           repeat: true,
                           animate: widget.isAnimate,
-                          width: 22.w,
-                          height: 22.h,
+                          width: 20.w,
                           fit: BoxFit.fitWidth)
                       : Image.asset(
                           widget.assets ??
                               'assets/images/2.0x/icon_shijian.png',
                           fit: BoxFit.fitWidth,
-                          width: 22.w,
+                          width: 20.w,
                         ),
                   SizedBox(
                     width: 5.w,
@@ -148,11 +147,12 @@ class _SetValueState extends State<SetValue> {
                   Text(
                     widget.title ?? '时间',
                     style: TextStyle(
-                        fontSize: 22.sp, color: const Color(0xFF999999)),
+                        fontSize: 18.sp, color: const Color(0xFF999999)),
                   ),
                 ],
               )),
         ),
+        const SizedBox(height: 25,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -198,8 +198,7 @@ class _SetValueState extends State<SetValue> {
                       ? 'assets/images/btn_jian_nor.png'
                       : 'assets/images/2.0x/btn_jian_disabled.png',
                   fit: BoxFit.fitWidth,
-                  width: 34.w,
-                  height: 34.h,
+                  width: 35.w,
                 ),
               ),
             ),
@@ -207,10 +206,10 @@ class _SetValueState extends State<SetValue> {
               width: 5.w,
             ),
             Container(
-              width: 180.w,
-              height: 60.h,
+              width: 160.w,
+              height: 50.h,
               decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                  color: Color(0xFFF4F4F4),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   )),

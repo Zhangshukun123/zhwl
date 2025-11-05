@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:zhwlzlxt_project/page/guide_page.dart';
 import 'package:zhwlzlxt_project/page/login_page.dart';
 
+import '../page/splash_screen.dart';
+
 class RouterPageId {
   static String login = '/login';
   static String guide = '/guide';
@@ -20,7 +22,7 @@ class RouterPageId {
 class RouterS {
   static List<GetPage> getAllRouteS() {
     return [
-      GetPage(name: RouterPageId.guide, page: () => const GuidePage()),
+      GetPage(name: RouterPageId.guide, page: () => const SplashScreen()),
       GetPage(name: RouterPageId.login, page: () => const LoginPage()),
     ];
   }

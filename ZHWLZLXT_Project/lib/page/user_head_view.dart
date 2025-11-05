@@ -131,7 +131,7 @@ class _UserHeadViewState extends State<UserHeadView>
                 width: (Get.locale?.countryCode == "CN") ? 130.w : 180.w,
                 height: 40.h,
                 decoration: BoxDecoration(
-                    color: const Color(0xFF00C290),
+                    color: const Color(0xFFFFFFFF),
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.w),
                     )),
@@ -160,7 +160,7 @@ class _UserHeadViewState extends State<UserHeadView>
                       Text(
                         Globalization.userManagement.tr,
                         style: TextStyle(
-                            color: const Color(0xFFFFFFFF),
+                            color: const Color(0xFF403B5B),
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -175,7 +175,7 @@ class _UserHeadViewState extends State<UserHeadView>
                 width: 100.w,
                 height: 40.h,
                 decoration: BoxDecoration(
-                    color: const Color(0xFF00C290),
+                    color: const Color(0xFFFFFFFF),
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.w),
                     )),
@@ -206,7 +206,7 @@ class _UserHeadViewState extends State<UserHeadView>
                       Text(
                         Globalization.setting.tr,
                         style: TextStyle(
-                            color: const Color(0xFFFFFFFF),
+                            color: const Color(0xFF403B5B),
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600),
                       ),

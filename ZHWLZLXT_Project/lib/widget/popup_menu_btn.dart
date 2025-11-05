@@ -59,13 +59,14 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(left: 30),
       decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
+          color: const Color(0xFFF4F4F4),
           borderRadius: BorderRadius.all(
             Radius.circular(10.w),
           )),
-      width: 230.w,
-      height: 60.h,
+      width: 200.w,
+      height: 50.h,
       child: Container(
         constraints: const BoxConstraints(maxHeight: 100),
         child: PopupMenuButton(
@@ -80,7 +81,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
               children: [
                 Expanded(
                     child: Padding(
-                  padding: EdgeInsets.only(left: 30.0.w),
+                  padding: EdgeInsets.only(left: 20.0.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +109,8 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
                 )),
                 Image.asset(
                   'assets/images/2.0x/icon_xiala.png',
-                  width: 16.w,
+                  width: 12.w,
+                  fit: BoxFit.fitWidth,
                 ),
                 SizedBox(
                   width: 15.w,
