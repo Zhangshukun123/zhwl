@@ -238,7 +238,7 @@ class _ControlPageState extends State<ControlPage> {
                           width: 10.w,
                         ),
                         Image.asset(
-                          'assets/images/2.0x/icon_xinzeng.png',
+                          'assets/images/2.0x/login_account.png',
                           width: 14.w,
                           fit: BoxFit.fitWidth,
                         ),
@@ -1029,9 +1029,9 @@ class _ControlPageState extends State<ControlPage> {
                 }
                 dialog = DeleteDialog(suer: () async {
                   var suc = await UserSqlDao.instance()
-                      .delectData(userId: user!.userId!);
+                      .delectData(userId: userList[index].userId!);
                   if (suc) {
-                    RecordSqlDao.instance().delRecord(userId:user!.userId!);
+                    RecordSqlDao.instance().delRecord(userId:userList[index].userId!);
                     userList.removeAt(index);
                     if (userList.isNotEmpty && lastIndex == index) {
                       lastIndex = 0;

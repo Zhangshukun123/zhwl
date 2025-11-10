@@ -12,7 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import zhwlzlxt_project.tp.xmaihh.serialport.SerialPortHelper
 import zhwlzlxt_project.tp.xmaihh.serialport.bean.ComBean
-import zhwlzlxt_project.tp.xmaihh.serialport.stick.StaticLenStickPackageHelper
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.ByteUtil.ByteArrToHex
 import zhwlzlxt_project.tp.xmaihh.serialport.utils.Crc16Util
 import java.util.Timer
@@ -131,7 +130,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                             listBRec.clear()
                             isSend = false
                             sendCount = 0
-                        } else {
+                        }else{
                             result.success("fail")
                         }
                     }
@@ -149,7 +148,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-        Log.i("serialPortHelper", "onPortDataReceived: "+bRec)
+//        Log.i("serialPortHelper", "onPortDataReceived: "+bRec)
         if (isSend) {
             listBRec.add(bRec)
         }
@@ -179,6 +178,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 }
             }
             3 -> {//超声1M
+                Log.i("serialPortHelper", "UltrasonicState03: "+bRec)
                 handler.post {
                     toFlutter.invokeMethod(
                         "UltrasonicState03",
@@ -192,6 +192,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
             }
             4 -> {//超声3M
                 handler.post {
+                    Log.i("serialPortHelper", "UltrasonicState04: "+bRec)
                     toFlutter.invokeMethod(
                         "UltrasonicState04",
                         bRec,

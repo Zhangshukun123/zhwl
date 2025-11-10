@@ -88,6 +88,9 @@ class Ultrasonic {
   User? user;
 
   bool start(bool isStart, isOpenStart, String m,{sendSuccessBack? back, sendFinish? finish}) {
+
+    print("--------start---------------");
+
     if (isStart && isOpenStart) {
       setTime = time;
       startTime = DateTime.now();

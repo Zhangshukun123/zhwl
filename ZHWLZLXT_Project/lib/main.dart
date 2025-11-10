@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           navigatorKey: navigatorKey,
-          initialRoute: RouterPageId.guide,
+          initialRoute: RouterPageId.login,
           translations: LanguageValue(),
           locale: languageSelected ? const Locale('zh', 'CN') : const Locale('en', 'US'),
           fallbackLocale: languageSelected ? const Locale('en') : const Locale('zh'),

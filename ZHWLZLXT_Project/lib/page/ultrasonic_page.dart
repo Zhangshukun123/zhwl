@@ -98,13 +98,16 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         break;
       case 'saponin': // 频扫
         ultrasonic.pattern = Globalization.Sweepfrequency.tr;
+        print("------------ultrasonic.start-------05");
         ultrasonic.start(true, false, '${frequencyText}M');
         break;
       case 'open':
       case 'saveP':
+      print("------------ultrasonic.start-------06");
         ultrasonic.start(true, false, '${frequencyText}M');
         break;
       case 'close':
+        print("------------ultrasonic.start-------07");
         ultrasonic.start(false, false, '${frequencyText}M');
         break;
     }
@@ -112,18 +115,22 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   void _handleDeviceFrame(Uint8List frame) {
     // 温度异常：frame[4]==16 且 frame[12]==1
+
+    if( frame[2] == 1){
+      return;
+    }
+
     final tempError = frame[4] == 16 && frame[12] == 1;
     // 连接状态：frame[11]==1
     final connected = frame[11] == 1;
-
+    print("---tempError-----------${connected}");
     if (tempError) {
       _onTemperatureAnomaly();
       return;
     }
-
     // 解析频率：某些帧类型代表3MHz（示例用 frame[4]==16），否则 1MHz
     if (connected) {
-      final freq = (frame[4] == 16) ? "3" : "1";
+      final freq = (frame[3] == 4) ? "3" : "1";
       _updateConnection(true, freq);
     } else {
       _updateConnection(false, null);
@@ -135,7 +142,6 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   void _onTemperatureAnomaly() {
     tempOk = false;
     tempText = Globalization.temperatureAnomaly.tr;
-
     if (isRunning) _stopTreatment();
 
     if (!dialogVisible) {
@@ -154,7 +160,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       eventBus.fire(unltrasonicPw);
     }
 
-    if (!connected && isRunning) {
+    if (!connected) {
       _stopTreatment();
     }
   }
@@ -191,13 +197,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
       }
 
       isRunning = !isRunning;
-
       if (!isRunning) {
+        print("------------ultrasonic.start-------04");
         _stopTreatment();
         setState(() {});
         return;
       }
-
       ultrasonic.start(
         true, // 开
         true, // 保存参数
@@ -213,7 +218,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     final t = int.tryParse(ultrasonic.time ?? '20') ?? 20;
     _countdown = t;
     _timer?.cancel();
-
+    cureState = true;
     _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       if (_countdown <= 0) {
         _finishTreatment();
@@ -240,9 +245,10 @@ class _UltrasonicPageState extends State<UltrasonicPage>
   }
 
   void _finishTreatment() {
+    print("------------ultrasonic.start-------02");
     _stopTreatment();
     setState(() {});
-    showToastMsg(msg: Globalization.endOfTreatment.tr);
+    // showToastMsg(msg: Globalization.endOfTreatment.tr);
   }
 
   void save(int userId) => SpUtils.set(UltrasonicField.UltrasonicKey, userId);
@@ -415,6 +421,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                   ultrasonic.soundIntensity = sound.toStringAsFixed(2);
                   eventBus.fire(UltrasonicSound(sound));
                   if (isRunning) {
+                    print("------------ultrasonic.start-------04");
                     ultrasonic.start(true, false, '${frequencyText}M');
                   }
                 },
@@ -502,8 +509,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (isRunning)
-                        Image.asset('assets/images/2.0x/hourglass_68.gif',
-                            width: 34.w, height: 34.h),
+                        Image.asset('assets/images/2.0x/gif_recording.gif',
+                            width: 34.w, height: 34.h,fit: BoxFit.fitWidth),
                       Container(
                         width: 120.w,
                         height: 55.h,
