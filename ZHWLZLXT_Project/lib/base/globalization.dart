@@ -22,7 +22,7 @@ class Globalization {
   static const String vibration = "Vibration"; //震动
   static const String currEmStSt = "Current Emergency Stop State"; //当前急停状态
   static const String onLine = "on line"; //当前急停状态
-  static const String unlink = "unlink"; //当前急停状态
+  static const String unlink = "Abnormal Connection"; //当前急停状态
   static const String temperatureNormals = "temperature normals"; //当前急停状态
   static const String kadu = "Open short circuit"; //当前急停状态
   static const String ci = "times"; //当前急停状态

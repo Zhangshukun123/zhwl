@@ -129,7 +129,7 @@ class _ElectrotherapyPageState extends State<ElectrotherapyPage>
     final bool running = electrotherapyIsRunIng ?? false;
     if (running) {
       // 回退到上一个 index
-      _tabController.animateTo(_tabController.previousIndex);
+      // _tab_setupDetailsDialog(_tabController.previousIndex);
       return;
     }
 

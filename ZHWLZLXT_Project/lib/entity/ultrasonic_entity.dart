@@ -239,10 +239,9 @@ class Ultrasonic {
     } else {
       data = "$data 0$soundTmps";
     }
-
     data = "$data 00"; // 08
+    data = "$data 01"; // 11
     data = "$data 00"; // 09
-    data = "$data 00"; // 10
 
     SerialPort().send(data,isStart,back: back,finish: finish);
     if (!isStart) {

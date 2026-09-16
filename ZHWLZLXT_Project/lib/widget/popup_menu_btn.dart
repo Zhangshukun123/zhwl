@@ -1,6 +1,6 @@
+import 'dart:async';
+
 import 'package:common_utils/common_utils.dart';
-import 'package:event_bus/event_bus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,8 @@ class PopupMenuBtn extends StatefulWidget {
 }
 
 class _PopupMenuBtnState extends State<PopupMenuBtn> {
-  var pop;
+  List<PopupMenuEntry<String>> pop = [];
+  StreamSubscription<Language>? _languageSubscription;
 
   final UltrasonicController controller = Get.find();
   var value = "0";
@@ -48,7 +49,8 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
     value = widget.patternStr ?? '0';
     setState(() {});
 
-    eventBus.on<Language>().listen((event) {
+    _languageSubscription = eventBus.on<Language>().listen((event) {
+      if (!mounted) return;
       pop = _getPopupMenu(context);
       value = widget.patternStr ?? '0';
       setState(() {});
@@ -57,7 +59,18 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
   }
 
   @override
+  void dispose() {
+    _languageSubscription?.cancel();
+    super.dispose();
+  }
+
+  bool get _compactEnglishMode =>
+      widget.index == 5 && Get.locale?.languageCode == 'en';
+
+  @override
   Widget build(BuildContext context) {
+    // Rebuild the menu for current screen dimensions and language.
+    pop = _getPopupMenu(context);
     return Container(
       margin: const EdgeInsets.only(left: 30),
       decoration: BoxDecoration(
@@ -69,41 +82,43 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
       height: 50.h,
       child: Container(
         constraints: const BoxConstraints(maxHeight: 100),
-        child: PopupMenuButton(
+        child: PopupMenuButton<String>(
             offset: widget.offset ?? Offset(0, 57.h),
             itemBuilder: (BuildContext context) {
               return pop;
             },
-            tooltip: '',
+            tooltip: widget.patternStr ?? '',
             enabled: widget.enabled!,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                     child: Padding(
-                  padding: EdgeInsets.only(left: 20.0.w),
+                  padding: EdgeInsets.only(left: 20.0.w, right: 6.0.w),
+                  // Keep the original button geometry; only constrain its text.
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        widget.patternStr ?? "0",
-                        style: TextStyle(
+                      Expanded(
+                        child: Text(
+                          widget.patternStr ?? '0',
+                          semanticsLabel: widget.patternStr ?? '0',
+                          textAlign: TextAlign.center,
+                          softWrap: false,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
                             color: widget.enabled!
                                 ? const Color(0xFF333333)
                                 : Colors.grey,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600),
+                            fontSize: _compactEnglishMode ? 14.sp : 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                      Container(
-                        child: !TextUtil.isEmpty(widget.unit)
-                            ? Text(
-                                widget.unit!,
-                                style: TextStyle(
-                                    fontSize: 12.sp, color: Colors.black),
-                              )
-                            : const Text(''),
-                      ),
+                      if (!TextUtil.isEmpty(widget.unit))
+                        Text(widget.unit!,
+                            style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                     ],
                   ),
                 )),
@@ -119,7 +134,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
             ),
             onSelected: (ovc) {
               setState(() {
-                widget.patternStr = (ovc as String);
+                widget.patternStr = ovc;
               });
               if (widget.index == 1) {
                 eventBus.fire(UltrasonicObs());
@@ -138,7 +153,7 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
     );
   }
 
-  _getPopupMenu(BuildContext context) {
+  List<PopupMenuEntry<String>> _getPopupMenu(BuildContext context) {
     switch (widget.index) {
       case 0:
         widget.unit = '';
@@ -210,33 +225,38 @@ class _PopupMenuBtnState extends State<PopupMenuBtn> {
           _getPopupMenuItem('3'),
         ];
     }
+    return [];
   }
 
-  _getPopupMenuItem(String value) {
-    return PopupMenuItem(
+  PopupMenuItem<String> _getPopupMenuItem(String value) {
+    return PopupMenuItem<String>(
       value: value,
       child: SizedBox(
-          width: 230.w,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 15.0.w, top: 5.h),
+        width: 230.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 15.w, top: 5.h),
+              child: Tooltip(
+                message: value,
                 child: Text(
                   value,
+                  softWrap: false,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 15.sp, color: const Color(0xff333333)),
+                    fontSize: _compactEnglishMode ? 13.sp : 15.sp,
+                    color: const Color(0xff333333),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Container(
-                color: const Color(0xffeeeeee),
-                height: 1.h,
-              )
-            ],
-          )),
+            ),
+            SizedBox(height: 10.h),
+            Container(color: const Color(0xffeeeeee), height: 1.h),
+          ],
+        ),
+      ),
     );
   }
 }

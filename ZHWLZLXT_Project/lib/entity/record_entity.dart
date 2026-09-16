@@ -163,9 +163,11 @@ class Record {
               patternA = "慢速断续输出";
               break;
             case "Complete denervation":
+            case "Complete Denervation":
               patternA = "完全失神经";
               break;
             case "Partial denervation":
+            case "Partial Denervation":
               patternA = "部分失神经";
               break;
           }
@@ -193,10 +195,10 @@ class Record {
               patternA = "Slow Intermittent";
               break;
             case "完全失神经":
-              patternA = "Complete denervation";
+              patternA = "Complete Denervation";
               break;
             case "部分失神经":
-              patternA = "Partial denervation";
+              patternA = "Partial Denervation";
               break;
           }
         } else {
@@ -307,9 +309,11 @@ class Record {
               patternA = "慢速断续输出";
               break;
             case "Complete denervation":
+            case "Complete Denervation":
               patternA = "完全失神经";
               break;
             case "Partial denervation":
+            case "Partial Denervation":
               patternA = "部分失神经";
               break;
           }
@@ -337,10 +341,10 @@ class Record {
               patternA = "Slow Intermittent";
               break;
             case "完全失神经":
-              patternA = "Complete denervation";
+              patternA = "Complete Denervation";
               break;
             case "部分失神经":
-              patternA = "Partial denervation";
+              patternA = "Partial Denervation";
               break;
           }
         } else {

@@ -12,7 +12,7 @@ import macos_window_utils
 import path_provider_foundation
 import screen_brightness_macos
 import shared_preferences_foundation
-import sqflite
+import sqflite_darwin
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   AppkitUiElementColorsPlugin.register(with: registry.registrar(forPlugin: "AppkitUiElementColorsPlugin"))

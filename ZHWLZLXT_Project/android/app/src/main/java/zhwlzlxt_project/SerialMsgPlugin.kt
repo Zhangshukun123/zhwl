@@ -20,7 +20,7 @@ import java.util.TimerTask
 class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
 
     private var sendData: String? = null
-    val tl = "AB BA 91 00 00 00 00 00 00 00 00 00 00";
+    val tl = "AB BA 91 00 00 00 00 00 00 00 00 00 00 00 00";
 //        val tl = "AB BA 06 01 00 00 01 CD DC";
 
     lateinit var heard: ByteArray
@@ -109,13 +109,14 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 sendData = call.arguments<String>()
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
+                Log.i("ssssss", "sendHData123-$hexData")
             }
             "sendData" -> {
                 sendData = call.arguments<String>()
                 isSend = true
                 hexData = ByteArrToHex(Crc16Util.getData(sendData?.split(" ")!!)).trim()
                 serialPortHelper.sendByte(Crc16Util.getData(sendData?.split(" ")!!))
-                Log.i("TAG", "onPortDataReceived: sendHData-$hexData")
+                Log.i("ssssss", "sendHData-$hexData")
                 GlobalScope.launch {
                     delay(100)
                     if (listBRec.contains(hexData)) {
@@ -148,7 +149,7 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
     override fun onPortDataReceived(paramComBean: ComBean?) {
         serialPortHelper.count = 0
         val bRec = ByteArrToHex(paramComBean!!.bRec)
-//        Log.i("serialPortHelper", "onPortDataReceived: "+bRec)
+        Log.i("ssssss", "onPortDataReceived:123—————— "+bRec)
         if (isSend) {
             listBRec.add(bRec)
         }
@@ -178,6 +179,9 @@ class SerialMsgPlugin : FlutterPlugin, SerialPortHelper.onPortDataReceived {
                 }
             }
             3 -> {//超声1M
+                if (toUnsignedInt(paramComBean.bRec[3])==1){
+                    return
+                }
                 Log.i("serialPortHelper", "UltrasonicState03: "+bRec)
                 handler.post {
                     toFlutter.invokeMethod(

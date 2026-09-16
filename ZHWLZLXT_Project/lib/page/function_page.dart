@@ -144,7 +144,7 @@ class _FunctionPageState extends State<FunctionPage>
     final now = DateTime.now();
     if (_lastTapTime == null || now.difference(_lastTapTime!) < const Duration(seconds: 5)) {
       secretTapCount++;
-      if (secretTapCount >= 6) {
+      if (secretTapCount == 6) {
         final result = await promptText(context);
         if (result == "733") {
           secretTapCount = 0;

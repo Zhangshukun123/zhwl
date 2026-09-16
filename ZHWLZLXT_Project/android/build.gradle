@@ -41,6 +41,19 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+// 插件子工程（如 flutter_native_splash）自带 buildscript 仓库把 google() 放在最前，
+// 在部分网络环境下 dl.google.com 不可达会导致依赖解析失败。
+// 这里为所有子工程的 buildscript 前置可达的国内镜像，优先命中即可跳过不可达仓库。
+subprojects {
+    buildscript {
+        repositories {
+            maven { url "https://maven.aliyun.com/repository/google" }
+            maven { url "https://maven.aliyun.com/repository/public" }
+            maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+            maven { url "https://maven.aliyun.com/repository/jcenter" }
+        }
+    }
+}
 subprojects {
     project.evaluationDependsOn(':app')
 }

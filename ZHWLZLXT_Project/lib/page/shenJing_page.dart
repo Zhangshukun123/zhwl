@@ -241,7 +241,8 @@ class _ShenJingPageState extends State<ShenJingPage>
                                         Text(
                                           Globalization.mode.tr,
                                           style: TextStyle(
-                                              fontSize: 16.sp,
+                                              fontSize: Get.locale?.languageCode == 'en'
+                                                  ? 13.sp : 16.sp,
                                               color: const Color(0xFF999999)),
                                         ),
                                       ],
@@ -464,7 +465,8 @@ class _ShenJingPageState extends State<ShenJingPage>
                                         Text(
                                           Globalization.mode.tr,
                                           style: TextStyle(
-                                              fontSize: 16.sp,
+                                              fontSize: Get.locale?.languageCode == 'en'
+                                                  ? 13.sp : 16.sp,
                                               color: const Color(0xFF999999)),
                                         ),
                                       ],

@@ -67,6 +67,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     ultrasonic.init(false);
     ultrasonic.time = "20";
     _bindEventBus();
+    // _showConnectPort(Globalization.temperatureAnomaly.tr);
   }
 
   void _bindEventBus() {
@@ -98,16 +99,13 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         break;
       case 'saponin': // 频扫
         ultrasonic.pattern = Globalization.Sweepfrequency.tr;
-        print("------------ultrasonic.start-------05");
         ultrasonic.start(true, false, '${frequencyText}M');
         break;
       case 'open':
       case 'saveP':
-      print("------------ultrasonic.start-------06");
         ultrasonic.start(true, false, '${frequencyText}M');
         break;
       case 'close':
-        print("------------ultrasonic.start-------07");
         ultrasonic.start(false, false, '${frequencyText}M');
         break;
     }
@@ -115,18 +113,26 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   void _handleDeviceFrame(Uint8List frame) {
     // 温度异常：frame[4]==16 且 frame[12]==1
-
     if( frame[2] == 1){
       return;
     }
-
     final tempError = frame[4] == 16 && frame[12] == 1;
-    // 连接状态：frame[11]==1
-    final connected = frame[11] == 1;
-    print("---tempError-----------${connected}");
+    if(tempError){
+      print("-connected-----456-----$tempError----");
+    }
     if (tempError) {
       _onTemperatureAnomaly();
       return;
+    }
+    if(frame[4] == 16){
+      return;
+    }
+    // 连接状态：frame[11]==1
+    final connected = frame[11] == 1;
+    if(!connected){
+      print("-connected-----123-----${frame[11]}----");
+      print("-connected-----123-----${frame[10]}----");
+      print("-connected-----123-----${frame[12]}----");
     }
     // 解析频率：某些帧类型代表3MHz（示例用 frame[4]==16），否则 1MHz
     if (connected) {
@@ -161,6 +167,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     }
 
     if (!connected) {
+      print("-connected----------$connected----");
       _stopTreatment();
     }
   }
@@ -181,7 +188,8 @@ class _UltrasonicPageState extends State<UltrasonicPage>
             dialogVisible = false;
             tempOk = true;
             tempText = Globalization.temperatureNormals.tr;
-            setState(() {});
+            isRunning = false;
+            // setState(() {});
           },
         ),
       );
@@ -191,14 +199,12 @@ class _UltrasonicPageState extends State<UltrasonicPage>
 
   void _toggleStart() {
     EasyThrottle.throttle('ultra-start', const Duration(seconds: 1), () {
-      if (!isConnected && !isRunning) {
+      if (!isConnected) {
         showToastMsg(msg: Globalization.unlink.tr);
         return;
       }
-
-      isRunning = !isRunning;
-      if (!isRunning) {
-        print("------------ultrasonic.start-------04");
+      print("------isRunning--------------$isRunning---");
+      if (isRunning) {
         _stopTreatment();
         setState(() {});
         return;
@@ -210,6 +216,7 @@ class _UltrasonicPageState extends State<UltrasonicPage>
         back: _startTimer,
         finish: _finishTreatment,
       );
+      isRunning = true;
       setState(() {});
     });
   }
@@ -240,7 +247,9 @@ class _UltrasonicPageState extends State<UltrasonicPage>
     Future.delayed(const Duration(milliseconds: 500), () {
       eventBus.fire(SetValueState(TreatmentType.ultrasonic));
     });
-    isRunning = false;
+    setState(() {
+      isRunning = false;
+    });
     cureState = false;
   }
 
